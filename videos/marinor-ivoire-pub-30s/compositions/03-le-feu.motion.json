@@ -1,0 +1,28 @@
+{
+  "scene": "03-le-feu",
+  "duration_s": 4.0,
+  "rules": [
+    "nudge-curve",
+    "motion-blur-streak",
+    "svg-icon-enrichment",
+    "sine-wave-loop",
+    "spring-pop-entrance"
+  ],
+  "blueprint": "spatial-pan-stations",
+  "exit": {
+    "vector": "none on screen — flat full-frame #FFECD1 held from 3.95s to 4.00s; last visible motion = cream veil rising straight up (power2.in, ~4600 px/s at 3.95s) over thickening steam",
+    "still_moving": false,
+    "state": "full-frame #FFECD1"
+  },
+  "entry": {
+    "vector": "full-frame gold sheet linear-gradient(115deg,#F9A825,#FBD021) at t=0, its 25deg-slanted right edge wipes leftward (power2.inOut, 0 px/s at t=0, peak ~11000 px/s at 0.22s, gone at 0.45s); world underneath drifts left ~52 px/s",
+    "from_rest": true,
+    "state": "full-frame linear-gradient(115deg,#F9A825,#FBD021)"
+  },
+  "camera": [
+    { "t": "0.00-0.85", "move": "drift x +44 -> 0 (linear)" },
+    { "t": "0.85-1.25", "move": "nudge-curve whip pan x 0 -> -1920 (power3.in 0.08s / linear 0.072s / power4.out 0.248s) + horizontal streak blur 0->15->0" },
+    { "t": "1.65-2.05", "move": "nudge-curve whip pan x -1920 -> -3840, same profile" },
+    { "t": "1.85-3.30", "move": "push scale 1 -> 1.06 about (960,640), sine.inOut" }
+  ]
+}

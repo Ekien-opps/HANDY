@@ -1,0 +1,1026 @@
+<template>
+  <style>
+    @font-face{font-family:"Cream Heavy";src:url("../assets/fonts/Cream-Heavy.ttf") format("truetype");font-weight:900;}
+    @font-face{font-family:"Montserrat";src:url("../assets/fonts/Montserrat-latin.woff2") format("woff2");font-weight:100 900;unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD;}
+    @font-face{font-family:"Montserrat";src:url("../assets/fonts/Montserrat-latin-ext.woff2") format("woff2");font-weight:100 900;unicode-range:U+0100-02BA,U+02BD-02C5,U+02C7-02CC,U+02CE-02D7,U+02DD-02FF,U+0304,U+0308,U+0329,U+1D00-1DBF,U+1E00-1E9F,U+1EF2-1EFF,U+2020,U+20A0-20AB,U+20AD-20C0,U+2113,U+2C60-2C7F,U+A720-A7FF;}
+
+    #root {
+      position: absolute;
+      inset: 0;
+      width: 1920px;
+      height: 1080px;
+      overflow: hidden;
+      font-family: "Montserrat";
+    }
+    .lf-world {
+      position: absolute;
+      inset: 0;
+      overflow: hidden;
+      background: #ffecd1;
+    }
+    .lf-cam {
+      position: absolute;
+      inset: 0;
+      transform-origin: 960px 640px;
+    }
+    .lf-rail {
+      position: absolute;
+      left: 0;
+      top: 0;
+      width: 5760px;
+      height: 1080px;
+    }
+    .lf-art {
+      position: absolute;
+      left: 0;
+      top: 0;
+      width: 5760px;
+      height: 1080px;
+      overflow: visible;
+    }
+    .lf-chip {
+      position: absolute;
+      top: 900px;
+      height: 70px;
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      padding: 0 38px 0 28px;
+      border-radius: 999px;
+      background: radial-gradient(circle at 50% 50%, #a40c21 0%, #7b1421 100%);
+      box-shadow:
+        inset 0 0 0 3px #ffffff,
+        0 14px 28px rgba(42, 8, 14, 0.42);
+      color: #ffffff;
+      font-family: "Montserrat";
+      font-weight: 700;
+      font-size: 30px;
+      line-height: 1;
+      letter-spacing: 0.04em;
+      white-space: nowrap;
+      transform-origin: 0% 50%;
+    }
+    .lf-chip-dot {
+      width: 16px;
+      height: 16px;
+      border-radius: 50%;
+      background: linear-gradient(90deg, #f9a825 0%, #fbd021 85%);
+      box-shadow: 0 0 10px rgba(251, 208, 33, 0.85);
+      flex: 0 0 auto;
+    }
+    .lf-light {
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(ellipse 120% 90% at 50% 42%, rgba(255, 236, 209, 0) 58%, rgba(90, 22, 26, 0.2) 100%),
+        radial-gradient(ellipse 70% 60% at 12% 0%, rgba(251, 208, 33, 0.16) 0%, rgba(251, 208, 33, 0) 100%);
+    }
+    .lf-haze {
+      position: absolute;
+      left: 160px;
+      top: -120px;
+      width: 1600px;
+      height: 1000px;
+      border-radius: 50%;
+      background: radial-gradient(ellipse at 50% 60%, rgba(255, 252, 246, 0.95) 0%, rgba(255, 246, 232, 0.7) 40%, rgba(255, 240, 220, 0) 72%);
+      opacity: 0;
+    }
+    .lf-veil-wrap {
+      position: absolute;
+      inset: 0;
+      overflow: hidden;
+    }
+    .lf-veil {
+      position: absolute;
+      left: 0;
+      top: 1080px;
+      width: 1920px;
+      height: 1500px;
+      background: linear-gradient(
+        180deg,
+        rgba(255, 236, 209, 0) 0px,
+        rgba(255, 236, 209, 0.55) 150px,
+        rgba(255, 236, 209, 0.92) 300px,
+        #ffecd1 420px,
+        #ffecd1 100%
+      );
+    }
+    .lf-wipe {
+      position: absolute;
+      inset: 0;
+      overflow: hidden;
+    }
+    .lf-gold {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(115deg, #f9a825, #fbd021);
+    }
+    .lf-wipe-shadow {
+      position: absolute;
+      left: 0;
+      top: 0;
+      width: 170px;
+      height: 1080px;
+      background: linear-gradient(90deg, rgba(110, 34, 12, 0.34), rgba(110, 34, 12, 0));
+      transform-origin: 0 50%;
+    }
+    .lf-fx {
+      position: absolute;
+      width: 0;
+      height: 0;
+    }
+  </style>
+
+  <div id="root" data-composition-id="03-le-feu" data-start="0" data-duration="4" data-width="1920" data-height="1080">
+    <!-- ============ WORLD : rail of 3 stations (5760 px) under one camera ============ -->
+    <div id="03-le-feu-world" class="clip lf-world" data-start="0" data-duration="4" data-track-index="0">
+      <svg class="lf-fx" aria-hidden="true">
+        <filter id="lefeu-streak" x="-4%" y="-4%" width="108%" height="108%" color-interpolation-filters="sRGB">
+          <feGaussianBlur id="lefeu-streak-blur" in="SourceGraphic" stdDeviation="0 0" />
+        </filter>
+      </svg>
+      <div class="lf-cam" id="lefeu-cam">
+        <div class="lf-rail" id="lefeu-rail">
+          <svg class="lf-art" viewBox="0 0 5760 1080" width="5760" height="1080" aria-hidden="true">
+            <defs>
+              <!-- ground -->
+              <linearGradient id="lefeu-wall" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0" stop-color="#FFF6E8" />
+                <stop offset="0.7" stop-color="#FFECD1" />
+                <stop offset="1" stop-color="#F6D9B4" />
+              </linearGradient>
+              <linearGradient id="lefeu-tile" x1="0" y1="0" x2="1" y2="1">
+                <stop offset="0" stop-color="#FFFBF4" />
+                <stop offset="0.55" stop-color="#FFF0DC" />
+                <stop offset="1" stop-color="#F7DDBA" />
+              </linearGradient>
+              <pattern id="lefeu-tiles" x="0" y="0" width="150" height="150" patternUnits="userSpaceOnUse">
+                <rect x="0" y="0" width="150" height="150" fill="#E9C9A0" />
+                <rect x="3" y="3" width="144" height="144" rx="6" fill="url(#lefeu-tile)" />
+              </pattern>
+              <linearGradient id="lefeu-top" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0" stop-color="#EFCDA2" />
+                <stop offset="0.35" stop-color="#F6DCB8" />
+                <stop offset="1" stop-color="#EBC593" />
+              </linearGradient>
+              <linearGradient id="lefeu-junction" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0" stop-color="#8A3A22" stop-opacity="0" />
+                <stop offset="0.75" stop-color="#8A3A22" stop-opacity="0.22" />
+                <stop offset="1" stop-color="#8A3A22" stop-opacity="0" />
+              </linearGradient>
+              <linearGradient id="lefeu-wood" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0" stop-color="#8C4630" />
+                <stop offset="0.45" stop-color="#6E3022" />
+                <stop offset="1" stop-color="#4A1A14" />
+              </linearGradient>
+              <radialGradient id="lefeu-glow-fire" cx="0.5" cy="0.5" r="0.5">
+                <stop offset="0" stop-color="#FBD021" stop-opacity="0.62" />
+                <stop offset="0.32" stop-color="#F9A825" stop-opacity="0.42" />
+                <stop offset="0.68" stop-color="#F0782A" stop-opacity="0.12" />
+                <stop offset="1" stop-color="#F0782A" stop-opacity="0" />
+              </radialGradient>
+              <radialGradient id="lefeu-glow-soft" cx="0.5" cy="0.5" r="0.5">
+                <stop offset="0" stop-color="#FFF8E6" stop-opacity="0.95" />
+                <stop offset="0.45" stop-color="#FBD9A0" stop-opacity="0.42" />
+                <stop offset="1" stop-color="#FBD9A0" stop-opacity="0" />
+              </radialGradient>
+              <radialGradient id="lefeu-glow-floor" cx="0.5" cy="0.5" r="0.5">
+                <stop offset="0" stop-color="#F9A825" stop-opacity="0.55" />
+                <stop offset="0.6" stop-color="#F27A2A" stop-opacity="0.18" />
+                <stop offset="1" stop-color="#F27A2A" stop-opacity="0" />
+              </radialGradient>
+              <radialGradient id="lefeu-shadow" cx="0.5" cy="0.5" r="0.5">
+                <stop offset="0" stop-color="#2A080E" stop-opacity="0.46" />
+                <stop offset="0.55" stop-color="#2A080E" stop-opacity="0.2" />
+                <stop offset="1" stop-color="#2A080E" stop-opacity="0" />
+              </radialGradient>
+              <filter id="lefeu-soft" x="-60%" y="-60%" width="220%" height="220%">
+                <feGaussianBlur stdDeviation="11" />
+              </filter>
+              <filter id="lefeu-blur4" x="-50%" y="-50%" width="200%" height="200%">
+                <feGaussianBlur stdDeviation="4" />
+              </filter>
+              <filter id="lefeu-blur8" x="-50%" y="-50%" width="200%" height="200%">
+                <feGaussianBlur stdDeviation="8" />
+              </filter>
+
+              <!-- fire -->
+              <linearGradient id="lefeu-flame-out" x1="0" y1="1" x2="0" y2="0">
+                <stop offset="0" stop-color="#F98E1F" />
+                <stop offset="0.45" stop-color="#EE5A1E" />
+                <stop offset="0.82" stop-color="#C41E1A" />
+                <stop offset="1" stop-color="#A40C21" stop-opacity="0.85" />
+              </linearGradient>
+              <linearGradient id="lefeu-flame-in" x1="0" y1="1" x2="0" y2="0">
+                <stop offset="0" stop-color="#FFE88A" />
+                <stop offset="0.6" stop-color="#FBD021" />
+                <stop offset="1" stop-color="#F9A825" />
+              </linearGradient>
+
+              <!-- cast iron + brazier metal -->
+              <linearGradient id="lefeu-iron" x1="0" y1="0" x2="1" y2="0">
+                <stop offset="0" stop-color="#5E222A" />
+                <stop offset="0.16" stop-color="#3E121A" />
+                <stop offset="0.55" stop-color="#20070D" />
+                <stop offset="0.86" stop-color="#16050A" />
+                <stop offset="1" stop-color="#4A1A1A" />
+              </linearGradient>
+              <linearGradient id="lefeu-firelight" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0" stop-color="#F28A2A" stop-opacity="0" />
+                <stop offset="0.55" stop-color="#F28A2A" stop-opacity="0.08" />
+                <stop offset="1" stop-color="#F9A825" stop-opacity="0.55" />
+              </linearGradient>
+              <linearGradient id="lefeu-lip" x1="0" y1="0" x2="1" y2="1">
+                <stop offset="0" stop-color="#6E2A30" />
+                <stop offset="0.5" stop-color="#3A1016" />
+                <stop offset="1" stop-color="#1E060A" />
+              </linearGradient>
+              <radialGradient id="lefeu-sauce" cx="0.42" cy="0.38" r="0.65">
+                <stop offset="0" stop-color="#F5873A" />
+                <stop offset="0.4" stop-color="#DC4C20" />
+                <stop offset="0.78" stop-color="#AE2C14" />
+                <stop offset="1" stop-color="#6E160C" />
+              </radialGradient>
+              <radialGradient id="lefeu-bubble" cx="0.38" cy="0.32" r="0.7">
+                <stop offset="0" stop-color="#FFC27A" />
+                <stop offset="0.5" stop-color="#EE6A2C" />
+                <stop offset="1" stop-color="#B6341A" />
+              </radialGradient>
+              <radialGradient id="lefeu-coalglow" cx="0.5" cy="0.5" r="0.5">
+                <stop offset="0" stop-color="#FFC44A" />
+                <stop offset="0.45" stop-color="#F06A1E" />
+                <stop offset="0.85" stop-color="#9E1A12" />
+                <stop offset="1" stop-color="#4A0A0C" />
+              </radialGradient>
+              <radialGradient id="lefeu-coalbed" cx="0.5" cy="0.56" r="0.62">
+                <stop offset="0" stop-color="#FFB43C" />
+                <stop offset="0.3" stop-color="#F4741E" />
+                <stop offset="0.62" stop-color="#C6301A" />
+                <stop offset="0.88" stop-color="#5E0E10" />
+                <stop offset="1" stop-color="#2A0608" />
+              </radialGradient>
+              <linearGradient id="lefeu-metal-front" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0" stop-color="#4A1C1E" />
+                <stop offset="0.3" stop-color="#2E0E12" />
+                <stop offset="1" stop-color="#1A0609" />
+              </linearGradient>
+
+              <!-- calabash / mortar wood -->
+              <linearGradient id="lefeu-calabash" x1="0" y1="0" x2="1" y2="1">
+                <stop offset="0" stop-color="#E2AE62" />
+                <stop offset="0.5" stop-color="#B8792F" />
+                <stop offset="1" stop-color="#7A4318" />
+              </linearGradient>
+              <linearGradient id="lefeu-mortar" x1="0" y1="0" x2="1" y2="0">
+                <stop offset="0" stop-color="#B06E3E" />
+                <stop offset="0.3" stop-color="#8E4E2A" />
+                <stop offset="0.75" stop-color="#5E2A16" />
+                <stop offset="1" stop-color="#7A3C20" />
+              </linearGradient>
+              <linearGradient id="lefeu-pestle" x1="0" y1="0" x2="1" y2="0">
+                <stop offset="0" stop-color="#D49C64" />
+                <stop offset="0.5" stop-color="#A86A3A" />
+                <stop offset="1" stop-color="#7A4420" />
+              </linearGradient>
+              <radialGradient id="lefeu-tomato" cx="0.36" cy="0.32" r="0.7">
+                <stop offset="0" stop-color="#FF7A5A" />
+                <stop offset="0.45" stop-color="#E0342A" />
+                <stop offset="1" stop-color="#981418" />
+              </radialGradient>
+              <linearGradient id="lefeu-chili" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0" stop-color="#F0444A" />
+                <stop offset="0.55" stop-color="#C4161F" />
+                <stop offset="1" stop-color="#7E0814" />
+              </linearGradient>
+              <linearGradient id="lefeu-leaf" x1="0" y1="0" x2="1" y2="1">
+                <stop offset="0" stop-color="#5E9E3A" />
+                <stop offset="1" stop-color="#2A5519" />
+              </linearGradient>
+
+              <!-- fish (braised tilapia) -->
+              <linearGradient id="lefeu-fish-body" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0" stop-color="#6A2A0E" />
+                <stop offset="0.26" stop-color="#A4521E" />
+                <stop offset="0.55" stop-color="#D88C3E" />
+                <stop offset="0.82" stop-color="#F2BE6C" />
+                <stop offset="1" stop-color="#DE9C4C" />
+              </linearGradient>
+              <linearGradient id="lefeu-fish-fin" x1="0" y1="0" x2="1" y2="1">
+                <stop offset="0" stop-color="#A24E1C" />
+                <stop offset="1" stop-color="#5A200A" />
+              </linearGradient>
+              <clipPath id="lefeu-fish-clip">
+                <path d="M-172 4 C-150 -40 -96 -84 -10 -98 C70 -110 150 -94 206 -64 C238 -46 262 -22 270 2 C274 14 268 24 258 30 C236 62 190 86 120 98 C40 110 -60 100 -120 66 C-146 50 -164 30 -172 4Z" />
+              </clipPath>
+              <g id="lefeu-fish">
+                <!-- tail -->
+                <path d="M-160 -14 C-194 -46 -228 -78 -262 -100 C-278 -62 -282 -22 -270 6 C-282 40 -278 82 -258 112 C-224 86 -194 52 -160 22Z" fill="url(#lefeu-fish-fin)" />
+                <path d="M-176 -6 L-252 -78 M-178 4 L-262 2 M-176 14 L-250 88 M-170 -12 L-236 -84 M-170 18 L-236 94" stroke="#C47634" stroke-width="3" stroke-linecap="round" opacity="0.55" fill="none" />
+                <!-- dorsal + anal + pelvic fins -->
+                <path d="M-140 -50 C-128 -98 -60 -134 40 -132 C110 -130 162 -106 182 -72 C122 -96 30 -108 -40 -98 C-90 -90 -122 -72 -140 -50Z" fill="url(#lefeu-fish-fin)" />
+                <path d="M-110 -70 L-96 -112 M-70 -86 L-56 -126 M-30 -96 L-16 -132 M10 -102 L24 -134 M50 -104 L66 -132 M90 -100 L108 -124 M128 -92 L148 -110" stroke="#D08040" stroke-width="3" stroke-linecap="round" opacity="0.5" fill="none" />
+                <path d="M-118 64 C-112 102 -70 126 -20 122 C-10 114 -6 106 -4 98 C-50 100 -90 88 -118 64Z" fill="url(#lefeu-fish-fin)" />
+                <path d="M84 94 C72 124 46 142 18 146 C34 126 50 108 62 98Z" fill="url(#lefeu-fish-fin)" />
+                <!-- body -->
+                <path d="M-172 4 C-150 -40 -96 -84 -10 -98 C70 -110 150 -94 206 -64 C238 -46 262 -22 270 2 C274 14 268 24 258 30 C236 62 190 86 120 98 C40 110 -60 100 -120 66 C-146 50 -164 30 -172 4Z" fill="url(#lefeu-fish-body)" />
+                <g clip-path="url(#lefeu-fish-clip)">
+                  <!-- grill marks -->
+                  <g stroke="#3A1206" stroke-width="12" stroke-linecap="round" opacity="0.34">
+                    <path d="M-120 -120 L-170 130" /><path d="M-40 -120 L-90 130" />
+                    <path d="M40 -120 L-10 130" /><path d="M120 -120 L70 130" />
+                  </g>
+                  <!-- scored cuts with spice paste -->
+                  <g fill="none" stroke-linecap="round">
+                    <path d="M-30 -70 Q-16 -30 -26 18" stroke="#8A2A10" stroke-width="12" opacity="0.8" />
+                    <path d="M-30 -70 Q-16 -30 -26 18" stroke="#D85A26" stroke-width="4" opacity="0.8" />
+                    <path d="M60 -76 Q74 -34 64 16" stroke="#8A2A10" stroke-width="12" opacity="0.8" />
+                    <path d="M60 -76 Q74 -34 64 16" stroke="#D85A26" stroke-width="4" opacity="0.8" />
+                  </g>
+                  <!-- charred back edge + belly shine -->
+                  <path d="M-180 -40 C-100 -110 80 -130 280 -40" stroke="#4A1A08" stroke-width="26" fill="none" opacity="0.45" filter="url(#lefeu-blur8)" />
+                  <ellipse cx="60" cy="-58" rx="140" ry="10" fill="#FFF4DC" opacity="0.24" transform="rotate(-4 60 -58)" filter="url(#lefeu-blur4)" />
+                  <ellipse cx="40" cy="70" rx="120" ry="10" fill="#FFE6A8" opacity="0.4" filter="url(#lefeu-blur4)" />
+                  <g id="lefeu-fish-flecks"></g>
+                </g>
+                <!-- gill cover, pectoral fin, eye, mouth -->
+                <path d="M168 -78 C198 -40 202 28 172 86" stroke="#5A220A" stroke-width="6" fill="none" stroke-linecap="round" opacity="0.6" />
+                <path d="M178 -70 C204 -36 206 24 182 78" stroke="#F6C27A" stroke-width="3" fill="none" stroke-linecap="round" opacity="0.55" />
+                <path d="M150 10 C120 18 96 38 86 60 C112 56 138 44 158 26Z" fill="url(#lefeu-fish-fin)" opacity="0.95" />
+                <circle cx="216" cy="-26" r="16" fill="#F7ECDD" />
+                <circle cx="216" cy="-26" r="16" fill="none" stroke="#6A2A10" stroke-width="3.5" />
+                <circle cx="218" cy="-25" r="6.5" fill="#2A0E08" />
+                <circle cx="211" cy="-31" r="3.2" fill="#FFFFFF" />
+                <path d="M266 4 C277 10 275 23 262 27" stroke="#5A220A" stroke-width="4" fill="none" stroke-linecap="round" />
+                <ellipse cx="200" cy="-58" rx="26" ry="8" fill="#FFFFFF" opacity="0.4" transform="rotate(-22 200 -58)" filter="url(#lefeu-blur4)" />
+              </g>
+
+              <!-- plate -->
+              <linearGradient id="lefeu-rim" x1="0" y1="0" x2="1" y2="1">
+                <stop offset="0" stop-color="#B5242F" />
+                <stop offset="0.45" stop-color="#7B1421" />
+                <stop offset="1" stop-color="#4E0A14" />
+              </linearGradient>
+              <radialGradient id="lefeu-plate-in" cx="0.45" cy="0.4" r="0.62">
+                <stop offset="0" stop-color="#FFFFFF" />
+                <stop offset="0.72" stop-color="#FBF5F1" />
+                <stop offset="1" stop-color="#E8D6D2" />
+              </radialGradient>
+              <radialGradient id="lefeu-mat" cx="0.5" cy="0.45" r="0.55">
+                <stop offset="0" stop-color="#EDC98A" />
+                <stop offset="0.7" stop-color="#D9A762" />
+                <stop offset="1" stop-color="#B9823F" />
+              </radialGradient>
+              <radialGradient id="lefeu-attieke" cx="0.36" cy="0.26" r="0.82">
+                <stop offset="0" stop-color="#FFF8E2" />
+                <stop offset="0.45" stop-color="#F6E2B2" />
+                <stop offset="0.8" stop-color="#E0C080" />
+                <stop offset="1" stop-color="#C29C5E" />
+              </radialGradient>
+              <radialGradient id="lefeu-alloco" cx="0.4" cy="0.36" r="0.66">
+                <stop offset="0" stop-color="#FFCF4E" />
+                <stop offset="0.5" stop-color="#F49A26" />
+                <stop offset="1" stop-color="#C85A16" />
+              </radialGradient>
+              <radialGradient id="lefeu-meat" cx="0.36" cy="0.3" r="0.75">
+                <stop offset="0" stop-color="#C8743A" />
+                <stop offset="0.5" stop-color="#8E3E18" />
+                <stop offset="1" stop-color="#4A1808" />
+              </radialGradient>
+              <linearGradient id="lefeu-pepper-g" x1="0" y1="0" x2="1" y2="1">
+                <stop offset="0" stop-color="#6CAE40" />
+                <stop offset="1" stop-color="#2A5519" />
+              </linearGradient>
+              <radialGradient id="lefeu-glint" cx="0.5" cy="0.5" r="0.5">
+                <stop offset="0" stop-color="#FFFFFF" stop-opacity="1" />
+                <stop offset="0.35" stop-color="#FFF4C2" stop-opacity="0.7" />
+                <stop offset="1" stop-color="#FBD021" stop-opacity="0" />
+              </radialGradient>
+            </defs>
+
+            <!-- ================= continuous kitchen ground ================= -->
+            <rect x="-400" y="0" width="6560" height="500" fill="url(#lefeu-wall)" />
+            <rect x="-400" y="0" width="6560" height="480" fill="url(#lefeu-tiles)" opacity="0.42" />
+            <ellipse cx="960" cy="470" rx="860" ry="600" fill="url(#lefeu-glow-fire)" />
+            <ellipse cx="2880" cy="440" rx="960" ry="600" fill="url(#lefeu-glow-fire)" />
+            <ellipse cx="4800" cy="470" rx="960" ry="560" fill="url(#lefeu-glow-soft)" />
+            <rect x="-400" y="480" width="6560" height="424" fill="url(#lefeu-top)" />
+            <g id="lefeu-joints"></g>
+            <rect x="-400" y="464" width="6560" height="22" fill="url(#lefeu-junction)" />
+            <rect x="-400" y="480" width="6560" height="2.5" fill="#FFF6E8" opacity="0.9" />
+            <ellipse cx="960" cy="820" rx="620" ry="120" fill="url(#lefeu-glow-floor)" />
+            <ellipse cx="2880" cy="820" rx="780" ry="130" fill="url(#lefeu-glow-floor)" />
+            <rect x="-400" y="898" width="6560" height="10" fill="#B8714A" />
+            <rect x="-400" y="898" width="6560" height="2.5" fill="#E2A97A" />
+            <rect x="-400" y="908" width="6560" height="172" fill="url(#lefeu-wood)" />
+            <g id="lefeu-grain"></g>
+
+            <!-- ================= STATION 1 — SAUCES ================= -->
+            <g id="lefeu-st1" transform="translate(960 900) scale(1.22) translate(-960 -900)">
+              <!-- mortar & pestle (left) -->
+              <ellipse cx="400" cy="884" rx="150" ry="20" fill="url(#lefeu-shadow)" />
+              <path d="M396 640 C400 560 452 420 504 330" stroke="url(#lefeu-pestle)" stroke-width="36" stroke-linecap="round" fill="none" />
+              <path d="M392 616 C398 548 448 424 494 344" stroke="#F4C994" stroke-width="7" stroke-linecap="round" fill="none" opacity="0.5" />
+              <path d="M288 606 C290 680 326 718 354 742 L348 798 C338 828 306 846 300 870 A100 16 0 0 0 500 870 C494 846 462 828 452 798 L446 742 C474 718 510 680 512 606Z" fill="url(#lefeu-mortar)" />
+              <ellipse cx="400" cy="606" rx="112" ry="25" fill="#7A3C22" />
+              <ellipse cx="400" cy="608" rx="96" ry="19" fill="#3A160C" />
+              <ellipse cx="400" cy="612" rx="82" ry="12" fill="#C2401C" opacity="0.9" />
+              <ellipse cx="380" cy="609" rx="30" ry="4" fill="#F9A825" opacity="0.5" />
+              <path d="M352 744 C372 754 428 754 448 744 M348 770 C370 780 430 780 452 770" stroke="#3E1A0C" stroke-width="5" fill="none" opacity="0.55" />
+              <path d="M300 640 C320 656 480 656 500 640" stroke="#3E1A0C" stroke-width="4" fill="none" opacity="0.4" />
+              <ellipse cx="318" cy="668" rx="11" ry="46" fill="#FFE6C8" opacity="0.34" filter="url(#lefeu-blur4)" />
+              <ellipse cx="322" cy="850" rx="7" ry="18" fill="#FFE6C8" opacity="0.3" filter="url(#lefeu-blur4)" />
+
+              <!-- brazier (fourneau) -->
+              <ellipse cx="960" cy="852" rx="300" ry="30" fill="url(#lefeu-shadow)" />
+              <path d="M708 702 L752 842 A208 30 0 0 0 1168 842 L1212 702Z" fill="url(#lefeu-iron)" />
+              <path d="M708 702 L752 842 A208 30 0 0 0 1168 842 L1212 702Z" fill="url(#lefeu-firelight)" opacity="0.5" />
+              <path d="M726 752 A236 34 0 0 0 1194 752" stroke="#6A2A2E" stroke-width="5" fill="none" opacity="0.75" />
+              <path d="M744 812 A216 31 0 0 0 1176 812" stroke="#6A2A2E" stroke-width="5" fill="none" opacity="0.7" />
+              <path d="M902 846 L902 794 Q902 772 924 772 L996 772 Q1018 772 1018 794 L1018 846 Q960 852 902 846Z" fill="url(#lefeu-coalglow)" />
+              <g id="lefeu-door-coals"></g>
+              <ellipse cx="786" cy="770" rx="11" ry="48" fill="#FFD9C0" opacity="0.26" filter="url(#lefeu-blur4)" />
+
+              <!-- flames behind the pot -->
+              <g id="lefeu-flames-back"></g>
+              <ellipse cx="960" cy="702" rx="252" ry="40" fill="#2A0C10" />
+              <ellipse cx="960" cy="702" rx="252" ry="40" fill="none" stroke="#6A2E2E" stroke-width="5" />
+              <ellipse cx="960" cy="704" rx="232" ry="31" fill="url(#lefeu-coalglow)" />
+
+              <!-- pot (marmite en fonte) -->
+              <path d="M664 470 C612 470 598 530 648 546" stroke="#1E070C" stroke-width="20" stroke-linecap="round" fill="none" />
+              <path d="M660 476 C624 480 616 520 646 534" stroke="#6A2A30" stroke-width="4" stroke-linecap="round" fill="none" opacity="0.7" />
+              <path d="M1256 470 C1308 470 1322 530 1272 546" stroke="#1E070C" stroke-width="20" stroke-linecap="round" fill="none" />
+              <path d="M664 448 C628 520 632 618 730 680 Q960 756 1190 680 C1288 618 1292 520 1256 448Z" fill="url(#lefeu-iron)" />
+              <path d="M664 448 C628 520 632 618 730 680 Q960 756 1190 680 C1288 618 1292 520 1256 448Z" fill="url(#lefeu-firelight)" />
+              <ellipse cx="742" cy="548" rx="24" ry="70" fill="#FFFFFF" opacity="0.4" transform="rotate(-14 742 548)" filter="url(#lefeu-blur8)" />
+              <ellipse cx="730" cy="520" rx="7" ry="26" fill="#FFFFFF" opacity="0.6" transform="rotate(-14 730 520)" filter="url(#lefeu-blur4)" />
+              <path d="M1240 470 C1270 540 1262 620 1200 672" stroke="#F28A3A" stroke-width="5" fill="none" opacity="0.45" filter="url(#lefeu-blur4)" />
+              <ellipse cx="960" cy="446" rx="302" ry="62" fill="url(#lefeu-lip)" />
+              <path d="M672 430 A292 56 0 0 1 1010 390" stroke="#B0767A" stroke-width="4" fill="none" opacity="0.55" stroke-linecap="round" />
+              <ellipse cx="960" cy="450" rx="274" ry="50" fill="#12040A" />
+              <ellipse cx="960" cy="458" rx="262" ry="42" fill="url(#lefeu-sauce)" />
+              <!-- sauce graine : chunks, sheen -->
+              <g>
+                <path d="M846 446 C850 432 884 430 892 444 C896 456 872 462 856 458 C848 456 844 452 846 446Z" fill="url(#lefeu-meat)" />
+                <path d="M1040 440 C1046 426 1082 428 1088 442 C1092 454 1066 460 1050 456 C1042 454 1038 448 1040 440Z" fill="url(#lefeu-meat)" />
+                <path d="M968 466 C972 454 1000 452 1006 464 C1010 474 990 480 976 476 C968 474 966 470 968 466Z" fill="url(#lefeu-meat)" />
+                <path d="M1120 462 C1136 452 1160 456 1166 466 C1150 474 1130 474 1120 462Z" fill="url(#lefeu-leaf)" />
+                <path d="M780 468 C792 458 816 460 822 470 C808 478 790 478 780 468Z" fill="url(#lefeu-leaf)" />
+                <ellipse cx="900" cy="438" rx="70" ry="7" fill="#FBD021" opacity="0.32" />
+                <ellipse cx="1010" cy="480" rx="90" ry="6" fill="#FBD021" opacity="0.22" />
+                <ellipse cx="860" cy="430" rx="40" ry="4" fill="#FFFFFF" opacity="0.5" filter="url(#lefeu-blur4)" />
+              </g>
+              <g id="lefeu-bubbles"></g>
+              <!-- flames in front of the pot base -->
+              <ellipse cx="960" cy="716" rx="262" ry="34" fill="#FF9A2A" opacity="0.75" filter="url(#lefeu-blur8)" />
+              <g id="lefeu-flames-front"></g>
+              <g id="lefeu-steam1" filter="url(#lefeu-soft)"></g>
+
+              <!-- calabash of palm nuts + tomato + chili (right) -->
+              <ellipse cx="1440" cy="892" rx="170" ry="20" fill="url(#lefeu-shadow)" />
+              <g id="lefeu-nuts"></g>
+              <path d="M1304 810 Q1312 902 1440 906 Q1568 902 1576 810 Q1440 840 1304 810Z" fill="url(#lefeu-calabash)" />
+              <path d="M1304 810 Q1440 842 1576 810" stroke="#7A4318" stroke-width="4" fill="none" />
+              <path d="M1324 846 Q1440 872 1556 846" stroke="#F2C786" stroke-width="3" fill="none" opacity="0.5" />
+              <ellipse cx="1350" cy="852" rx="9" ry="28" fill="#FFF0D0" opacity="0.4" transform="rotate(-30 1350 852)" filter="url(#lefeu-blur4)" />
+              <ellipse cx="1612" cy="890" rx="66" ry="12" fill="url(#lefeu-shadow)" />
+              <circle cx="1606" cy="846" r="44" fill="url(#lefeu-tomato)" />
+              <ellipse cx="1590" cy="828" rx="12" ry="8" fill="#FFFFFF" opacity="0.6" filter="url(#lefeu-blur4)" />
+              <path d="M1606 806 L1594 796 M1606 806 L1620 794 M1606 806 L1626 812 M1606 806 L1588 812 M1606 806 L1610 790" stroke="#376F23" stroke-width="6" stroke-linecap="round" />
+              <path d="M1470 896 C1500 872 1570 874 1630 884 C1640 888 1642 896 1632 900 C1570 908 1510 908 1470 896Z" fill="url(#lefeu-chili)" />
+              <path d="M1500 888 C1540 880 1580 880 1610 884" stroke="#FFFFFF" stroke-width="3" stroke-linecap="round" opacity="0.55" fill="none" />
+              <path d="M1630 890 C1646 884 1654 876 1662 864" stroke="#376F23" stroke-width="7" stroke-linecap="round" fill="none" />
+            </g>
+
+            <!-- ================= STATION 2 — GRILLADES ================= -->
+            <g id="lefeu-st2" transform="translate(1920 0) translate(960 900) scale(1.3) translate(-960 -900)">
+              <ellipse cx="960" cy="858" rx="600" ry="34" fill="url(#lefeu-shadow)" />
+              <!-- back legs -->
+              <rect x="590" y="740" width="16" height="96" rx="5" fill="#1E070B" />
+              <rect x="1314" y="740" width="16" height="96" rx="5" fill="#1E070B" />
+              <!-- front face -->
+              <path d="M452 660 L1468 660 L1468 754 Q960 762 452 754Z" fill="url(#lefeu-metal-front)" />
+              <rect x="452" y="660" width="1016" height="4" fill="#7A4040" opacity="0.8" />
+              <g id="lefeu-vents"></g>
+              <!-- front legs -->
+              <rect x="482" y="750" width="24" height="110" rx="6" fill="#26090E" />
+              <rect x="1414" y="750" width="24" height="110" rx="6" fill="#26090E" />
+              <rect x="486" y="752" width="5" height="102" rx="2" fill="#7A4444" opacity="0.6" />
+              <rect x="1418" y="752" width="5" height="102" rx="2" fill="#7A4444" opacity="0.6" />
+              <!-- frame + coal bed -->
+              <path d="M560 500 L1360 500 L1470 662 L450 662Z" fill="#2A0C10" />
+              <path d="M584 514 L1336 514 L1438 650 L482 650Z" fill="url(#lefeu-coalbed)" />
+              <g id="lefeu-coals"></g>
+              <g id="lefeu-embers"></g>
+              <ellipse cx="960" cy="584" rx="480" ry="78" fill="url(#lefeu-glow-fire)" opacity="0.7" />
+              <path d="M560 500 L1360 500 L1470 662 L450 662Z" fill="none" stroke="#5A2A2C" stroke-width="3" />
+              <!-- grid -->
+              <g id="lefeu-grid"></g>
+              <!-- skewers + fish -->
+              <g id="lefeu-skewers"></g>
+              <ellipse cx="772" cy="606" rx="250" ry="34" fill="#1A0408" opacity="0.42" filter="url(#lefeu-blur8)" />
+              <use href="#lefeu-fish" transform="translate(770 570) rotate(-2) scale(0.9 0.7)" />
+              <!-- rising sparks + smoke -->
+              <g id="lefeu-sparks"></g>
+              <g id="lefeu-smoke" filter="url(#lefeu-soft)"></g>
+            </g>
+
+            <!-- ================= STATION 3 — TOUS VOS PLATS ================= -->
+            <g id="lefeu-st3" transform="translate(3840 0) translate(960 900) scale(1.18) translate(-960 -900)">
+              <!-- raffia mat -->
+              <ellipse cx="960" cy="752" rx="680" ry="150" fill="url(#lefeu-shadow)" opacity="0.6" />
+              <ellipse cx="960" cy="740" rx="660" ry="146" fill="url(#lefeu-mat)" />
+              <g id="lefeu-weave"></g>
+              <ellipse cx="960" cy="740" rx="660" ry="146" fill="none" stroke="#A8702E" stroke-width="6" />
+              <!-- plate -->
+              <ellipse cx="960" cy="772" rx="490" ry="128" fill="#2A080E" opacity="0.4" filter="url(#lefeu-blur8)" />
+              <ellipse cx="960" cy="736" rx="470" ry="168" fill="#4A0A12" />
+              <ellipse cx="960" cy="722" rx="470" ry="168" fill="url(#lefeu-rim)" />
+              <path d="M520 680 A470 168 0 0 1 960 554" stroke="#E87884" stroke-width="5" fill="none" opacity="0.55" stroke-linecap="round" filter="url(#lefeu-blur4)" />
+              <ellipse cx="960" cy="728" rx="388" ry="134" fill="url(#lefeu-plate-in)" />
+              <ellipse cx="960" cy="728" rx="392" ry="137" fill="none" stroke="#F9A825" stroke-width="3" opacity="0.95" />
+              <ellipse cx="960" cy="736" rx="372" ry="124" fill="none" stroke="#7B1421" stroke-width="10" opacity="0.07" />
+
+              <!-- attiéké dome -->
+              <ellipse cx="796" cy="742" rx="186" ry="40" fill="#5A2A1A" opacity="0.25" filter="url(#lefeu-blur8)" />
+              <path d="M612 734 C616 650 690 588 794 584 C898 588 972 650 978 734 A183 50 0 0 1 612 734Z" fill="url(#lefeu-attieke)" />
+              <g id="lefeu-attieke-grains"></g>
+              <!-- tomato slices + onion rings on the plate -->
+              <g>
+                <ellipse cx="880" cy="812" rx="46" ry="20" fill="#B01E18" />
+                <ellipse cx="880" cy="808" rx="46" ry="20" fill="#E0402E" />
+                <ellipse cx="880" cy="808" rx="34" ry="13" fill="#F57A5A" />
+                <path d="M880 796 L880 820 M850 808 L910 808" stroke="#E0402E" stroke-width="4" />
+                <ellipse cx="866" cy="803" rx="5" ry="3" fill="#F7D36A" /><ellipse cx="896" cy="803" rx="5" ry="3" fill="#F7D36A" />
+                <ellipse cx="866" cy="814" rx="5" ry="3" fill="#F7D36A" /><ellipse cx="896" cy="814" rx="5" ry="3" fill="#F7D36A" />
+                <ellipse cx="960" cy="826" rx="44" ry="19" fill="#B01E18" />
+                <ellipse cx="960" cy="822" rx="44" ry="19" fill="#E0402E" />
+                <ellipse cx="960" cy="822" rx="32" ry="12" fill="#F57A5A" />
+                <path d="M960 811 L960 833 M932 822 L988 822" stroke="#E0402E" stroke-width="4" />
+                <ellipse cx="946" cy="817" rx="5" ry="3" fill="#F7D36A" /><ellipse cx="974" cy="817" rx="5" ry="3" fill="#F7D36A" />
+                <ellipse cx="946" cy="828" rx="5" ry="3" fill="#F7D36A" /><ellipse cx="974" cy="828" rx="5" ry="3" fill="#F7D36A" />
+                <ellipse cx="1046" cy="818" rx="36" ry="14" fill="none" stroke="#F8ECF2" stroke-width="7" />
+                <ellipse cx="1046" cy="818" rx="28" ry="10" fill="none" stroke="#C783A6" stroke-width="2.5" />
+              </g>
+              <!-- braised fish -->
+              <ellipse cx="1090" cy="728" rx="220" ry="34" fill="#4A1A08" opacity="0.3" filter="url(#lefeu-blur8)" />
+              <use href="#lefeu-fish" transform="translate(1094 680) rotate(-7) scale(0.84 0.64)" />
+              <!-- onion ring on the fish -->
+              <ellipse cx="1090" cy="650" rx="40" ry="15" fill="none" stroke="#F8ECF2" stroke-width="8" transform="rotate(-10 1090 650)" />
+              <ellipse cx="1090" cy="650" rx="31" ry="10" fill="none" stroke="#C783A6" stroke-width="2.5" transform="rotate(-10 1090 650)" />
+              <!-- alloco -->
+              <g id="lefeu-alloco-g"></g>
+              <!-- fresh chilis -->
+              <g>
+                <path d="M640 806 C676 776 752 776 800 792 C812 798 810 806 798 808 C746 818 684 820 640 806Z" fill="url(#lefeu-chili)" />
+                <path d="M668 798 C706 786 752 786 784 792" stroke="#FFFFFF" stroke-width="3.5" stroke-linecap="round" opacity="0.6" fill="none" />
+                <path d="M798 798 C818 794 830 786 840 772" stroke="#376F23" stroke-width="8" stroke-linecap="round" fill="none" />
+                <path d="M690 838 C722 816 784 816 822 830 C832 836 828 842 818 844 C774 852 724 852 690 838Z" fill="url(#lefeu-chili)" />
+                <path d="M714 832 C748 824 786 824 808 828" stroke="#FFFFFF" stroke-width="3" stroke-linecap="round" opacity="0.5" fill="none" />
+                <path d="M818 836 C836 834 848 828 858 816" stroke="#376F23" stroke-width="7" stroke-linecap="round" fill="none" />
+              </g>
+              <!-- rim glint -->
+              <g id="lefeu-glint-g" opacity="0">
+                <circle cx="0" cy="0" r="34" fill="url(#lefeu-glint)" />
+                <path d="M0 -34 L5 -5 L34 0 L5 5 L0 34 L-5 5 L-34 0 L-5 -5Z" fill="#FFFFFF" />
+              </g>
+              <g id="lefeu-steam3" filter="url(#lefeu-soft)"></g>
+              <g id="lefeu-plumes" filter="url(#lefeu-soft)"></g>
+            </g>
+          </svg>
+
+          <!-- station chips (world space — they ride the rail) -->
+          <div id="03-le-feu-chip1" class="lf-chip" style="left: 160px"><span class="lf-chip-dot"></span>Sauces</div>
+          <div id="03-le-feu-chip2" class="lf-chip" style="left: 2080px"><span class="lf-chip-dot"></span>Grillades</div>
+          <div id="03-le-feu-chip3" class="lf-chip" style="left: 4000px"><span class="lf-chip-dot"></span>Tous vos plats</div>
+        </div>
+      </div>
+      <div class="lf-light"></div>
+      <div class="lf-haze" id="lefeu-haze"></div>
+    </div>
+
+    <!-- ============ SEAM C (exit) : cream veil rises and covers the frame at 3.95 s ============ -->
+    <div id="03-le-feu-veil" class="clip lf-veil-wrap" data-start="0" data-duration="4" data-track-index="1">
+      <div class="lf-veil" id="lefeu-veil"></div>
+    </div>
+
+    <!-- ============ SEAM B (entry) : full-frame gold wipes off to the left ============ -->
+    <div id="03-le-feu-wipe" class="clip lf-wipe" data-start="0" data-duration="0.6" data-track-index="2">
+      <div class="lf-wipe-shadow" id="lefeu-wipe-shadow"></div>
+      <div class="lf-gold" id="lefeu-gold"></div>
+    </div>
+  </div>
+
+  <script src="../assets/vendor/gsap.min.js"></script>
+  <script>
+    (function () {
+      var DUR = 4;
+      var NS = "http://www.w3.org/2000/svg";
+      var byId = function (id) {
+        return document.getElementById(id);
+      };
+      var mk = function (tag, attrs, parent) {
+        var e = document.createElementNS(NS, tag);
+        for (var k in attrs) e.setAttribute(k, attrs[k]);
+        if (parent) parent.appendChild(e);
+        return e;
+      };
+      // deterministic index-seeded hash noise
+      var prand = function (n) {
+        var x = Math.sin(n * 127.1 + 311.7) * 43758.5453;
+        return x - Math.floor(x);
+      };
+      var frac = function (x) {
+        return x - Math.floor(x);
+      };
+      var lerp = function (a, b, t) {
+        return a + (b - a) * t;
+      };
+      var r2 = function (v) {
+        return Math.round(v * 100) / 100;
+      };
+
+      /* ---------------- static generated detail ---------------- */
+      // worktop tile joints (perspective spacing)
+      var joints = byId("lefeu-joints");
+      [536, 626, 760].forEach(function (y, i) {
+        mk("rect", { x: -400, y: y, width: 6560, height: 2 + i * 0.6, fill: "#D9B080", opacity: 0.55 }, joints);
+        mk("rect", { x: -400, y: y + 2.5 + i * 0.6, width: 6560, height: 1.5, fill: "#FFF6E8", opacity: 0.7 }, joints);
+      });
+      // wood grain on the front band
+      var grain = byId("lefeu-grain");
+      for (var g = 0; g < 16; g++) {
+        var gy = 918 + g * 10.5 + prand(g * 3.1) * 6;
+        var d = "M-400 " + r2(gy);
+        for (var gx = -400; gx < 6200; gx += 240) {
+          var wob = Math.sin(gx * 0.004 + g * 1.7) * 3.5 + (prand(gx * 0.01 + g) - 0.5) * 3;
+          d += " Q" + (gx + 120) + " " + r2(gy + wob) + " " + (gx + 240) + " " + r2(gy - wob * 0.4);
+        }
+        mk("path", { d: d, fill: "none", stroke: g % 3 === 0 ? "#B66E48" : "#2E0E08", "stroke-width": 1.2 + prand(g * 7.7) * 2, opacity: g % 3 === 0 ? 0.22 : 0.2 }, grain);
+      }
+
+      // palm nuts heaped in the calabash
+      var nuts = byId("lefeu-nuts");
+      var nutCols = ["#D4471F", "#A82A14", "#E8742A", "#5A1A0C", "#F09A3A", "#C2361A"];
+      for (var n = 0; n < 46; n++) {
+        var a = prand(n * 4.3) * Math.PI;
+        var rr = Math.sqrt(prand(n * 9.1));
+        var nx = 1440 + Math.cos(a) * rr * 120 * (prand(n * 2.2) > 0.5 ? 1 : -1);
+        var hump = 1 - Math.pow((nx - 1440) / 128, 2);
+        var ny = 816 - prand(n * 5.7) * 34 * Math.max(0.15, hump);
+        var ng = mk("g", { transform: "translate(" + r2(nx) + " " + r2(ny) + ") rotate(" + r2(prand(n) * 180) + ")" }, nuts);
+        mk("ellipse", { cx: 0, cy: 0, rx: 13, ry: 10, fill: nutCols[n % nutCols.length] }, ng);
+        mk("ellipse", { cx: -4, cy: -4, rx: 4, ry: 2.6, fill: "#FFFFFF", opacity: 0.45 }, ng);
+      }
+
+      // coals in the brazier door
+      var dc = byId("lefeu-door-coals");
+      for (var c = 0; c < 9; c++) {
+        mk("circle", { cx: r2(914 + prand(c * 3.3) * 92), cy: r2(812 + prand(c * 6.1) * 28), r: r2(6 + prand(c) * 7), fill: c % 2 ? "#3A0E0E" : "#FFB43C", opacity: c % 2 ? 0.8 : 0.9 }, dc);
+      }
+
+      // grill: coal chunks, grid bars, vents
+      var coals = byId("lefeu-coals");
+      for (var k = 0; k < 74; k++) {
+        var v = 0.06 + prand(k * 3.7) * 0.9;
+        var u = 0.04 + prand(k * 8.3) * 0.92;
+        var cx0 = lerp(lerp(584, 482, v), lerp(1336, 1438, v), u);
+        var cy0 = 514 + v * 136;
+        var s = (11 + prand(k * 1.9) * 15) * (0.75 + 0.35 * v);
+        var pts = [];
+        for (var p = 0; p < 6; p++) {
+          var ang = (p / 6) * Math.PI * 2 + prand(k * 11 + p) * 0.6;
+          var rad = s * (0.7 + prand(k * 13 + p * 3) * 0.35);
+          pts.push(r2(cx0 + Math.cos(ang) * rad) + "," + r2(cy0 + Math.sin(ang) * rad * 0.58));
+        }
+        var hot = prand(k * 5.5) > 0.55;
+        mk("polygon", { points: pts.join(" "), fill: hot ? "#E2561C" : "#30100E", stroke: hot ? "#FFC24A" : "#F57A22", "stroke-width": hot ? 1.4 : 1.8, opacity: 0.92 }, coals);
+      }
+      var grid = byId("lefeu-grid");
+      for (var b = 0; b < 11; b++) {
+        var vb = (b + 0.5) / 11;
+        var yb = 502 + vb * 158;
+        var xl = lerp(560, 450, vb) + 6;
+        var xr = lerp(1360, 1470, vb) - 6;
+        mk("line", { x1: r2(xl), y1: r2(yb), x2: r2(xr), y2: r2(yb), stroke: "#26090C", "stroke-width": r2(3.6 + vb * 2.6), "stroke-linecap": "round" }, grid);
+        mk("line", { x1: r2(xl), y1: r2(yb - 1.6), x2: r2(xr), y2: r2(yb - 1.6), stroke: "#B07468", "stroke-width": 1.2, opacity: 0.55 }, grid);
+      }
+      [0.33, 0.66].forEach(function (u2) {
+        mk("line", { x1: r2(lerp(560, 1360, u2)), y1: 502, x2: r2(lerp(450, 1470, u2)), y2: 660, stroke: "#26090C", "stroke-width": 6 }, grid);
+      });
+      var vents = byId("lefeu-vents");
+      for (var vv = 0; vv < 7; vv++) {
+        mk("rect", { x: 548 + vv * 126, y: 692, width: 70, height: 24, rx: 12, fill: "url(#lefeu-coalglow)" }, vents);
+      }
+
+      // skewers (brochettes)
+      var skewers = byId("lefeu-skewers");
+      var piece = function (type, parent) {
+        if (type === "meat") {
+          mk("path", { d: "M-30 -20 C-26 -31 -8 -31 4 -29 C20 -31 31 -22 32 -8 C34 6 31 22 18 27 C4 31 -16 30 -26 22 C-34 12 -34 -6 -30 -20Z", fill: "url(#lefeu-meat)" }, parent);
+          mk("path", { d: "M-14 -26 L-22 24 M8 -27 L0 26", stroke: "#2E0C04", "stroke-width": 6, "stroke-linecap": "round", opacity: 0.55 }, parent);
+          mk("ellipse", { cx: -10, cy: -16, rx: 10, ry: 4, fill: "#FFE2B8", opacity: 0.45 }, parent);
+        } else if (type === "onion") {
+          mk("path", { d: "M-18 -27 C10 -27 20 -8 20 4 C20 19 9 29 -16 28 C-4 16 -2 -12 -18 -27Z", fill: "#B9557E" }, parent);
+          mk("path", { d: "M-12 -21 C7 -19 14 -6 14 4 C14 15 7 23 -10 22 C-1 12 0 -8 -12 -21Z", fill: "#F6DEE8" }, parent);
+          mk("path", { d: "M-6 -14 C5 -11 8 -2 8 4 C8 11 4 16 -5 16", stroke: "#C9759A", "stroke-width": 2.2, fill: "none" }, parent);
+        } else {
+          mk("rect", { x: -13, y: -25, width: 26, height: 50, rx: 11, fill: type === "pg" ? "url(#lefeu-pepper-g)" : "url(#lefeu-chili)" }, parent);
+          mk("rect", { x: -7, y: -19, width: 6, height: 30, rx: 3, fill: "#FFFFFF", opacity: 0.4 }, parent);
+        }
+      };
+      var makeSkewer = function (x1, y1, x2, y2, seed) {
+        var ang = Math.atan2(y2 - y1, x2 - x1);
+        var ca = Math.cos(ang), sa = Math.sin(ang);
+        var grp = mk("g", {}, skewers);
+        mk("line", { x1: r2(x1 - 26 * ca), y1: r2(y1 - 26 * sa), x2: r2(x2 + 110 * ca), y2: r2(y2 + 110 * sa), stroke: "#D9A86C", "stroke-width": 9, "stroke-linecap": "round" }, grp);
+        mk("line", { x1: r2(x1 - 26 * ca), y1: r2(y1 - 26 * sa + 3), x2: r2(x2 + 110 * ca), y2: r2(y2 + 110 * sa + 3), stroke: "#8E5A2E", "stroke-width": 3, "stroke-linecap": "round", opacity: 0.6 }, grp);
+        mk("ellipse", { cx: r2((x1 + x2) / 2), cy: r2((y1 + y2) / 2 + 24), rx: r2(Math.hypot(x2 - x1, y2 - y1) / 2), ry: 16, fill: "#1A0408", opacity: 0.35, filter: "url(#lefeu-blur8)", transform: "rotate(" + r2((ang * 180) / Math.PI) + " " + r2((x1 + x2) / 2) + " " + r2((y1 + y2) / 2 + 24) + ")" }, grp);
+        var seq = seed % 2 ? ["meat", "onion", "meat", "pr", "meat"] : ["meat", "pg", "meat", "onion", "meat"];
+        for (var i = 0; i < seq.length; i++) {
+          var t = i / (seq.length - 1);
+          var px = lerp(x1, x2, t), py = lerp(y1, y2, t);
+          var pg = mk("g", { transform: "translate(" + r2(px) + " " + r2(py) + ") rotate(" + r2((ang * 180) / Math.PI + (prand(seed + i) - 0.5) * 16) + ") scale(" + r2(1 + (prand(seed * 3 + i) - 0.5) * 0.18) + ")" }, grp);
+          piece(seq[i], pg);
+        }
+      };
+      makeSkewer(1094, 548, 1316, 538, 11);
+      makeSkewer(1110, 616, 1356, 604, 24);
+
+      // fish flecks (seasoning)
+      var flecks = byId("lefeu-fish-flecks");
+      var fCols = ["#7A2208", "#C2401C", "#4A1606", "#E6762E"];
+      for (var f = 0; f < 46; f++) {
+        mk("circle", { cx: r2(-160 + prand(f * 2.9) * 420), cy: r2(-90 + prand(f * 6.3) * 180), r: r2(2 + prand(f * 4.1) * 3.6), fill: fCols[f % 4], opacity: 0.55 }, flecks);
+      }
+      for (var h = 0; h < 8; h++) {
+        mk("rect", { x: r2(-120 + prand(h * 9.9) * 340), y: r2(-60 + prand(h * 3.3) * 110), width: 9, height: 4, rx: 2, fill: "#4E8F2E", transform: "rotate(" + r2(prand(h) * 180) + ")" }, flecks);
+      }
+
+      // raffia mat weave
+      var weave = byId("lefeu-weave");
+      for (var w = 1; w < 9; w++) {
+        mk("ellipse", { cx: 960, cy: 740, rx: 660 - w * 34, ry: 146 - w * 7.5, fill: "none", stroke: w % 2 ? "#B57C38" : "#F5D69A", "stroke-width": w % 2 ? 3 : 2, opacity: 0.5 }, weave);
+      }
+
+      // attiéké grains
+      var grains = byId("lefeu-attieke-grains");
+      var gCols = ["#FFFBEA", "#EED6A0", "#DDBB7C", "#FFF2D0"];
+      for (var q = 0; q < 230; q++) {
+        var gu = prand(q * 3.17) * 2 - 1;
+        var gv = prand(q * 7.31);
+        var gxq = 794 + gu * 176;
+        var top = 734 - 146 * Math.sqrt(Math.max(0, 1 - gu * gu));
+        var bot = 734 + 46 * Math.sqrt(Math.max(0, 1 - gu * gu));
+        var gyq = lerp(top + 6, bot - 4, gv);
+        mk("circle", { cx: r2(gxq), cy: r2(gyq), r: r2(2.4 + prand(q * 5.5) * 2.2), fill: gCols[q % 4], opacity: 0.9 }, grains);
+      }
+      for (var o = 0; o < 14; o++) {
+        mk("rect", { x: r2(700 + prand(o * 4.4) * 190), y: r2(608 + prand(o * 8.8) * 90), width: 10, height: 5, rx: 2.5, fill: o % 4 === 0 ? "#D42A2E" : "#4E8F2E", transform: "rotate(" + r2(prand(o * 1.3) * 180) + " " + r2(700 + prand(o * 4.4) * 190) + " " + r2(608 + prand(o * 8.8) * 90) + ")" }, grains);
+      }
+      mk("ellipse", { cx: 740, cy: 628, rx: 50, ry: 22, fill: "#FFFFFF", opacity: 0.5, filter: "url(#lefeu-blur8)" }, grains);
+
+      // alloco (fried plantain slices)
+      var alloco = byId("lefeu-alloco-g");
+      var slices = [
+        [1180, 776, -28], [1244, 770, -22], [1306, 774, -30], [1360, 768, -18],
+        [1196, 812, -24], [1262, 808, -32], [1328, 806, -20],
+      ];
+      slices.forEach(function (sl, i) {
+        var sg = mk("g", { transform: "translate(" + sl[0] + " " + sl[1] + ") rotate(" + sl[2] + ")" }, alloco);
+        // diagonal-cut plantain: long oval, caramelised edge, golden flesh
+        mk("path", { d: "M-58 6 C-50 -14 30 -26 58 -12 C64 -2 60 12 50 18 C20 30 -46 26 -58 6Z", fill: "#9A4412", transform: "translate(0 9)" }, sg);
+        mk("path", { d: "M-58 6 C-50 -14 30 -26 58 -12 C64 -2 60 12 50 18 C20 30 -46 26 -58 6Z", fill: "url(#lefeu-alloco)" }, sg);
+        mk("path", { d: "M-58 6 C-50 -14 30 -26 58 -12 C64 -2 60 12 50 18 C20 30 -46 26 -58 6Z", fill: "none", stroke: "#A84C14", "stroke-width": 4 }, sg);
+        mk("path", { d: "M-40 4 C-28 -8 22 -16 42 -6", stroke: "#FFE89A", "stroke-width": 5, "stroke-linecap": "round", fill: "none", opacity: 0.6 }, sg);
+        mk("ellipse", { cx: -22, cy: -6, rx: 13, ry: 3.5, fill: "#FFFFFF", opacity: 0.6 }, sg);
+        for (var dd = 0; dd < 5; dd++) mk("ellipse", { cx: r2((prand(i * 9 + dd) - 0.5) * 80), cy: r2((prand(i * 5 + dd * 3) - 0.5) * 18), rx: 3.4, ry: 2, fill: "#8A3A0E", opacity: 0.55 }, sg);
+      });
+
+      /* ---------------- animated parts (one clock drives them all) ---------------- */
+      var flamePath = function (w, h) {
+        return "M0 0 C" + -w + " 0 " + r2(-w * 1.05) + " " + r2(-h * 0.42) + " " + r2(-w * 0.32) + " " + r2(-h * 0.72) +
+          " C" + r2(-w * 0.12) + " " + r2(-h * 0.84) + " " + r2(-w * 0.02) + " " + r2(-h * 0.9) + " 0 " + -h +
+          " C" + r2(w * 0.22) + " " + r2(-h * 0.78) + " " + r2(w * 1.05) + " " + r2(-h * 0.5) + " " + r2(w * 0.9) + " " + r2(-h * 0.16) +
+          " C" + r2(w * 0.8) + " " + r2(-h * 0.02) + " " + r2(w * 0.4) + " 0 0 0Z";
+      };
+      var flames = [];
+      var addFlame = function (parent, x, y, w, h, seed) {
+        var g = mk("g", {}, parent);
+        mk("path", { d: flamePath(w, h), fill: "url(#lefeu-flame-out)" }, g);
+        mk("path", { d: flamePath(w * 0.56, h * 0.62), fill: "url(#lefeu-flame-in)" }, g);
+        mk("path", { d: flamePath(w * 0.26, h * 0.3), fill: "#FFF7DC" }, g);
+        flames.push({ g: g, x: x, y: y, ph: prand(seed) * 6.28, f: 2.1 + prand(seed * 2.3) * 1.4 });
+      };
+      var fb = byId("lefeu-flames-back");
+      [[690, 712, 40, 236, 1], [728, 716, 30, 170, 2], [760, 712, 34, 140, 14], [1160, 712, 34, 150, 15], [1192, 716, 30, 182, 3], [1230, 712, 42, 244, 4], [860, 706, 44, 160, 5], [1060, 706, 44, 168, 6]].forEach(function (a) {
+        addFlame(fb, a[0], a[1], a[2], a[3], a[4]);
+      });
+      var ff = byId("lefeu-flames-front");
+      for (var fi = 0; fi < 13; fi++) {
+        var fxp = 748 + fi * 35.5 + (prand(fi * 4.7) - 0.5) * 16;
+        var dx = (fxp - 960) / 236;
+        var fyp = 704 + 30 * Math.sqrt(Math.max(0, 1 - dx * dx)) + 4;
+        var mid = 1 - Math.abs(dx) * 0.35;
+        var fh = (56 + prand(fi * 9.3) * 74) * (fi % 2 ? 0.78 : 1.08) * mid;
+        var fw = 20 + prand(fi * 2.1) * 16;
+        addFlame(ff, r2(fxp), r2(fyp), r2(fw), r2(fh), 20 + fi);
+      }
+
+      // bubbles in the sauce
+      var bubbles = [];
+      var bg = byId("lefeu-bubbles");
+      for (var i = 0; i < 11; i++) {
+        var ba = prand(i * 3.3 + 1) * Math.PI * 2;
+        var br = Math.sqrt(prand(i * 5.1 + 2)) * 0.82;
+        var R = 8 + prand(i * 7.7) * 10;
+        var grp = mk("g", {}, bg);
+        var body = mk("g", {}, grp);
+        mk("ellipse", { cx: 0, cy: 0, rx: R, ry: R * 0.8, fill: "url(#lefeu-bubble)" }, body);
+        mk("ellipse", { cx: -R * 0.35, cy: -R * 0.35, rx: R * 0.28, ry: R * 0.18, fill: "#FFFFFF", opacity: 0.75 }, body);
+        var ring = mk("ellipse", { cx: 0, cy: 0, rx: R, ry: R * 0.45, fill: "none", stroke: "#FFB27A", "stroke-width": 2.2 }, grp);
+        bubbles.push({ x: 960 + Math.cos(ba) * br * 236, y: 458 + Math.sin(ba) * br * 32, body: body, ring: ring, P: 0.75 + prand(i * 2.9) * 0.55, off: prand(i * 6.6) });
+      }
+
+      // steam / smoke volutes
+      var volutes = [];
+      var addVolutes = function (parentId, sources, opts) {
+        var parent = byId(parentId);
+        sources.forEach(function (src, si) {
+          for (var c2 = 0; c2 < 2; c2++) {
+            var g = mk("g", {}, parent);
+            var sway = (prand(si * 7 + c2) - 0.5) * 50;
+            mk("path", { d: "M0 0 C-34 -44 " + r2(30 + sway) + " -96 0 -140 C" + r2(-36 - sway) + " -184 26 -228 " + r2(sway * 0.4) + " -270", fill: "none", stroke: opts.color, "stroke-width": opts.width, "stroke-linecap": "round" }, g);
+            volutes.push({ g: g, x: src[0], y: src[1], P: opts.P + prand(si * 3 + c2) * 0.4, off: c2 * 0.5 + prand(si * 9.1) * 0.3, rise: opts.rise, amp: opts.amp, grow: opts.grow });
+          }
+        });
+      };
+      addVolutes("lefeu-steam1", [[880, 430], [970, 418], [1064, 432]], { color: "#FFFFFF", width: 34, P: 1.5, rise: 150, amp: 0.7, grow: 0.7 });
+      addVolutes("lefeu-smoke", [[660, 520], [860, 510], [1120, 506], [1300, 520]], { color: "#FFF8F0", width: 40, P: 1.7, rise: 190, amp: 0.48, grow: 0.9 });
+      addVolutes("lefeu-steam3", [[740, 590], [850, 600], [1060, 628], [1180, 640]], { color: "#FFFFFF", width: 32, P: 1.6, rise: 160, amp: 0.72, grow: 0.8 });
+
+      // embers pulsing in the grill (le trait d'or)
+      var embers = [];
+      var eg = byId("lefeu-embers");
+      var eCols = ["#FBD021", "#F9A825", "#FF6A1E", "#FFE680"];
+      for (var e = 0; e < 48; e++) {
+        var ev = 0.06 + prand(e * 4.9) * 0.9;
+        var eu = 0.04 + prand(e * 2.3) * 0.92;
+        var ex = lerp(lerp(584, 482, ev), lerp(1336, 1438, ev), eu);
+        var ey = 514 + ev * 136;
+        var er = 2.6 + prand(e * 8.8) * 4;
+        var halo = mk("circle", { cx: r2(ex), cy: r2(ey), r: r2(er * 2.8), fill: eCols[e % 4], opacity: 0.25, filter: "url(#lefeu-blur4)" }, eg);
+        var dot = mk("circle", { cx: r2(ex), cy: r2(ey), r: r2(er), fill: eCols[e % 4] }, eg);
+        embers.push({ dot: dot, halo: halo, x: ex, y: ey, ph: prand(e * 1.7) * 6.28, f: 1.4 + prand(e * 3.9) * 1.8 });
+      }
+      // sparks rising off the grill
+      var sparks = [];
+      var sg2 = byId("lefeu-sparks");
+      for (var sp = 0; sp < 22; sp++) {
+        var sdot = mk("g", {}, sg2);
+        var srad = 2.8 + prand(sp * 6.1) * 2.8;
+        mk("circle", { cx: 0, cy: 0, r: r2(srad * 3), fill: "#FBD021", opacity: 0.28 }, sdot);
+        mk("circle", { cx: 0, cy: 0, r: r2(srad), fill: sp % 3 ? "#FFE680" : "#FF8A2A" }, sdot);
+        sparks.push({ el: sdot, x: lerp(560, 1360, prand(sp * 2.7)), y: 530 + prand(sp * 5.3) * 100, P: 1.0 + prand(sp * 9.2) * 0.7, off: prand(sp * 4.4), rise: 260 + prand(sp * 7.1) * 200, sway: 14 + prand(sp * 3.6) * 22, ph: prand(sp) * 6.28 });
+      }
+
+      var render = function (t) {
+        var i, o;
+        for (i = 0; i < flames.length; i++) {
+          o = flames[i];
+          var w = o.f * Math.PI * 2;
+          var sy = 1 + 0.14 * Math.sin(w * t + o.ph) + 0.07 * Math.sin(2.3 * w * t + o.ph * 1.7);
+          var sx = 1 - 0.06 * Math.sin(1.3 * w * t + o.ph);
+          var sk = 7 * Math.sin(0.8 * w * t + o.ph * 0.5);
+          o.g.setAttribute("transform", "translate(" + o.x + " " + o.y + ") skewX(" + r2(sk) + ") scale(" + r2(sx) + " " + r2(sy) + ")");
+        }
+        for (i = 0; i < bubbles.length; i++) {
+          o = bubbles[i];
+          var u = frac(t / o.P + o.off);
+          if (u < 0.78) {
+            var s = 1 - Math.pow(1 - u / 0.78, 2);
+            o.body.setAttribute("transform", "translate(" + r2(o.x) + " " + r2(o.y) + ") scale(" + r2(Math.max(0.01, s)) + ")");
+            o.body.setAttribute("opacity", 1);
+            o.ring.setAttribute("opacity", 0);
+          } else {
+            var vq = (u - 0.78) / 0.22;
+            o.body.setAttribute("opacity", 0);
+            o.ring.setAttribute("transform", "translate(" + r2(o.x) + " " + r2(o.y) + ") scale(" + r2(1 + vq * 0.9) + ")");
+            o.ring.setAttribute("opacity", r2((1 - vq) * 0.9));
+          }
+        }
+        for (i = 0; i < volutes.length; i++) {
+          o = volutes[i];
+          var uv = frac(t / o.P + o.off);
+          var sc = 0.55 + uv * o.grow;
+          o.g.setAttribute("transform", "translate(" + r2(o.x + Math.sin(uv * 3 + i) * 10) + " " + r2(o.y - uv * o.rise) + ") scale(" + r2(sc) + " " + r2(0.75 + uv * 0.5) + ")");
+          o.g.setAttribute("opacity", r2(Math.sin(Math.PI * uv) * o.amp));
+        }
+        for (i = 0; i < embers.length; i++) {
+          o = embers[i];
+          var pv = Math.sin(o.f * Math.PI * 2 * t + o.ph);
+          var es = 1 + 0.3 * pv;
+          o.dot.setAttribute("transform", "translate(" + r2(o.x) + " " + r2(o.y) + ") scale(" + r2(es) + ") translate(" + r2(-o.x) + " " + r2(-o.y) + ")");
+          o.dot.setAttribute("opacity", r2(0.6 + 0.4 * pv));
+          o.halo.setAttribute("opacity", r2(0.18 + 0.18 * (pv + 1)));
+        }
+        for (i = 0; i < sparks.length; i++) {
+          o = sparks[i];
+          var us = frac(t / o.P + o.off);
+          var sxp = o.x + Math.sin(us * 7 + o.ph) * o.sway;
+          var syp = o.y - us * o.rise;
+          o.el.setAttribute("transform", "translate(" + r2(sxp) + " " + r2(syp) + ")");
+          o.el.setAttribute("opacity", r2(Math.min(1, us / 0.12) * Math.pow(1 - us, 1.3)));
+        }
+      };
+
+      /* ---------------- timeline ---------------- */
+      var tl = gsap.timeline({ paused: true });
+      var clock = { t: 0 };
+      render(0);
+      tl.to(clock, { t: DUR, duration: DUR, ease: "none", onUpdate: function () { render(clock.t); } }, 0);
+
+      // Scene 1 — seam B: the gold sheet wipes off to the left (diagonal 115deg edge)
+      var gold = byId("lefeu-gold");
+      var wshadow = byId("lefeu-wipe-shadow");
+      var wipe = { p: 0 };
+      var SLANT = 504; // 1080 * tan(25deg) — matches the 115deg band of scene 02
+      var writeWipe = function () {
+        var A = lerp(1920 + SLANT + 24, -24, wipe.p);
+        var B = A - SLANT;
+        gold.style.clipPath = "polygon(0px 0px, " + r2(A) + "px 0px, " + r2(B) + "px 1080px, 0px 1080px)";
+        wshadow.style.transform = "translateX(" + r2((A + B) / 2) + "px) skewX(-25deg)";
+      };
+      writeWipe();
+      tl.to(wipe, { p: 1, duration: 0.45, ease: "power2.inOut", onUpdate: writeWipe }, 0);
+
+      // camera: slow drift on station 1, then two nudge-curve whip pans with a coupled horizontal streak
+      var rail = byId("lefeu-rail");
+      var cam = byId("lefeu-cam");
+      var blurNode = byId("lefeu-streak-blur");
+      var blur = { v: 0 };
+      var writeBlur = function () {
+        if (blur.v < 0.05) {
+          rail.style.filter = "none";
+          blurNode.setAttribute("stdDeviation", "0 0");
+        } else {
+          blurNode.setAttribute("stdDeviation", r2(blur.v) + " 0");
+          rail.style.filter = "url(#lefeu-streak)";
+        }
+      };
+      writeBlur();
+      tl.fromTo(rail, { x: 44 }, { x: 0, duration: 0.85, ease: "none" }, 0);
+      var PEAK = 15;
+      var pan = function (T, X0) {
+        tl.to(rail, { x: X0 - 192, duration: 0.08, ease: "power3.in" }, T);
+        tl.to(rail, { x: X0 - 1440, duration: 0.072, ease: "none" }, T + 0.08);
+        tl.to(rail, { x: X0 - 1920, duration: 0.248, ease: "power4.out" }, T + 0.152);
+        tl.to(blur, { v: PEAK, duration: 0.08, ease: "power3.in", onUpdate: writeBlur }, T);
+        tl.to(blur, { v: 0, duration: 0.248, ease: "power4.out", onUpdate: writeBlur }, T + 0.152);
+      };
+      pan(0.85, 0);
+      pan(1.65, -1920);
+
+      // station chips — spring pop on their vo cues
+      var chipPop = function (id, at) {
+        var el = byId(id);
+        tl.fromTo(el, { scale: 0.3, opacity: 0, y: 18 }, { scale: 1, opacity: 1, y: 0, duration: 0.5, ease: "back.out(2.2)" }, at);
+        tl.fromTo(el.firstElementChild, { scale: 0 }, { scale: 1, duration: 0.4, ease: "back.out(3)" }, at + 0.12);
+      };
+      chipPop("03-le-feu-chip1", 0.4);
+      chipPop("03-le-feu-chip2", 1.05);
+      chipPop("03-le-feu-chip3", 1.85);
+
+      // station 3 — slow camera push + a glint along the gold filet of the rim
+      tl.fromTo(cam, { scale: 1 }, { scale: 1.06, duration: 1.45, ease: "sine.inOut" }, 1.85);
+      var glint = byId("lefeu-glint-g");
+      var gl = { p: 0 };
+      var writeGlint = function () {
+        var ang = lerp(150, 192, gl.p) * (Math.PI / 180);
+        var gx2 = 960 + Math.cos(ang) * 392;
+        var gy2 = 728 + Math.sin(ang) * 137;
+        var sc2 = Math.sin(Math.PI * gl.p);
+        glint.setAttribute("transform", "translate(" + r2(gx2) + " " + r2(gy2) + ") scale(" + r2(0.2 + sc2 * 0.8) + ") rotate(" + r2(gl.p * 45) + ")");
+        glint.setAttribute("opacity", r2(sc2));
+      };
+      writeGlint();
+      tl.to(gl, { p: 1, duration: 0.7, ease: "power1.inOut", onUpdate: writeGlint }, 2.25);
+
+      // Scene 7 — seam C: steam rises and thickens, cream veil climbs and covers at 3.95
+      var plumes = byId("lefeu-plumes");
+      var plumeEls = [];
+      [[760, 640, 0], [900, 650, 0.05], [1040, 660, 0.1], [1180, 680, 0.04], [640, 690, 0.12], [1300, 700, 0.08], [980, 720, 0.15]].forEach(function (pl, i) {
+        var g = mk("g", { opacity: 0 }, plumes);
+        mk("path", { d: "M0 0 C-50 -70 50 -150 0 -230 C-50 -310 40 -380 0 -460", fill: "none", stroke: "#FFFFFF", "stroke-width": 110, "stroke-linecap": "round" }, g);
+        plumeEls.push(g);
+        tl.fromTo(g, { x: pl[0], y: pl[1], scale: 0.7 }, { x: pl[0] + (i % 2 ? 40 : -40), y: pl[1] - 340, scale: 1.9, duration: 0.7, ease: "power1.in" }, 3.25 + pl[2]);
+        tl.fromTo(g, { opacity: 0 }, { opacity: 0.95, duration: 0.45, ease: "power1.out" }, 3.25 + pl[2]);
+      });
+      tl.fromTo(byId("lefeu-haze"), { opacity: 0, scale: 0.6, y: 160 }, { opacity: 1, scale: 1.5, y: 0, duration: 0.6, ease: "power1.in" }, 3.32);
+      tl.fromTo(byId("lefeu-veil"), { y: 0 }, { y: -1500, duration: 0.65, ease: "power2.in" }, 3.3);
+
+      window.__timelines = window.__timelines || {};
+      window.__timelines["03-le-feu"] = tl;
+    })();
+  </script>
+</template>

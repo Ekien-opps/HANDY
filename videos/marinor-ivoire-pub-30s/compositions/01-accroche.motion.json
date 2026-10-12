@@ -1,0 +1,13 @@
+{
+  "scene": "01-accroche",
+  "duration_s": 4.0,
+  "rules": ["spring-pop-entrance", "center-outward-expansion", "orbit-3d-entry", "sine-wave-loop", "css-marker-patterns", "particle-burst"],
+  "exit": {
+    "vector": "none - static full-frame #2a070d; the bordeaux iris (circle 0->2300px from the « ? » at 1561,588, power2.in 3.55-3.95s) covers the whole frame by ~3.90s and holds to 4.00s",
+    "still_moving": false
+  },
+  "entry": {
+    "vector": "none - static Creme Douce ground at t=0 (hard cut in); first icon springs out of the centre at 0.06s",
+    "from_rest": true
+  }
+}

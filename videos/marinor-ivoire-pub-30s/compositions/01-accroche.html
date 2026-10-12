@@ -1,0 +1,741 @@
+<template id="f01-accroche-template">
+  <style>
+    @font-face{font-family:"Cream Heavy";src:url("../assets/fonts/Cream-Heavy.ttf") format("truetype");font-weight:900;}
+    @font-face{font-family:"Montserrat";src:url("../assets/fonts/Montserrat-latin.woff2") format("woff2");font-weight:100 900;unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD;}
+    @font-face{font-family:"Montserrat";src:url("../assets/fonts/Montserrat-latin-ext.woff2") format("woff2");font-weight:100 900;unicode-range:U+0100-02BA,U+02BD-02C5,U+02C7-02CC,U+02CE-02D7,U+02DD-02FF,U+0304,U+0308,U+0329,U+1D00-1DBF,U+1E00-1E9F,U+1EF2-1EFF,U+2020,U+20A0-20AB,U+20AD-20C0,U+2113,U+2C60-2C7F,U+A720-A7FF;}
+
+    #root {
+      position: absolute;
+      inset: 0;
+      width: 1920px;
+      height: 1080px;
+      overflow: hidden;
+      font-family: "Montserrat", sans-serif;
+    }
+    .acc-layer {
+      position: absolute;
+      inset: 0;
+      width: 1920px;
+      height: 1080px;
+    }
+    /* ---------- ground ---------- */
+    .acc-bg {
+      z-index: 0;
+      background:
+        radial-gradient(ellipse 900px 520px at 960px 540px, rgba(249, 168, 37, 0.22) 0%, rgba(249, 168, 37, 0.11) 45%, rgba(249, 168, 37, 0) 100%),
+        radial-gradient(ellipse 1500px 950px at 960px 540px, rgba(123, 20, 33, 0) 55%, rgba(123, 20, 33, 0.07) 100%),
+        #ffecd1;
+      overflow: hidden;
+    }
+    .acc-grain {
+      position: absolute;
+      inset: 0;
+      width: 1920px;
+      height: 1080px;
+      opacity: 0.55;
+    }
+    .acc-bokeh {
+      position: absolute;
+      border-radius: 50%;
+      background: radial-gradient(circle at 50% 50%, rgba(251, 208, 33, 0.34) 0%, rgba(249, 168, 37, 0.12) 55%, rgba(249, 168, 37, 0) 72%);
+    }
+    .acc-speck {
+      position: absolute;
+      left: 0;
+      top: 0;
+      border-radius: 50%;
+      background: radial-gradient(circle at 35% 30%, #fff3b0 0%, #fbd021 35%, #f9a825 70%, #c97a0c 100%);
+      opacity: 0;
+    }
+    /* ---------- icons ---------- */
+    .acc-stage {
+      z-index: 1;
+      perspective: 1800px;
+      perspective-origin: 960px 540px;
+      transform-style: preserve-3d;
+    }
+    .acc-icon {
+      position: absolute;
+      left: 960px;
+      top: 540px;
+      width: 180px;
+      height: 180px;
+      margin-left: -90px;
+      margin-top: -90px;
+      transform-style: preserve-3d;
+      opacity: 0;
+      will-change: transform, opacity;
+    }
+    .acc-icon svg {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      overflow: visible;
+    }
+    /* ---------- question ---------- */
+    .acc-text {
+      z-index: 2;
+    }
+    .acc-question {
+      position: absolute;
+      left: 0;
+      top: 0;
+      width: 1920px;
+      height: 1080px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding-bottom: 6px;
+    }
+    .acc-line {
+      position: relative;
+      white-space: nowrap;
+      font-family: "Cream Heavy", serif;
+      font-weight: 900;
+      font-size: 92px;
+      line-height: 1.17;
+      letter-spacing: -0.005em;
+      color: #7b1421;
+      text-align: center;
+    }
+    .acc-w {
+      display: inline-block;
+      transform-origin: 50% 80%;
+      text-shadow: 0 6px 18px rgba(123, 20, 33, 0.16);
+      opacity: 0;
+    }
+    .acc-gold {
+      position: relative;
+      display: inline-block;
+    }
+    .acc-w-gold {
+      color: #f9a825;
+      text-shadow: 0 3px 0 #d8860c, 0 8px 18px rgba(123, 20, 33, 0.26);
+    }
+    .acc-trait {
+      position: absolute;
+      left: -2%;
+      width: 104%;
+      top: 84%;
+      height: 40px;
+      overflow: visible;
+      filter: drop-shadow(0 3px 2px rgba(123, 20, 33, 0.28));
+    }
+    .acc-pinch {
+      position: absolute;
+      left: 0;
+      top: 100%;
+      width: 0;
+      height: 0;
+    }
+    .acc-dust {
+      position: absolute;
+      left: 0;
+      top: 0;
+      border-radius: 50%;
+      opacity: 0;
+      box-shadow: 0 0 6px rgba(251, 208, 33, 0.7), 0 2px 3px rgba(123, 20, 33, 0.25);
+    }
+    /* ---------- seam iris ---------- */
+    .acc-iris {
+      z-index: 3;
+      background: #2a070d;
+      clip-path: circle(0px at 1561px 588px);
+    }
+    .acc-iris-rim {
+      position: absolute;
+      left: 0;
+      top: 0;
+      width: 0;
+      height: 0;
+      border-radius: 50%;
+      border: 6px solid #f9a825;
+      box-shadow: inset 0 0 16px rgba(251, 208, 33, 0.55);
+      opacity: 0;
+    }
+  </style>
+
+  <div id="root" data-composition-id="01-accroche" data-width="1920" data-height="1080">
+    <!-- shared SVG paint servers (kept rendered: 0x0, never display:none) -->
+    <svg id="f01-accroche-defs" width="0" height="0" style="position:absolute;width:0;height:0" aria-hidden="true">
+      <defs>
+        <filter id="f01-accroche-fspec" x="-50%" y="-50%" width="200%" height="200%"><feGaussianBlur stdDeviation="3.2" /></filter>
+        <filter id="f01-accroche-fshadow" x="-50%" y="-200%" width="200%" height="500%"><feGaussianBlur stdDeviation="5" /></filter>
+        <filter id="f01-accroche-fsoft" x="-50%" y="-50%" width="200%" height="200%"><feGaussianBlur stdDeviation="1.6" /></filter>
+        <!-- chili -->
+        <radialGradient id="f01-accroche-g-chili" cx="0.3" cy="0.22" r="0.95">
+          <stop offset="0" stop-color="#f4505b" />
+          <stop offset="0.38" stop-color="#d0142d" />
+          <stop offset="0.75" stop-color="#a40c21" />
+          <stop offset="1" stop-color="#6e0717" />
+        </radialGradient>
+        <linearGradient id="f01-accroche-g-green" x1="0" y1="0" x2="1" y2="1">
+          <stop offset="0" stop-color="#6fae43" />
+          <stop offset="0.5" stop-color="#376f23" />
+          <stop offset="1" stop-color="#1f4213" />
+        </linearGradient>
+        <linearGradient id="f01-accroche-g-green-dark" x1="0" y1="0" x2="1" y2="1">
+          <stop offset="0" stop-color="#4d8c2f" />
+          <stop offset="0.55" stop-color="#2a5519" />
+          <stop offset="1" stop-color="#173210" />
+        </linearGradient>
+        <!-- garlic -->
+        <radialGradient id="f01-accroche-g-garlic" cx="0.32" cy="0.34" r="0.85">
+          <stop offset="0" stop-color="#ffffff" />
+          <stop offset="0.35" stop-color="#fff6ea" />
+          <stop offset="0.72" stop-color="#f3dcd8" />
+          <stop offset="1" stop-color="#d9b1b0" />
+        </radialGradient>
+        <linearGradient id="f01-accroche-g-husk" x1="0" y1="0" x2="1" y2="1">
+          <stop offset="0" stop-color="#ecd2ad" />
+          <stop offset="1" stop-color="#b98d5e" />
+        </linearGradient>
+        <!-- peppercorn -->
+        <radialGradient id="f01-accroche-g-pepper" cx="0.34" cy="0.3" r="0.8">
+          <stop offset="0" stop-color="#94573a" />
+          <stop offset="0.45" stop-color="#55241a" />
+          <stop offset="1" stop-color="#220a07" />
+        </radialGradient>
+        <radialGradient id="f01-accroche-g-pink" cx="0.34" cy="0.3" r="0.8">
+          <stop offset="0" stop-color="#f0788c" />
+          <stop offset="0.5" stop-color="#c22a40" />
+          <stop offset="1" stop-color="#7b1421" />
+        </radialGradient>
+        <!-- red onion -->
+        <radialGradient id="f01-accroche-g-onion" cx="0.33" cy="0.36" r="0.85">
+          <stop offset="0" stop-color="#d0698f" />
+          <stop offset="0.4" stop-color="#9c2b5c" />
+          <stop offset="0.8" stop-color="#6c1640" />
+          <stop offset="1" stop-color="#4c0d2c" />
+        </radialGradient>
+        <linearGradient id="f01-accroche-g-onion-neck" x1="0" y1="0" x2="1" y2="1">
+          <stop offset="0" stop-color="#c98a6c" />
+          <stop offset="1" stop-color="#7a3f2c" />
+        </linearGradient>
+        <!-- wood -->
+        <linearGradient id="f01-accroche-g-wood" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0" stop-color="#ecc08a" />
+          <stop offset="0.45" stop-color="#c98d55" />
+          <stop offset="1" stop-color="#8a5230" />
+        </linearGradient>
+        <radialGradient id="f01-accroche-g-wood-bowl" cx="0.35" cy="0.3" r="0.9">
+          <stop offset="0" stop-color="#e8b47c" />
+          <stop offset="0.5" stop-color="#c0814b" />
+          <stop offset="1" stop-color="#7f4826" />
+        </radialGradient>
+        <radialGradient id="f01-accroche-g-wood-inner" cx="0.6" cy="0.7" r="0.8">
+          <stop offset="0" stop-color="#a86a3c" />
+          <stop offset="1" stop-color="#5f3019" />
+        </radialGradient>
+        <!-- spices -->
+        <radialGradient id="f01-accroche-g-gold-heap" cx="0.4" cy="0.25" r="0.85">
+          <stop offset="0" stop-color="#ffe680" />
+          <stop offset="0.4" stop-color="#fbd021" />
+          <stop offset="0.8" stop-color="#f9a825" />
+          <stop offset="1" stop-color="#d9860c" />
+        </radialGradient>
+        <radialGradient id="f01-accroche-g-red-heap" cx="0.4" cy="0.2" r="0.9">
+          <stop offset="0" stop-color="#f0683a" />
+          <stop offset="0.55" stop-color="#d23a1e" />
+          <stop offset="1" stop-color="#a40c21" />
+        </radialGradient>
+        <!-- mortar -->
+        <radialGradient id="f01-accroche-g-mortar" cx="0.3" cy="0.2" r="1">
+          <stop offset="0" stop-color="#c98552" />
+          <stop offset="0.45" stop-color="#9a5a32" />
+          <stop offset="1" stop-color="#5a2a16" />
+        </radialGradient>
+        <linearGradient id="f01-accroche-g-pestle" x1="0" y1="0" x2="1" y2="0">
+          <stop offset="0" stop-color="#e3b07a" />
+          <stop offset="0.5" stop-color="#c48a55" />
+          <stop offset="1" stop-color="#8f5631" />
+        </linearGradient>
+        <!-- pot -->
+        <radialGradient id="f01-accroche-g-pot" cx="0.3" cy="0.28" r="0.95">
+          <stop offset="0" stop-color="#e2404f" />
+          <stop offset="0.42" stop-color="#b8132b" />
+          <stop offset="0.8" stop-color="#7b1421" />
+          <stop offset="1" stop-color="#560a15" />
+        </radialGradient>
+        <linearGradient id="f01-accroche-g-gold" x1="0" y1="0" x2="1" y2="0">
+          <stop offset="0" stop-color="#f9a825" />
+          <stop offset="0.85" stop-color="#fbd021" />
+        </linearGradient>
+        <linearGradient id="f01-accroche-g-gold-v" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0" stop-color="#ffe17a" />
+          <stop offset="0.5" stop-color="#f9a825" />
+          <stop offset="1" stop-color="#c47a0b" />
+        </linearGradient>
+        <!-- peppercorn symbol -->
+        <symbol id="f01-accroche-pc" viewBox="-20 -20 40 40" overflow="visible">
+          <circle cx="0" cy="0" r="16" fill="url(#f01-accroche-g-pepper)" />
+          <path d="M-9 -4 C-5 -8 1 -7 4 -3 M-2 6 C2 3 8 4 10 8 M-11 6 C-9 9 -6 11 -3 11 M5 -11 C8 -9 10 -6 11 -2" stroke="#1d0805" stroke-width="1.8" fill="none" stroke-linecap="round" opacity="0.55" />
+          <path d="M-8 -3 C-4 -6 0 -5 3 -2 M-1 7 C3 4 7 5 9 9" stroke="#b7795a" stroke-width="1" fill="none" stroke-linecap="round" opacity="0.35" />
+          <ellipse cx="-5.5" cy="-6.5" rx="5" ry="3.4" transform="rotate(-30 -5.5 -6.5)" fill="#ffffff" opacity="0.5" filter="url(#f01-accroche-fsoft)" />
+          <circle cx="-6.5" cy="-7" r="1.7" fill="#ffffff" opacity="0.85" />
+        </symbol>
+        <symbol id="f01-accroche-pk" viewBox="-20 -20 40 40" overflow="visible">
+          <circle cx="0" cy="0" r="16" fill="url(#f01-accroche-g-pink)" />
+          <path d="M-8 -5 C-3 -9 3 -8 6 -3 M-3 7 C2 4 7 6 9 9" stroke="#6e0f1c" stroke-width="1.6" fill="none" stroke-linecap="round" opacity="0.4" />
+          <ellipse cx="-5.5" cy="-6.5" rx="5" ry="3.4" transform="rotate(-30 -5.5 -6.5)" fill="#ffffff" opacity="0.55" filter="url(#f01-accroche-fsoft)" />
+          <circle cx="-6.5" cy="-7" r="1.8" fill="#ffffff" opacity="0.9" />
+        </symbol>
+      </defs>
+    </svg>
+
+    <!-- ===== Track 0: kitchen-light ground ===== -->
+    <div id="f01-accroche-bg" class="clip acc-layer acc-bg" data-start="0" data-duration="4" data-track-index="0">
+      <div class="acc-bokeh" style="left:-140px;top:-160px;width:620px;height:620px;opacity:.75"></div>
+      <div class="acc-bokeh" style="left:1460px;top:-120px;width:560px;height:560px;opacity:.6"></div>
+      <div class="acc-bokeh" style="left:1500px;top:700px;width:520px;height:520px;opacity:.55"></div>
+      <div class="acc-bokeh" style="left:-120px;top:720px;width:480px;height:480px;opacity:.5"></div>
+      <svg class="acc-grain" viewBox="0 0 1920 1080" aria-hidden="true">
+        <defs>
+          <pattern id="f01-accroche-grain" width="96" height="96" patternUnits="userSpaceOnUse">
+            <circle cx="7" cy="11" r="0.9" fill="#7b1421" opacity="0.10" />
+            <circle cx="31" cy="4" r="0.7" fill="#7b1421" opacity="0.08" />
+            <circle cx="58" cy="19" r="1.0" fill="#a0603a" opacity="0.10" />
+            <circle cx="83" cy="9" r="0.8" fill="#7b1421" opacity="0.07" />
+            <circle cx="15" cy="40" r="0.8" fill="#a0603a" opacity="0.09" />
+            <circle cx="44" cy="33" r="0.9" fill="#7b1421" opacity="0.08" />
+            <circle cx="71" cy="47" r="0.7" fill="#7b1421" opacity="0.10" />
+            <circle cx="92" cy="38" r="1.0" fill="#a0603a" opacity="0.08" />
+            <circle cx="5" cy="66" r="1.0" fill="#7b1421" opacity="0.07" />
+            <circle cx="27" cy="72" r="0.7" fill="#a0603a" opacity="0.10" />
+            <circle cx="52" cy="61" r="0.9" fill="#7b1421" opacity="0.09" />
+            <circle cx="77" cy="80" r="0.8" fill="#7b1421" opacity="0.08" />
+            <circle cx="38" cy="90" r="1.0" fill="#a0603a" opacity="0.07" />
+            <circle cx="64" cy="88" r="0.7" fill="#7b1421" opacity="0.10" />
+            <circle cx="88" cy="64" r="0.8" fill="#a0603a" opacity="0.09" />
+            <circle cx="20" cy="54" r="0.6" fill="#ffffff" opacity="0.5" />
+            <circle cx="61" cy="5" r="0.6" fill="#ffffff" opacity="0.5" />
+            <circle cx="85" cy="92" r="0.6" fill="#ffffff" opacity="0.5" />
+          </pattern>
+        </defs>
+        <rect width="1920" height="1080" fill="url(#f01-accroche-grain)" />
+      </svg>
+      <div id="f01-accroche-specks"></div>
+    </div>
+
+    <!-- ===== Track 1: the 2.5D culinary ring ===== -->
+    <div id="f01-accroche-stage" class="clip acc-layer acc-stage" data-start="0" data-duration="4" data-track-index="1">
+      <!-- 0 · piment rouge -->
+      <div class="acc-icon" id="f01-accroche-ic-chili" data-angle="202.5" data-order="0" data-size="272">
+        <svg viewBox="0 0 200 200" aria-label="piment rouge">
+          <ellipse cx="116" cy="186" rx="62" ry="7" fill="rgba(42,8,14,0.28)" filter="url(#f01-accroche-fshadow)" />
+          <path d="M60 62 C74 46 104 48 124 64 C146 82 158 112 165 142 C169 158 173 171 182 184 C166 182 150 170 138 154 C121 131 100 115 78 106 C60 98 50 78 60 62 Z" fill="url(#f01-accroche-g-chili)" />
+          <path d="M78 106 C100 115 121 131 138 154 C150 170 166 182 182 184 C164 176 150 162 136 145 C118 124 98 110 78 106 Z" fill="#5e0613" opacity="0.35" />
+          <path d="M76 66 C96 60 118 70 134 90 C144 103 151 119 155 134" stroke="#ffffff" stroke-width="8" stroke-linecap="round" fill="none" opacity="0.42" filter="url(#f01-accroche-fspec)" />
+          <path d="M86 67 C99 64 112 68 122 76" stroke="#ffffff" stroke-width="3.6" stroke-linecap="round" fill="none" opacity="0.8" />
+          <path d="M146 122 C150 130 153 138 155 146" stroke="#ffffff" stroke-width="2.4" stroke-linecap="round" fill="none" opacity="0.45" />
+          <!-- calyx -->
+          <path d="M44 68 C44 54 58 48 70 52 C80 55 86 62 86 70 C80 69 76 74 75 82 C69 78 63 81 59 88 C55 82 46 80 44 68 Z" fill="url(#f01-accroche-g-green)" />
+          <path d="M52 62 C58 56 68 56 76 60" stroke="#a6d77a" stroke-width="2.4" stroke-linecap="round" fill="none" opacity="0.7" />
+          <!-- stem -->
+          <path d="M62 56 C58 42 62 30 76 20" stroke="url(#f01-accroche-g-green-dark)" stroke-width="9" stroke-linecap="round" fill="none" />
+          <path d="M60 50 C59 40 63 32 71 25" stroke="#8cc45e" stroke-width="2.4" stroke-linecap="round" fill="none" opacity="0.7" />
+        </svg>
+      </div>
+
+      <!-- 1 · gousse d'ail -->
+      <div class="acc-icon" id="f01-accroche-ic-garlic" data-angle="247.5" data-order="1" data-size="244">
+        <svg viewBox="0 0 200 200" aria-label="ail">
+          <ellipse cx="104" cy="187" rx="62" ry="7" fill="rgba(42,8,14,0.28)" filter="url(#f01-accroche-fshadow)" />
+          <!-- bulb -->
+          <path d="M98 32 C96 52 82 60 68 72 C48 88 38 110 42 136 C46 162 70 178 98 178 C126 178 150 162 154 136 C158 110 148 88 128 72 C114 60 100 52 98 32 Z" fill="url(#f01-accroche-g-garlic)" />
+          <path d="M98 40 C86 70 74 112 82 174" stroke="#d6aeb0" stroke-width="2.6" fill="none" stroke-linecap="round" />
+          <path d="M98 40 C110 70 122 112 114 174" stroke="#d6aeb0" stroke-width="2.6" fill="none" stroke-linecap="round" />
+          <path d="M96 50 C68 78 52 118 62 160" stroke="#dcb9ba" stroke-width="2.2" fill="none" stroke-linecap="round" />
+          <path d="M100 50 C128 78 144 118 134 160" stroke="#dcb9ba" stroke-width="2.2" fill="none" stroke-linecap="round" />
+          <path d="M82 174 C78 156 78 138 82 118 M114 174 C118 156 118 138 114 118 M62 160 C58 146 58 132 62 118 M134 160 C138 146 138 132 134 118" stroke="#a5587a" stroke-width="3" fill="none" stroke-linecap="round" opacity="0.28" />
+          <path d="M68 158 C72 166 80 172 90 175" stroke="#b9608a" stroke-width="2" fill="none" stroke-linecap="round" opacity="0.3" />
+          <!-- dry tip -->
+          <path d="M93 36 C94 24 98 15 106 8 L109 11 C103 18 102 27 104 36 Z" fill="url(#f01-accroche-g-husk)" />
+          <!-- root plate + roots -->
+          <ellipse cx="98" cy="176" rx="15" ry="4" fill="#e3c39a" />
+          <path d="M88 177 l-5 7 M94 178 l-2 8 M100 178 l1 8 M106 178 l4 7 M111 177 l6 5" stroke="#b58c62" stroke-width="2" stroke-linecap="round" />
+          <!-- specular -->
+          <ellipse cx="70" cy="108" rx="11" ry="26" transform="rotate(18 70 108)" fill="#ffffff" opacity="0.7" filter="url(#f01-accroche-fspec)" />
+          <!-- single clove -->
+          <g transform="rotate(28 160 150)">
+            <path d="M160 108 C176 124 180 152 170 176 C160 180 150 178 146 172 C142 150 148 126 160 108 Z" fill="url(#f01-accroche-g-garlic)" />
+            <path d="M160 112 C154 132 152 154 156 174" stroke="#d3a9ad" stroke-width="2" fill="none" stroke-linecap="round" />
+            <path d="M147 172 C155 176 164 177 170 175" stroke="#b98d5e" stroke-width="3" fill="none" stroke-linecap="round" opacity="0.6" />
+            <ellipse cx="153" cy="140" rx="3.5" ry="12" fill="#ffffff" opacity="0.75" filter="url(#f01-accroche-fsoft)" />
+          </g>
+        </svg>
+      </div>
+
+      <!-- 2 · feuilles de laurier -->
+      <div class="acc-icon" id="f01-accroche-ic-bay" data-angle="292.5" data-order="2" data-size="256">
+        <svg viewBox="0 0 200 200" aria-label="laurier">
+          <ellipse cx="104" cy="186" rx="60" ry="7" fill="rgba(42,8,14,0.24)" filter="url(#f01-accroche-fshadow)" />
+          <!-- back leaf -->
+          <path d="M28 128 C52 78 100 40 162 30 C152 84 104 126 28 128 Z" fill="url(#f01-accroche-g-green-dark)" />
+          <path d="M28 128 C72 98 118 64 162 30" stroke="#6da544" stroke-width="2.4" fill="none" opacity="0.7" stroke-linecap="round" />
+          <!-- front leaf -->
+          <path d="M40 176 C56 114 108 66 178 54 C172 116 118 166 40 176 Z" fill="url(#f01-accroche-g-green)" />
+          <path d="M40 176 C80 140 130 96 178 54" stroke="#b5e08c" stroke-width="3" fill="none" opacity="0.85" stroke-linecap="round" />
+          <path d="M66 150 C66 136 70 124 76 114 M84 134 C86 118 92 106 100 96 M104 116 C108 100 116 88 126 80 M124 98 C130 86 138 76 148 70 M70 146 C84 146 96 142 106 136 M90 128 C104 128 116 124 126 118 M110 110 C124 110 136 104 144 98 M130 92 C142 90 152 84 160 78" stroke="#2a5519" stroke-width="1.8" fill="none" opacity="0.45" stroke-linecap="round" />
+          <path d="M60 140 C76 104 112 76 160 64" stroke="#ffffff" stroke-width="7" fill="none" opacity="0.38" stroke-linecap="round" filter="url(#f01-accroche-fspec)" />
+          <path d="M40 176 L30 188" stroke="#2a5519" stroke-width="4.5" stroke-linecap="round" />
+        </svg>
+      </div>
+
+      <!-- 3 · grains de poivre -->
+      <div class="acc-icon" id="f01-accroche-ic-pepper" data-angle="337.5" data-order="3" data-size="236">
+        <svg viewBox="0 0 200 200" aria-label="grains de poivre">
+          <ellipse cx="102" cy="184" rx="74" ry="8" fill="rgba(42,8,14,0.3)" filter="url(#f01-accroche-fshadow)" />
+          <use href="#f01-accroche-pc" x="83.2" y="73.2" width="37.5" height="37.5" transform="rotate(40 102 92)" />
+          <use href="#f01-accroche-pc" x="64.0" y="95.0" width="40.0" height="40.0" transform="rotate(-20 84 115)" />
+          <use href="#f01-accroche-pk" x="99.0" y="93.0" width="40.0" height="40.0" transform="rotate(70 119 113)" />
+          <use href="#f01-accroche-pc" x="44.0" y="119.0" width="40.0" height="40.0" transform="rotate(110 64 139)" />
+          <use href="#f01-accroche-pc" x="77.8" y="115.8" width="42.5" height="42.5" transform="rotate(-60 99 137)" />
+          <use href="#f01-accroche-pc" x="114.0" y="119.0" width="40.0" height="40.0" transform="rotate(15 134 139)" />
+          <use href="#f01-accroche-pc" x="24.2" y="144.2" width="37.5" height="37.5" transform="rotate(-100 43 163)" />
+          <use href="#f01-accroche-pc" x="55.8" y="140.8" width="42.5" height="42.5" transform="rotate(25 77 162)" />
+          <use href="#f01-accroche-pk" x="92.0" y="142.0" width="40.0" height="40.0" transform="rotate(-35 112 162)" />
+          <use href="#f01-accroche-pc" x="127.0" y="143.0" width="40.0" height="40.0" transform="rotate(80 147 163)" />
+          <use href="#f01-accroche-pc" x="161.0" y="157.0" width="30.0" height="30.0" transform="rotate(-140 176 172)" />
+          <use href="#f01-accroche-pk" x="6.2" y="159.2" width="27.5" height="27.5" transform="rotate(60 20 173)" />
+        </svg>
+      </div>
+
+      <!-- 4 · oignon rouge -->
+      <div class="acc-icon" id="f01-accroche-ic-onion" data-angle="22.5" data-order="4" data-size="248">
+        <svg viewBox="0 0 200 200" aria-label="oignon rouge">
+          <ellipse cx="100" cy="188" rx="58" ry="7" fill="rgba(42,8,14,0.3)" filter="url(#f01-accroche-fshadow)" />
+          <path d="M100 38 C98 56 86 64 72 74 C52 88 40 110 44 136 C48 162 72 180 100 180 C128 180 152 162 156 136 C160 110 148 88 128 74 C114 64 102 56 100 38 Z" fill="url(#f01-accroche-g-onion)" />
+          <path d="M100 44 C84 80 70 122 82 176 M100 44 C116 80 130 122 118 176 M98 48 C74 76 52 112 60 160 M102 48 C126 76 148 112 140 160 M100 44 C99 90 99 132 100 180" stroke="#43092a" stroke-width="2.2" fill="none" opacity="0.32" stroke-linecap="round" />
+          <path d="M96 52 C80 84 70 120 76 166 M104 52 C120 84 130 120 124 166 M95 54 C66 84 52 118 54 150" stroke="#eba0c0" stroke-width="1.6" fill="none" opacity="0.32" stroke-linecap="round" />
+          <!-- papery neck -->
+          <path d="M95 44 C94 30 97 20 107 11 L111 14 C103 22 103 32 106 44 C103 47 98 47 95 44 Z" fill="url(#f01-accroche-g-onion-neck)" />
+          <!-- roots -->
+          <ellipse cx="100" cy="178" rx="12" ry="3.5" fill="#caa07a" />
+          <path d="M91 179 l-5 7 M97 180 l-2 8 M103 180 l2 8 M109 179 l5 6" stroke="#c49a72" stroke-width="2" stroke-linecap="round" />
+          <!-- specular -->
+          <ellipse cx="72" cy="104" rx="12" ry="24" transform="rotate(24 72 104)" fill="#ffffff" opacity="0.5" filter="url(#f01-accroche-fspec)" />
+          <ellipse cx="68" cy="98" rx="3.2" ry="9" transform="rotate(24 68 98)" fill="#ffffff" opacity="0.8" />
+        </svg>
+      </div>
+
+      <!-- 5 · cuillère en bois -->
+      <div class="acc-icon" id="f01-accroche-ic-spoon" data-angle="67.5" data-order="5" data-size="276">
+        <svg viewBox="0 0 200 200" aria-label="cuillère en bois">
+          <ellipse cx="100" cy="182" rx="74" ry="7" fill="rgba(42,8,14,0.26)" filter="url(#f01-accroche-fshadow)" />
+          <g transform="rotate(-34 100 104)">
+            <!-- handle -->
+            <rect x="-4" y="96" width="128" height="15" rx="7.5" fill="url(#f01-accroche-g-wood)" />
+            <path d="M6 100 L112 99" stroke="#ffffff" stroke-width="3" stroke-linecap="round" opacity="0.45" filter="url(#f01-accroche-fsoft)" />
+            <path d="M14 106 C40 104 70 107 104 105 M30 102 C52 103 70 101 92 102" stroke="#8a5230" stroke-width="1.2" fill="none" opacity="0.35" stroke-linecap="round" />
+            <!-- neck -->
+            <path d="M118 96 C128 96 136 92 146 86 L148 122 C138 116 128 111 118 111 Z" fill="url(#f01-accroche-g-wood)" />
+            <!-- bowl -->
+            <ellipse cx="170" cy="104" rx="34" ry="26" fill="url(#f01-accroche-g-wood-bowl)" />
+            <ellipse cx="171" cy="103" rx="26" ry="19" fill="url(#f01-accroche-g-wood-inner)" />
+            <!-- golden spice heap -->
+            <path d="M148 108 C150 92 162 84 174 85 C186 86 194 96 194 107 C182 114 160 115 148 108 Z" fill="url(#f01-accroche-g-gold-heap)" />
+            <circle cx="160" cy="100" r="1.4" fill="#c47a0b" /><circle cx="172" cy="94" r="1.2" fill="#c47a0b" /><circle cx="182" cy="102" r="1.5" fill="#c47a0b" /><circle cx="168" cy="106" r="1.1" fill="#fff3b0" /><circle cx="178" cy="92" r="1" fill="#fff3b0" />
+            <ellipse cx="166" cy="92" rx="8" ry="3.5" fill="#ffffff" opacity="0.55" filter="url(#f01-accroche-fsoft)" />
+            <path d="M146 92 C152 82 166 78 180 80" stroke="#ffffff" stroke-width="3" fill="none" opacity="0.5" stroke-linecap="round" filter="url(#f01-accroche-fsoft)" />
+          </g>
+        </svg>
+      </div>
+
+      <!-- 6 · mortier & pilon -->
+      <div class="acc-icon" id="f01-accroche-ic-mortar" data-angle="112.5" data-order="6" data-size="258">
+        <svg viewBox="0 0 200 200" aria-label="mortier et pilon">
+          <ellipse cx="100" cy="186" rx="70" ry="8" fill="rgba(42,8,14,0.3)" filter="url(#f01-accroche-fshadow)" />
+          <!-- opening -->
+          <ellipse cx="100" cy="92" rx="66" ry="15" fill="#4a2212" />
+          <path d="M44 96 C64 84 136 84 156 96 C136 104 64 104 44 96 Z" fill="url(#f01-accroche-g-red-heap)" />
+          <circle cx="78" cy="92" r="1.4" fill="#7b1421" /><circle cx="118" cy="90" r="1.3" fill="#7b1421" /><circle cx="98" cy="95" r="1.2" fill="#ffb27a" />
+          <!-- pestle -->
+          <path d="M104 98 L154 24" stroke="url(#f01-accroche-g-pestle)" stroke-width="20" stroke-linecap="round" />
+          <path d="M150 28 L104 96" stroke="#8f5631" stroke-width="5" stroke-linecap="round" opacity="0.35" transform="translate(6 3)" />
+          <path d="M98 88 L146 20" stroke="#ffffff" stroke-width="4" stroke-linecap="round" opacity="0.5" filter="url(#f01-accroche-fsoft)" />
+          <!-- bowl body (covers pestle foot) -->
+          <path d="M32 94 C32 140 62 168 100 168 C138 168 168 140 168 94 C150 104 50 104 32 94 Z" fill="url(#f01-accroche-g-mortar)" />
+          <!-- rim lip -->
+          <path d="M32 94 C50 104 150 104 168 94 C168 98 167 101 166 104 C146 113 54 113 34 104 C33 101 32 98 32 94 Z" fill="#c88a58" />
+          <path d="M40 120 C70 134 130 134 160 120 M48 142 C76 154 124 154 152 142" stroke="#4a2212" stroke-width="2" fill="none" opacity="0.28" stroke-linecap="round" />
+          <!-- foot -->
+          <path d="M70 164 L130 164 L136 180 C112 184 88 184 64 180 Z" fill="#6b3a22" />
+          <!-- specular -->
+          <ellipse cx="56" cy="126" rx="9" ry="20" transform="rotate(28 56 126)" fill="#ffffff" opacity="0.4" filter="url(#f01-accroche-fspec)" />
+          <path d="M40 100 C60 108 90 110 120 109" stroke="#ffffff" stroke-width="2.4" fill="none" opacity="0.5" stroke-linecap="round" filter="url(#f01-accroche-fsoft)" />
+        </svg>
+      </div>
+
+      <!-- 7 · petite marmite -->
+      <div class="acc-icon" id="f01-accroche-ic-pot" data-angle="157.5" data-order="7" data-size="262">
+        <svg viewBox="0 0 200 200" aria-label="marmite">
+          <ellipse cx="100" cy="186" rx="66" ry="8" fill="rgba(42,8,14,0.3)" filter="url(#f01-accroche-fshadow)" />
+          <!-- steam -->
+          <path d="M76 52 C66 42 86 34 76 22 M100 46 C90 34 112 26 100 12 M124 52 C114 42 134 34 124 22" stroke="#ffffff" stroke-width="7" fill="none" stroke-linecap="round" opacity="0.85" filter="url(#f01-accroche-fsoft)" />
+          <!-- handles -->
+          <rect x="20" y="104" width="26" height="13" rx="6.5" fill="#6e0f1c" />
+          <rect x="154" y="104" width="26" height="13" rx="6.5" fill="#6e0f1c" />
+          <!-- body -->
+          <path d="M38 100 L162 100 C162 108 160 140 156 154 C152 168 138 176 122 176 L78 176 C62 176 48 168 44 154 C40 140 38 108 38 100 Z" fill="url(#f01-accroche-g-pot)" />
+          <!-- golden band -->
+          <path d="M40 120 C78 127 122 127 160 120 L159 131 C122 138 78 138 41 131 Z" fill="url(#f01-accroche-g-gold-v)" />
+          <!-- rim -->
+          <rect x="33" y="94" width="134" height="11" rx="5.5" fill="#8e1022" />
+          <!-- lid -->
+          <path d="M44 95 C48 70 152 70 156 95 Z" fill="url(#f01-accroche-g-pot)" />
+          <path d="M60 86 C72 76 96 73 118 75" stroke="#ffffff" stroke-width="3.5" fill="none" opacity="0.55" stroke-linecap="round" filter="url(#f01-accroche-fsoft)" />
+          <!-- knob -->
+          <rect x="94" y="64" width="12" height="9" fill="#c47a0b" />
+          <ellipse cx="100" cy="63" rx="15" ry="7.5" fill="url(#f01-accroche-g-gold-v)" />
+          <ellipse cx="95" cy="60.5" rx="5" ry="2" fill="#ffffff" opacity="0.7" />
+          <!-- specular -->
+          <ellipse cx="60" cy="146" rx="8" ry="18" transform="rotate(10 60 146)" fill="#ffffff" opacity="0.45" filter="url(#f01-accroche-fspec)" />
+          <path d="M54 108 L56 116" stroke="#ffffff" stroke-width="4" stroke-linecap="round" opacity="0.6" />
+        </svg>
+      </div>
+    </div>
+
+    <!-- ===== Track 2: the question ===== -->
+    <div id="f01-accroche-text" class="clip acc-layer acc-text" data-start="0" data-duration="4" data-track-index="2">
+      <div class="acc-question" id="f01-accroche-question">
+        <div class="acc-line" id="f01-accroche-line1"><span class="acc-w">Envie</span> <span class="acc-w">de</span> <span class="acc-gold" id="f01-accroche-gold"><span class="acc-w acc-w-gold">relever</span> <span class="acc-w acc-w-gold">le</span> <span class="acc-w acc-w-gold">goût</span><svg class="acc-trait" id="f01-accroche-trait" viewBox="0 0 720 40" preserveAspectRatio="none" aria-hidden="true"><path id="f01-accroche-trait-main" d="M10 22 C120 13 250 27 380 19 C500 12 610 22 708 14" pathLength="100" stroke="url(#f01-accroche-g-gold)" stroke-width="12" stroke-linecap="round" fill="none" /><path id="f01-accroche-trait-dry" d="M30 30 C150 23 270 33 400 27 C510 22 600 28 680 23" pathLength="100" stroke="#fbd021" stroke-width="3.5" stroke-linecap="round" fill="none" opacity="0.8" /></svg><span class="acc-pinch" id="f01-accroche-pinch"></span></span></div>
+        <div class="acc-line" id="f01-accroche-line2"><span class="acc-w">de</span> <span class="acc-w">vos</span> <span class="acc-w">plats</span> <span class="acc-w">du</span> <span class="acc-w">quotidien</span>&nbsp;<span class="acc-w" id="f01-accroche-qmark">?</span></div>
+      </div>
+    </div>
+
+    <!-- ===== Track 3: seam A — the bordeaux iris (exit state: full frame #2a070d) ===== -->
+    <div id="f01-accroche-iris" class="clip acc-layer acc-iris" data-start="0" data-duration="4" data-track-index="3"><div class="acc-iris-rim" id="f01-accroche-iris-rim"></div></div>
+  </div>
+
+  <script src="../assets/vendor/gsap.min.js"></script>
+  <script>
+    (function () {
+      const ID = "01-accroche";
+      const $ = (id) => document.getElementById("f" + ID + "-" + id);
+      const tl = gsap.timeline({ paused: true });
+
+      const stage = $("stage");
+      const textLayer = $("text");
+      const iris = $("iris");
+      const qmark = $("qmark");
+
+      // ---------- deterministic helpers ----------
+      const clamp01 = (v) => (v < 0 ? 0 : v > 1 ? 1 : v);
+      const prand = (n) => {
+        const x = Math.sin(n * 127.1 + 311.7) * 43758.5453;
+        return x - Math.floor(x);
+      };
+      const eBurst = gsap.parseEase("back.out(1.45)");
+      const ePop = gsap.parseEase("back.out(1.7)");
+      const eOut3 = gsap.parseEase("power3.out");
+      const eIn3 = gsap.parseEase("power3.in");
+      const eIn2 = gsap.parseEase("power2.in");
+      const eSine = gsap.parseEase("sine.inOut");
+      const eDraw = gsap.parseEase("power2.inOut");
+
+      // ---------- ring geometry: superellipse orbit (clears the 2-line question at every angle) ----------
+      const RX = 742, RY = 322, NEXP = 4;
+      const ring = (th) => {
+        const c = Math.cos(th), s = Math.sin(th);
+        const r = 1 / Math.pow(Math.pow(Math.abs(c) / RX, NEXP) + Math.pow(Math.abs(s) / RY, NEXP), 1 / NEXP);
+        return { x: r * c, y: r * s, s: s, c: c };
+      };
+      const PERSP = 1800, ZAMP = 115;
+      const ORBIT = (32 * Math.PI) / 180; // slow drift of the ring over 0.9–3.5 s
+
+      // ---------- icons ----------
+      const icons = Array.prototype.map.call(stage.querySelectorAll(".acc-icon"), (el, i) => {
+        const size = Number(el.dataset.size);
+        el.style.width = size + "px";
+        el.style.height = size + "px";
+        el.style.marginLeft = -size / 2 + "px";
+        el.style.marginTop = -size / 2 + "px";
+        return {
+          el: el,
+          th0: (Number(el.dataset.angle) * Math.PI) / 180,
+          s0: 0.06 + Number(el.dataset.order) * 0.06,
+          ph: prand(i * 3 + 1) * Math.PI * 2,
+          k: i,
+          dq: 0,
+        };
+      });
+
+      // shortest way round the ring from each icon's end-of-orbit angle to the angle of the « ? »
+      icons.forEach((ic) => {
+        const thQ = Math.atan2(588 - 540, 1561 - 960);
+        let d = thQ - (ic.th0 + ORBIT);
+        while (d > Math.PI) d -= Math.PI * 2;
+        while (d <= -Math.PI) d += Math.PI * 2;
+        ic.dq = d;
+      });
+
+      // ---------- background spice specks ----------
+      const speckHost = $("specks");
+      const specks = [];
+      for (let i = 0; i < 11; i++) {
+        const d = document.createElement("div");
+        d.className = "acc-speck";
+        const sz = 5 + prand(i * 7 + 2) * 9;
+        d.style.width = sz + "px";
+        d.style.height = sz * (0.8 + prand(i * 5 + 9) * 0.3) + "px";
+        if (prand(i * 13 + 4) > 0.55) d.style.filter = "blur(" + (1 + prand(i * 3 + 8) * 2).toFixed(2) + "px)";
+        speckHost.appendChild(d);
+        // spread on a loose ring, away from the text block
+        const a = (i / 11) * Math.PI * 2 + prand(i * 11 + 1) * 0.5;
+        const rr = 0.55 + prand(i * 17 + 3) * 0.45;
+        specks.push({
+          el: d,
+          x0: 960 + Math.cos(a) * 880 * rr,
+          y0: 540 + Math.sin(a) * 470 * rr,
+          ax: 10 + prand(i * 19 + 5) * 16,
+          rise: 10 + prand(i * 23 + 6) * 16,
+          w: 0.6 + prand(i * 29 + 7) * 0.8,
+          ph: prand(i * 31 + 8) * Math.PI * 2,
+          op: 0.55 + prand(i * 37 + 9) * 0.4,
+        });
+      }
+
+      // ---------- pinch of golden dust from the brush ----------
+      const pinchHost = $("pinch");
+      const dust = [];
+      const DUST_N = 22;
+      const DUST_COLORS = ["#f9a825", "#fbd021", "#e8901a", "#f9a825", "#ffe07a", "#d8860c", "#fbd021", "#ffffff"];
+      for (let i = 0; i < DUST_N; i++) {
+        const d = document.createElement("div");
+        d.className = "acc-dust";
+        const sz = 5.5 + prand(i * 41 + 3) * 7.5;
+        d.style.width = sz + "px";
+        d.style.height = sz + "px";
+        d.style.marginLeft = -sz / 2 + "px";
+        d.style.marginTop = -sz / 2 + "px";
+        d.style.background = DUST_COLORS[i % DUST_COLORS.length];
+        pinchHost.appendChild(d);
+        dust.push({
+          el: d,
+          birth: 1.04 + (i / (DUST_N - 1)) * 0.4 + prand(i * 43 + 1) * 0.04,
+          vx: (prand(i * 47 + 2) - 0.35) * 120,
+          vy: -(40 + prand(i * 53 + 4) * 120),
+          life: 0.8 + prand(i * 59 + 5) * 0.4,
+        });
+      }
+
+      // ---------- fixed composition coordinates (measured once from the laid-out 92px question) ----------
+      const QX = 1561, QY = 588; // centre of the « ? » glyph — origin of the suction and of the iris
+      const GOLD_W = 692; // width of the « relever le goût » group carrying the brushstroke
+
+      // trait timing (gold underline draws under « relever le goût »)
+      const TRAIT_AT = 0.98, TRAIT_DUR = 0.45;
+
+      // ---------- per-frame pure render of the ring, specks, dust and iris ----------
+      const rim = $("iris-rim");
+      const render = (t) => {
+        // specks: slow drift
+        const fade = clamp01(t / 0.6);
+        for (let i = 0; i < specks.length; i++) {
+          const p = specks[i];
+          const x = p.x0 + Math.sin(t * p.w + p.ph) * p.ax;
+          const y = p.y0 - t * p.rise + Math.cos(t * p.w * 0.8 + p.ph) * 6;
+          p.el.style.transform = "translate(" + x.toFixed(2) + "px," + y.toFixed(2) + "px)";
+          p.el.style.opacity = (p.op * fade).toFixed(3);
+        }
+
+        // golden pinch — ballistic, pure function of t
+        for (let i = 0; i < dust.length; i++) {
+          const p = dust[i];
+          const a = t - p.birth;
+          if (a <= 0 || a >= p.life) {
+            p.el.style.opacity = "0";
+            continue;
+          }
+          const tip = eDraw(clamp01((p.birth - TRAIT_AT) / TRAIT_DUR));
+          const x0 = GOLD_W * (-0.02 + 1.04 * tip);
+          const x = x0 + p.vx * a;
+          const y = -6 + p.vy * a + 0.5 * 900 * a * a;
+          const lf = a / p.life;
+          const sc = lf < 0.15 ? 0.4 + (lf / 0.15) * 0.6 : 1 - (lf - 0.15) * 0.45;
+          p.el.style.transform = "translate(" + x.toFixed(2) + "px," + y.toFixed(2) + "px) scale(" + sc.toFixed(3) + ")";
+          p.el.style.opacity = (lf < 0.55 ? 1 : 1 - (lf - 0.55) / 0.45).toFixed(3);
+        }
+
+        // ring of icons
+        const qx = QX - 960, qy = QY - 540;
+        const orb = eSine(clamp01((t - 0.9) / 2.6));
+        for (let i = 0; i < icons.length; i++) {
+          const ic = icons[i];
+          const u = clamp01((t - ic.s0) / 0.56);
+          if (u <= 0) {
+            ic.el.style.opacity = "0";
+            continue;
+          }
+          // suction toward the « ? »: the icon whirls along the ring (never across the question) and dives in
+          const su = clamp01((t - (3.48 + ic.k * 0.012)) / 0.38);
+          const se = su > 0 ? eIn3(su) : 0;
+          const th = ic.th0 + ORBIT * orb + (su > 0 ? ic.dq * eIn2(su) : 0);
+          const p = ring(th);
+          const burst = eBurst(u);
+          let x = p.x * burst;
+          let y = p.y * burst;
+          let z = ZAMP * p.s * clamp01(burst);
+          let sc = ePop(u);
+          let op = clamp01(u * 5);
+          let spin = 0;
+          if (su > 0) {
+            x = x + (qx - x) * se;
+            y = y + (qy - y) * se;
+            z = z * (1 - se);
+            sc = sc * (1 - 0.8 * eIn2(su));
+            spin = (ic.dq > 0 ? 1 : -1) * 160 * eIn2(su);
+            op = op * (su > 0.85 ? 1 - (su - 0.85) / 0.15 : 1);
+          }
+          const breathe = 1 + 0.03 * Math.sin((t / 1.45) * Math.PI * 2 + ic.ph);
+          const zf = (PERSP - z) / PERSP; // keep the projected path exactly on the ring
+          const rotY = (1 - eOut3(u)) * 70 + 9 * p.c * (1 - se);
+          ic.el.style.transform =
+            "translate3d(" + (x * zf).toFixed(2) + "px," + (y * zf).toFixed(2) + "px," + z.toFixed(2) + "px) rotateY(" + rotY.toFixed(2) + "deg) rotate(" + spin.toFixed(2) + "deg) scale(" + (sc * breathe).toFixed(4) + ")";
+          ic.el.style.opacity = op.toFixed(3);
+          ic.el.style.zIndex = String(10 + Math.round(p.s * 9));
+        }
+
+        // seam A — bordeaux iris blooming out of the « ? », gold-rimmed
+        const iu = clamp01((t - 3.55) / 0.4);
+        const r = 2300 * eIn2(iu);
+        iris.style.clipPath = "circle(" + (r > 0.5 ? r + 3 : 0).toFixed(1) + "px at " + QX + "px " + QY + "px)";
+        rim.style.width = rim.style.height = (2 * (r + 3)).toFixed(1) + "px";
+        rim.style.transform = "translate(" + (QX - r - 3).toFixed(1) + "px," + (QY - r - 3).toFixed(1) + "px)";
+        rim.style.opacity = r > 1 && r < 1900 ? "1" : "0";
+      };
+
+      const drv = { t: 0 };
+      tl.fromTo(drv, { t: 0 }, { t: 4, duration: 4, ease: "none", onUpdate: () => render(drv.t) }, 0);
+      render(0);
+
+      // ---------- the question, word by word on the voice ----------
+      const words = Array.prototype.slice.call(textLayer.querySelectorAll(".acc-w"));
+      // Envie de | relever le goût | de vos | plats du quotidien ?
+      const WORD_AT = [0.45, 0.6, 0.75, 0.92, 1.06, 1.55, 1.75, 2.0, 2.2, 2.38, 2.84];
+      words.forEach((w, i) => {
+        tl.fromTo(
+          w,
+          { y: 40, scale: 0.9, opacity: 0 },
+          { y: 0, scale: 1, opacity: 1, duration: 0.4, ease: "back.out(1.6)" },
+          WORD_AT[i]
+        );
+      });
+      // the « ? » gets a small settle-punch right before the iris blooms out of it
+      tl.fromTo(qmark, { rotation: 0 }, { rotation: -8, duration: 0.22, ease: "power2.out" }, 3.28);
+      tl.to(qmark, { rotation: 0, duration: 0.24, ease: "power2.inOut" }, 3.5);
+
+      // ---------- the gold brushstroke under « relever le goût » ----------
+      const trMain = $("trait-main");
+      const trDry = $("trait-dry");
+      tl.fromTo(trMain, { strokeDasharray: 100, strokeDashoffset: 100 }, { strokeDashoffset: 0, duration: TRAIT_DUR, ease: "power2.inOut" }, TRAIT_AT);
+      tl.fromTo(trDry, { strokeDasharray: 100, strokeDashoffset: 100 }, { strokeDashoffset: 0, duration: TRAIT_DUR, ease: "power2.inOut" }, TRAIT_AT + 0.06);
+
+      window.__timelines = window.__timelines || {};
+      window.__timelines["01-accroche"] = tl;
+    })();
+  </script>
+</template>

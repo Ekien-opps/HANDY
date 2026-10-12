@@ -13,7 +13,7 @@ cp "$PROJ/hyperframes.json" "$H/hyperframes.json"
 cat > "$H/index.html" <<HTML
 <!doctype html>
 <html lang="fr"><head><meta charset="UTF-8"/><meta name="viewport" content="width=1920, height=1080"/>
-<script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
+<script src="assets/vendor/gsap.min.js"></script>
 <style>*{margin:0;padding:0;box-sizing:border-box}html,body{width:1920px;height:1080px;overflow:hidden;background:#000}#root{width:100%;height:100%;position:relative;overflow:hidden}</style></head>
 <body><div id="root" data-composition-id="main" data-start="0" data-duration="$DUR" data-width="1920" data-height="1080">
 <div id="slot-$ID" data-composition-id="$ID" data-composition-src="compositions/$ID.html" data-start="0" data-duration="$DUR" data-track-index="1" data-width="1920" data-height="1080"></div>

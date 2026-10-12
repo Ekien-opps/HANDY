@@ -1,0 +1,29 @@
+{
+  "scene": "06-partage",
+  "duration_s": 4.0,
+  "rules": [
+    "svg-path-draw",
+    "particle-burst",
+    "multi-phase-camera",
+    "viewport-change",
+    "coordinate-target-zoom",
+    "spring-pop-entrance",
+    "sine-wave-loop"
+  ],
+  "blueprint": "zoom-out-workspace-reveal",
+  "exit": {
+    "vector": "none on screen — flat full-frame #7B1421 from 3.96s to 4.00s; last visible motion = camera dive into the central platter, scale 1 -> 6 (power3.in, 3.45-3.97s, ~29x/s scale rate at arrival) while the platter's inner disc irises closed (3.53-3.93s) and a flat #7B1421 cover fades in (3.85-3.96s)",
+    "still_moving": false,
+    "state": "full-frame #7B1421"
+  },
+  "entry": {
+    "vector": "full-frame #FFECD1 cover at t=0 fading out (opacity 1 -> 0, power1.out, 0-0.30s); Marinade Poisson jar lands at left from scale 1.5 + blur 18px -> 1 + 0 (expo.out, 0-0.45s); camera at rest",
+    "from_rest": true,
+    "state": "full-frame #FFECD1"
+  },
+  "camera": [
+    { "t": "0.00-1.30", "move": "static close-up (world scale 3.571 = 1/0.28, centred on the platter)" },
+    { "t": "1.30-3.40", "move": "single decelerating pull-back scale 3.571 -> 1, translate -> 0 (power3.out); macro gesture shrinks x0.28 into the platter, circle clip 1240 -> 592 local px (1.30-2.15), dissolves to the plated dish (1.86-2.36)" },
+    { "t": "3.45-3.97", "move": "seam F dive scale 1 -> 6 centred on the platter (power3.in)" }
+  ]
+}
