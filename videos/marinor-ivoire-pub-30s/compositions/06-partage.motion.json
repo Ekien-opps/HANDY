@@ -22,8 +22,17 @@
     "state": "full-frame #FFECD1"
   },
   "camera": [
-    { "t": "0.00-1.30", "move": "static close-up (world scale 3.571 = 1/0.28, centred on the platter)" },
-    { "t": "1.30-3.40", "move": "single decelerating pull-back scale 3.571 -> 1, translate -> 0 (power3.out); macro gesture shrinks x0.28 into the platter, circle clip 1240 -> 592 local px (1.30-2.15), dissolves to the plated dish (1.86-2.36)" },
-    { "t": "3.45-3.97", "move": "seam F dive scale 1 -> 6 centred on the platter (power3.in)" }
+    {
+      "t": "0.00-1.30",
+      "move": "static close-up (world scale 3.571 = 1/0.28, centred on the platter); micro-action: 3 brush strokes 0.30/0.57/0.84 (0.25 s each), sachet in 0.72-0.94 + tilt to -35deg 0.78-0.98, 90-particle golden pour born 0.90-1.54 landing in the pot from ~1.25"
+    },
+    {
+      "t": "1.30-3.40",
+      "move": "single decelerating pull-back scale 3.571 -> 1, translate -> 0 (power3.out); the macro gesture shrinks x0.28 inside a true circular iris 1240 -> 592 local px (1.30-2.10, power2.out) that lands inside the platter's bordeaux rim, then dissolves to the plated dish (1.86-2.36)"
+    },
+    {
+      "t": "3.45-3.97",
+      "move": "seam F dive scale 1 -> 6 centred on the platter (power3.in)"
+    }
   ]
 }

@@ -29,7 +29,7 @@ version: 2
 - duration: 4s
 - poster: 3.0s
 - transition_in: cut
-- status: outline
+- status: animated
 - src: compositions/01-accroche.html
 - voiceover: "Envie de relever le goût de vos plats du quotidien ?"
 - vo_cues_local: voix 0,45–3,01 · « relever le goût » 0,75–1,30 · « plats du quotidien » 2,00–2,90
@@ -54,7 +54,7 @@ version: 2
 - duration: 4s
 - poster: 2.6s
 - transition_in: cut (raccord A)
-- status: outline
+- status: animated
 - src: compositions/02-doute.html
 - voiceover: "Sans additifs ni substances douteuses pour votre santé ?"
 - vo_cues_local: voix 0,35–3,38 · « Sans additifs » 0,35–1,14 · « substances douteuses » 1,27–2,40 · « votre santé » 2,60–3,26
@@ -81,7 +81,7 @@ version: 2
 - duration: 4s
 - poster: 2.6s
 - transition_in: cut (raccord B)
-- status: outline
+- status: animated
 - src: compositions/03-le-feu.html
 - voiceover: "Pour vos sauces, vos grillades… et tous vos plats,"
 - vo_cues_local: voix 0,30–2,43 · « sauces » 0,40–0,65 · « grillades » 1,05–1,55 · « tous vos plats » 1,75–2,30
@@ -109,7 +109,7 @@ version: 2
 - duration: 4s
 - poster: 3.0s
 - transition_in: cut (raccord C)
-- status: outline
+- status: animated
 - src: compositions/04-terroir.html
 - voiceover: "des épices et marinades cent pour cent naturelles, de Côte d'Ivoire."
 - vo_cues_local: voix 0,15–3,80 · « épices et marinades » 0,15–1,20 · « cent pour cent naturelles » 1,40–2,66 · « de Côte d'Ivoire » 2,80–3,64
@@ -137,7 +137,7 @@ version: 2
 - duration: 6.5s
 - poster: 5.6s
 - transition_in: cut (raccord D, + overlay light-leak posé par l'assembleur)
-- status: outline
+- status: animated
 - src: compositions/05-gamme.html
 - voiceover: "Marin'Or Ivoire : épices, marinades, pâte d'arachide et huile rouge. Toute une gamme pour vous."
 - vo_cues_local: voix 0,45–5,25 · « Marin'Or Ivoire » 0,45–1,46 · « épices » 1,63 · « marinades » 2,05 · « pâte d'arachide » 2,54 · « huile rouge » 3,45 · « Toute une gamme pour vous » 4,18–5,11
@@ -169,7 +169,7 @@ version: 2
 - duration: 4s
 - poster: 2.8s
 - transition_in: cut (raccord E)
-- status: outline
+- status: animated
 - src: compositions/06-partage.html
 - voiceover: "Simple à utiliser, à déguster en famille et entre amis."
 - vo_cues_local: voix 0,20–3,21 · « Simple à utiliser » 0,20–1,24 · « à déguster en famille et entre amis » 1,45–3,08
@@ -197,7 +197,7 @@ version: 2
 - duration: 3.5s
 - poster: 3.3s
 - transition_in: cut (raccord F)
-- status: outline
+- status: animated
 - src: compositions/07-signature.html
 - voiceover: "Marin'Or Ivoire, le goût en or !"
 - vo_cues_local: voix 0,55–2,41 · « Marin'Or Ivoire » 0,55–1,45 · « le goût en or » 1,53–2,25

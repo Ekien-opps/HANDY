@@ -133,7 +133,7 @@
 
   <div id="root" data-composition-id="03-le-feu" data-start="0" data-duration="4" data-width="1920" data-height="1080">
     <!-- ============ WORLD : rail of 3 stations (5760 px) under one camera ============ -->
-    <div id="03-le-feu-world" class="clip lf-world" data-start="0" data-duration="4" data-track-index="0">
+    <div id="f03-le-feu-world" class="clip lf-world" data-start="0" data-duration="4" data-track-index="0">
       <svg class="lf-fx" aria-hidden="true">
         <filter id="lefeu-streak" x="-4%" y="-4%" width="108%" height="108%" color-interpolation-filters="sRGB">
           <feGaussianBlur id="lefeu-streak-blur" in="SourceGraphic" stdDeviation="0 0" />
@@ -346,10 +346,10 @@
                 <path d="M168 -78 C198 -40 202 28 172 86" stroke="#5A220A" stroke-width="6" fill="none" stroke-linecap="round" opacity="0.6" />
                 <path d="M178 -70 C204 -36 206 24 182 78" stroke="#F6C27A" stroke-width="3" fill="none" stroke-linecap="round" opacity="0.55" />
                 <path d="M150 10 C120 18 96 38 86 60 C112 56 138 44 158 26Z" fill="url(#lefeu-fish-fin)" opacity="0.95" />
-                <circle cx="216" cy="-26" r="16" fill="#F7ECDD" />
-                <circle cx="216" cy="-26" r="16" fill="none" stroke="#6A2A10" stroke-width="3.5" />
-                <circle cx="218" cy="-25" r="6.5" fill="#2A0E08" />
-                <circle cx="211" cy="-31" r="3.2" fill="#FFFFFF" />
+                <circle cx="216" cy="-26" r="15" fill="#7A3414" opacity="0.55" />
+                <circle cx="216" cy="-26" r="11.5" fill="#EFE2CC" />
+                <circle cx="217" cy="-25" r="5" fill="#B49A82" />
+                <ellipse cx="212" cy="-30" rx="4" ry="2.4" fill="#FFFFFF" opacity="0.45" />
                 <path d="M266 4 C277 10 275 23 262 27" stroke="#5A220A" stroke-width="4" fill="none" stroke-linecap="round" />
                 <ellipse cx="200" cy="-58" rx="26" ry="8" fill="#FFFFFF" opacity="0.4" transform="rotate(-22 200 -58)" filter="url(#lefeu-blur4)" />
               </g>
@@ -516,12 +516,13 @@
               <path d="M560 500 L1360 500 L1470 662 L450 662Z" fill="none" stroke="#5A2A2C" stroke-width="3" />
               <!-- grid -->
               <g id="lefeu-grid"></g>
+              <!-- rising sparks start behind the food and climb above it -->
+              <g id="lefeu-sparks"></g>
               <!-- skewers + fish -->
               <g id="lefeu-skewers"></g>
-              <ellipse cx="772" cy="606" rx="250" ry="34" fill="#1A0408" opacity="0.42" filter="url(#lefeu-blur8)" />
-              <use href="#lefeu-fish" transform="translate(770 570) rotate(-2) scale(0.9 0.7)" />
-              <!-- rising sparks + smoke -->
-              <g id="lefeu-sparks"></g>
+              <ellipse cx="808" cy="598" rx="246" ry="32" fill="#1A0408" opacity="0.42" filter="url(#lefeu-blur8)" />
+              <use href="#lefeu-fish" transform="translate(806 560) rotate(-2) scale(0.88 0.66)" />
+              <!-- smoke -->
               <g id="lefeu-smoke" filter="url(#lefeu-soft)"></g>
             </g>
 
@@ -559,15 +560,23 @@
                 <path d="M960 811 L960 833 M932 822 L988 822" stroke="#E0402E" stroke-width="4" />
                 <ellipse cx="946" cy="817" rx="5" ry="3" fill="#F7D36A" /><ellipse cx="974" cy="817" rx="5" ry="3" fill="#F7D36A" />
                 <ellipse cx="946" cy="828" rx="5" ry="3" fill="#F7D36A" /><ellipse cx="974" cy="828" rx="5" ry="3" fill="#F7D36A" />
-                <ellipse cx="1046" cy="818" rx="36" ry="14" fill="none" stroke="#F8ECF2" stroke-width="7" />
-                <ellipse cx="1046" cy="818" rx="28" ry="10" fill="none" stroke="#C783A6" stroke-width="2.5" />
+                <ellipse cx="1048" cy="822" rx="40" ry="16" fill="#2A080E" opacity="0.12" filter="url(#lefeu-blur4)" />
+                <ellipse cx="1046" cy="818" rx="38" ry="15" fill="none" stroke="#A8467A" stroke-width="3" />
+                <ellipse cx="1046" cy="818" rx="33" ry="12.5" fill="none" stroke="#FBEFF4" stroke-width="7" />
+                <ellipse cx="1046" cy="818" rx="25" ry="9" fill="none" stroke="#D9A2BE" stroke-width="2.5" />
+                <ellipse cx="1046" cy="818" rx="21" ry="7" fill="none" stroke="#FBEFF4" stroke-width="4" opacity="0.85" />
+                <path d="M1016 812 A33 12.5 0 0 1 1050 805.6" stroke="#FFFFFF" stroke-width="2.5" fill="none" opacity="0.8" stroke-linecap="round" />
               </g>
               <!-- braised fish -->
               <ellipse cx="1090" cy="728" rx="220" ry="34" fill="#4A1A08" opacity="0.3" filter="url(#lefeu-blur8)" />
               <use href="#lefeu-fish" transform="translate(1094 680) rotate(-7) scale(0.84 0.64)" />
               <!-- onion ring on the fish -->
-              <ellipse cx="1090" cy="650" rx="40" ry="15" fill="none" stroke="#F8ECF2" stroke-width="8" transform="rotate(-10 1090 650)" />
-              <ellipse cx="1090" cy="650" rx="31" ry="10" fill="none" stroke="#C783A6" stroke-width="2.5" transform="rotate(-10 1090 650)" />
+              <g transform="rotate(-10 1090 650)">
+                <ellipse cx="1090" cy="650" rx="43" ry="16.5" fill="none" stroke="#A8467A" stroke-width="3" />
+                <ellipse cx="1090" cy="650" rx="38" ry="14" fill="none" stroke="#FBEFF4" stroke-width="7.5" />
+                <ellipse cx="1090" cy="650" rx="29" ry="10" fill="none" stroke="#D9A2BE" stroke-width="2.5" />
+                <path d="M1056 645 A38 14 0 0 1 1094 636" stroke="#FFFFFF" stroke-width="2.5" fill="none" opacity="0.8" stroke-linecap="round" />
+              </g>
               <!-- alloco -->
               <g id="lefeu-alloco-g"></g>
               <!-- fresh chilis -->
@@ -590,9 +599,9 @@
           </svg>
 
           <!-- station chips (world space — they ride the rail) -->
-          <div id="03-le-feu-chip1" class="lf-chip" style="left: 160px"><span class="lf-chip-dot"></span>Sauces</div>
-          <div id="03-le-feu-chip2" class="lf-chip" style="left: 2080px"><span class="lf-chip-dot"></span>Grillades</div>
-          <div id="03-le-feu-chip3" class="lf-chip" style="left: 4000px"><span class="lf-chip-dot"></span>Tous vos plats</div>
+          <div id="f03-le-feu-chip1" class="lf-chip" style="left: 170px"><span class="lf-chip-dot"></span>Sauces</div>
+          <div id="f03-le-feu-chip2" class="lf-chip" style="left: 2090px"><span class="lf-chip-dot"></span>Grillades</div>
+          <div id="f03-le-feu-chip3" class="lf-chip" style="left: 4010px"><span class="lf-chip-dot"></span>Tous vos plats</div>
         </div>
       </div>
       <div class="lf-light"></div>
@@ -600,12 +609,12 @@
     </div>
 
     <!-- ============ SEAM C (exit) : cream veil rises and covers the frame at 3.95 s ============ -->
-    <div id="03-le-feu-veil" class="clip lf-veil-wrap" data-start="0" data-duration="4" data-track-index="1">
+    <div id="f03-le-feu-veil" class="clip lf-veil-wrap" data-start="0" data-duration="4" data-track-index="1">
       <div class="lf-veil" id="lefeu-veil"></div>
     </div>
 
     <!-- ============ SEAM B (entry) : full-frame gold wipes off to the left ============ -->
-    <div id="03-le-feu-wipe" class="clip lf-wipe" data-start="0" data-duration="0.6" data-track-index="2">
+    <div id="f03-le-feu-wipe" class="clip lf-wipe" data-start="0" data-duration="0.6" data-track-index="2">
       <div class="lf-wipe-shadow" id="lefeu-wipe-shadow"></div>
       <div class="lf-gold" id="lefeu-gold"></div>
     </div>
@@ -855,7 +864,7 @@
           }
         });
       };
-      addVolutes("lefeu-steam1", [[880, 430], [970, 418], [1064, 432]], { color: "#FFFFFF", width: 34, P: 1.5, rise: 150, amp: 0.7, grow: 0.7 });
+      addVolutes("lefeu-steam1", [[880, 430], [970, 418], [1064, 432]], { color: "#FFFFFF", width: 42, P: 1.5, rise: 170, amp: 0.92, grow: 0.75 });
       addVolutes("lefeu-smoke", [[660, 520], [860, 510], [1120, 506], [1300, 520]], { color: "#FFF8F0", width: 40, P: 1.7, rise: 190, amp: 0.48, grow: 0.9 });
       addVolutes("lefeu-steam3", [[740, 590], [850, 600], [1060, 628], [1180, 640]], { color: "#FFFFFF", width: 32, P: 1.6, rise: 160, amp: 0.72, grow: 0.8 });
 
@@ -987,9 +996,9 @@
         tl.fromTo(el, { scale: 0.3, opacity: 0, y: 18 }, { scale: 1, opacity: 1, y: 0, duration: 0.5, ease: "back.out(2.2)" }, at);
         tl.fromTo(el.firstElementChild, { scale: 0 }, { scale: 1, duration: 0.4, ease: "back.out(3)" }, at + 0.12);
       };
-      chipPop("03-le-feu-chip1", 0.4);
-      chipPop("03-le-feu-chip2", 1.05);
-      chipPop("03-le-feu-chip3", 1.85);
+      chipPop("f03-le-feu-chip1", 0.4);
+      chipPop("f03-le-feu-chip2", 1.05);
+      chipPop("f03-le-feu-chip3", 1.85);
 
       // station 3 — slow camera push + a glint along the gold filet of the rim
       tl.fromTo(cam, { scale: 1 }, { scale: 1.06, duration: 1.45, ease: "sine.inOut" }, 1.85);

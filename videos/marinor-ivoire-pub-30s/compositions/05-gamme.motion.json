@@ -1,0 +1,51 @@
+{
+  "scene": "05-gamme",
+  "duration_s": 6.5,
+  "rules": [
+    "waterfall-entry",
+    "motion-blur-streak",
+    "spring-pop-entrance",
+    "ambient-glow-bloom",
+    "svg-path-draw",
+    "sine-wave-loop",
+    "multi-phase-camera",
+    "coordinate-target-zoom"
+  ],
+  "blueprint": "grid-card-assemble",
+  "exit": {
+    "vector": "none on screen — flat full-frame #FFECD1 from 6.48s to 6.50s (measured 255,236,209 on every pixel at 6.48s); last visible motion = camera dive onto the Marinade Poisson jar (stage point 1440,835): scale 1 -> 2.4 while that point is carried to frame centre, blur 0 -> 18px (power3.in, 6.05-6.50s; ~9.3x/s scale rate and ~3200 px/s jar travel at arrival), under a cream #FFECD1 veil rising 0 -> 1 (power1.in, 6.25-6.48s)",
+    "still_moving": false,
+    "state": "full-frame #FFECD1"
+  },
+  "entry": {
+    "vector": "full-frame #FFF3D6 at t=0 (measured 255,243,214 on every pixel at 0.05s); the cover clears from the centre first via a radial mask hole (radius 0 -> 1500px, 420px feather, power2.in 0.03-0.49s) while its opacity falls 1 -> 0 (power1.in 0.14-0.50s); the badge-radial vitrine underneath is static (camera at rest)",
+    "from_rest": true,
+    "state": "full-frame #FFF3D6"
+  },
+  "camera": [
+    {
+      "t": "0.00-0.50",
+      "move": "static; seam-D cream cover opens centre-first onto the Rouge Passion -> Bordeaux badge radial, white badge-oval filigree breathing (bounded, 2 cycles over 6.5s)"
+    },
+    {
+      "t": "0.42-1.12",
+      "move": "logo (360px wide, y 66-255) spring-pops scale 0 -> 1 (power3.out) with a gold bloom behind it; plinth gold rim draws centre-outward 0.95-1.70"
+    },
+    {
+      "t": "1.40-4.40",
+      "move": "family pill (y 268-348) pops at 1.40; word swaps land on the VO (Épices 1.63 · Marinades 2.05 · Pâte d'arachide 2.54 · Huile rouge 3.45 · Une gamme complète 4.18): outgoing word y 0 -> -30 + fade (0.11s power2.in, T-0.13 -> T-0.02), incoming word y +30 -> 0 (0.22s power3.out from T-0.04) with opacity 0 -> 1 from T-0.02 (0.12s) — no double-print; pill width clip-morphs ahead of the word (0.27s power3.inOut from T-0.19)"
+    },
+    {
+      "t": "1.63-4.00",
+      "move": "waterfall-entry from the right per family: binary reveal at x +500 + 7deg with a velocity blur 9px -> 0 (0.24s power2.out), whip to slot (power3.out 0.55-0.6s, stagger 0.04s) — 10 sachets in an arc (1.63), 3 marinades (2.05), pâte d'arachide (2.54), huile rouge (3.45); chili/peanut props pop 1.95/2.66; gold glow blooms behind the line-up 2.50-3.95 then breathes"
+    },
+    {
+      "t": "4.18-6.05",
+      "move": "slow push scale 1 -> 1.04 about (960,540), power1.inOut; one-pass diagonal white-gold sheen (opacity 0.5, screen, masked to each packshot) sweeps left -> right 4.30-5.10 with index-timed sparkles"
+    },
+    {
+      "t": "6.05-6.50",
+      "move": "seam-E dive onto Marinade Poisson: scale 1 -> 2.4 + blur 18px (power3.in), cream veil 0 -> 1 at 6.25-6.48"
+    }
+  ]
+}

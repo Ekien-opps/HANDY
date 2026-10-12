@@ -11,7 +11,7 @@
   ],
   "blueprint": "constellation-hub",
   "exit": {
-    "vector": "none on screen — flat full-frame #FFF3D6 from 3.95s to 4.00s (measured 255,243,214 on every pixel at 3.98s); last visible motion = warm light bloom from frame centre, radial #FFF3D6 core -> #FBD021 rim, scale 0.04 -> 5.6 (power3.in, 3.55-3.95s, opacity 0 -> 1 power2.in 3.57-3.93s) over a screen-blended gold flare (3.48-3.95s), while both ingredient orbit stages rush the lens scale 1 -> 3 about (960,540) with blur 0 -> 16px (power3.in, 3.55-4.00s) and the type cluster pushes 1 -> 1.12 (power2.in)",
+    "vector": "none on screen: flat full-frame #FFF3D6 from 3.95s to 4.00s (measured 255,243,214 on every sampled pixel at 3.98s). The last visible motion is a warm light igniting at frame centre (960,540) BEHIND the seal and title: a screen-blended gold flare (3.45-3.90, scale 0.3 -> 3.4, power2.in) plus an opaque radial bloom, #FFF3D6 core -> #FBD021 rim, scale 0.04 -> 5.6 (power3.in, 3.55-3.95, opacity 0 -> 1 over 3.56-3.66). The type cluster pushes 1 -> 1.12 (power2.in, 3.55-4.00) and burns out, opacity 1 -> 0 (power1.in, 3.76-3.90). Both ingredient orbit stages rush the lens, scale 1 -> 3 about (960,540) with blur 0 -> 16px (power3.in, 3.55-4.00). A second identical light disc above every layer (scale 2.2 -> 5.6, power2.in, 3.82-3.95, opacity 0 -> 1 over 3.82-3.89) swallows the rushing ingredients and corner leaves, then a solid #FFF3D6 layer is set at 3.95.",
     "still_moving": false,
     "state": "full-frame #FFF3D6"
   },
@@ -21,10 +21,25 @@
     "state": "full-frame #FFECD1"
   },
   "camera": [
-    { "t": "0.00-0.50", "move": "static; cream veil lifts upward revealing Vert Nature ground + breathing Vert Vif glow" },
-    { "t": "0.15-1.68", "move": "10 ingredients surge from depth to their orbit slots (z -900 -> 0, index-derived rotateX/Y +-62deg, rotateZ -22 -> 0, power3.out 0.9s, stagger 0.07s)" },
-    { "t": "1.40-3.55", "move": "constellation orbits clockwise +22deg on a 740x345 ellipse about (960,528), sine.inOut; items bob/rotate idle" },
-    { "t": "1.52-1.94", "move": "stamp impact shake of both orbit stages, decaying (peak 11px)" },
-    { "t": "3.55-4.00", "move": "orbit stages push toward camera scale 1 -> 3 about (960,540) + blur 16px (power3.in); type cluster 1 -> 1.12 (power2.in)" }
+    {
+      "t": "0.00-0.50",
+      "move": "static; cream veil lifts upward revealing Vert Nature ground + breathing Vert Vif glow"
+    },
+    {
+      "t": "0.15-1.68",
+      "move": "10 ingredients surge from depth to their orbit slots (z -900 -> 0, index-derived rotateX/Y +-62deg, rotateZ -22 -> 0, power3.out 0.9s, stagger 0.07s)"
+    },
+    {
+      "t": "1.40-3.55",
+      "move": "constellation orbits clockwise +22deg on a 740x345 ellipse about (960,528), sine.inOut; items bob/rotate idle"
+    },
+    {
+      "t": "1.52-1.94",
+      "move": "stamp impact shake of both orbit stages, decaying (peak 11px)"
+    },
+    {
+      "t": "3.55-4.00",
+      "move": "orbit stages push toward camera, scale 1 -> 3 about (960,540) + blur 16px (power3.in); type cluster 1 -> 1.12 (power2.in), backlit by the warm bloom, then fades out 3.76-3.90; a cover bloom swallows the frame by 3.95"
+    }
   ]
 }

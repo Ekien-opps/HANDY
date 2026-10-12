@@ -112,7 +112,9 @@
     }
     .acc-w-gold {
       color: #f9a825;
-      text-shadow: 0 3px 0 #d8860c, 0 8px 18px rgba(123, 20, 33, 0.26);
+      -webkit-text-stroke: 4px #7b1421;
+      paint-order: stroke fill;
+      text-shadow: 0 4px 0 #7b1421, 0 10px 18px rgba(123, 20, 33, 0.28);
     }
     .acc-trait {
       position: absolute;
@@ -129,6 +131,7 @@
       top: 100%;
       width: 0;
       height: 0;
+      /* first child of .acc-gold: paints under the gold words + brushstroke (DOM order, no negative z) */
     }
     .acc-dust {
       position: absolute;
@@ -501,7 +504,7 @@
     <!-- ===== Track 2: the question ===== -->
     <div id="f01-accroche-text" class="clip acc-layer acc-text" data-start="0" data-duration="4" data-track-index="2">
       <div class="acc-question" id="f01-accroche-question">
-        <div class="acc-line" id="f01-accroche-line1"><span class="acc-w">Envie</span> <span class="acc-w">de</span> <span class="acc-gold" id="f01-accroche-gold"><span class="acc-w acc-w-gold">relever</span> <span class="acc-w acc-w-gold">le</span> <span class="acc-w acc-w-gold">goût</span><svg class="acc-trait" id="f01-accroche-trait" viewBox="0 0 720 40" preserveAspectRatio="none" aria-hidden="true"><path id="f01-accroche-trait-main" d="M10 22 C120 13 250 27 380 19 C500 12 610 22 708 14" pathLength="100" stroke="url(#f01-accroche-g-gold)" stroke-width="12" stroke-linecap="round" fill="none" /><path id="f01-accroche-trait-dry" d="M30 30 C150 23 270 33 400 27 C510 22 600 28 680 23" pathLength="100" stroke="#fbd021" stroke-width="3.5" stroke-linecap="round" fill="none" opacity="0.8" /></svg><span class="acc-pinch" id="f01-accroche-pinch"></span></span></div>
+        <div class="acc-line" id="f01-accroche-line1"><span class="acc-w">Envie</span> <span class="acc-w">de</span> <span class="acc-gold" id="f01-accroche-gold"><span class="acc-pinch" id="f01-accroche-pinch"></span><span class="acc-w acc-w-gold">relever</span> <span class="acc-w acc-w-gold">le</span> <span class="acc-w acc-w-gold">goût</span><svg class="acc-trait" id="f01-accroche-trait" viewBox="0 0 720 40" preserveAspectRatio="none" aria-hidden="true"><path id="f01-accroche-trait-main" d="M10 22 C120 13 250 27 380 19 C500 12 610 22 708 14" pathLength="100" stroke="url(#f01-accroche-g-gold)" stroke-width="12" stroke-linecap="round" fill="none" /><path id="f01-accroche-trait-dry" d="M30 30 C150 23 270 33 400 27 C510 22 600 28 680 23" pathLength="100" stroke="#fbd021" stroke-width="3.5" stroke-linecap="round" fill="none" opacity="0.8" /></svg></span></div>
         <div class="acc-line" id="f01-accroche-line2"><span class="acc-w">de</span> <span class="acc-w">vos</span> <span class="acc-w">plats</span> <span class="acc-w">du</span> <span class="acc-w">quotidien</span>&nbsp;<span class="acc-w" id="f01-accroche-qmark">?</span></div>
       </div>
     </div>
@@ -560,6 +563,7 @@
           ph: prand(i * 3 + 1) * Math.PI * 2,
           k: i,
           dq: 0,
+          sh: el.querySelector('ellipse[filter*="fshadow"]'),
         };
       });
 
@@ -601,7 +605,7 @@
       // ---------- pinch of golden dust from the brush ----------
       const pinchHost = $("pinch");
       const dust = [];
-      const DUST_N = 22;
+      const DUST_N = 15;
       const DUST_COLORS = ["#f9a825", "#fbd021", "#e8901a", "#f9a825", "#ffe07a", "#d8860c", "#fbd021", "#ffffff"];
       for (let i = 0; i < DUST_N; i++) {
         const d = document.createElement("div");
@@ -615,10 +619,11 @@
         pinchHost.appendChild(d);
         dust.push({
           el: d,
-          birth: 1.04 + (i / (DUST_N - 1)) * 0.4 + prand(i * 43 + 1) * 0.04,
-          vx: (prand(i * 47 + 2) - 0.35) * 120,
-          vy: -(40 + prand(i * 53 + 4) * 120),
-          life: 0.8 + prand(i * 59 + 5) * 0.4,
+          // shed by the brush tip as it travels (« ffft » at ~1.1 s), then falls — never rises into the glyphs
+          birth: 1.06 + (i / (DUST_N - 1)) * 0.34 + prand(i * 43 + 1) * 0.03,
+          vx: (prand(i * 47 + 2) - 0.25) * 90,
+          vy: -(8 + prand(i * 53 + 4) * 46),
+          life: 0.6 + prand(i * 59 + 5) * 0.3,
         });
       }
 
@@ -653,7 +658,7 @@
           const tip = eDraw(clamp01((p.birth - TRAIT_AT) / TRAIT_DUR));
           const x0 = GOLD_W * (-0.02 + 1.04 * tip);
           const x = x0 + p.vx * a;
-          const y = -6 + p.vy * a + 0.5 * 900 * a * a;
+          const y = 4 + p.vy * a + 0.5 * 1000 * a * a;
           const lf = a / p.life;
           const sc = lf < 0.15 ? 0.4 + (lf / 0.15) * 0.6 : 1 - (lf - 0.15) * 0.45;
           p.el.style.transform = "translate(" + x.toFixed(2) + "px," + y.toFixed(2) + "px) scale(" + sc.toFixed(3) + ")";
@@ -696,6 +701,8 @@
           ic.el.style.transform =
             "translate3d(" + (x * zf).toFixed(2) + "px," + (y * zf).toFixed(2) + "px," + z.toFixed(2) + "px) rotateY(" + rotY.toFixed(2) + "deg) rotate(" + spin.toFixed(2) + "deg) scale(" + (sc * breathe).toFixed(4) + ")";
           ic.el.style.opacity = op.toFixed(3);
+          // contact shadow belongs to the ground: it lets go as the icon is lifted and spun by the suction
+          if (ic.sh) ic.sh.style.opacity = (1 - clamp01(su * 2.4)).toFixed(3);
           ic.el.style.zIndex = String(10 + Math.round(p.s * 9));
         }
 

@@ -1,0 +1,46 @@
+{
+  "scene": "07-signature",
+  "duration_s": 3.5,
+  "rules": [
+    "svg-path-draw",
+    "scale-swap-transition",
+    "spring-pop-entrance"
+  ],
+  "blueprint": "logo-assemble-lockup",
+  "exit": {
+    "vector": "none: final frame, held static from 2.45s to 3.50s (2.45s and 3.48s frames are pixel-identical). Last motion: CTA pulse scale 1 -> 1.06 -> 1 (2.28-2.45s) and gold dust decelerating to rest by 2.45s",
+    "still_moving": false,
+    "state": "end card: logo 1000px (460,90)-(1460,614), slogan, 6 packshots, CTA chip, contact bar on the bordeaux radial"
+  },
+  "entry": {
+    "vector": "flat full-frame #7B1421 at t=0 and t=0.05 (every sampled pixel 123,20,33). Underneath, the logo badge contracts uniformly from scale 4.6 to 1 about its centre (960,352), power3.out over 0-0.55s, about 26x/s scale rate at t=0. The badge-clipped #7B1421 veil fades 0.06-0.42s and the full-frame #7B1421 ground veil fades 0.08-0.55s, revealing the radial ground (#A40C21 centre to #5c0f19 edges)",
+    "from_rest": false,
+    "state": "full-frame #7B1421"
+  },
+  "camera": [
+    {
+      "t": "0.00-0.55",
+      "move": "static camera. Badge (Calque_1 cls-5) contracts from 4.6x to 1x (power3.out); flat veils clear to the vignette; gold dust (64 SVG motes, LCG-seeded) fades in 0.12-1.2s and drifts down 70-220px, decelerating (power2.out) to rest by 2.20-2.45s"
+    },
+    {
+      "t": "0.35-0.96",
+      "move": "white liseré (cls-2) draws both ways from the bottom centre (dasharray/dashoffset, power2.out 0.35-0.90s) with two gold comet tips that meet at the top centre (gold flash 0.84-1.14s). Elephant springs in (scale 0.25 -> 1, back.out(2.2), 0.42-0.84s). Gold leaf grows from its bottom-left base (scale 0 -> 1, back.out(1.8), 0.52-0.96s)"
+    },
+    {
+      "t": "0.56-1.75",
+      "move": "'Marin'Or' feathered left-to-right mask wipe 0.56-1.06s, then 'Ivoire' 0.98-1.38s, each led by a soft gold nib glow. The gold dot (cls-4) forms as a drop under the leaf (1.10s), falls onto the 'i' (1.22-1.40s, power2.in), bounces 8px once (1.40-1.55s) and sparkles (1.40-1.76s). A warm halo settles behind the lockup (0.9-1.7s)"
+    },
+    {
+      "t": "1.50-2.40",
+      "move": "'Le goût en or' (Cream Heavy 110px #FBD021) words rise y 30 -> 0 (power3.out, stagger 0.06s, 1.50-2.13s), then one gold shimmer band sweeps across the letters (1.90-2.40s). Packshots slide in from the frame edges, x -/+780px -> 0 with a 7deg fan settle (power3.out 0.68s; outer-front 1.50s, back 1.57s, inner-front 1.64s). Left family: Épice Spéciale Poisson (front-left, -3deg) + Pâte d'arachide (front-right) on base y=903, Paprika standing behind on a riser (300px, top y=460, -1.5deg) with its badge and name fully readable above them; right family: Marinade Poulet + Marinade Poisson in front, Huile rouge behind in the gap with its label clear of both jars. Gold light pools fade in behind each group (1.6-2.3s)"
+    },
+    {
+      "t": "1.88-2.45",
+      "move": "gold hairline draws centre-out (scaleX 0 -> 1, 1.88-2.26s). CTA chip 'Commandez dès maintenant' pops (scale 0.82 -> 1, back.out(1.7), 1.92-2.24s) with a single pulse and gold ring at 2.28-2.45s. Contact bar groups rise y 16 -> 0 (stagger 0.06s, 1.94-2.42s)"
+    },
+    {
+      "t": "2.45-3.50",
+      "move": "held end frame, nothing moves"
+    }
+  ]
+}

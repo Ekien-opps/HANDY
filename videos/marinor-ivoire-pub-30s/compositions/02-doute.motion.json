@@ -3,11 +3,11 @@
   "duration_s": 4.0,
   "rules": ["spring-pop-entrance", "css-marker-patterns", "particle-burst"],
   "exit": {
-    "vector": "none - static full-frame linear-gradient(115deg,#F9A825,#FBD021); the gold band (strike thickening and rotating to 115deg, centre drifting left ~400px/s) covers the frame by ~3.90s, clip released at 3.95s, held to 4.00s",
+    "vector": "none - static full-frame linear-gradient(115deg,#F9A825,#FBD021); the 18px gold strike swings on its centre (960,746) to 115deg 3.45-3.63s, its right edge floods the right side and its left edge sweeps LEFT across the frame (power2.inOut), full coverage by ~3.88s, clip released at 3.95s, held to 4.00s",
     "still_moving": false
   },
   "entry": {
-    "vector": "none - static full-frame #2a070d overlay at t=0 (seam A), fading to 0 over 0.00-0.35s power1.out",
+    "vector": "none - static full-frame #2a070d overlay at t=0 (seam A), fading to 0 over 0.00-0.35s power1.out; container row then drops in from above the frame (0.30/0.42/0.54s, back.out) under a slow 1.14->1.18 push-in (0.5-2.6s)",
     "from_rest": true
   }
 }
