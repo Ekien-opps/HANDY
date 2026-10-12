@@ -101,3 +101,29 @@ reflets spéculaires, ombres teintées) construites en SVG/CSS — jamais de pho
 | 05 La gamme | premium | Badge radial Rouge Passion → Bordeaux |
 | 06 Le partage | convivial | Crème Douce / Rose Poudre |
 | 07 Le goût en or | signature | Badge radial Rouge Passion → Bordeaux |
+
+## Illustration 2,5D — règle commune à toutes les scènes
+
+Tout le décor (icônes, ustensiles, plats, légumes, contenants, bras) est dessiné en **SVG inline**, dans UN seul style :
+
+- **Volume :** chaque forme = un dégradé radial ou linéaire de sa couleur de base (clair en haut-gauche → foncé en bas-droite, ±18 % de luminosité), jamais un aplat seul.
+- **Reflet spéculaire :** une ellipse blanche floue (opacité 0,35–0,55) en haut-gauche des objets brillants (piment, tomate, aubergine, pot, marmite).
+- **Ombre de contact :** ellipse floue sous chaque objet, couleur `rgba(42,8,14,0.28)` (neutre teinté bordeaux, jamais gris).
+- **Pas de contour noir.** Les détails internes (nervures, grains, braises) en teinte plus foncée de la couleur de base.
+- **Couleurs des objets :** palette client d'abord ; teintes naturelles autorisées pour les aliments (rouge piment ≈ Rouge Passion, vert ≈ Vert Vif/Nature, jaune ≈ Jaune Soleil/Or, bruns teintés bordeaux, crème ≈ Crème Douce, peaux brunes chaudes #6b3a22 / #8a4b2a / #a0603a pour les mains).
+- **Profondeur 3D :** pour les objets en orbite / qui arrivent de la profondeur, utiliser des transforms CSS 3D (`perspective` sur le parent + `rotateX/rotateY/translateZ` + `preserve-3d`) sur des groupes HTML contenant les SVG.
+- **Performance de rendu :** pas de `feTurbulence`/`feDisplacementMap`; flous via `filter: blur()` CSS sur de petits éléments ou `feGaussianBlur` statique ; vapeur/fumée = chemins SVG doux (stroke large, opacité, `stroke-linecap: round`) animés par transform + `strokeDashoffset`.
+
+## Notes de production — pour chaque scène
+
+- **Fichiers :** une scène = `compositions/<frame_id>.html` (fragment `<template>`), id de composition = `<frame_id>`. Préfixer tous les ids/classes par `<frame_id>-`.
+- **Chemins d'assets depuis une scène :** `../assets/...` (ex. `../assets/products/paprika@2x.png`, `../assets/fonts/Cream-Heavy.ttf`).
+- **Polices :** déclarer dans la scène :
+  `@font-face{font-family:"Cream Heavy";src:url("../assets/fonts/Cream-Heavy.ttf") format("truetype");font-weight:900;}`
+  `@font-face{font-family:"Montserrat";src:url("../assets/fonts/Montserrat-latin.woff2") format("woff2");font-weight:100 900;unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD;}`
+  `@font-face{font-family:"Montserrat";src:url("../assets/fonts/Montserrat-latin-ext.woff2") format("woff2");font-weight:100 900;unicode-range:U+0100-02BA,U+02BD-02C5,U+02C7-02CC,U+02CE-02D7,U+02DD-02FF,U+0304,U+0308,U+0329,U+1D00-1DBF,U+1E00-1E9F,U+1EF2-1EFF,U+2020,U+20A0-20AB,U+20AD-20C0,U+2113,U+2C60-2C7F,U+A720-A7FF;}`
+- **Packshots :** `../assets/products/<id>.png` (natif) ou `<id>@2x.png` (gros plans). Ids : bouillon-poulet, poudre-djoumble, puree-ail, epice-poisson, poudre-poisson, poudre-crevette, piment-poudre, paprika, epice-poulet, graines-akpi (sachets 274×401) · marinade-poulet, marinade-mixte, marinade-poisson (pots 323×592) · pate-arachide (361×356) · huile-rouge (271×760). Mise à l'échelle uniforme uniquement.
+- **Logo :** `../assets/brand/logo-anim.svg` (viewBox 0 0 1276.07 668.35). Pour l'animer calque par calque, l'inliner dans la scène (ids préfixés). Sinon `<img>`.
+- **Texte à l'écran :** les textes cités entre « » dans le bloc de la scène sont la copie VOULUE par le client (pas de sous-titres dans ce film) — les afficher exactement.
+- **Pas de piste de sous-titres :** pas de zone d'exclusion basse ; marges de sécurité 120 px (x) / 90 px (y).
+- **Raccords (seams) :** ce film utilise des **coupes franches raccordées** construites DANS les scènes. Chaque scène commence dans l'« état d'entrée » et termine dans l'« état de sortie » décrits dans son bloc (aplats plein cadre identiques des deux côtés de la coupe). C'est l'exception voulue à la règle « pas de sortie » : la sortie EST le raccord.

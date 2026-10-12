@@ -1,0 +1,180 @@
+{
+ "vo-01": {
+  "text": "Envie de relever le goût de vos plats du quotidien ?",
+  "dur": 2.56,
+  "silences": [
+   [
+    "start",
+    0.845458
+   ],
+   [
+    "end",
+    0.972083
+   ],
+   [
+    "start",
+    2.42921
+   ],
+   [
+    "end",
+    2.56
+   ]
+  ]
+ },
+ "vo-02": {
+  "text": "Sans additifs ni substances douteuses pour votre santé ?",
+  "dur": 3.029,
+  "silences": [
+   [
+    "start",
+    0.786333
+   ],
+   [
+    "end",
+    0.918083
+   ],
+   [
+    "start",
+    2.9065
+   ],
+   [
+    "end",
+    3.02933
+   ]
+  ]
+ },
+ "vo-03": {
+  "text": "Pour vos sauces, vos grillades… et tous vos plats,",
+  "dur": 2.133,
+  "silences": [
+   [
+    "start",
+    0.654417
+   ],
+   [
+    "end",
+    0.744417
+   ],
+   [
+    "start",
+    2.00217
+   ],
+   [
+    "end",
+    2.13333
+   ]
+  ]
+ },
+ "vo-04": {
+  "text": "des épices et marinades cent pour cent naturelles, de Côte d'Ivoire.",
+  "dur": 3.648,
+  "silences": [
+   [
+    "start",
+    0.676958
+   ],
+   [
+    "end",
+    0.772125
+   ],
+   [
+    "start",
+    2.51367
+   ],
+   [
+    "end",
+    2.64767
+   ],
+   [
+    "start",
+    3.48554
+   ],
+   [
+    "end",
+    3.648
+   ]
+  ]
+ },
+ "vo-05": {
+  "text": "Marin'Or Ivoire : épices, marinades, pâte d'arachide et huile rouge. Toute une gamme pour vous.",
+  "dur": 4.8,
+  "silences": [
+   [
+    "start",
+    1.01367
+   ],
+   [
+    "end",
+    1.18058
+   ],
+   [
+    "start",
+    2.00021
+   ],
+   [
+    "end",
+    2.08671
+   ],
+   [
+    "start",
+    3.52358
+   ],
+   [
+    "end",
+    3.73312
+   ],
+   [
+    "start",
+    4.66125
+   ],
+   [
+    "end",
+    4.8
+   ]
+  ]
+ },
+ "vo-06": {
+  "text": "Simple à utiliser, à déguster en famille et entre amis.",
+  "dur": 3.008,
+  "silences": [
+   [
+    "start",
+    1.0395
+   ],
+   [
+    "end",
+    1.25038
+   ],
+   [
+    "start",
+    2.87642
+   ],
+   [
+    "end",
+    3.008
+   ]
+  ]
+ },
+ "vo-07": {
+  "text": "Marin'Or Ivoire, le goût en or !",
+  "dur": 1.856,
+  "silences": [
+   [
+    "start",
+    0.904542
+   ],
+   [
+    "end",
+    0.976875
+   ],
+   [
+    "start",
+    1.69867
+   ],
+   [
+    "end",
+    1.856
+   ]
+  ]
+ }
+}
