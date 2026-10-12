@@ -1,0 +1,107 @@
+[
+ {
+  "id": "bouillon-poulet",
+  "label": "Bouillon de Poulet",
+  "family": "epice",
+  "w": 275,
+  "h": 401
+ },
+ {
+  "id": "poudre-djoumble",
+  "label": "Poudre de Djoumblé",
+  "family": "epice",
+  "w": 274,
+  "h": 400
+ },
+ {
+  "id": "puree-ail",
+  "label": "Purée d'Ail",
+  "family": "epice",
+  "w": 273,
+  "h": 401
+ },
+ {
+  "id": "epice-poisson",
+  "label": "Épice Spéciale Poisson",
+  "family": "epice",
+  "w": 274,
+  "h": 401
+ },
+ {
+  "id": "pate-arachide",
+  "label": "Pâte d'arachide",
+  "family": "pate",
+  "w": 361,
+  "h": 356
+ },
+ {
+  "id": "marinade-poulet",
+  "label": "Marinade Poulet",
+  "family": "marinade",
+  "w": 323,
+  "h": 592
+ },
+ {
+  "id": "poudre-poisson",
+  "label": "Poudre de Poisson",
+  "family": "epice",
+  "w": 273,
+  "h": 401
+ },
+ {
+  "id": "poudre-crevette",
+  "label": "Poudre de Crevette",
+  "family": "epice",
+  "w": 274,
+  "h": 401
+ },
+ {
+  "id": "piment-poudre",
+  "label": "Piment en Poudre",
+  "family": "epice",
+  "w": 274,
+  "h": 401
+ },
+ {
+  "id": "paprika",
+  "label": "Paprika",
+  "family": "epice",
+  "w": 274,
+  "h": 401
+ },
+ {
+  "id": "huile-rouge",
+  "label": "Huile Rouge",
+  "family": "huile",
+  "w": 271,
+  "h": 760
+ },
+ {
+  "id": "epice-poulet",
+  "label": "Épice Spéciale Poulet",
+  "family": "epice",
+  "w": 274,
+  "h": 401
+ },
+ {
+  "id": "graines-akpi",
+  "label": "Graines d'Akpi",
+  "family": "epice",
+  "w": 273,
+  "h": 401
+ },
+ {
+  "id": "marinade-mixte",
+  "label": "Marinade Mixte",
+  "family": "marinade",
+  "w": 323,
+  "h": 593
+ },
+ {
+  "id": "marinade-poisson",
+  "label": "Marinade Poisson",
+  "family": "marinade",
+  "w": 322,
+  "h": 592
+ }
+]

@@ -1,0 +1,48 @@
+{
+  "version": 1,
+  "preferences": {
+    "destination": {
+      "value": "portfolio-web",
+      "confirmed_in": [
+        "marinor-ivoire-pub-30s"
+      ],
+      "updated_at": "2026-10-12T12:37:48.524Z"
+    },
+    "aspect": {
+      "value": "1920x1080",
+      "confirmed_in": [
+        "marinor-ivoire-pub-30s"
+      ],
+      "updated_at": "2026-10-12T12:37:48.581Z"
+    },
+    "language": {
+      "value": "fr",
+      "confirmed_in": [
+        "marinor-ivoire-pub-30s"
+      ],
+      "updated_at": "2026-10-12T12:37:48.634Z"
+    },
+    "flow": {
+      "value": "automation",
+      "confirmed_in": [
+        "marinor-ivoire-pub-30s"
+      ],
+      "updated_at": "2026-10-12T12:37:48.682Z"
+    },
+    "storyboard": {
+      "value": "yes",
+      "confirmed_in": [
+        "marinor-ivoire-pub-30s"
+      ],
+      "updated_at": "2026-10-12T12:37:48.736Z"
+    },
+    "voice": {
+      "value": "kokoro-ff_siwis",
+      "confirmed_in": [
+        "marinor-ivoire-pub-30s"
+      ],
+      "updated_at": "2026-10-12T12:37:48.792Z"
+    }
+  },
+  "sightings": {}
+}
