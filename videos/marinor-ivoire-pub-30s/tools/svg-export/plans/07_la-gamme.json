@@ -1,0 +1,86 @@
+{
+  "title": "07 — La gamme · Une gamme complète",
+  "pruneOffCanvas": true,
+  "remove": ["#pill-bg > g"],
+  "layers": [
+    { "id": "Fond", "label": "Fond", "items": [
+      {"sel": "#ground > rect", "id": "Degrade_rouge", "label": "Dégradé rouge passion"},
+      {"sel": "#vign", "id": "Vignettage", "label": "Vignettage bordeaux"},
+      {"sel": "#glow-line", "id": "Halo_vitrine", "label": "Halo lumineux – vitrine"},
+      {"sel": "#glow-logo", "id": "Halo_logo", "label": "Halo lumineux – logo"}
+    ]},
+    { "id": "Decor", "label": "Décor", "items": [
+      {"sel": "#f05-gamme-fili", "id": "Filet_ovale", "label": "Filet ovale (contour du badge)"},
+      {"id": "Podium", "label": "Podium", "parts": [
+        {"sel": "#f05-gamme-plinth > :nth-child(1)", "id": "Podium_face_avant", "label": "Face avant"},
+        {"sel": "#f05-gamme-plinth > :nth-child(2)", "id": "Podium_plateau", "label": "Plateau"},
+        {"sel": "#f05-gamme-plinth > :nth-child(3)", "id": "Podium_reflet", "label": "Reflet du plateau"},
+        {"sel": "#f05-gamme-plinth > :nth-child(4)", "id": "Podium_lisere_clair", "label": "Liseré clair"},
+        {"sel": "#f05-gamme-rim-glow", "id": "Podium_lueur_doree", "label": "Lueur dorée du bord"},
+        {"sel": "#f05-gamme-rim-l", "id": "Podium_bord_dore_gauche", "label": "Bord doré – gauche"},
+        {"sel": "#f05-gamme-rim-r", "id": "Podium_bord_dore_droit", "label": "Bord doré – droit"} ] }
+    ]},
+    { "id": "Illustrations", "label": "Illustrations", "items": [
+      {"sel": "#svg_3 > g > :nth-child(1)", "id": "Ombre_piment", "label": "Ombre portée – piment"},
+      {"id": "Feuille_piment", "label": "Feuille de piment", "parts": [
+        {"sel": "#svg_3 > g > :nth-child(2)"}, {"sel": "#svg_3 > g > :nth-child(3)"}, {"sel": "#svg_3 > g > :nth-child(4)"} ] },
+      {"id": "Tas_piment_en_poudre", "label": "Tas de piment en poudre", "parts": [
+        {"sel": "#svg_3 > g > :nth-child(5)"},
+        {"sel": "#svg_3 > g > circle", "all": true},
+        {"sel": "#svg_3 > g > :nth-child(76)"}, {"sel": "#svg_3 > g > :nth-child(77)"} ] },
+      {"id": "Piment_rouge", "label": "Piment rouge", "parts": [
+        {"sel": "#svg_3 > g > :nth-child(78)"}, {"sel": "#svg_3 > g > :nth-child(79)"}, {"sel": "#svg_3 > g > :nth-child(80)"},
+        {"sel": "#svg_3 > g > :nth-child(81)"}, {"sel": "#svg_3 > g > :nth-child(82)"}, {"sel": "#svg_3 > g > :nth-child(83)"},
+        {"sel": "#svg_3 > g > :nth-child(84)"} ] },
+      {"sel": "#svg_4 > g > :nth-child(1)", "id": "Ombre_arachides", "label": "Ombre portée – arachides"},
+      {"sel": "#svg_4 > g > :nth-child(2)", "id": "Arachide_coque_1", "label": "Arachide en coque 1"},
+      {"sel": "#svg_4 > g > :nth-child(3)", "id": "Arachide_coque_2", "label": "Arachide en coque 2"},
+      {"id": "Arachides_decortiquees", "label": "Arachides décortiquées", "parts": [
+        {"sel": "#svg_4 > g > :nth-child(4)", "id": "Arachide_decortiquee_1", "label": "Arachide décortiquée 1"},
+        {"sel": "#svg_4 > g > :nth-child(5)", "id": "Arachide_decortiquee_2", "label": "Arachide décortiquée 2"},
+        {"sel": "#svg_4 > g > :nth-child(6)", "id": "Arachide_decortiquee_3", "label": "Arachide décortiquée 3"},
+        {"sel": "#svg_4 > g > :nth-child(7)", "id": "Arachide_decortiquee_4", "label": "Arachide décortiquée 4"} ] }
+    ]},
+    { "id": "Produits", "label": "Produits Marin'Or", "items": [
+      {"sel": "#s-bouillon-poulet", "id": "Sachet_Bouillon_de_Poulet", "label": "Sachet – Bouillon de Poulet"},
+      {"sel": "#s-poudre-djoumble", "id": "Sachet_Poudre_de_Djoumble", "label": "Sachet – Poudre de Djoumblé"},
+      {"sel": "#s-puree-ail", "id": "Sachet_Puree_d_Ail", "label": "Sachet – Purée d'Ail"},
+      {"sel": "#s-epice-poisson", "id": "Sachet_Epice_Speciale_Poisson", "label": "Sachet – Épice Spéciale Poisson"},
+      {"sel": "#s-poudre-poisson", "id": "Sachet_Poudre_de_Poisson", "label": "Sachet – Poudre de Poisson"},
+      {"sel": "#s-poudre-crevette", "id": "Sachet_Poudre_de_Crevette", "label": "Sachet – Poudre de Crevette"},
+      {"sel": "#s-piment-poudre", "id": "Sachet_Piment_en_Poudre", "label": "Sachet – Piment en Poudre"},
+      {"sel": "#s-paprika", "id": "Sachet_Paprika", "label": "Sachet – Paprika"},
+      {"sel": "#s-epice-poulet", "id": "Sachet_Epice_Speciale_Poulet", "label": "Sachet – Épice Spéciale Poulet"},
+      {"sel": "#s-graines-akpi", "id": "Sachet_Graines_d_Akpi", "label": "Sachet – Graines d'Akpi"},
+      {"id": "Pot_Marinade_Poulet", "label": "Pot – Marinade Poulet", "parts": [
+        {"sel": "#cshadow", "id": "Marinade_Poulet_ombre", "label": "Ombre portée"},
+        {"sel": "#refl", "id": "Marinade_Poulet_reflet", "label": "Reflet sur le podium"},
+        {"sel": "#img_12", "id": "Marinade_Poulet_packshot", "label": "Packshot"} ] },
+      {"id": "Pot_Marinade_Poisson", "label": "Pot – Marinade Poisson", "parts": [
+        {"sel": "#cshadow_2", "id": "Marinade_Poisson_ombre", "label": "Ombre portée"},
+        {"sel": "#refl_2", "id": "Marinade_Poisson_reflet", "label": "Reflet sur le podium"},
+        {"sel": "#img_13", "id": "Marinade_Poisson_packshot", "label": "Packshot"} ] },
+      {"id": "Bouteille_Huile_Rouge", "label": "Bouteille – Huile Rouge", "parts": [
+        {"sel": "#cshadow_3", "id": "Huile_Rouge_ombre", "label": "Ombre portée"},
+        {"sel": "#refl_3", "id": "Huile_Rouge_reflet", "label": "Reflet sur le podium"},
+        {"sel": "#img_14", "id": "Huile_Rouge_packshot", "label": "Packshot"} ] },
+      {"id": "Pot_Marinade_Mixte", "label": "Pot – Marinade Mixte", "parts": [
+        {"sel": "#cshadow_4", "id": "Marinade_Mixte_ombre", "label": "Ombre portée"},
+        {"sel": "#refl_4", "id": "Marinade_Mixte_reflet", "label": "Reflet sur le podium"},
+        {"sel": "#img_15", "id": "Marinade_Mixte_packshot", "label": "Packshot"} ] },
+      {"id": "Pot_Pate_d_arachide", "label": "Pot – Pâte d'arachide", "parts": [
+        {"sel": "#cshadow_5", "id": "Pate_d_arachide_ombre", "label": "Ombre portée"},
+        {"sel": "#refl_5", "id": "Pate_d_arachide_reflet", "label": "Reflet sur le podium"},
+        {"sel": "#img_16", "id": "Pate_d_arachide_packshot", "label": "Packshot"} ] }
+    ]},
+    { "id": "Logo", "label": "Logo Marin'Or Ivoire", "items": [
+      {"id": "Logo_Marin_Or_Ivoire", "label": "Logo Marin'Or Ivoire", "parts": [
+        {"sel": "#img", "id": "Logo_badge_Marin_Or_Ivoire", "label": "Badge Marin'Or Ivoire (logo complet)"} ] }
+    ]},
+    { "id": "Textes", "label": "Textes", "items": [
+      {"id": "Pastille_Une_gamme_complete", "label": "Pastille « Une gamme complète »", "parts": [
+        {"sel": "#pill-bg", "id": "Pastille_creme", "label": "Pastille crème"},
+        {"sel": "#pill-slot", "id": "Titre_Une_gamme_complete", "label": "Titre « Une gamme complète »"} ] }
+    ]}
+  ]
+}

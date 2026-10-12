@@ -1,0 +1,76 @@
+{
+  "title": "04 — Le feu · Grillades",
+  "pruneOffCanvas": true,
+  "remove": [],
+  "layers": [
+    { "id": "Fond", "label": "Fond", "items": [
+      {"sel": "#feu-world > rect", "id": "Aplat_creme", "label": "Aplat crème"},
+      {"id": "Mur_carrele", "label": "Mur carrelé", "parts": [
+        {"sel": "#svg_2 > g > :nth-child(1)", "id": "Mur_degrade", "label": "Mur – dégradé crème"},
+        {"sel": "#svg_2 > g > :nth-child(2)", "id": "Carreaux_muraux", "label": "Carreaux muraux"} ] },
+      {"sel": "#svg_2 > g > :nth-child(4)", "id": "Lueur_du_feu", "label": "Lueur du feu"},
+      {"id": "Plan_de_travail", "label": "Plan de travail", "parts": [
+        {"sel": "#svg_2 > g > :nth-child(6)", "id": "Plan_de_travail_surface", "label": "Surface du plan"},
+        {"sel": "#lefeu-joints", "id": "Joints_plan_de_travail", "label": "Joints de carrelage"},
+        {"sel": "#svg_2 > g > :nth-child(8)", "id": "Ombre_jonction_mur", "label": "Ombre de jonction mur / plan"},
+        {"sel": "#svg_2 > g > :nth-child(9)", "id": "Lisere_clair_plan", "label": "Liseré clair"} ] },
+      {"sel": "#svg_2 > g > :nth-child(11)", "id": "Lueur_au_sol", "label": "Lueur au sol"},
+      {"id": "Facade_bois", "label": "Façade bois", "parts": [
+        {"sel": "#svg_2 > g > :nth-child(12)", "id": "Chant_facade", "label": "Chant de la façade"},
+        {"sel": "#svg_2 > g > :nth-child(13)", "id": "Lisere_facade", "label": "Liseré lumineux"},
+        {"sel": "#svg_2 > g > :nth-child(14)", "id": "Facade_bois_aplat", "label": "Bois – dégradé"},
+        {"sel": "#lefeu-grain", "id": "Veinage_bois", "label": "Veinage du bois"} ] }
+    ]},
+    { "id": "Illustrations", "label": "Illustrations", "items": [
+      {"id": "Barbecue", "label": "Barbecue (grill à braises)", "parts": [
+        {"id": "Ombre_barbecue", "label": "Ombre portée", "parts": [{"sel": "#lefeu-st2 > :nth-child(1)"}]},
+        {"id": "Pieds_arriere", "label": "Pieds arrière", "parts": [{"sel": "#lefeu-st2 > :nth-child(2)"}, {"sel": "#lefeu-st2 > :nth-child(3)"}]},
+        {"id": "Facade_barbecue", "label": "Façade avant", "parts": [{"sel": "#lefeu-st2 > :nth-child(4)"}, {"sel": "#lefeu-st2 > :nth-child(5)"}]},
+        {"id": "Aerations_rougeoyantes", "label": "Aérations rougeoyantes", "parts": [{"sel": "#lefeu-vents > *", "all": true}]},
+        {"id": "Pieds_avant", "label": "Pieds avant", "parts": [{"sel": "#lefeu-st2 > :nth-child(7)"}, {"sel": "#lefeu-st2 > :nth-child(8)"}, {"sel": "#lefeu-st2 > :nth-child(9)"}, {"sel": "#lefeu-st2 > :nth-child(10)"}]},
+        {"id": "Cuve_barbecue", "label": "Cuve", "parts": [{"sel": "#lefeu-st2 > :nth-child(11)"}]},
+        {"id": "Lit_de_braises", "label": "Lit de braises", "parts": [{"sel": "#lefeu-st2 > :nth-child(12)"}]},
+        {"id": "Charbons", "label": "Charbons", "parts": [{"sel": "#lefeu-coals > *", "all": true}]},
+        {"id": "Braises_incandescentes", "label": "Braises incandescentes", "parts": [{"sel": "#lefeu-embers > *", "all": true}]},
+        {"id": "Lueur_des_braises", "label": "Lueur des braises", "parts": [{"sel": "#lefeu-st2 > :nth-child(15)"}]},
+        {"id": "Contour_cuve", "label": "Contour de la cuve", "parts": [{"sel": "#lefeu-st2 > :nth-child(16)"}]},
+        {"id": "Grille", "label": "Grille", "parts": [{"sel": "#lefeu-grid > *", "all": true}]} ] },
+      {"id": "Etincelles", "label": "Étincelles", "parts": [{"sel": "#lefeu-sparks > g:not(:nth-child(7))", "all": true, "id": "Etincelle", "label": "Étincelle"}]},
+      {"id": "Brochettes", "label": "Brochettes", "parts": [
+        {"id": "Brochette_haut", "label": "Brochette du haut (viande, oignon, poivron rouge)", "parts": [
+          {"sel": "#lefeu-skewers > :nth-child(1) > :nth-child(1)", "id": "Pique_haut", "label": "Pique en bois"},
+          {"sel": "#lefeu-skewers > :nth-child(1) > :nth-child(2)", "id": "Pique_haut_ombrage", "label": "Pique – ombrage"},
+          {"sel": "#lefeu-skewers > :nth-child(1) > :nth-child(3)", "id": "Ombre_brochette_haut", "label": "Ombre portée"},
+          {"sel": "#lefeu-skewers > :nth-child(1) > :nth-child(4)", "id": "Viande_haut_1", "label": "Morceau de viande 1"},
+          {"sel": "#lefeu-skewers > :nth-child(1) > :nth-child(5)", "id": "Oignon_haut", "label": "Oignon rouge"},
+          {"sel": "#lefeu-skewers > :nth-child(1) > :nth-child(6)", "id": "Viande_haut_2", "label": "Morceau de viande 2"},
+          {"sel": "#lefeu-skewers > :nth-child(1) > :nth-child(7)", "id": "Poivron_rouge", "label": "Poivron rouge"},
+          {"sel": "#lefeu-skewers > :nth-child(1) > :nth-child(8)", "id": "Viande_haut_3", "label": "Morceau de viande 3"} ] },
+        {"id": "Brochette_bas", "label": "Brochette du bas (viande, poivron vert, oignon)", "parts": [
+          {"sel": "#lefeu-skewers > :nth-child(2) > :nth-child(1)", "id": "Pique_bas", "label": "Pique en bois"},
+          {"sel": "#lefeu-skewers > :nth-child(2) > :nth-child(2)", "id": "Pique_bas_ombrage", "label": "Pique – ombrage"},
+          {"sel": "#lefeu-skewers > :nth-child(2) > :nth-child(3)", "id": "Ombre_brochette_bas", "label": "Ombre portée"},
+          {"sel": "#lefeu-skewers > :nth-child(2) > :nth-child(4)", "id": "Viande_bas_1", "label": "Morceau de viande 1"},
+          {"sel": "#lefeu-skewers > :nth-child(2) > :nth-child(5)", "id": "Poivron_vert", "label": "Poivron vert"},
+          {"sel": "#lefeu-skewers > :nth-child(2) > :nth-child(6)", "id": "Viande_bas_2", "label": "Morceau de viande 2"},
+          {"sel": "#lefeu-skewers > :nth-child(2) > :nth-child(7)", "id": "Oignon_bas", "label": "Oignon rouge"},
+          {"sel": "#lefeu-skewers > :nth-child(2) > :nth-child(8)", "id": "Viande_bas_3", "label": "Morceau de viande 3"} ] } ] },
+      {"id": "Poisson_braise", "label": "Poisson braisé", "parts": [
+        {"sel": "#lefeu-st2 > :nth-child(20)", "id": "Ombre_poisson", "label": "Ombre du poisson"},
+        {"sel": "#lefeu-st2 > :nth-child(21)", "id": "Tilapia_braise", "label": "Tilapia braisé"} ] },
+      {"id": "Fumee", "label": "Fumée", "parts": [{"sel": "#lefeu-smoke > g", "all": true, "id": "Volute_fumee", "label": "Volute de fumée"}]}
+    ]},
+    { "id": "Textes", "label": "Textes", "items": [
+      {"id": "Pastille_Grillades", "label": "Pastille « Grillades »", "parts": [
+        {"sel": "#feu-chip2 > :nth-child(1)", "id": "Pastille_Grillades_ombre", "label": "Ombre portée"},
+        {"sel": "#feu-chip2 > :nth-child(2)", "id": "Pastille_Grillades_fond", "label": "Fond bordeaux"},
+        {"sel": "#feu-chip2 > :nth-child(3)", "id": "Pastille_Grillades_contour", "label": "Contour blanc"},
+        {"sel": "#lf-chip-dot_2", "id": "Pastille_Grillades_point", "label": "Point doré"} ] },
+      {"sel": "#feu-chip2 > text", "id": "Texte_Grillades", "label": "Texte « Grillades »"}
+    ]},
+    { "id": "Effets", "label": "Effets & lumière", "items": [
+      {"sel": "#lf-light > :nth-child(1)", "id": "Lueur_doree", "label": "Lueur dorée (haut gauche)"},
+      {"sel": "#lf-light > :nth-child(2)", "id": "Vignettage", "label": "Vignettage"}
+    ]}
+  ]
+}

@@ -1,0 +1,575 @@
+{
+ "title": "02 — Le doute · Additifs & substances douteuses",
+ "pruneOffCanvas": true,
+ "remove": [
+  "#strike",
+  "#band-wrap"
+ ],
+ "layers": [
+  {
+   "id": "Fond",
+   "label": "Fond",
+   "items": [
+    {
+     "sel": "#bg > :nth-child(1)",
+     "id": "Degrade_bordeaux",
+     "label": "Dégradé bordeaux"
+    },
+    {
+     "sel": "#halo",
+     "id": "Halo_rouge",
+     "label": "Halo rouge"
+    },
+    {
+     "sel": "#floor",
+     "id": "Lueur_au_sol",
+     "label": "Lueur au sol"
+    },
+    {
+     "id": "Poussieres",
+     "label": "Poussières en suspension",
+     "parts": [
+      {
+       "sel": "#motes > g",
+       "all": true,
+       "id": "Poussiere",
+       "label": "Poussière"
+      }
+     ]
+    },
+    {
+     "sel": "#dou-vignette",
+     "id": "Vignettage",
+     "label": "Vignettage"
+    },
+    {
+     "sel": "#bg #svg",
+     "id": "Grain_texture",
+     "label": "Grain (texture)"
+    }
+   ]
+  },
+  {
+   "id": "Illustrations",
+   "label": "Illustrations",
+   "items": [
+    {
+     "id": "Cube_de_bouillon",
+     "label": "Cube de bouillon (papier alu)",
+     "parts": [
+      {
+       "sel": "#sh-cube",
+       "id": "Cube_ombre",
+       "label": "Ombre portée"
+      },
+      {
+       "id": "Cube_face_superieure",
+       "label": "Face supérieure (alu froissé)",
+       "parts": [
+        {
+         "sel": "#svg_3 > g > :nth-child(1)"
+        },
+        {
+         "sel": "#svg_3 > g > :nth-child(2)"
+        },
+        {
+         "sel": "#svg_3 > g > :nth-child(3)"
+        },
+        {
+         "sel": "#svg_3 > g > :nth-child(4)"
+        },
+        {
+         "sel": "#svg_3 > g > :nth-child(5)"
+        },
+        {
+         "sel": "#svg_3 > g > :nth-child(6)"
+        },
+        {
+         "sel": "#svg_3 > g > :nth-child(7)"
+        },
+        {
+         "sel": "#svg_3 > g > :nth-child(8)"
+        },
+        {
+         "sel": "#svg_3 > g > :nth-child(9)"
+        },
+        {
+         "sel": "#svg_3 > g > :nth-child(10)"
+        },
+        {
+         "sel": "#svg_3 > g > :nth-child(11)"
+        },
+        {
+         "sel": "#svg_3 > g > :nth-child(12)"
+        }
+       ]
+      },
+      {
+       "id": "Cube_face_droite",
+       "label": "Face droite",
+       "parts": [
+        {
+         "sel": "#svg_3 > g > :nth-child(13)"
+        },
+        {
+         "sel": "#svg_3 > g > :nth-child(14)"
+        },
+        {
+         "sel": "#svg_3 > g > :nth-child(15)"
+        },
+        {
+         "sel": "#svg_3 > g > :nth-child(16)"
+        },
+        {
+         "sel": "#svg_3 > g > :nth-child(17)"
+        }
+       ]
+      },
+      {
+       "id": "Cube_face_avant",
+       "label": "Face avant (facettes alu)",
+       "parts": [
+        {
+         "sel": "#svg_3 > g > :nth-child(18)"
+        },
+        {
+         "sel": "#svg_3 > g > :nth-child(19)"
+        },
+        {
+         "sel": "#svg_3 > g > :nth-child(20)"
+        },
+        {
+         "sel": "#svg_3 > g > :nth-child(21)"
+        },
+        {
+         "sel": "#svg_3 > g > :nth-child(22)"
+        },
+        {
+         "sel": "#svg_3 > g > :nth-child(23)"
+        },
+        {
+         "sel": "#svg_3 > g > :nth-child(24)"
+        },
+        {
+         "sel": "#svg_3 > g > :nth-child(25)"
+        },
+        {
+         "sel": "#svg_3 > g > :nth-child(26)"
+        },
+        {
+         "sel": "#svg_3 > g > :nth-child(27)"
+        },
+        {
+         "sel": "#svg_3 > g > :nth-child(28)"
+        },
+        {
+         "sel": "#svg_3 > g > :nth-child(29)"
+        },
+        {
+         "sel": "#svg_3 > g > :nth-child(30)"
+        },
+        {
+         "sel": "#svg_3 > g > :nth-child(31)"
+        },
+        {
+         "sel": "#svg_3 > g > :nth-child(32)"
+        },
+        {
+         "sel": "#svg_3 > g > :nth-child(33)"
+        },
+        {
+         "sel": "#svg_3 > g > :nth-child(34)"
+        },
+        {
+         "sel": "#svg_3 > g > :nth-child(35)"
+        },
+        {
+         "sel": "#svg_3 > g > :nth-child(36)"
+        },
+        {
+         "sel": "#svg_3 > g > :nth-child(37)"
+        },
+        {
+         "sel": "#svg_3 > g > :nth-child(38)"
+        },
+        {
+         "sel": "#svg_3 > g > :nth-child(39)"
+        },
+        {
+         "sel": "#svg_3 > g > :nth-child(40)"
+        },
+        {
+         "sel": "#svg_3 > g > :nth-child(41)"
+        },
+        {
+         "sel": "#svg_3 > g > :nth-child(42)"
+        },
+        {
+         "sel": "#svg_3 > g > :nth-child(43)"
+        },
+        {
+         "sel": "#svg_3 > g > :nth-child(44)"
+        },
+        {
+         "sel": "#svg_3 > g > :nth-child(45)"
+        },
+        {
+         "sel": "#svg_3 > g > :nth-child(46)"
+        },
+        {
+         "sel": "#svg_3 > g > :nth-child(47)"
+        },
+        {
+         "sel": "#svg_3 > g > :nth-child(48)"
+        },
+        {
+         "sel": "#svg_3 > g > :nth-child(49)"
+        },
+        {
+         "sel": "#svg_3 > g > :nth-child(50)"
+        },
+        {
+         "sel": "#svg_3 > g > :nth-child(51)"
+        },
+        {
+         "sel": "#svg_3 > g > :nth-child(52)"
+        },
+        {
+         "sel": "#svg_3 > g > :nth-child(53)"
+        },
+        {
+         "sel": "#svg_3 > g > :nth-child(54)"
+        },
+        {
+         "sel": "#svg_3 > g > :nth-child(55)"
+        },
+        {
+         "sel": "#svg_3 > g > :nth-child(56)"
+        },
+        {
+         "sel": "#svg_3 > g > :nth-child(57)"
+        }
+       ]
+      },
+      {
+       "id": "Cube_aretes",
+       "label": "Arêtes",
+       "parts": [
+        {
+         "sel": "#svg_3 > g > :nth-child(58)"
+        },
+        {
+         "sel": "#svg_3 > g > :nth-child(59)"
+        },
+        {
+         "sel": "#svg_3 > g > :nth-child(60)"
+        }
+       ]
+      },
+      {
+       "id": "Cube_reflets",
+       "label": "Reflets",
+       "parts": [
+        {
+         "sel": "#svg_3 > g > :nth-child(61)"
+        },
+        {
+         "sel": "#svg_3 > g > :nth-child(62)"
+        }
+       ]
+      },
+      {
+       "id": "Etiquette_Additifs",
+       "label": "Étiquette « Additifs »",
+       "parts": [
+        {
+         "id": "Etiquette_Additifs_ombre",
+         "label": "Ombre de l'étiquette",
+         "parts": [
+          {
+           "sel": "#dou-label > :nth-child(1)"
+          }
+         ]
+        },
+        {
+         "id": "Etiquette_Additifs_fond",
+         "label": "Fond blanc",
+         "parts": [
+          {
+           "sel": "#dou-label > :nth-child(2)"
+          }
+         ]
+        },
+        {
+         "id": "Etiquette_Additifs_lisere",
+         "label": "Liseré bordeaux",
+         "parts": [
+          {
+           "sel": "#dou-label > :nth-child(3)"
+          }
+         ]
+        }
+       ]
+      }
+     ]
+    },
+    {
+     "id": "Flacon_plastique",
+     "label": "Flacon en plastique (exhausteurs)",
+     "parts": [
+      {
+       "sel": "#sh-bottle",
+       "id": "Flacon_ombre",
+       "label": "Ombre portée"
+      },
+      {
+       "id": "Flacon_bouchon",
+       "label": "Bouchon verseur",
+       "parts": [
+        {
+         "sel": "#svg_4 > g > :nth-child(1)"
+        },
+        {
+         "sel": "#svg_4 > g > :nth-child(2)"
+        },
+        {
+         "sel": "#svg_4 > g > :nth-child(3)"
+        }
+       ]
+      },
+      {
+       "id": "Flacon_corps",
+       "label": "Corps ambré",
+       "parts": [
+        {
+         "sel": "#svg_4 > g > :nth-child(4)"
+        },
+        {
+         "sel": "#svg_4 > g > :nth-child(5)"
+        },
+        {
+         "sel": "#svg_4 > g > :nth-child(6)"
+        },
+        {
+         "sel": "#svg_4 > g > :nth-child(7)"
+        }
+       ]
+      },
+      {
+       "id": "Flacon_reflets",
+       "label": "Reflets",
+       "parts": [
+        {
+         "sel": "#svg_4 > g > :nth-child(8)"
+        },
+        {
+         "sel": "#svg_4 > g > :nth-child(9)"
+        },
+        {
+         "sel": "#svg_4 > g > :nth-child(10)"
+        }
+       ]
+      },
+      {
+       "id": "Etiquette_Exhausteurs",
+       "label": "Étiquette « Exhausteurs artificiels »",
+       "parts": [
+        {
+         "id": "Etiquette_Exhausteurs_ombre",
+         "label": "Ombre de l'étiquette",
+         "parts": [
+          {
+           "sel": "#dou-label_2 > :nth-child(1)"
+          }
+         ]
+        },
+        {
+         "id": "Etiquette_Exhausteurs_fond",
+         "label": "Fond blanc",
+         "parts": [
+          {
+           "sel": "#dou-label_2 > :nth-child(2)"
+          }
+         ]
+        },
+        {
+         "id": "Etiquette_Exhausteurs_lisere",
+         "label": "Liseré bordeaux",
+         "parts": [
+          {
+           "sel": "#dou-label_2 > :nth-child(3)"
+          }
+         ]
+        }
+       ]
+      }
+     ]
+    },
+    {
+     "id": "Pot_a_couvercle",
+     "label": "Pot à couvercle (conservateurs)",
+     "parts": [
+      {
+       "sel": "#sh-jar",
+       "id": "Pot_ombre",
+       "label": "Ombre portée"
+      },
+      {
+       "id": "Pot_fond_verre",
+       "label": "Fond du verre",
+       "parts": [
+        {
+         "sel": "#svg_5 > g > :nth-child(1)"
+        }
+       ]
+      },
+      {
+       "id": "Pot_poudre",
+       "label": "Contenu en poudre",
+       "parts": [
+        {
+         "sel": "#svg_5 > g > :nth-child(2)"
+        },
+        {
+         "sel": "#svg_5 > g > :nth-child(3)"
+        },
+        {
+         "sel": "#svg_5 > g > :nth-child(4)"
+        }
+       ]
+      },
+      {
+       "id": "Pot_verre_reflets",
+       "label": "Verre et reflets",
+       "parts": [
+        {
+         "sel": "#svg_5 > g > :nth-child(5)"
+        },
+        {
+         "sel": "#svg_5 > g > :nth-child(6)"
+        },
+        {
+         "sel": "#svg_5 > g > :nth-child(7)"
+        },
+        {
+         "sel": "#svg_5 > g > :nth-child(8)"
+        }
+       ]
+      },
+      {
+       "id": "Pot_couvercle",
+       "label": "Couvercle",
+       "parts": [
+        {
+         "sel": "#svg_5 > g > :nth-child(9)"
+        },
+        {
+         "sel": "#svg_5 > g > :nth-child(10)"
+        },
+        {
+         "sel": "#svg_5 > g > :nth-child(11)"
+        }
+       ]
+      },
+      {
+       "id": "Etiquette_Conservateurs",
+       "label": "Étiquette « Conservateurs »",
+       "parts": [
+        {
+         "id": "Etiquette_Conservateurs_ombre",
+         "label": "Ombre de l'étiquette",
+         "parts": [
+          {
+           "sel": "#dou-label_3 > :nth-child(1)"
+          }
+         ]
+        },
+        {
+         "id": "Etiquette_Conservateurs_fond",
+         "label": "Fond blanc",
+         "parts": [
+          {
+           "sel": "#dou-label_3 > :nth-child(2)"
+          }
+         ]
+        },
+        {
+         "id": "Etiquette_Conservateurs_lisere",
+         "label": "Liseré bordeaux",
+         "parts": [
+          {
+           "sel": "#dou-label_3 > :nth-child(3)"
+          }
+         ]
+        }
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "Textes",
+   "label": "Textes",
+   "items": [
+    {
+     "sel": "#dou-label > text",
+     "id": "Texte_Additifs",
+     "label": "Texte d'étiquette « Additifs »"
+    },
+    {
+     "id": "Texte_Exhausteurs_artificiels",
+     "label": "Texte d'étiquette « Exhausteurs artificiels »",
+     "parts": [
+      {
+       "sel": "#dou-label_2 > text:nth-of-type(1)",
+       "id": "Texte_Exhausteurs_artificiels_ligne_1",
+       "label": "« Exhausteurs »"
+      },
+      {
+       "sel": "#dou-label_2 > text:nth-of-type(2)",
+       "id": "Texte_Exhausteurs_artificiels_ligne_2",
+       "label": "« artificiels »"
+      }
+     ]
+    },
+    {
+     "sel": "#dou-label_3 > text",
+     "id": "Texte_Conservateurs",
+     "label": "Texte d'étiquette « Conservateurs »"
+    },
+    {
+     "id": "Titre",
+     "label": "Titre « Sans additifs ni substances douteuses »",
+     "parts": [
+      {
+       "sel": "#dou-w",
+       "id": "Mot_Sans",
+       "label": "« Sans »"
+      },
+      {
+       "sel": "#dou-w_2",
+       "id": "Mot_additifs",
+       "label": "« additifs »"
+      },
+      {
+       "sel": "#dou-w_3",
+       "id": "Mot_ni",
+       "label": "« ni »"
+      },
+      {
+       "sel": "#dou-w_4",
+       "id": "Mot_substances",
+       "label": "« substances »"
+      },
+      {
+       "sel": "#dou-w_5",
+       "id": "Mot_douteuses",
+       "label": "« douteuses »"
+      }
+     ]
+    }
+   ]
+  }
+ ]
+}

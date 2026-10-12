@@ -1,0 +1,166 @@
+{
+  "title": "06 — Le terroir · 100 % naturel",
+  "pruneOffCanvas": true,
+  "remove": [],
+  "layers": [
+    { "id": "Fond", "label": "Fond", "items": [
+      {"sel": "#world > rect", "id": "Aplat_vert", "label": "Aplat vert nature"},
+      {"sel": "#glow", "id": "Lueur_vert_vif", "label": "Lueur vert vif"},
+      {"id": "Feuillage_arriere_plan", "label": "Feuillage – arrière-plan (flou)", "parts": [
+        {"sel": "#bgleaves-svg > g > :nth-child(1)", "id": "Fond_palme_gauche", "label": "Palme – gauche"},
+        {"sel": "#bgleaves-svg > g > :nth-child(2)", "id": "Fond_palme_droite", "label": "Palme – droite"},
+        {"sel": "#bgleaves-svg > g > :nth-child(3)", "id": "Fond_feuille_bas_gauche", "label": "Feuille – bas gauche"},
+        {"sel": "#bgleaves-svg > g > :nth-child(4)", "id": "Fond_feuille_bas_droite", "label": "Feuille – bas droite"},
+        {"sel": "#bgleaves-svg > g > :nth-child(5)", "id": "Fond_feuille_haut_gauche", "label": "Feuille – haut gauche"},
+        {"sel": "#bgleaves-svg > g > :nth-child(6)", "id": "Fond_feuille_haut_droite", "label": "Feuille – haut droite"} ] },
+      {"sel": "#halo", "id": "Halo_lumineux", "label": "Halo lumineux"},
+      {"sel": "#vignette", "id": "Vignettage", "label": "Vignettage"}
+    ]},
+    { "id": "Decor", "label": "Décor", "items": [
+      {"sel": "#f04-terroir-ring-back", "id": "Orbite_arc_arriere", "label": "Orbite dorée – arc arrière"},
+      {"id": "Particules_dorees", "label": "Particules dorées", "parts": [
+        {"sel": "#dust-back > g", "all": true, "id": "Particule", "label": "Particule"} ] },
+      {"sel": "#flare", "id": "Lueur_chaude", "label": "Lueur chaude (derrière le tampon)"},
+      {"sel": "#f04-terroir-ring-front", "id": "Orbite_arc_avant", "label": "Orbite dorée – arc avant"}
+    ]},
+    { "id": "Illustrations", "label": "Illustrations", "items": [
+      {"id": "Oignon_violet", "label": "Oignon violet", "parts": [
+        {"sel": "#svg_3 > g > :nth-child(1)", "id": "Oignon_ombre", "label": "Ombre portée"},
+        {"sel": "#svg_3 > g > :nth-child(2)", "id": "Oignon_bulbe", "label": "Bulbe"},
+        {"sel": "#svg_3 > g > :nth-child(3)", "id": "Oignon_stries", "label": "Stries"},
+        {"sel": "#svg_3 > g > :nth-child(4)", "id": "Oignon_reflet_diffus", "label": "Reflet diffus"},
+        {"sel": "#svg_3 > g > :nth-child(5)", "id": "Oignon_reflet", "label": "Reflet"},
+        {"sel": "#svg_3 > g > :nth-child(6)", "id": "Oignon_col", "label": "Col"},
+        {"sel": "#svg_3 > g > :nth-child(7)", "id": "Oignon_racines", "label": "Racines"} ] },
+      {"id": "Tete_d_ail", "label": "Tête d'ail", "parts": [
+        {"sel": "#svg_4 > g > :nth-child(1)", "id": "Ail_ombre", "label": "Ombre portée"},
+        {"sel": "#svg_4 > g > :nth-child(2)", "id": "Ail_bulbe", "label": "Bulbe"},
+        {"sel": "#svg_4 > g > :nth-child(3)", "id": "Ail_gousses", "label": "Séparations des gousses"},
+        {"sel": "#svg_4 > g > :nth-child(4)", "id": "Ail_reflet", "label": "Reflet"},
+        {"sel": "#svg_4 > g > :nth-child(5)", "id": "Ail_tige", "label": "Tige"},
+        {"sel": "#svg_4 > g > :nth-child(6)", "id": "Ail_tige_trait", "label": "Fibre de la tige"},
+        {"sel": "#svg_4 > g > :nth-child(7)", "id": "Ail_talon", "label": "Talon"},
+        {"sel": "#svg_4 > g > :nth-child(8)", "id": "Ail_racines", "label": "Racines"} ] },
+      {"id": "Basilic", "label": "Feuilles de basilic", "parts": [
+        {"sel": "#svg_5 > g > :nth-child(1)", "id": "Basilic_ombre", "label": "Ombre portée"},
+        {"sel": "#svg_5 > g > :nth-child(2)", "id": "Basilic_tige", "label": "Tige"},
+        {"sel": "#svg_5 > g > :nth-child(3)", "id": "Basilic_feuille_gauche", "label": "Feuille gauche"},
+        {"sel": "#svg_5 > g > :nth-child(4)", "id": "Basilic_feuille_droite", "label": "Feuille droite"},
+        {"sel": "#svg_5 > g > :nth-child(5)", "id": "Basilic_feuille_centrale", "label": "Feuille centrale"} ] },
+      {"id": "Arachides", "label": "Arachides en coque", "parts": [
+        {"sel": "#svg_6 > g > :nth-child(1)", "id": "Arachides_ombre", "label": "Ombre portée"},
+        {"sel": "#svg_6 > g > :nth-child(2)", "id": "Arachide_coque_haut", "label": "Coque – haut"},
+        {"sel": "#svg_6 > g > :nth-child(3)", "id": "Arachide_coque_bas", "label": "Coque – bas"},
+        {"sel": "#svg_6 > g > :nth-child(4)", "id": "Arachide_graine_gauche", "label": "Graine décortiquée – gauche"},
+        {"sel": "#svg_6 > g > :nth-child(5)", "id": "Arachide_graine_droite", "label": "Graine décortiquée – droite"} ] },
+      {"id": "Gingembre", "label": "Gingembre", "parts": [
+        {"sel": "#svg_7 > g > :nth-child(1)", "id": "Gingembre_ombre", "label": "Ombre portée"},
+        {"sel": "#svg_7 > g > :nth-child(2)", "id": "Gingembre_racine", "label": "Racine (lobes)"},
+        {"sel": "#svg_7 > g > :nth-child(3)", "id": "Gingembre_ombre_volume", "label": "Ombre de volume"},
+        {"sel": "#svg_7 > g > :nth-child(4)", "id": "Gingembre_pli_1", "label": "Pli 1"},
+        {"sel": "#svg_7 > g > :nth-child(5)", "id": "Gingembre_pli_2", "label": "Pli 2"},
+        {"sel": "#svg_7 > g > :nth-child(6)", "id": "Gingembre_anneaux", "label": "Anneaux de la peau"},
+        {"sel": "#svg_7 > g > :nth-child(7)", "id": "Gingembre_points", "label": "Points de la peau"},
+        {"sel": "#svg_7 > g > :nth-child(8)", "id": "Gingembre_bourgeon_gauche", "label": "Bourgeon – gauche"},
+        {"sel": "#svg_7 > g > :nth-child(9)", "id": "Gingembre_bourgeon_centre", "label": "Bourgeon – centre"},
+        {"sel": "#svg_7 > g > :nth-child(10)", "id": "Gingembre_bourgeon_droite", "label": "Bourgeon – droite"},
+        {"sel": "#svg_7 > g > :nth-child(11)", "id": "Gingembre_reflet", "label": "Reflet"},
+        {"sel": "#svg_7 > g > :nth-child(12)", "id": "Gingembre_coupe", "label": "Coupe fibreuse"},
+        {"sel": "#svg_7 > g > :nth-child(13)", "id": "Gingembre_rondelle_ombre", "label": "Rondelle – ombre"},
+        {"sel": "#svg_7 > g > :nth-child(14)", "id": "Gingembre_rondelle_peau", "label": "Rondelle – peau"},
+        {"sel": "#svg_7 > g > :nth-child(15)", "id": "Gingembre_rondelle_chair", "label": "Rondelle – chair"},
+        {"sel": "#svg_7 > g > :nth-child(16)", "id": "Gingembre_rondelle_cerne", "label": "Rondelle – cerne"},
+        {"sel": "#svg_7 > g > :nth-child(17)", "id": "Gingembre_rondelle_fibres", "label": "Rondelle – fibres"},
+        {"sel": "#svg_7 > g > :nth-child(18)", "id": "Gingembre_rondelle_reflet", "label": "Rondelle – reflet"} ] },
+      {"id": "Gombo", "label": "Gombo", "parts": [
+        {"sel": "#svg_8 > g > :nth-child(1)", "id": "Gombo_ombre", "label": "Ombre portée"},
+        {"sel": "#svg_8 > g > :nth-child(2)", "id": "Gombo_gousse", "label": "Gousse"},
+        {"sel": "#svg_8 > g > :nth-child(3)", "id": "Gombo_rondelle_ombre", "label": "Rondelle – ombre"},
+        {"sel": "#svg_8 > g > :nth-child(4)", "id": "Gombo_rondelle", "label": "Rondelle en étoile"} ] },
+      {"id": "Bokeh_dore", "label": "Bokeh doré", "parts": [
+        {"sel": "#dust-front > g", "all": true, "id": "Bokeh", "label": "Bokeh"} ] },
+      {"id": "Noix_de_palme", "label": "Noix de palme", "parts": [
+        {"sel": "#svg_11 > g > :nth-child(1)", "id": "Palme_ombre", "label": "Ombre portée"},
+        {"sel": "#svg_11 > g > use", "all": true, "id": "Noix_de_palme", "label": "Noix de palme"} ] },
+      {"id": "Piment", "label": "Piment rouge", "parts": [
+        {"sel": "#svg_12 > g > :nth-child(1)", "id": "Piment_ombre", "label": "Ombre portée"},
+        {"sel": "#svg_12 > g > :nth-child(2)", "id": "Piment_corps", "label": "Corps"},
+        {"sel": "#svg_12 > g > :nth-child(3)", "id": "Piment_ombre_propre", "label": "Ombre propre"},
+        {"sel": "#svg_12 > g > :nth-child(4)", "id": "Piment_reflet_diffus", "label": "Reflet diffus"},
+        {"sel": "#svg_12 > g > :nth-child(5)", "id": "Piment_reflet", "label": "Reflet"},
+        {"sel": "#svg_12 > g > :nth-child(6)", "id": "Piment_reflet_pointe", "label": "Reflet de la pointe"},
+        {"sel": "#svg_12 > g > :nth-child(7)", "id": "Piment_calice", "label": "Calice"},
+        {"sel": "#svg_12 > g > :nth-child(8)", "id": "Piment_calice_reflet", "label": "Reflet du calice"},
+        {"sel": "#svg_12 > g > :nth-child(9)", "id": "Piment_pedoncule", "label": "Pédoncule"},
+        {"sel": "#svg_12 > g > :nth-child(10)", "id": "Piment_pedoncule_reflet", "label": "Reflet du pédoncule"} ] },
+      {"id": "Tomate", "label": "Tomate", "parts": [
+        {"sel": "#svg_13 > g > :nth-child(1)", "id": "Tomate_ombre", "label": "Ombre portée"},
+        {"sel": "#svg_13 > g > :nth-child(2)", "id": "Tomate_corps", "label": "Corps"},
+        {"sel": "#svg_13 > g > :nth-child(3)", "id": "Tomate_cotes", "label": "Côtes"},
+        {"sel": "#svg_13 > g > :nth-child(4)", "id": "Tomate_lumiere_bord", "label": "Lumière de bord"},
+        {"sel": "#svg_13 > g > :nth-child(5)", "id": "Tomate_reflet_diffus", "label": "Reflet diffus"},
+        {"sel": "#svg_13 > g > :nth-child(6)", "id": "Tomate_reflet", "label": "Reflet"},
+        {"sel": "#svg_13 > g > :nth-child(7)", "id": "Tomate_reflet_secondaire", "label": "Reflet secondaire"},
+        {"sel": "#svg_13 > g > :nth-child(8)", "id": "Tomate_collerette", "label": "Collerette (sépales)"},
+        {"sel": "#svg_13 > g > :nth-child(9)", "id": "Tomate_coeur_pedoncule", "label": "Base du pédoncule"},
+        {"sel": "#svg_13 > g > :nth-child(10)", "id": "Tomate_pedoncule", "label": "Pédoncule"},
+        {"sel": "#svg_13 > g > :nth-child(11)", "id": "Tomate_pedoncule_reflet", "label": "Reflet du pédoncule"} ] },
+      {"id": "Aubergine_africaine", "label": "Aubergine africaine", "parts": [
+        {"sel": "#svg_14 > g > :nth-child(1)", "id": "Aubergine_ombre", "label": "Ombre portée"},
+        {"sel": "#svg_14 > g > :nth-child(2)", "id": "Aubergine_corps", "label": "Corps"},
+        {"sel": "#svg_14 > g > :nth-child(3)", "id": "Aubergine_degrade_haut", "label": "Dégradé vert (haut)"},
+        {"sel": "#svg_14 > g > :nth-child(4)", "id": "Aubergine_teinte_chaude", "label": "Teinte chaude (bas)"},
+        {"sel": "#svg_14 > g > :nth-child(5)", "id": "Aubergine_nervures", "label": "Nervures"},
+        {"sel": "#svg_14 > g > :nth-child(6)", "id": "Aubergine_ombre_volume", "label": "Ombre de volume"},
+        {"sel": "#svg_14 > g > :nth-child(7)", "id": "Aubergine_reflet_diffus", "label": "Reflet diffus"},
+        {"sel": "#svg_14 > g > :nth-child(8)", "id": "Aubergine_reflet", "label": "Reflet"},
+        {"sel": "#svg_14 > g > :nth-child(9)", "id": "Aubergine_calice", "label": "Calice"},
+        {"sel": "#svg_14 > g > :nth-child(10)", "id": "Aubergine_calice_reflet", "label": "Reflet du calice"},
+        {"sel": "#svg_14 > g > :nth-child(11)", "id": "Aubergine_pedoncule", "label": "Pédoncule"},
+        {"sel": "#svg_14 > g > :nth-child(12)", "id": "Aubergine_pedoncule_reflet", "label": "Reflet du pédoncule"} ] }
+    ]},
+    { "id": "Textes", "label": "Textes", "items": [
+      {"id": "Tampon_100_naturel", "label": "Tampon « 100 % naturel »", "parts": [
+        {"sel": "#stamp-shadow", "id": "Tampon_ombre", "label": "Ombre portée"},
+        {"sel": "#stamp > :nth-child(1)", "id": "Tampon_disque", "label": "Disque vert"},
+        {"sel": "#stamp > :nth-child(2)", "id": "Tampon_ombre_interieure", "label": "Ombre intérieure"},
+        {"sel": "#stamp > :nth-child(3)", "id": "Tampon_bordure", "label": "Bordure blanche"},
+        {"sel": "#stamp-sheen", "id": "Tampon_reflet", "label": "Reflet"},
+        {"sel": "#stamp-ring2", "id": "Tampon_anneau", "label": "Anneau intérieur"},
+        {"sel": "#svg_9", "id": "Tampon_pousse", "label": "Pousse"},
+        {"sel": "#stamp-num", "id": "Tampon_100", "label": "« 100 % »"},
+        {"sel": "#stamp-lbl", "id": "Tampon_NATUREL", "label": "« NATUREL »"} ] },
+      {"id": "Titre", "label": "Titre « Ingrédients 100 % naturels »", "parts": [
+        {"sel": "#w1", "id": "Titre_Ingredients", "label": "« Ingrédients »"},
+        {"sel": "#w2", "id": "Titre_100", "label": "« 100 % »"},
+        {"sel": "#w3", "id": "Titre_naturels", "label": "« naturels »"} ] },
+      {"id": "Sous_titre", "label": "Sous-titre « de Côte d'Ivoire »", "parts": [
+        {"sel": "#s1", "id": "Sous_titre_de", "label": "« de »"},
+        {"sel": "#s2", "id": "Sous_titre_Cote", "label": "« Côte »"},
+        {"sel": "#s3", "id": "Sous_titre_d_Ivoire", "label": "« d'Ivoire »"} ] },
+      {"id": "Filet_tricolore", "label": "Filet tricolore orange · blanc · vert", "parts": [
+        {"sel": "#filet > :nth-child(1)", "id": "Filet_ombre", "label": "Ombre portée"},
+        {"sel": "#filet > :nth-child(2)", "id": "Filet_contour", "label": "Contour clair"},
+        {"sel": "#seg", "id": "Filet_orange", "label": "Segment orange"},
+        {"sel": "#seg_2", "id": "Filet_blanc", "label": "Segment blanc"},
+        {"sel": "#seg_3", "id": "Filet_vert", "label": "Segment vert"} ] }
+    ]},
+    { "id": "Decor_premier_plan", "label": "Décor – premier plan", "items": [
+      {"id": "Feuillage_haut_gauche", "label": "Feuillage flou – coin haut gauche", "parts": [
+        {"sel": "#fg-svg > g > :nth-child(1) > :nth-child(1)", "id": "Avant_palme_haut_gauche", "label": "Palme sombre"},
+        {"sel": "#fg-svg > g > :nth-child(1) > :nth-child(2)", "id": "Avant_feuille_haut_gauche", "label": "Feuille"} ] },
+      {"id": "Feuillage_haut_droite", "label": "Feuillage flou – coin haut droit", "parts": [
+        {"sel": "#fg-svg > g > :nth-child(2) > :nth-child(1)", "id": "Avant_feuille_sombre_haut_droite", "label": "Feuille sombre"},
+        {"sel": "#fg-svg > g > :nth-child(2) > :nth-child(2)", "id": "Avant_feuille_haut_droite", "label": "Feuille"} ] },
+      {"id": "Feuillage_bas_gauche", "label": "Feuillage flou – coin bas gauche", "parts": [
+        {"sel": "#fg-svg > g > :nth-child(3) > :nth-child(1)", "id": "Avant_feuille_sombre_bas_gauche", "label": "Feuille sombre"},
+        {"sel": "#fg-svg > g > :nth-child(3) > :nth-child(2)", "id": "Avant_palme_bas_gauche", "label": "Palme"} ] },
+      {"id": "Feuillage_bas_droite", "label": "Feuillage flou – coin bas droit", "parts": [
+        {"sel": "#fg-svg > g > :nth-child(4) > :nth-child(1)", "id": "Avant_palme_bas_droite", "label": "Palme sombre"},
+        {"sel": "#fg-svg > g > :nth-child(4) > :nth-child(2)", "id": "Avant_feuille_bas_droite", "label": "Feuille"} ] }
+    ]},
+    { "id": "Effets", "label": "Effets & lumière", "items": [
+      {"sel": "#glint", "id": "Etincelle_doree", "label": "Étincelle dorée"}
+    ]}
+  ]
+}

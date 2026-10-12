@@ -1,0 +1,727 @@
+{
+ "title": "01 — Accroche · « Envie de relever le goût… »",
+ "pruneOffCanvas": true,
+ "remove": [
+  "#iris"
+ ],
+ "layers": [
+  {
+   "id": "Fond",
+   "label": "Fond",
+   "items": [
+    {
+     "sel": "#bg > :nth-child(1)",
+     "id": "Aplat_creme",
+     "label": "Aplat crème"
+    },
+    {
+     "sel": "#bg > :nth-child(2)",
+     "id": "Vignettage_bordeaux",
+     "label": "Vignettage bordeaux"
+    },
+    {
+     "sel": "#bg > :nth-child(3)",
+     "id": "Halo_dore_central",
+     "label": "Halo doré central"
+    },
+    {
+     "id": "Bokeh",
+     "label": "Bokeh – taches de lumière",
+     "parts": [
+      {
+       "sel": "#acc-bokeh",
+       "id": "Bokeh_haut_gauche",
+       "label": "Tache de lumière – haut gauche"
+      },
+      {
+       "sel": "#acc-bokeh_2",
+       "id": "Bokeh_haut_droite",
+       "label": "Tache de lumière – haut droite"
+      },
+      {
+       "sel": "#acc-bokeh_3",
+       "id": "Bokeh_bas_droite",
+       "label": "Tache de lumière – bas droite"
+      },
+      {
+       "sel": "#acc-bokeh_4",
+       "id": "Bokeh_bas_gauche",
+       "label": "Tache de lumière – bas gauche"
+      }
+     ]
+    },
+    {
+     "sel": "#bg #svg",
+     "id": "Grain_papier",
+     "label": "Grain papier (texture)"
+    },
+    {
+     "id": "Particules_dorees",
+     "label": "Particules dorées",
+     "parts": [
+      {
+       "sel": "#specks > g",
+       "all": true,
+       "id": "Particule",
+       "label": "Particule"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "Illustrations",
+   "label": "Illustrations",
+   "items": [
+    {
+     "id": "Ail",
+     "label": "Ail",
+     "parts": [
+      {
+       "id": "Ail_ombre",
+       "label": "Ombre portée",
+       "parts": [
+        {
+         "sel": "#ic-garlic > g > g > :nth-child(1)"
+        }
+       ]
+      },
+      {
+       "id": "Ail_bulbe",
+       "label": "Bulbe",
+       "parts": [
+        {
+         "sel": "#ic-garlic > g > g > :nth-child(2)"
+        },
+        {
+         "sel": "#ic-garlic > g > g > :nth-child(3)"
+        },
+        {
+         "sel": "#ic-garlic > g > g > :nth-child(4)"
+        },
+        {
+         "sel": "#ic-garlic > g > g > :nth-child(5)"
+        },
+        {
+         "sel": "#ic-garlic > g > g > :nth-child(6)"
+        },
+        {
+         "sel": "#ic-garlic > g > g > :nth-child(7)"
+        },
+        {
+         "sel": "#ic-garlic > g > g > :nth-child(8)"
+        }
+       ]
+      },
+      {
+       "id": "Ail_pointe",
+       "label": "Pointe sèche",
+       "parts": [
+        {
+         "sel": "#ic-garlic > g > g > :nth-child(9)"
+        }
+       ]
+      },
+      {
+       "id": "Ail_racines",
+       "label": "Racines",
+       "parts": [
+        {
+         "sel": "#ic-garlic > g > g > :nth-child(10)"
+        },
+        {
+         "sel": "#ic-garlic > g > g > :nth-child(11)"
+        }
+       ]
+      },
+      {
+       "id": "Ail_reflet",
+       "label": "Reflet",
+       "parts": [
+        {
+         "sel": "#ic-garlic > g > g > :nth-child(12)"
+        }
+       ]
+      },
+      {
+       "id": "Ail_gousse",
+       "label": "Gousse détachée",
+       "parts": [
+        {
+         "sel": "#ic-garlic > g > g > :nth-child(13)"
+        }
+       ]
+      }
+     ]
+    },
+    {
+     "id": "Piment_rouge",
+     "label": "Piment rouge",
+     "parts": [
+      {
+       "id": "Piment_ombre",
+       "label": "Ombre portée",
+       "parts": [
+        {
+         "sel": "#ic-chili > g > g > :nth-child(1)"
+        }
+       ]
+      },
+      {
+       "id": "Piment_corps",
+       "label": "Corps du piment",
+       "parts": [
+        {
+         "sel": "#ic-chili > g > g > :nth-child(2)"
+        },
+        {
+         "sel": "#ic-chili > g > g > :nth-child(3)"
+        },
+        {
+         "sel": "#ic-chili > g > g > :nth-child(4)"
+        },
+        {
+         "sel": "#ic-chili > g > g > :nth-child(5)"
+        },
+        {
+         "sel": "#ic-chili > g > g > :nth-child(6)"
+        }
+       ]
+      },
+      {
+       "id": "Piment_calice",
+       "label": "Calice",
+       "parts": [
+        {
+         "sel": "#ic-chili > g > g > :nth-child(7)"
+        },
+        {
+         "sel": "#ic-chili > g > g > :nth-child(8)"
+        }
+       ]
+      },
+      {
+       "id": "Piment_queue",
+       "label": "Queue",
+       "parts": [
+        {
+         "sel": "#ic-chili > g > g > :nth-child(9)"
+        },
+        {
+         "sel": "#ic-chili > g > g > :nth-child(10)"
+        }
+       ]
+      }
+     ]
+    },
+    {
+     "id": "Feuilles_de_laurier",
+     "label": "Feuilles de laurier",
+     "parts": [
+      {
+       "id": "Laurier_ombre",
+       "label": "Ombre portée",
+       "parts": [
+        {
+         "sel": "#ic-bay > g > g > :nth-child(1)"
+        }
+       ]
+      },
+      {
+       "id": "Laurier_feuille_arriere",
+       "label": "Feuille arrière",
+       "parts": [
+        {
+         "sel": "#ic-bay > g > g > :nth-child(2)"
+        },
+        {
+         "sel": "#ic-bay > g > g > :nth-child(3)"
+        }
+       ]
+      },
+      {
+       "id": "Laurier_feuille_avant",
+       "label": "Feuille avant",
+       "parts": [
+        {
+         "sel": "#ic-bay > g > g > :nth-child(4)"
+        },
+        {
+         "sel": "#ic-bay > g > g > :nth-child(5)"
+        },
+        {
+         "sel": "#ic-bay > g > g > :nth-child(6)"
+        },
+        {
+         "sel": "#ic-bay > g > g > :nth-child(7)"
+        }
+       ]
+      },
+      {
+       "id": "Laurier_tige",
+       "label": "Tige",
+       "parts": [
+        {
+         "sel": "#ic-bay > g > g > :nth-child(8)"
+        }
+       ]
+      }
+     ]
+    },
+    {
+     "id": "Marmite",
+     "label": "Petite marmite",
+     "parts": [
+      {
+       "id": "Marmite_ombre",
+       "label": "Ombre portée",
+       "parts": [
+        {
+         "sel": "#ic-pot > g > g > :nth-child(1)"
+        }
+       ]
+      },
+      {
+       "id": "Marmite_vapeur",
+       "label": "Vapeur",
+       "parts": [
+        {
+         "sel": "#ic-pot > g > g > :nth-child(2)"
+        }
+       ]
+      },
+      {
+       "id": "Marmite_anses",
+       "label": "Anses",
+       "parts": [
+        {
+         "sel": "#ic-pot > g > g > :nth-child(3)"
+        },
+        {
+         "sel": "#ic-pot > g > g > :nth-child(4)"
+        }
+       ]
+      },
+      {
+       "id": "Marmite_cuve",
+       "label": "Cuve",
+       "parts": [
+        {
+         "sel": "#ic-pot > g > g > :nth-child(5)"
+        }
+       ]
+      },
+      {
+       "id": "Marmite_bande_doree",
+       "label": "Bande dorée",
+       "parts": [
+        {
+         "sel": "#ic-pot > g > g > :nth-child(6)"
+        }
+       ]
+      },
+      {
+       "id": "Marmite_rebord",
+       "label": "Rebord",
+       "parts": [
+        {
+         "sel": "#ic-pot > g > g > :nth-child(7)"
+        }
+       ]
+      },
+      {
+       "id": "Marmite_couvercle",
+       "label": "Couvercle",
+       "parts": [
+        {
+         "sel": "#ic-pot > g > g > :nth-child(8)"
+        },
+        {
+         "sel": "#ic-pot > g > g > :nth-child(9)"
+        }
+       ]
+      },
+      {
+       "id": "Marmite_bouton",
+       "label": "Bouton doré",
+       "parts": [
+        {
+         "sel": "#ic-pot > g > g > :nth-child(10)"
+        },
+        {
+         "sel": "#ic-pot > g > g > :nth-child(11)"
+        },
+        {
+         "sel": "#ic-pot > g > g > :nth-child(12)"
+        }
+       ]
+      },
+      {
+       "id": "Marmite_reflets",
+       "label": "Reflets",
+       "parts": [
+        {
+         "sel": "#ic-pot > g > g > :nth-child(13)"
+        },
+        {
+         "sel": "#ic-pot > g > g > :nth-child(14)"
+        }
+       ]
+      }
+     ]
+    },
+    {
+     "id": "Grains_de_poivre",
+     "label": "Grains de poivre",
+     "parts": [
+      {
+       "id": "Poivre_ombre",
+       "label": "Ombre portée",
+       "parts": [
+        {
+         "sel": "#ic-pepper > g > g > :nth-child(1)"
+        }
+       ]
+      },
+      {
+       "id": "Poivre_tas",
+       "label": "Tas de grains (noirs et roses)",
+       "parts": [
+        {
+         "sel": "#ic-pepper > g > g > use",
+         "all": true
+        }
+       ]
+      }
+     ]
+    },
+    {
+     "id": "Mortier_et_pilon",
+     "label": "Mortier et pilon",
+     "parts": [
+      {
+       "id": "Mortier_ombre",
+       "label": "Ombre portée",
+       "parts": [
+        {
+         "sel": "#ic-mortar > g > g > :nth-child(1)"
+        }
+       ]
+      },
+      {
+       "id": "Mortier_epices",
+       "label": "Épices moulues",
+       "parts": [
+        {
+         "sel": "#ic-mortar > g > g > :nth-child(2)"
+        },
+        {
+         "sel": "#ic-mortar > g > g > :nth-child(3)"
+        },
+        {
+         "sel": "#ic-mortar > g > g > :nth-child(4)"
+        },
+        {
+         "sel": "#ic-mortar > g > g > :nth-child(5)"
+        },
+        {
+         "sel": "#ic-mortar > g > g > :nth-child(6)"
+        }
+       ]
+      },
+      {
+       "id": "Mortier_pilon",
+       "label": "Pilon",
+       "parts": [
+        {
+         "sel": "#ic-mortar > g > g > :nth-child(7)"
+        },
+        {
+         "sel": "#ic-mortar > g > g > :nth-child(8)"
+        },
+        {
+         "sel": "#ic-mortar > g > g > :nth-child(9)"
+        }
+       ]
+      },
+      {
+       "id": "Mortier_bol",
+       "label": "Bol",
+       "parts": [
+        {
+         "sel": "#ic-mortar > g > g > :nth-child(10)"
+        },
+        {
+         "sel": "#ic-mortar > g > g > :nth-child(11)"
+        },
+        {
+         "sel": "#ic-mortar > g > g > :nth-child(12)"
+        }
+       ]
+      },
+      {
+       "id": "Mortier_pied",
+       "label": "Pied",
+       "parts": [
+        {
+         "sel": "#ic-mortar > g > g > :nth-child(13)"
+        }
+       ]
+      },
+      {
+       "id": "Mortier_reflets",
+       "label": "Reflets",
+       "parts": [
+        {
+         "sel": "#ic-mortar > g > g > :nth-child(14)"
+        },
+        {
+         "sel": "#ic-mortar > g > g > :nth-child(15)"
+        }
+       ]
+      }
+     ]
+    },
+    {
+     "id": "Oignon_rouge",
+     "label": "Oignon rouge",
+     "parts": [
+      {
+       "id": "Oignon_ombre",
+       "label": "Ombre portée",
+       "parts": [
+        {
+         "sel": "#ic-onion > g > g > :nth-child(1)"
+        }
+       ]
+      },
+      {
+       "id": "Oignon_bulbe",
+       "label": "Bulbe",
+       "parts": [
+        {
+         "sel": "#ic-onion > g > g > :nth-child(2)"
+        },
+        {
+         "sel": "#ic-onion > g > g > :nth-child(3)"
+        },
+        {
+         "sel": "#ic-onion > g > g > :nth-child(4)"
+        }
+       ]
+      },
+      {
+       "id": "Oignon_col",
+       "label": "Col (peau sèche)",
+       "parts": [
+        {
+         "sel": "#ic-onion > g > g > :nth-child(5)"
+        }
+       ]
+      },
+      {
+       "id": "Oignon_racines",
+       "label": "Racines",
+       "parts": [
+        {
+         "sel": "#ic-onion > g > g > :nth-child(6)"
+        },
+        {
+         "sel": "#ic-onion > g > g > :nth-child(7)"
+        }
+       ]
+      },
+      {
+       "id": "Oignon_reflets",
+       "label": "Reflets",
+       "parts": [
+        {
+         "sel": "#ic-onion > g > g > :nth-child(8)"
+        },
+        {
+         "sel": "#ic-onion > g > g > :nth-child(9)"
+        }
+       ]
+      }
+     ]
+    },
+    {
+     "id": "Cuillere_en_bois",
+     "label": "Cuillère en bois – épices dorées",
+     "parts": [
+      {
+       "id": "Cuillere_ombre",
+       "label": "Ombre portée",
+       "parts": [
+        {
+         "sel": "#ic-spoon > g > g > :nth-child(1)"
+        }
+       ]
+      },
+      {
+       "id": "Cuillere_manche",
+       "label": "Manche",
+       "parts": [
+        {
+         "sel": "#ic-spoon > g > g > g > :nth-child(1)"
+        },
+        {
+         "sel": "#ic-spoon > g > g > g > :nth-child(2)"
+        },
+        {
+         "sel": "#ic-spoon > g > g > g > :nth-child(3)"
+        }
+       ]
+      },
+      {
+       "id": "Cuillere_col",
+       "label": "Col",
+       "parts": [
+        {
+         "sel": "#ic-spoon > g > g > g > :nth-child(4)"
+        }
+       ]
+      },
+      {
+       "id": "Cuillere_cuilleron",
+       "label": "Cuilleron",
+       "parts": [
+        {
+         "sel": "#ic-spoon > g > g > g > :nth-child(5)"
+        },
+        {
+         "sel": "#ic-spoon > g > g > g > :nth-child(6)"
+        }
+       ]
+      },
+      {
+       "id": "Cuillere_epices",
+       "label": "Épices dorées",
+       "parts": [
+        {
+         "sel": "#ic-spoon > g > g > g > :nth-child(7)"
+        },
+        {
+         "sel": "#ic-spoon > g > g > g > :nth-child(8)"
+        },
+        {
+         "sel": "#ic-spoon > g > g > g > :nth-child(9)"
+        },
+        {
+         "sel": "#ic-spoon > g > g > g > :nth-child(10)"
+        },
+        {
+         "sel": "#ic-spoon > g > g > g > :nth-child(11)"
+        },
+        {
+         "sel": "#ic-spoon > g > g > g > :nth-child(12)"
+        },
+        {
+         "sel": "#ic-spoon > g > g > g > :nth-child(13)"
+        },
+        {
+         "sel": "#ic-spoon > g > g > g > :nth-child(14)"
+        }
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "Textes",
+   "label": "Textes",
+   "items": [
+    {
+     "id": "Ligne_1",
+     "label": "Ligne 1 « Envie de relever le goût »",
+     "parts": [
+      {
+       "sel": "#acc-w > text",
+       "id": "Mot_Envie",
+       "label": "« Envie »"
+      },
+      {
+       "sel": "#acc-w_2 > text",
+       "id": "Mot_de_ligne_1",
+       "label": "« de »"
+      },
+      {
+       "id": "Relever_le_gout",
+       "label": "« relever le goût » (doré)",
+       "parts": [
+        {
+         "sel": "#acc-w_3 > text",
+         "id": "Mot_relever",
+         "label": "« relever »"
+        },
+        {
+         "sel": "#acc-w_4 > text",
+         "id": "Mot_le",
+         "label": "« le »"
+        },
+        {
+         "sel": "#acc-w_5 > text",
+         "id": "Mot_gout",
+         "label": "« goût »"
+        },
+        {
+         "id": "Soulignement_dore",
+         "label": "Soulignement doré",
+         "parts": [
+          {
+           "sel": "#f01-accroche-trait-main",
+           "id": "Soulignement_trait_principal",
+           "label": "Trait principal"
+          },
+          {
+           "sel": "#f01-accroche-trait-dry",
+           "id": "Soulignement_trait_sec",
+           "label": "Trait sec (brossé)"
+          }
+         ]
+        }
+       ]
+      }
+     ]
+    },
+    {
+     "id": "Ligne_2",
+     "label": "Ligne 2 « de vos plats du quotidien ? »",
+     "parts": [
+      {
+       "sel": "#acc-w_6 > text",
+       "id": "Mot_de_ligne_2",
+       "label": "« de »"
+      },
+      {
+       "sel": "#acc-w_7 > text",
+       "id": "Mot_vos",
+       "label": "« vos »"
+      },
+      {
+       "sel": "#acc-w_8 > text",
+       "id": "Mot_plats",
+       "label": "« plats »"
+      },
+      {
+       "sel": "#acc-w_9 > text",
+       "id": "Mot_du",
+       "label": "« du »"
+      },
+      {
+       "sel": "#acc-w_10 > text",
+       "id": "Mot_quotidien",
+       "label": "« quotidien »"
+      },
+      {
+       "sel": "#qmark > text",
+       "id": "Point_interrogation",
+       "label": "« ? »"
+      }
+     ]
+    }
+   ]
+  }
+ ]
+}

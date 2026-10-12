@@ -1,0 +1,74 @@
+{
+  "title": "05 — Le feu · Tous vos plats",
+  "pruneOffCanvas": true,
+  "remove": [],
+  "layers": [
+    { "id": "Fond", "label": "Fond", "items": [
+      {"sel": "#feu-world > rect", "id": "Aplat_creme", "label": "Aplat crème"},
+      {"id": "Mur_carrele", "label": "Mur carrelé", "parts": [
+        {"sel": "#svg_2 > g > :nth-child(1)", "id": "Mur_degrade", "label": "Mur – dégradé crème"},
+        {"sel": "#svg_2 > g > :nth-child(2)", "id": "Carreaux_muraux", "label": "Carreaux muraux"} ] },
+      {"sel": "#svg_2 > g > :nth-child(5)", "id": "Lueur_douce", "label": "Lueur douce"},
+      {"id": "Plan_de_travail", "label": "Plan de travail", "parts": [
+        {"sel": "#svg_2 > g > :nth-child(6)", "id": "Plan_de_travail_surface", "label": "Surface du plan"},
+        {"sel": "#lefeu-joints", "id": "Joints_plan_de_travail", "label": "Joints de carrelage"},
+        {"sel": "#svg_2 > g > :nth-child(8)", "id": "Ombre_jonction_mur", "label": "Ombre de jonction mur / plan"},
+        {"sel": "#svg_2 > g > :nth-child(9)", "id": "Lisere_clair_plan", "label": "Liseré clair"} ] },
+      {"id": "Facade_bois", "label": "Façade bois", "parts": [
+        {"sel": "#svg_2 > g > :nth-child(12)", "id": "Chant_facade", "label": "Chant de la façade"},
+        {"sel": "#svg_2 > g > :nth-child(13)", "id": "Lisere_facade", "label": "Liseré lumineux"},
+        {"sel": "#svg_2 > g > :nth-child(14)", "id": "Facade_bois_aplat", "label": "Bois – dégradé"},
+        {"sel": "#lefeu-grain", "id": "Veinage_bois", "label": "Veinage du bois"} ] }
+    ]},
+    { "id": "Decor", "label": "Décor", "items": [
+      {"sel": "#lefeu-st3 > :nth-child(1)", "id": "Ombre_natte", "label": "Ombre de la natte"},
+      {"id": "Natte_raphia", "label": "Natte en raphia", "parts": [
+        {"sel": "#lefeu-st3 > :nth-child(2)", "id": "Natte_fond", "label": "Natte – fond"},
+        {"sel": "#lefeu-weave", "id": "Natte_tressage", "label": "Tressage"},
+        {"sel": "#lefeu-st3 > :nth-child(4)", "id": "Natte_bordure", "label": "Bordure"} ] }
+    ]},
+    { "id": "Illustrations", "label": "Illustrations", "items": [
+      {"id": "Assiette", "label": "Assiette – bord bordeaux", "parts": [
+        {"sel": "#lefeu-st3 > :nth-child(5)", "id": "Assiette_ombre", "label": "Ombre portée"},
+        {"sel": "#lefeu-st3 > :nth-child(6)", "id": "Assiette_epaisseur", "label": "Épaisseur"},
+        {"sel": "#lefeu-st3 > :nth-child(7)", "id": "Assiette_bord", "label": "Bord bordeaux"},
+        {"sel": "#lefeu-st3 > :nth-child(8)", "id": "Assiette_reflet_bord", "label": "Reflet du bord"},
+        {"sel": "#lefeu-st3 > :nth-child(9)", "id": "Assiette_fond", "label": "Fond blanc"},
+        {"sel": "#lefeu-st3 > :nth-child(10)", "id": "Assiette_filet_dore", "label": "Filet doré"},
+        {"sel": "#lefeu-st3 > :nth-child(11)", "id": "Assiette_ombre_interieure", "label": "Ombre intérieure"} ] },
+      {"id": "Attieke", "label": "Attiéké", "parts": [
+        {"id": "Attieke_ombre", "label": "Ombre portée", "parts": [{"sel": "#lefeu-st3 > :nth-child(12)"}]},
+        {"id": "Attieke_dome", "label": "Dôme d'attiéké", "parts": [{"sel": "#lefeu-st3 > :nth-child(13)"}]},
+        {"id": "Grains_attieke", "label": "Grains d'attiéké", "parts": [{"sel": "#lefeu-attieke-grains > circle", "all": true}]},
+        {"id": "Herbes_et_piment", "label": "Herbes et piment", "parts": [{"sel": "#lefeu-attieke-grains > rect", "all": true}]},
+        {"id": "Attieke_reflet", "label": "Reflet", "parts": [{"sel": "#lefeu-attieke-grains > ellipse"}]} ] },
+      {"id": "Rondelles_tomate", "label": "Rondelles de tomate", "parts": [
+        {"id": "Rondelle_tomate_1", "label": "Rondelle de tomate 1", "parts": [{"sel": "#lefeu-st3 > :nth-child(15) > :nth-child(1)"}, {"sel": "#lefeu-st3 > :nth-child(15) > :nth-child(2)"}, {"sel": "#lefeu-st3 > :nth-child(15) > :nth-child(3)"}, {"sel": "#lefeu-st3 > :nth-child(15) > :nth-child(4)"}, {"sel": "#lefeu-st3 > :nth-child(15) > :nth-child(5)"}, {"sel": "#lefeu-st3 > :nth-child(15) > :nth-child(6)"}, {"sel": "#lefeu-st3 > :nth-child(15) > :nth-child(7)"}, {"sel": "#lefeu-st3 > :nth-child(15) > :nth-child(8)"}]},
+        {"id": "Rondelle_tomate_2", "label": "Rondelle de tomate 2", "parts": [{"sel": "#lefeu-st3 > :nth-child(15) > :nth-child(9)"}, {"sel": "#lefeu-st3 > :nth-child(15) > :nth-child(10)"}, {"sel": "#lefeu-st3 > :nth-child(15) > :nth-child(11)"}, {"sel": "#lefeu-st3 > :nth-child(15) > :nth-child(12)"}, {"sel": "#lefeu-st3 > :nth-child(15) > :nth-child(13)"}, {"sel": "#lefeu-st3 > :nth-child(15) > :nth-child(14)"}, {"sel": "#lefeu-st3 > :nth-child(15) > :nth-child(15)"}, {"sel": "#lefeu-st3 > :nth-child(15) > :nth-child(16)"}]} ] },
+      {"id": "Rondelle_oignon", "label": "Rondelle d'oignon", "parts": [{"sel": "#lefeu-st3 > :nth-child(15) > :nth-child(17)"}, {"sel": "#lefeu-st3 > :nth-child(15) > :nth-child(18)"}, {"sel": "#lefeu-st3 > :nth-child(15) > :nth-child(19)"}, {"sel": "#lefeu-st3 > :nth-child(15) > :nth-child(20)"}, {"sel": "#lefeu-st3 > :nth-child(15) > :nth-child(21)"}, {"sel": "#lefeu-st3 > :nth-child(15) > :nth-child(22)"}]},
+      {"id": "Poisson_braise", "label": "Poisson braisé", "parts": [
+        {"sel": "#lefeu-st3 > :nth-child(16)", "id": "Ombre_poisson", "label": "Ombre du poisson"},
+        {"sel": "#lefeu-st3 > :nth-child(17)", "id": "Tilapia_braise", "label": "Tilapia braisé"},
+        {"sel": "#lefeu-st3 > :nth-child(18)", "id": "Oignon_sur_poisson", "label": "Rondelle d'oignon sur le poisson"} ] },
+      {"id": "Alloco", "label": "Alloco (banane plantain frite)", "parts": [
+        {"sel": "#lefeu-alloco-g > g", "all": true, "id": "Tranche_alloco", "label": "Tranche d'alloco"} ] },
+      {"id": "Piments_frais", "label": "Piments frais", "parts": [
+        {"id": "Piment_1", "label": "Piment 1", "parts": [{"sel": "#lefeu-st3 > :nth-child(20) > :nth-child(1)"}, {"sel": "#lefeu-st3 > :nth-child(20) > :nth-child(2)"}, {"sel": "#lefeu-st3 > :nth-child(20) > :nth-child(3)"}]},
+        {"id": "Piment_2", "label": "Piment 2", "parts": [{"sel": "#lefeu-st3 > :nth-child(20) > :nth-child(4)"}, {"sel": "#lefeu-st3 > :nth-child(20) > :nth-child(5)"}, {"sel": "#lefeu-st3 > :nth-child(20) > :nth-child(6)"}]} ] },
+      {"id": "Vapeur", "label": "Vapeur", "parts": [
+        {"sel": "#lefeu-steam3 > g", "all": true, "id": "Volute_vapeur", "label": "Volute de vapeur"} ] }
+    ]},
+    { "id": "Textes", "label": "Textes", "items": [
+      {"id": "Pastille_Tous_vos_plats", "label": "Pastille « Tous vos plats »", "parts": [
+        {"sel": "#feu-chip3 > :nth-child(1)", "id": "Pastille_Tous_vos_plats_ombre", "label": "Ombre portée"},
+        {"sel": "#feu-chip3 > :nth-child(2)", "id": "Pastille_Tous_vos_plats_fond", "label": "Fond bordeaux"},
+        {"sel": "#feu-chip3 > :nth-child(3)", "id": "Pastille_Tous_vos_plats_contour", "label": "Contour blanc"},
+        {"sel": "#lf-chip-dot_3", "id": "Pastille_Tous_vos_plats_point", "label": "Point doré"} ] },
+      {"sel": "#feu-chip3 > text", "id": "Texte_Tous_vos_plats", "label": "Texte « Tous vos plats »"}
+    ]},
+    { "id": "Effets", "label": "Effets & lumière", "items": [
+      {"sel": "#lf-light > :nth-child(1)", "id": "Lueur_doree", "label": "Lueur dorée (haut gauche)"},
+      {"sel": "#lf-light > :nth-child(2)", "id": "Vignettage", "label": "Vignettage"}
+    ]}
+  ]
+}
