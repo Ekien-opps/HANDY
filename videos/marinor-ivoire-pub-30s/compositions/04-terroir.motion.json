@@ -1,0 +1,30 @@
+{
+  "scene": "04-terroir",
+  "duration_s": 4.0,
+  "rules": [
+    "depth-scatter-assemble",
+    "orbit-3d-entry",
+    "physics-press-reaction",
+    "ambient-glow-bloom",
+    "svg-path-draw",
+    "sine-wave-loop"
+  ],
+  "blueprint": "constellation-hub",
+  "exit": {
+    "vector": "none on screen — flat full-frame #FFF3D6 from 3.95s to 4.00s (measured 255,243,214 on every pixel at 3.98s); last visible motion = warm light bloom from frame centre, radial #FFF3D6 core -> #FBD021 rim, scale 0.04 -> 5.6 (power3.in, 3.55-3.95s, opacity 0 -> 1 power2.in 3.57-3.93s) over a screen-blended gold flare (3.48-3.95s), while both ingredient orbit stages rush the lens scale 1 -> 3 about (960,540) with blur 0 -> 16px (power3.in, 3.55-4.00s) and the type cluster pushes 1 -> 1.12 (power2.in)",
+    "still_moving": false,
+    "state": "full-frame #FFF3D6"
+  },
+  "entry": {
+    "vector": "full-frame #FFECD1 at t=0 (measured 255,236,209 on every pixel), a cream sheet with a soft 300px feathered lower edge lifting straight UP: translateY 0 -> -1518px (-110% of the sheet), power2.inOut 0.00-0.50s — 0 px/s at t=0, peak ~6070 px/s at 0.25s, gone at 0.50s; green world underneath static",
+    "from_rest": true,
+    "state": "full-frame #FFECD1"
+  },
+  "camera": [
+    { "t": "0.00-0.50", "move": "static; cream veil lifts upward revealing Vert Nature ground + breathing Vert Vif glow" },
+    { "t": "0.15-1.68", "move": "10 ingredients surge from depth to their orbit slots (z -900 -> 0, index-derived rotateX/Y +-62deg, rotateZ -22 -> 0, power3.out 0.9s, stagger 0.07s)" },
+    { "t": "1.40-3.55", "move": "constellation orbits clockwise +22deg on a 740x345 ellipse about (960,528), sine.inOut; items bob/rotate idle" },
+    { "t": "1.52-1.94", "move": "stamp impact shake of both orbit stages, decaying (peak 11px)" },
+    { "t": "3.55-4.00", "move": "orbit stages push toward camera scale 1 -> 3 about (960,540) + blur 16px (power3.in); type cluster 1 -> 1.12 (power2.in)" }
+  ]
+}

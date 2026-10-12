@@ -168,10 +168,24 @@
       z-index: 6;
       background: #2a070d;
     }
-    .dou-band {
+    .dou-band-wrap {
       z-index: 7;
+      filter: drop-shadow(0 0 22px rgba(26, 4, 8, 0.6));
+    }
+    .dou-band {
       background: linear-gradient(115deg, #f9a825, #fbd021);
       clip-path: polygon(0px 0px, 0px 0px, 0px 0px, 0px 0px);
+    }
+    .dou-band-edge {
+      opacity: 0.55;
+    }
+    .dou-puff {
+      position: absolute;
+      left: 0;
+      top: 0;
+      border-radius: 50%;
+      opacity: 0;
+      filter: blur(14px);
     }
   </style>
 
@@ -401,13 +415,31 @@
     <div id="f02-doute-strike" class="clip dou-layer dou-strike" data-start="0" data-duration="4" data-track-index="3">
       <svg viewBox="0 0 1920 1080" aria-hidden="true">
         <defs>
-          <linearGradient id="f02-doute-g-stroke" gradientUnits="userSpaceOnUse" x1="295" y1="0" x2="1625" y2="0">
+          <linearGradient id="f02-doute-g-stroke" gradientUnits="userSpaceOnUse" x1="270" y1="0" x2="1650" y2="0">
             <stop offset="0" stop-color="#f9a825" />
             <stop offset="0.85" stop-color="#fbd021" />
           </linearGradient>
+          <!-- reveal mask for the brush texture: follows the tip of the main stroke (right → left) -->
+          <mask id="f02-doute-strike-mask" maskUnits="userSpaceOnUse" x="0" y="0" width="1920" height="1080">
+            <path id="f02-doute-strike-reveal" d="M1659 735.9 L214 756.8" pathLength="100" stroke="#ffffff" stroke-width="70" stroke-linecap="butt" fill="none" />
+          </mask>
         </defs>
-        <path id="f02-doute-strike-main" d="M1625 733 L295 773" pathLength="100" stroke="url(#f02-doute-g-stroke)" stroke-width="18" stroke-linecap="round" fill="none" />
-        <path id="f02-doute-strike-dry" d="M1596 745 C1200 755 800 767 330 783" pathLength="100" stroke="#fbd021" stroke-width="4" stroke-linecap="round" fill="none" opacity="0.75" />
+        <!-- main brush body: 18 px, gold gradient, round tip -->
+        <path id="f02-doute-strike-main" d="M1650 736 L270 756" pathLength="100" stroke="url(#f02-doute-g-stroke)" stroke-width="18" stroke-linecap="round" fill="none" />
+        <g id="f02-doute-strike-tex" mask="url(#f02-doute-strike-mask)" fill="none" stroke-linecap="round">
+          <!-- loaded-brush shoulder (darker under-edge) -->
+          <path d="M1640 742.6 L292 762.2" stroke="#d8860c" stroke-width="4" opacity="0.6" stroke-dasharray="210 10 330 14 180 8 420 18 260" />
+          <!-- satin highlight -->
+          <path d="M1628 730.8 L330 749.6" stroke="#fff3b0" stroke-width="3" opacity="0.75" stroke-dasharray="260 22 190 12 340 30 420" />
+          <!-- bristle grooves -->
+          <path d="M1600 735.4 L320 754" stroke="#e8901a" stroke-width="1.6" opacity="0.5" stroke-dasharray="90 26 140 18 60 40 220 16 120 30" />
+          <path d="M1560 739.2 L300 757.5" stroke="#ffe07a" stroke-width="1.4" opacity="0.55" stroke-dasharray="120 34 80 20 200 28 90 44" />
+          <!-- dry-brush lift at the end of the gesture (left) -->
+          <path d="M520 746.4 L236 750.5" stroke="#fbd021" stroke-width="3.2" opacity="0.9" stroke-dasharray="70 9 46 14 30 18 16 22 8" />
+          <path d="M470 752.6 L222 756.2" stroke="#f9a825" stroke-width="2.6" opacity="0.85" stroke-dasharray="54 12 38 16 22 20 10" />
+          <path d="M430 758.4 L248 761" stroke="#fbd021" stroke-width="2.2" opacity="0.7" stroke-dasharray="40 14 26 20 12" />
+          <path d="M600 741 L262 745.8" stroke="#ffe07a" stroke-width="2" opacity="0.6" stroke-dasharray="80 16 50 24 20" />
+        </g>
       </svg>
     </div>
 
@@ -423,7 +455,10 @@
     <div id="f02-doute-entry" class="clip dou-layer dou-entry" data-start="0" data-duration="4" data-track-index="5"></div>
 
     <!-- ===== Track 6: seam B out — the gold band (exit state: full-frame gold gradient) ===== -->
-    <div id="f02-doute-band" class="clip dou-layer dou-band" data-start="0" data-duration="4" data-track-index="6"></div>
+    <div id="f02-doute-band-wrap" class="clip dou-layer dou-band-wrap" data-start="0" data-duration="4" data-track-index="6">
+      <div class="dou-layer dou-band dou-band-edge" id="f02-doute-band-edge"></div>
+      <div class="dou-layer dou-band" id="f02-doute-band"></div>
+    </div>
   </div>
 
   <script src="../assets/vendor/gsap.min.js"></script>
