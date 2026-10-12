@@ -168,7 +168,7 @@ try {
         if (!g.attributes.length && g.parentElement) { g.replaceWith(...g.childNodes); changed = true; return; }
         // absorb a lone child <g> into its parent when that cannot change rendering
         const kids = [...g.childNodes].filter(n => !(n.nodeType === 3 && !n.textContent.trim()));
-        if (kids.length === 1 && kids[0].localName === "g") {
+        if (kids.length === 1 && kids[0].localName === "g" && !(g.hasAttribute("data-name") && kids[0].hasAttribute("data-name"))) {
           const c = kids[0];
           const blockers = ["transform", "clip-path", "mask", "filter", "style"];
           let parentFree = !blockers.some(b => g.hasAttribute(b));

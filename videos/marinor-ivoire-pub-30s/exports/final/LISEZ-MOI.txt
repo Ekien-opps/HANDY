@@ -1,0 +1,105 @@
+MARIN'OR IVOIRE — « LE GOÛT EN OR »
+Scènes de la publicité 30 s — fichiers vectoriels SVG (Illustrator / Figma / Inkscape)
+==============================================================================
+
+CONTENU
+  • 10 fichiers .svg (1920 × 1080 px) — un par plan clé du film, dans l'ordre du montage.
+  • apercus/ — l'image exacte du film à cet instant (PNG), pour comparer.
+
+POLICES À INSTALLER AVANT D'OUVRIR
+  • Cream Heavy (titres)
+  • Montserrat — Medium, SemiBold, Bold, ExtraBold (textes)
+  Les textes restent modifiables (texte vif). Sans ces polices, Illustrator les remplace.
+
+OUVRIR DANS ILLUSTRATOR
+  Fichier › Ouvrir… › choisir le .svg. Le plan de travail fait 1920 × 1080 px.
+  Organisation : chaque calque (Fond, Décor, Illustrations, Produits Marin'Or, Logo,
+  Textes, Effets & lumière) est un groupe nommé au premier niveau, et chaque objet
+  à l'intérieur porte son nom en français (ex. « Marmite – sauce graine »).
+  Astuce : pour en faire de vrais calques Illustrator, sélectionnez « Calque 1 » dans
+  le panneau Calques › menu ☰ › « Libérer dans des calques (séquence) ».
+  Les flous, lueurs et ombres sont des filtres SVG (Effet › Filtres SVG).
+  Les packshots et le logo sont les fichiers réels du client, intégrés (images incorporées).
+
+OUVRIR DANS FIGMA
+  Glisser-déposer le .svg sur le canevas : les groupes et noms sont conservés.
+
+FIDÉLITÉ
+  Chaque fichier a été re-rendu et comparé pixel par pixel à l'image du film :
+  moins de 1 % de pixels différents sur tous les plans (souvent < 0,1 %).
+
+DÉTAIL DES FICHIERS
+
+01_accroche.svg   (47 Ko)
+  01 — Accroche · « Envie de relever le goût… »
+    ▸ Fond : Aplat crème, Vignettage bordeaux, Halo doré central, Bokeh – taches de lumière, Grain papier (texture), Particules dorées
+    ▸ Illustrations : Ail, Piment rouge, Feuilles de laurier, Petite marmite, Grains de poivre, Mortier et pilon, Oignon rouge, Cuillère en bois – épices dorées
+    ▸ Textes : Ligne 1 « Envie de relever le goût », Ligne 2 « de vos plats du quotidien ? »
+
+02_le-doute.svg   (37 Ko)
+  02 — Le doute · Additifs & substances douteuses
+    ▸ Fond : Dégradé bordeaux, Halo rouge, Lueur au sol, Poussières en suspension, Vignettage, Grain (texture)
+    ▸ Illustrations : Cube de bouillon (papier alu), Flacon en plastique (exhausteurs), Pot à couvercle (conservateurs)
+    ▸ Textes : Texte d'étiquette « Additifs », Texte d'étiquette « Exhausteurs artificiels », Texte d'étiquette « Conservateurs », Titre « Sans additifs ni substances douteuses »
+
+03_le-feu_sauces.svg   (59 Ko)
+  03 — Le feu · Sauces
+    ▸ Fond : Aplat crème, Mur carrelé, Lueur du feu, Plan de travail, Lueur au sol, Façade bois
+    ▸ Illustrations : Mortier et pilon, Foyer (braséro), Flammes arrière, Marmite – sauce graine, Flammes avant, Vapeur, Calebasse de noix de palme, Tomate, Piment
+    ▸ Textes : Pastille « Sauces »
+    ▸ Effets & lumière : Lumière chaude
+
+04_le-feu_grillades.svg   (73 Ko)
+  04 — Le feu · Grillades
+    ▸ Fond : Aplat crème, Mur carrelé, Lueur du feu, Plan de travail, Lueur au sol, Façade bois
+    ▸ Illustrations : Barbecue (grill à braises), Étincelles, Brochettes, Poisson braisé, Fumée
+    ▸ Textes : Pastille « Grillades », Texte « Grillades »
+    ▸ Effets & lumière : Lueur dorée (haut gauche), Vignettage
+
+05_le-feu_tous-vos-plats.svg   (66 Ko)
+  05 — Le feu · Tous vos plats
+    ▸ Fond : Aplat crème, Mur carrelé, Lueur douce, Plan de travail, Façade bois
+    ▸ Décor : Ombre de la natte, Natte en raphia
+    ▸ Illustrations : Assiette – bord bordeaux, Attiéké, Rondelles de tomate, Rondelle d'oignon, Poisson braisé, Alloco (banane plantain frite), Piments frais, Vapeur
+    ▸ Textes : Pastille « Tous vos plats », Texte « Tous vos plats »
+    ▸ Effets & lumière : Lueur dorée (haut gauche), Vignettage
+
+06_le-terroir.svg   (113 Ko)
+  06 — Le terroir · 100 % naturel
+    ▸ Fond : Aplat vert nature, Lueur vert vif, Feuillage – arrière-plan (flou), Halo lumineux, Vignettage
+    ▸ Décor : Orbite dorée – arc arrière, Particules dorées, Lueur chaude (derrière le tampon), Orbite dorée – arc avant
+    ▸ Illustrations : Oignon violet, Tête d'ail, Feuilles de basilic, Arachides en coque, Gingembre, Gombo, Bokeh doré, Noix de palme, Piment rouge, Tomate, Aubergine africaine
+    ▸ Textes : Tampon « 100 % naturel », Titre « Ingrédients 100 % naturels », Sous-titre « de Côte d'Ivoire », Filet tricolore orange · blanc · vert
+    ▸ Décor – premier plan : Feuillage flou – coin haut gauche, Feuillage flou – coin haut droit, Feuillage flou – coin bas gauche, Feuillage flou – coin bas droit
+    ▸ Effets & lumière : Étincelle dorée – halo, Étincelle dorée – éclat
+
+07_la-gamme.svg   (10997 Ko)
+  07 — La gamme · Une gamme complète
+    ▸ Fond : Dégradé rouge passion, Vignettage bordeaux, Halo lumineux – vitrine, Halo lumineux – logo
+    ▸ Décor : Filet ovale (contour du badge), Podium
+    ▸ Illustrations : Ombre portée – piment, Feuille de piment, Tas de piment en poudre, Piment rouge, Ombre portée – arachides, Arachide en coque 1, Arachide en coque 2, Arachides décortiquées
+    ▸ Produits Marin'Or : Sachet – Bouillon de Poulet, Sachet – Graines d'Akpi, Sachet – Poudre de Djoumblé, Sachet – Épice Spéciale Poulet, Sachet – Purée d'Ail, Sachet – Paprika, Sachet – Épice Spéciale Poisson, Sachet – Piment en Poudre, Sachet – Poudre de Poisson, Sachet – Poudre de Crevette, Pot – Marinade Poulet, Pot – Marinade Poisson, Bouteille – Huile Rouge, Pot – Marinade Mixte …
+    ▸ Logo Marin'Or Ivoire : Logo Marin'Or Ivoire
+    ▸ Textes : Pastille « Une gamme complète »
+
+08_le-geste.svg   (1743 Ko)
+  08 — Le geste · Simple à utiliser
+    ▸ Fond : Aplat crème, Mur de cuisine, Bokeh – cuisine floue
+    ▸ Décor : Plan de travail, Planche à découper
+    ▸ Illustrations : Tilapia cru mariné, Marmite de sauce, Vapeur, Épices versées, Pinceau de cuisine
+    ▸ Produits Marin'Or : Pot – Marinade Poisson, Sachet – Épice Spéciale Poisson
+    ▸ Textes : Pastille « Simple à utiliser », Texte « Simple à utiliser »
+
+09_la-table.svg   (84 Ko)
+  09 — La table · En famille et entre amis
+    ▸ Fond : Aplat crème, Sol crème (dégradé)
+    ▸ Décor : Ombre de la table, Nappe ronde
+    ▸ Illustrations : Verres de jus, Assiettes individuelles, Bol de sauce, Bol d'alloco, Plat central – attiéké poisson braisé, Bras des convives
+    ▸ Textes : Bandeau titre, Titre « À déguster en famille et entre amis »
+
+10_signature.svg   (4936 Ko)
+  10 — Signature · Le goût en or
+    ▸ Fond : Dégradé bordeaux (radial du badge), Particules dorées (poussières et bokeh), Halo doré derrière le logo, Flaque de lumière – gauche, Flaque de lumière – droite
+    ▸ Produits Marin'Or : Sachet – Paprika, Sachet – Épice Spéciale Poisson, Pot – Pâte d'arachide, Bouteille – Huile Rouge, Pot – Marinade Poisson, Pot – Marinade Poulet
+    ▸ Logo Marin'Or Ivoire : Badge bordeaux, Liseré blanc, Éléphant, Feuille dorée, Lettrage « Marin'Or », Lettrage « Ivoire », Point doré
+    ▸ Textes : Titre « Le goût en or », Bouton « Commandez dès maintenant », Filet doré (séparateur), Coordonnées
