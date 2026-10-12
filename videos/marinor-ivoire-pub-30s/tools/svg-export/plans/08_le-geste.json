@@ -1,0 +1,441 @@
+{
+ "title": "08 — Le geste · Simple à utiliser",
+ "pruneOffCanvas": true,
+ "remove": [
+  "#partage-world > #svg"
+ ],
+ "layers": [
+  {
+   "id": "Fond",
+   "label": "Fond",
+   "items": [
+    {
+     "sel": "#stage > rect",
+     "id": "Aplat_creme",
+     "label": "Aplat crème"
+    },
+    {
+     "sel": "#svg_2 > g > :nth-child(1)",
+     "id": "Mur_de_cuisine",
+     "label": "Mur de cuisine"
+    },
+    {
+     "sel": "#svg_2 > g > :nth-child(2)",
+     "id": "Bokeh_cuisine_floue",
+     "label": "Bokeh – cuisine floue"
+    }
+   ]
+  },
+  {
+   "id": "Decor",
+   "label": "Décor",
+   "items": [
+    {
+     "id": "Plan_de_travail",
+     "label": "Plan de travail",
+     "parts": [
+      {
+       "sel": "#svg_2 > g > :nth-child(3)",
+       "id": "Plan_de_travail_plateau",
+       "label": "Plateau"
+      },
+      {
+       "sel": "#svg_2 > g > :nth-child(4)",
+       "id": "Plan_de_travail_arete",
+       "label": "Arête ombrée"
+      },
+      {
+       "sel": "#partage-mgrain",
+       "id": "Plan_de_travail_veinage",
+       "label": "Veinage du bois"
+      }
+     ]
+    },
+    {
+     "id": "Planche_a_decouper",
+     "label": "Planche à découper",
+     "parts": [
+      {
+       "sel": "#svg_2 > g > :nth-child(7)",
+       "id": "Planche_ombre",
+       "label": "Ombre portée"
+      },
+      {
+       "sel": "#svg_2 > g > :nth-child(8)",
+       "id": "Planche_chant",
+       "label": "Chant de la planche"
+      },
+      {
+       "sel": "#svg_2 > g > :nth-child(9)",
+       "id": "Planche_dessus",
+       "label": "Dessus de la planche"
+      },
+      {
+       "sel": "#partage-board-grain",
+       "id": "Planche_veinage",
+       "label": "Veinage du bois"
+      },
+      {
+       "sel": "#svg_2 > g > :nth-child(11)",
+       "id": "Planche_reflet",
+       "label": "Reflet du bord"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "Illustrations",
+   "label": "Illustrations",
+   "items": [
+    {
+     "id": "Tilapia_marine",
+     "label": "Tilapia cru mariné",
+     "parts": [
+      {
+       "id": "Tilapia_ombre",
+       "label": "Ombre portée",
+       "parts": [
+        {
+         "sel": "#svg_2 > g > :nth-child(12)"
+        }
+       ]
+      },
+      {
+       "id": "Tilapia_nageoire_caudale",
+       "label": "Nageoire caudale",
+       "parts": [
+        {
+         "sel": "#svg_2 > g > :nth-child(13) > :nth-child(1)"
+        },
+        {
+         "sel": "#svg_2 > g > :nth-child(13) > :nth-child(2)"
+        }
+       ]
+      },
+      {
+       "id": "Tilapia_nageoire_dorsale",
+       "label": "Nageoire dorsale",
+       "parts": [
+        {
+         "sel": "#svg_2 > g > :nth-child(13) > :nth-child(3)"
+        },
+        {
+         "sel": "#svg_2 > g > :nth-child(13) > :nth-child(4)"
+        }
+       ]
+      },
+      {
+       "id": "Tilapia_nageoires_ventrales",
+       "label": "Nageoires ventrales",
+       "parts": [
+        {
+         "sel": "#svg_2 > g > :nth-child(13) > :nth-child(5)"
+        },
+        {
+         "sel": "#svg_2 > g > :nth-child(13) > :nth-child(6)"
+        }
+       ]
+      },
+      {
+       "id": "Tilapia_corps",
+       "label": "Corps",
+       "parts": [
+        {
+         "sel": "#svg_2 > g > :nth-child(13) > :nth-child(7)"
+        }
+       ]
+      },
+      {
+       "id": "Tilapia_rayures_entailles",
+       "label": "Rayures et entailles",
+       "parts": [
+        {
+         "sel": "#svg_2 > g > :nth-child(13) > :nth-child(8) > :nth-child(1)"
+        },
+        {
+         "sel": "#svg_2 > g > :nth-child(13) > :nth-child(8) > :nth-child(2)"
+        },
+        {
+         "sel": "#svg_2 > g > :nth-child(13) > :nth-child(8) > :nth-child(3)"
+        }
+       ]
+      },
+      {
+       "id": "Tilapia_reflets",
+       "label": "Reflets",
+       "parts": [
+        {
+         "sel": "#svg_2 > g > :nth-child(13) > :nth-child(8) > :nth-child(4)"
+        },
+        {
+         "sel": "#svg_2 > g > :nth-child(13) > :nth-child(8) > :nth-child(5)"
+        }
+       ]
+      },
+      {
+       "id": "Tilapia_marinade",
+       "label": "Marinade au pinceau",
+       "parts": [
+        {
+         "sel": "#svg_2 > g > :nth-child(13) > :nth-child(8) > :nth-child(6) > :nth-child(1)",
+         "id": "Marinade_couche",
+         "label": "Couche de marinade"
+        },
+        {
+         "sel": "#partage-mar-flecks",
+         "id": "Marinade_mouchetures",
+         "label": "Mouchetures d'épices"
+        },
+        {
+         "sel": "#svg_2 > g > :nth-child(13) > :nth-child(8) > :nth-child(6) > :nth-child(3)",
+         "id": "Marinade_reflet_dore",
+         "label": "Reflet doré"
+        },
+        {
+         "sel": "#svg_2 > g > :nth-child(13) > :nth-child(8) > :nth-child(6) > :nth-child(4)",
+         "id": "Marinade_reflet_orange",
+         "label": "Reflet orangé"
+        },
+        {
+         "sel": "#svg_2 > g > :nth-child(13) > :nth-child(8) > :nth-child(6) > :nth-child(5)",
+         "id": "Marinade_reflet_blanc",
+         "label": "Reflet blanc"
+        }
+       ]
+      },
+      {
+       "id": "Tilapia_opercule",
+       "label": "Opercule",
+       "parts": [
+        {
+         "sel": "#svg_2 > g > :nth-child(13) > :nth-child(9)"
+        }
+       ]
+      },
+      {
+       "id": "Tilapia_nageoire_pectorale",
+       "label": "Nageoire pectorale",
+       "parts": [
+        {
+         "sel": "#svg_2 > g > :nth-child(13) > :nth-child(10)"
+        }
+       ]
+      },
+      {
+       "id": "Tilapia_oeil",
+       "label": "Œil",
+       "parts": [
+        {
+         "sel": "#svg_2 > g > :nth-child(13) > :nth-child(11)"
+        },
+        {
+         "sel": "#svg_2 > g > :nth-child(13) > :nth-child(12)"
+        },
+        {
+         "sel": "#svg_2 > g > :nth-child(13) > :nth-child(13)"
+        },
+        {
+         "sel": "#svg_2 > g > :nth-child(13) > :nth-child(14)"
+        }
+       ]
+      },
+      {
+       "id": "Tilapia_bouche",
+       "label": "Bouche",
+       "parts": [
+        {
+         "sel": "#svg_2 > g > :nth-child(13) > :nth-child(15)"
+        }
+       ]
+      }
+     ]
+    },
+    {
+     "id": "Marmite_de_sauce",
+     "label": "Marmite de sauce",
+     "parts": [
+      {
+       "sel": "#svg_2 > g > :nth-child(15)",
+       "id": "Marmite_fonte",
+       "label": "Corps en fonte"
+      },
+      {
+       "sel": "#svg_2 > g > :nth-child(16)",
+       "id": "Marmite_reflet",
+       "label": "Reflet"
+      },
+      {
+       "sel": "#svg_2 > g > :nth-child(17)",
+       "id": "Marmite_bord",
+       "label": "Bord"
+      },
+      {
+       "sel": "#svg_2 > g > :nth-child(18)",
+       "id": "Marmite_interieur",
+       "label": "Intérieur"
+      },
+      {
+       "sel": "#svg_2 > g > :nth-child(19)",
+       "id": "Marmite_sauce",
+       "label": "Sauce"
+      },
+      {
+       "sel": "#svg_2 > g > :nth-child(20)",
+       "id": "Marmite_reflet_dore",
+       "label": "Reflet doré sur la sauce"
+      },
+      {
+       "sel": "#svg_2 > g > :nth-child(24)",
+       "id": "Marmite_levre_avant",
+       "label": "Lèvre avant"
+      },
+      {
+       "sel": "#svg_2 > g > :nth-child(25)",
+       "id": "Marmite_reflet_levre",
+       "label": "Reflet de la lèvre"
+      }
+     ]
+    },
+    {
+     "sel": "#partage-steam",
+     "id": "Vapeur",
+     "label": "Vapeur"
+    },
+    {
+     "id": "Epices_versees",
+     "label": "Épices versées",
+     "parts": [
+      {
+       "sel": "#partage-stream",
+       "id": "Filet_dore",
+       "label": "Filet doré"
+      },
+      {
+       "sel": "#partage-particles",
+       "id": "Grains_d_epices",
+       "label": "Grains d'épices"
+      }
+     ]
+    },
+    {
+     "id": "Pinceau_de_cuisine",
+     "label": "Pinceau de cuisine",
+     "parts": [
+      {
+       "id": "Pinceau_manche",
+       "label": "Manche",
+       "parts": [
+        {
+         "sel": "#partage-brush > :nth-child(1)"
+        },
+        {
+         "sel": "#partage-brush > :nth-child(2)"
+        },
+        {
+         "sel": "#partage-brush > :nth-child(3)"
+        }
+       ]
+      },
+      {
+       "id": "Pinceau_virole",
+       "label": "Virole dorée",
+       "parts": [
+        {
+         "sel": "#partage-brush > :nth-child(4)"
+        },
+        {
+         "sel": "#partage-brush > :nth-child(5)"
+        }
+       ]
+      },
+      {
+       "id": "Pinceau_poils",
+       "label": "Poils imbibés de marinade",
+       "parts": [
+        {
+         "sel": "#partage-brush > :nth-child(6)"
+        },
+        {
+         "sel": "#partage-brush > :nth-child(7)"
+        }
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "Produits",
+   "label": "Produits Marin'Or",
+   "items": [
+    {
+     "id": "Pot_Marinade_Poisson",
+     "label": "Pot – Marinade Poisson",
+     "parts": [
+      {
+       "id": "Pot_Marinade_Poisson_ombre",
+       "label": "Ombre portée",
+       "parts": [
+        {
+         "sel": "#svg_2 > g > :nth-child(6)"
+        }
+       ]
+      },
+      {
+       "id": "Pot_Marinade_Poisson_packshot",
+       "label": "Packshot",
+       "parts": [
+        {
+         "sel": "#img > image"
+        }
+       ]
+      }
+     ]
+    },
+    {
+     "sel": "#img_2 > image",
+     "id": "Sachet_Epice_Speciale_Poisson",
+     "label": "Sachet – Épice Spéciale Poisson"
+    }
+   ]
+  },
+  {
+   "id": "Textes",
+   "label": "Textes",
+   "items": [
+    {
+     "id": "Pastille_Simple_a_utiliser",
+     "label": "Pastille « Simple à utiliser »",
+     "parts": [
+      {
+       "sel": "#chip > :nth-child(1)",
+       "id": "Pastille_ombre",
+       "label": "Ombre portée"
+      },
+      {
+       "sel": "#chip > :nth-child(2)",
+       "id": "Pastille_fond",
+       "label": "Fond bordeaux"
+      },
+      {
+       "sel": "#chip > :nth-child(3)",
+       "id": "Pastille_lisere",
+       "label": "Liseré blanc"
+      },
+      {
+       "sel": "#pt-chip-dot",
+       "id": "Pastille_point_dore",
+       "label": "Point doré"
+      }
+     ]
+    },
+    {
+     "sel": "#chip > text",
+     "id": "Texte_Simple_a_utiliser",
+     "label": "Texte « Simple à utiliser »"
+    }
+   ]
+  }
+ ]
+}

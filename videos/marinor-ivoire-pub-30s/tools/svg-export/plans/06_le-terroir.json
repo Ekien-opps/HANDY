@@ -160,7 +160,8 @@
         {"sel": "#fg-svg > g > :nth-child(4) > :nth-child(2)", "id": "Avant_feuille_bas_droite", "label": "Feuille"} ] }
     ]},
     { "id": "Effets", "label": "Effets & lumière", "items": [
-      {"sel": "#glint", "id": "Etincelle_doree", "label": "Étincelle dorée"}
+      {"sel": "#glint > g > circle", "id": "Etincelle_halo", "label": "Étincelle dorée – halo"},
+      {"sel": "#glint > g > path", "id": "Etincelle_eclat", "label": "Étincelle dorée – éclat"}
     ]}
   ]
 }

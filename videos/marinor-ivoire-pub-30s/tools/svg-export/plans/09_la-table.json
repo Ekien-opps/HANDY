@@ -1,0 +1,968 @@
+{
+ "title": "09 — La table · En famille et entre amis",
+ "pruneOffCanvas": true,
+ "remove": [],
+ "layers": [
+  {
+   "id": "Fond",
+   "label": "Fond",
+   "items": [
+    {
+     "sel": "#stage > rect",
+     "id": "Aplat_creme",
+     "label": "Aplat crème"
+    },
+    {
+     "sel": "#svg > g > :nth-child(1)",
+     "id": "Sol_creme",
+     "label": "Sol crème (dégradé)"
+    }
+   ]
+  },
+  {
+   "id": "Decor",
+   "label": "Décor",
+   "items": [
+    {
+     "sel": "#svg > g > :nth-child(2)",
+     "id": "Ombre_de_la_table",
+     "label": "Ombre de la table"
+    },
+    {
+     "id": "Nappe",
+     "label": "Nappe ronde",
+     "parts": [
+      {
+       "sel": "#svg > g > :nth-child(3)",
+       "id": "Nappe_tissu",
+       "label": "Tissu"
+      },
+      {
+       "sel": "#svg > g > :nth-child(4)",
+       "id": "Nappe_motif",
+       "label": "Motif losanges"
+      },
+      {
+       "sel": "#svg > g > :nth-child(5)",
+       "id": "Nappe_filet_exterieur",
+       "label": "Filet bordeaux extérieur"
+      },
+      {
+       "sel": "#svg > g > :nth-child(6)",
+       "id": "Nappe_filet_interieur",
+       "label": "Filet bordeaux intérieur"
+      },
+      {
+       "sel": "#partage-border",
+       "id": "Nappe_frise",
+       "label": "Frise losanges et pois dorés"
+      },
+      {
+       "sel": "#svg > g > :nth-child(8)",
+       "id": "Nappe_ourlet",
+       "label": "Ourlet"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "Illustrations",
+   "label": "Illustrations",
+   "items": [
+    {
+     "id": "Verres_de_jus",
+     "label": "Verres de jus",
+     "parts": [
+      {
+       "sel": "#partage-glasses > :nth-child(1)",
+       "id": "Verre_bissap_haut_droite",
+       "label": "Verre de bissap (en haut à droite)"
+      },
+      {
+       "sel": "#partage-glasses > :nth-child(2)",
+       "id": "Verre_gnamakoudji_haut_gauche",
+       "label": "Verre de gnamakoudji (en haut à gauche)"
+      },
+      {
+       "sel": "#partage-glasses > :nth-child(3)",
+       "id": "Verre_gnamakoudji_droite",
+       "label": "Verre de gnamakoudji (à droite)"
+      },
+      {
+       "sel": "#partage-glasses > :nth-child(4)",
+       "id": "Verre_bissap_gauche",
+       "label": "Verre de bissap (à gauche)"
+      }
+     ]
+    },
+    {
+     "id": "Assiettes_individuelles",
+     "label": "Assiettes individuelles",
+     "parts": [
+      {
+       "id": "Assiette_haut",
+       "label": "Assiette en haut",
+       "parts": [
+        {
+         "id": "Assiette_haut_ombre",
+         "label": "Ombre portée",
+         "parts": [
+          {
+           "sel": "#partage-plates > :nth-child(1) > :nth-child(1)"
+          }
+         ]
+        },
+        {
+         "id": "Assiette_haut_vaisselle",
+         "label": "Assiette – bord bordeaux",
+         "parts": [
+          {
+           "sel": "#partage-plates > :nth-child(1) > :nth-child(2)"
+          },
+          {
+           "sel": "#partage-plates > :nth-child(1) > :nth-child(3)"
+          },
+          {
+           "sel": "#partage-plates > :nth-child(1) > :nth-child(4)"
+          }
+         ]
+        },
+        {
+         "id": "Assiette_haut_attieke",
+         "label": "Portion d'attiéké",
+         "parts": [
+          {
+           "sel": "#partage-plates > :nth-child(1) > :nth-child(5)"
+          },
+          {
+           "sel": "#partage-plates > :nth-child(1) > :nth-child(6)"
+          },
+          {
+           "sel": "#partage-plates > :nth-child(1) > :nth-child(7)"
+          },
+          {
+           "sel": "#partage-plates > :nth-child(1) > :nth-child(8)"
+          },
+          {
+           "sel": "#partage-plates > :nth-child(1) > :nth-child(9)"
+          },
+          {
+           "sel": "#partage-plates > :nth-child(1) > :nth-child(10)"
+          },
+          {
+           "sel": "#partage-plates > :nth-child(1) > :nth-child(11)"
+          },
+          {
+           "sel": "#partage-plates > :nth-child(1) > :nth-child(12)"
+          },
+          {
+           "sel": "#partage-plates > :nth-child(1) > :nth-child(13)"
+          },
+          {
+           "sel": "#partage-plates > :nth-child(1) > :nth-child(14)"
+          },
+          {
+           "sel": "#partage-plates > :nth-child(1) > :nth-child(15)"
+          },
+          {
+           "sel": "#partage-plates > :nth-child(1) > :nth-child(16)"
+          },
+          {
+           "sel": "#partage-plates > :nth-child(1) > :nth-child(17)"
+          },
+          {
+           "sel": "#partage-plates > :nth-child(1) > :nth-child(18)"
+          },
+          {
+           "sel": "#partage-plates > :nth-child(1) > :nth-child(19)"
+          }
+         ]
+        },
+        {
+         "id": "Assiette_haut_alloco",
+         "label": "Alloco",
+         "parts": [
+          {
+           "sel": "#partage-plates > :nth-child(1) > :nth-child(20)"
+          },
+          {
+           "sel": "#partage-plates > :nth-child(1) > :nth-child(21)"
+          }
+         ]
+        }
+       ]
+      },
+      {
+       "id": "Assiette_haut_droite",
+       "label": "Assiette en haut à droite",
+       "parts": [
+        {
+         "id": "Assiette_haut_droite_ombre",
+         "label": "Ombre portée",
+         "parts": [
+          {
+           "sel": "#partage-plates > :nth-child(2) > :nth-child(1)"
+          }
+         ]
+        },
+        {
+         "id": "Assiette_haut_droite_vaisselle",
+         "label": "Assiette – bord bordeaux",
+         "parts": [
+          {
+           "sel": "#partage-plates > :nth-child(2) > :nth-child(2)"
+          },
+          {
+           "sel": "#partage-plates > :nth-child(2) > :nth-child(3)"
+          },
+          {
+           "sel": "#partage-plates > :nth-child(2) > :nth-child(4)"
+          }
+         ]
+        },
+        {
+         "id": "Assiette_haut_droite_attieke",
+         "label": "Portion d'attiéké",
+         "parts": [
+          {
+           "sel": "#partage-plates > :nth-child(2) > :nth-child(5)"
+          },
+          {
+           "sel": "#partage-plates > :nth-child(2) > :nth-child(6)"
+          },
+          {
+           "sel": "#partage-plates > :nth-child(2) > :nth-child(7)"
+          },
+          {
+           "sel": "#partage-plates > :nth-child(2) > :nth-child(8)"
+          },
+          {
+           "sel": "#partage-plates > :nth-child(2) > :nth-child(9)"
+          },
+          {
+           "sel": "#partage-plates > :nth-child(2) > :nth-child(10)"
+          },
+          {
+           "sel": "#partage-plates > :nth-child(2) > :nth-child(11)"
+          },
+          {
+           "sel": "#partage-plates > :nth-child(2) > :nth-child(12)"
+          },
+          {
+           "sel": "#partage-plates > :nth-child(2) > :nth-child(13)"
+          },
+          {
+           "sel": "#partage-plates > :nth-child(2) > :nth-child(14)"
+          },
+          {
+           "sel": "#partage-plates > :nth-child(2) > :nth-child(15)"
+          },
+          {
+           "sel": "#partage-plates > :nth-child(2) > :nth-child(16)"
+          },
+          {
+           "sel": "#partage-plates > :nth-child(2) > :nth-child(17)"
+          },
+          {
+           "sel": "#partage-plates > :nth-child(2) > :nth-child(18)"
+          },
+          {
+           "sel": "#partage-plates > :nth-child(2) > :nth-child(19)"
+          }
+         ]
+        },
+        {
+         "id": "Assiette_haut_droite_alloco",
+         "label": "Alloco",
+         "parts": [
+          {
+           "sel": "#partage-plates > :nth-child(2) > :nth-child(20)"
+          },
+          {
+           "sel": "#partage-plates > :nth-child(2) > :nth-child(21)"
+          }
+         ]
+        }
+       ]
+      },
+      {
+       "id": "Assiette_bas_droite",
+       "label": "Assiette en bas à droite",
+       "parts": [
+        {
+         "id": "Assiette_bas_droite_ombre",
+         "label": "Ombre portée",
+         "parts": [
+          {
+           "sel": "#partage-plates > :nth-child(3) > :nth-child(1)"
+          }
+         ]
+        },
+        {
+         "id": "Assiette_bas_droite_vaisselle",
+         "label": "Assiette – bord bordeaux",
+         "parts": [
+          {
+           "sel": "#partage-plates > :nth-child(3) > :nth-child(2)"
+          },
+          {
+           "sel": "#partage-plates > :nth-child(3) > :nth-child(3)"
+          },
+          {
+           "sel": "#partage-plates > :nth-child(3) > :nth-child(4)"
+          }
+         ]
+        },
+        {
+         "id": "Assiette_bas_droite_attieke",
+         "label": "Portion d'attiéké",
+         "parts": [
+          {
+           "sel": "#partage-plates > :nth-child(3) > :nth-child(5)"
+          },
+          {
+           "sel": "#partage-plates > :nth-child(3) > :nth-child(6)"
+          },
+          {
+           "sel": "#partage-plates > :nth-child(3) > :nth-child(7)"
+          },
+          {
+           "sel": "#partage-plates > :nth-child(3) > :nth-child(8)"
+          },
+          {
+           "sel": "#partage-plates > :nth-child(3) > :nth-child(9)"
+          },
+          {
+           "sel": "#partage-plates > :nth-child(3) > :nth-child(10)"
+          },
+          {
+           "sel": "#partage-plates > :nth-child(3) > :nth-child(11)"
+          },
+          {
+           "sel": "#partage-plates > :nth-child(3) > :nth-child(12)"
+          },
+          {
+           "sel": "#partage-plates > :nth-child(3) > :nth-child(13)"
+          },
+          {
+           "sel": "#partage-plates > :nth-child(3) > :nth-child(14)"
+          },
+          {
+           "sel": "#partage-plates > :nth-child(3) > :nth-child(15)"
+          },
+          {
+           "sel": "#partage-plates > :nth-child(3) > :nth-child(16)"
+          },
+          {
+           "sel": "#partage-plates > :nth-child(3) > :nth-child(17)"
+          },
+          {
+           "sel": "#partage-plates > :nth-child(3) > :nth-child(18)"
+          },
+          {
+           "sel": "#partage-plates > :nth-child(3) > :nth-child(19)"
+          }
+         ]
+        },
+        {
+         "id": "Assiette_bas_droite_alloco",
+         "label": "Alloco",
+         "parts": [
+          {
+           "sel": "#partage-plates > :nth-child(3) > :nth-child(20)"
+          },
+          {
+           "sel": "#partage-plates > :nth-child(3) > :nth-child(21)"
+          }
+         ]
+        }
+       ]
+      },
+      {
+       "id": "Assiette_bas",
+       "label": "Assiette en bas",
+       "parts": [
+        {
+         "id": "Assiette_bas_ombre",
+         "label": "Ombre portée",
+         "parts": [
+          {
+           "sel": "#partage-plates > :nth-child(4) > :nth-child(1)"
+          }
+         ]
+        },
+        {
+         "id": "Assiette_bas_vaisselle",
+         "label": "Assiette – bord bordeaux",
+         "parts": [
+          {
+           "sel": "#partage-plates > :nth-child(4) > :nth-child(2)"
+          },
+          {
+           "sel": "#partage-plates > :nth-child(4) > :nth-child(3)"
+          },
+          {
+           "sel": "#partage-plates > :nth-child(4) > :nth-child(4)"
+          }
+         ]
+        },
+        {
+         "id": "Assiette_bas_attieke",
+         "label": "Portion d'attiéké",
+         "parts": [
+          {
+           "sel": "#partage-plates > :nth-child(4) > :nth-child(5)"
+          },
+          {
+           "sel": "#partage-plates > :nth-child(4) > :nth-child(6)"
+          },
+          {
+           "sel": "#partage-plates > :nth-child(4) > :nth-child(7)"
+          },
+          {
+           "sel": "#partage-plates > :nth-child(4) > :nth-child(8)"
+          },
+          {
+           "sel": "#partage-plates > :nth-child(4) > :nth-child(9)"
+          },
+          {
+           "sel": "#partage-plates > :nth-child(4) > :nth-child(10)"
+          },
+          {
+           "sel": "#partage-plates > :nth-child(4) > :nth-child(11)"
+          },
+          {
+           "sel": "#partage-plates > :nth-child(4) > :nth-child(12)"
+          },
+          {
+           "sel": "#partage-plates > :nth-child(4) > :nth-child(13)"
+          },
+          {
+           "sel": "#partage-plates > :nth-child(4) > :nth-child(14)"
+          },
+          {
+           "sel": "#partage-plates > :nth-child(4) > :nth-child(15)"
+          },
+          {
+           "sel": "#partage-plates > :nth-child(4) > :nth-child(16)"
+          },
+          {
+           "sel": "#partage-plates > :nth-child(4) > :nth-child(17)"
+          },
+          {
+           "sel": "#partage-plates > :nth-child(4) > :nth-child(18)"
+          },
+          {
+           "sel": "#partage-plates > :nth-child(4) > :nth-child(19)"
+          }
+         ]
+        },
+        {
+         "id": "Assiette_bas_alloco",
+         "label": "Alloco",
+         "parts": [
+          {
+           "sel": "#partage-plates > :nth-child(4) > :nth-child(20)"
+          },
+          {
+           "sel": "#partage-plates > :nth-child(4) > :nth-child(21)"
+          }
+         ]
+        }
+       ]
+      },
+      {
+       "id": "Assiette_bas_gauche",
+       "label": "Assiette en bas à gauche",
+       "parts": [
+        {
+         "id": "Assiette_bas_gauche_ombre",
+         "label": "Ombre portée",
+         "parts": [
+          {
+           "sel": "#partage-plates > :nth-child(5) > :nth-child(1)"
+          }
+         ]
+        },
+        {
+         "id": "Assiette_bas_gauche_vaisselle",
+         "label": "Assiette – bord bordeaux",
+         "parts": [
+          {
+           "sel": "#partage-plates > :nth-child(5) > :nth-child(2)"
+          },
+          {
+           "sel": "#partage-plates > :nth-child(5) > :nth-child(3)"
+          },
+          {
+           "sel": "#partage-plates > :nth-child(5) > :nth-child(4)"
+          }
+         ]
+        },
+        {
+         "id": "Assiette_bas_gauche_attieke",
+         "label": "Portion d'attiéké",
+         "parts": [
+          {
+           "sel": "#partage-plates > :nth-child(5) > :nth-child(5)"
+          },
+          {
+           "sel": "#partage-plates > :nth-child(5) > :nth-child(6)"
+          },
+          {
+           "sel": "#partage-plates > :nth-child(5) > :nth-child(7)"
+          },
+          {
+           "sel": "#partage-plates > :nth-child(5) > :nth-child(8)"
+          },
+          {
+           "sel": "#partage-plates > :nth-child(5) > :nth-child(9)"
+          },
+          {
+           "sel": "#partage-plates > :nth-child(5) > :nth-child(10)"
+          },
+          {
+           "sel": "#partage-plates > :nth-child(5) > :nth-child(11)"
+          },
+          {
+           "sel": "#partage-plates > :nth-child(5) > :nth-child(12)"
+          },
+          {
+           "sel": "#partage-plates > :nth-child(5) > :nth-child(13)"
+          },
+          {
+           "sel": "#partage-plates > :nth-child(5) > :nth-child(14)"
+          },
+          {
+           "sel": "#partage-plates > :nth-child(5) > :nth-child(15)"
+          },
+          {
+           "sel": "#partage-plates > :nth-child(5) > :nth-child(16)"
+          },
+          {
+           "sel": "#partage-plates > :nth-child(5) > :nth-child(17)"
+          },
+          {
+           "sel": "#partage-plates > :nth-child(5) > :nth-child(18)"
+          },
+          {
+           "sel": "#partage-plates > :nth-child(5) > :nth-child(19)"
+          }
+         ]
+        },
+        {
+         "id": "Assiette_bas_gauche_alloco",
+         "label": "Alloco",
+         "parts": [
+          {
+           "sel": "#partage-plates > :nth-child(5) > :nth-child(20)"
+          },
+          {
+           "sel": "#partage-plates > :nth-child(5) > :nth-child(21)"
+          }
+         ]
+        }
+       ]
+      },
+      {
+       "id": "Assiette_haut_gauche",
+       "label": "Assiette en haut à gauche",
+       "parts": [
+        {
+         "id": "Assiette_haut_gauche_ombre",
+         "label": "Ombre portée",
+         "parts": [
+          {
+           "sel": "#partage-plates > :nth-child(6) > :nth-child(1)"
+          }
+         ]
+        },
+        {
+         "id": "Assiette_haut_gauche_vaisselle",
+         "label": "Assiette – bord bordeaux",
+         "parts": [
+          {
+           "sel": "#partage-plates > :nth-child(6) > :nth-child(2)"
+          },
+          {
+           "sel": "#partage-plates > :nth-child(6) > :nth-child(3)"
+          },
+          {
+           "sel": "#partage-plates > :nth-child(6) > :nth-child(4)"
+          }
+         ]
+        },
+        {
+         "id": "Assiette_haut_gauche_attieke",
+         "label": "Portion d'attiéké",
+         "parts": [
+          {
+           "sel": "#partage-plates > :nth-child(6) > :nth-child(5)"
+          },
+          {
+           "sel": "#partage-plates > :nth-child(6) > :nth-child(6)"
+          },
+          {
+           "sel": "#partage-plates > :nth-child(6) > :nth-child(7)"
+          },
+          {
+           "sel": "#partage-plates > :nth-child(6) > :nth-child(8)"
+          },
+          {
+           "sel": "#partage-plates > :nth-child(6) > :nth-child(9)"
+          },
+          {
+           "sel": "#partage-plates > :nth-child(6) > :nth-child(10)"
+          },
+          {
+           "sel": "#partage-plates > :nth-child(6) > :nth-child(11)"
+          },
+          {
+           "sel": "#partage-plates > :nth-child(6) > :nth-child(12)"
+          },
+          {
+           "sel": "#partage-plates > :nth-child(6) > :nth-child(13)"
+          },
+          {
+           "sel": "#partage-plates > :nth-child(6) > :nth-child(14)"
+          },
+          {
+           "sel": "#partage-plates > :nth-child(6) > :nth-child(15)"
+          },
+          {
+           "sel": "#partage-plates > :nth-child(6) > :nth-child(16)"
+          },
+          {
+           "sel": "#partage-plates > :nth-child(6) > :nth-child(17)"
+          },
+          {
+           "sel": "#partage-plates > :nth-child(6) > :nth-child(18)"
+          },
+          {
+           "sel": "#partage-plates > :nth-child(6) > :nth-child(19)"
+          }
+         ]
+        },
+        {
+         "id": "Assiette_haut_gauche_alloco",
+         "label": "Alloco",
+         "parts": [
+          {
+           "sel": "#partage-plates > :nth-child(6) > :nth-child(20)"
+          },
+          {
+           "sel": "#partage-plates > :nth-child(6) > :nth-child(21)"
+          }
+         ]
+        }
+       ]
+      }
+     ]
+    },
+    {
+     "id": "Bol_de_sauce",
+     "label": "Bol de sauce",
+     "parts": [
+      {
+       "sel": "#svg > g > :nth-child(11) > :nth-child(1)",
+       "id": "Bol_de_sauce_ombre",
+       "label": "Ombre portée"
+      },
+      {
+       "sel": "#svg > g > :nth-child(11) > :nth-child(2)",
+       "id": "Bol_de_sauce_bol",
+       "label": "Bol bordeaux"
+      },
+      {
+       "sel": "#svg > g > :nth-child(11) > :nth-child(3)",
+       "id": "Bol_de_sauce_sauce",
+       "label": "Sauce"
+      },
+      {
+       "sel": "#svg > g > :nth-child(11) > :nth-child(4)",
+       "id": "Bol_de_sauce_reflet",
+       "label": "Reflet"
+      }
+     ]
+    },
+    {
+     "id": "Bol_d_alloco",
+     "label": "Bol d'alloco",
+     "parts": [
+      {
+       "sel": "#svg > g > :nth-child(11) > :nth-child(5)",
+       "id": "Bol_d_alloco_ombre",
+       "label": "Ombre portée"
+      },
+      {
+       "sel": "#svg > g > :nth-child(11) > :nth-child(6)",
+       "id": "Bol_d_alloco_bol",
+       "label": "Bol bordeaux"
+      },
+      {
+       "sel": "#svg > g > :nth-child(11) > :nth-child(7)",
+       "id": "Bol_d_alloco_fond",
+       "label": "Fond du bol"
+      },
+      {
+       "sel": "#partage-bowl-alloco > g",
+       "all": true,
+       "id": "Bol_d_alloco_tranche",
+       "label": "Tranche d'alloco"
+      }
+     ]
+    },
+    {
+     "id": "Plat_central",
+     "label": "Plat central – attiéké poisson braisé",
+     "parts": [
+      {
+       "id": "Plat_central_ombre",
+       "label": "Ombre portée",
+       "parts": [
+        {
+         "sel": "#svg > g > :nth-child(12)"
+        }
+       ]
+      },
+      {
+       "id": "Plat_central_bord",
+       "label": "Bord bordeaux",
+       "parts": [
+        {
+         "sel": "#svg > g > :nth-child(13)"
+        }
+       ]
+      },
+      {
+       "id": "Plat_central_reflet",
+       "label": "Reflet du bord",
+       "parts": [
+        {
+         "sel": "#svg > g > :nth-child(14)"
+        }
+       ]
+      },
+      {
+       "id": "Plat_central_assiette",
+       "label": "Fond du plat et filet doré",
+       "parts": [
+        {
+         "sel": "#partage-platter-in > :nth-child(1)"
+        },
+        {
+         "sel": "#partage-platter-in > :nth-child(2)"
+        }
+       ]
+      },
+      {
+       "id": "Attieke",
+       "label": "Attiéké",
+       "parts": [
+        {
+         "sel": "#partage-platter-in > :nth-child(3)",
+         "id": "Attieke_ombre",
+         "label": "Ombre"
+        },
+        {
+         "sel": "#partage-platter-in > :nth-child(4)",
+         "id": "Attieke_dome",
+         "label": "Dôme d'attiéké"
+        },
+        {
+         "sel": "#partage-grains",
+         "id": "Attieke_grains",
+         "label": "Grains et herbes"
+        }
+       ]
+      },
+      {
+       "id": "Rondelles_de_tomate",
+       "label": "Rondelles de tomate",
+       "parts": [
+        {
+         "sel": "#partage-platter-in > :nth-child(6)"
+        },
+        {
+         "sel": "#partage-platter-in > :nth-child(7)"
+        },
+        {
+         "sel": "#partage-platter-in > :nth-child(8)"
+        },
+        {
+         "sel": "#partage-platter-in > :nth-child(9)"
+        },
+        {
+         "sel": "#partage-platter-in > :nth-child(10)"
+        },
+        {
+         "sel": "#partage-platter-in > :nth-child(11)"
+        }
+       ]
+      },
+      {
+       "id": "Piment_rouge",
+       "label": "Piment rouge",
+       "parts": [
+        {
+         "sel": "#partage-platter-in > :nth-child(12)"
+        },
+        {
+         "sel": "#partage-platter-in > :nth-child(13)"
+        },
+        {
+         "sel": "#partage-platter-in > :nth-child(14)"
+        }
+       ]
+      },
+      {
+       "id": "Poisson_braise",
+       "label": "Poisson braisé",
+       "parts": [
+        {
+         "sel": "#partage-platter-in > :nth-child(15)",
+         "id": "Poisson_braise_ombre",
+         "label": "Ombre portée"
+        },
+        {
+         "sel": "#partage-platter-in > :nth-child(16)",
+         "id": "Poisson_braise_poisson",
+         "label": "Tilapia braisé"
+        }
+       ]
+      },
+      {
+       "id": "Rondelle_d_oignon",
+       "label": "Rondelle d'oignon",
+       "parts": [
+        {
+         "sel": "#partage-platter-in > :nth-child(17)"
+        },
+        {
+         "sel": "#partage-platter-in > :nth-child(18)"
+        }
+       ]
+      },
+      {
+       "id": "Alloco",
+       "label": "Alloco",
+       "parts": [
+        {
+         "sel": "#partage-platter-alloco > g",
+         "all": true,
+         "id": "Alloco_tranche",
+         "label": "Tranche d'alloco"
+        }
+       ]
+      }
+     ]
+    },
+    {
+     "id": "Bras_des_convives",
+     "label": "Bras des convives",
+     "parts": [
+      {
+       "sel": "#partage-arms > :nth-child(1)",
+       "id": "Bras_1_fourchette",
+       "label": "Bras 1 – fourchette, wax bordeaux à pois dorés"
+      },
+      {
+       "sel": "#partage-arms > :nth-child(2)",
+       "id": "Bras_2_main_tendue",
+       "label": "Bras 2 – main tendue, wax vert à zigzags"
+      },
+      {
+       "sel": "#partage-arms > :nth-child(3)",
+       "id": "Bras_3_verre_de_bissap",
+       "label": "Bras 3 – verre de bissap, wax jaune rayé bordeaux"
+      },
+      {
+       "sel": "#partage-arms > :nth-child(4)",
+       "id": "Bras_4_verre_de_gnamakoudji",
+       "label": "Bras 4 – verre de gnamakoudji, wax rouge à pois crème"
+      },
+      {
+       "sel": "#partage-arms > :nth-child(5)",
+       "id": "Bras_5_main_tendue",
+       "label": "Bras 5 – main tendue, wax rose à losanges"
+      },
+      {
+       "sel": "#partage-arms > :nth-child(6)",
+       "id": "Bras_6_fourchette",
+       "label": "Bras 6 – fourchette, wax crème rayé vert et rouge"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "Textes",
+   "label": "Textes",
+   "items": [
+    {
+     "id": "Bandeau_titre",
+     "label": "Bandeau titre",
+     "parts": [
+      {
+       "sel": "#partage-band > :nth-child(1)",
+       "id": "Bandeau_ombre",
+       "label": "Ombre portée"
+      },
+      {
+       "sel": "#partage-band > :nth-child(2)",
+       "id": "Bandeau_fond",
+       "label": "Fond crème"
+      },
+      {
+       "sel": "#pt-band-rule",
+       "id": "Bandeau_filet_dore",
+       "label": "Filet doré"
+      }
+     ]
+    },
+    {
+     "id": "Titre_A_deguster_en_famille_et_entre_amis",
+     "label": "Titre « À déguster en famille et entre amis »",
+     "parts": [
+      {
+       "sel": "#title > :nth-child(1) > text",
+       "id": "Mot_A",
+       "label": "« À »"
+      },
+      {
+       "sel": "#title > :nth-child(2) > text",
+       "id": "Mot_deguster",
+       "label": "« déguster »"
+      },
+      {
+       "sel": "#title > :nth-child(3) > text",
+       "id": "Mot_en",
+       "label": "« en »"
+      },
+      {
+       "sel": "#title > :nth-child(4) > text",
+       "id": "Mot_famille",
+       "label": "« famille »"
+      },
+      {
+       "sel": "#title > :nth-child(5) > text",
+       "id": "Mot_et",
+       "label": "« et »"
+      },
+      {
+       "sel": "#title > :nth-child(6) > text",
+       "id": "Mot_entre",
+       "label": "« entre »"
+      },
+      {
+       "sel": "#title > :nth-child(7) > text",
+       "id": "Mot_amis",
+       "label": "« amis »"
+      }
+     ]
+    }
+   ]
+  }
+ ]
+}

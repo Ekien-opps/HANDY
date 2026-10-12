@@ -1,0 +1,66 @@
+{
+  "title": "10 — Signature · Le goût en or",
+  "pruneOffCanvas": true,
+  "remove": ["#cta > g[clip-path]"],
+  "layers": [
+    { "id": "Fond", "label": "Fond", "items": [
+      {"sel": "#bg > rect", "id": "Degrade_bordeaux", "label": "Dégradé bordeaux (radial du badge)"},
+      {"sel": "#dustsvg > g", "id": "Particules_dorees", "label": "Particules dorées (poussières et bokeh)"},
+      {"sel": "#halo", "id": "Halo_dore", "label": "Halo doré derrière le logo"},
+      {"sel": "#poolL", "id": "Flaque_lumiere_gauche", "label": "Flaque de lumière – gauche"},
+      {"sel": "#poolR", "id": "Flaque_lumiere_droite", "label": "Flaque de lumière – droite"}
+    ]},
+    { "id": "Produits", "label": "Produits Marin'Or", "items": [
+      {"id": "Sachet_Paprika", "label": "Sachet – Paprika", "parts": [
+        {"sel": "#cshadow", "id": "Paprika_ombre", "label": "Ombre portée"},
+        {"sel": "#pimg", "id": "Paprika_packshot", "label": "Packshot"} ] },
+      {"id": "Sachet_Epice_Speciale_Poisson", "label": "Sachet – Épice Spéciale Poisson", "parts": [
+        {"sel": "#cshadow_2", "id": "Epice_Speciale_Poisson_ombre", "label": "Ombre portée"},
+        {"sel": "#pimg_2", "id": "Epice_Speciale_Poisson_packshot", "label": "Packshot"} ] },
+      {"id": "Pot_Pate_d_arachide", "label": "Pot – Pâte d'arachide", "parts": [
+        {"sel": "#cshadow_3", "id": "Pate_d_arachide_ombre", "label": "Ombre portée"},
+        {"sel": "#pimg_3", "id": "Pate_d_arachide_packshot", "label": "Packshot"} ] },
+      {"id": "Bouteille_Huile_Rouge", "label": "Bouteille – Huile Rouge", "parts": [
+        {"sel": "#cshadow_4", "id": "Huile_Rouge_ombre", "label": "Ombre portée"},
+        {"sel": "#pimg_4", "id": "Huile_Rouge_packshot", "label": "Packshot"} ] },
+      {"id": "Pot_Marinade_Poisson", "label": "Pot – Marinade Poisson", "parts": [
+        {"sel": "#cshadow_5", "id": "Marinade_Poisson_ombre", "label": "Ombre portée"},
+        {"sel": "#pimg_5", "id": "Marinade_Poisson_packshot", "label": "Packshot"} ] },
+      {"id": "Pot_Marinade_Poulet", "label": "Pot – Marinade Poulet", "parts": [
+        {"sel": "#cshadow_6", "id": "Marinade_Poulet_ombre", "label": "Ombre portée"},
+        {"sel": "#pimg_6", "id": "Marinade_Poulet_packshot", "label": "Packshot"} ] }
+    ]},
+    { "id": "Logo", "label": "Logo Marin'Or Ivoire", "items": [
+      {"sel": "#svg > g", "id": "Logo_Badge", "label": "Badge bordeaux"},
+      {"sel": "#f07-sig-lis", "id": "Logo_Lisere_blanc", "label": "Liseré blanc"},
+      {"sel": "#svg_3 > g", "id": "Logo_Elephant", "label": "Éléphant"},
+      {"sel": "#svg_4 > g", "id": "Logo_Feuille_doree", "label": "Feuille dorée"},
+      {"sel": "#svg_5 > g", "id": "Logo_Lettrage_Marin_Or", "label": "Lettrage « Marin'Or »"},
+      {"sel": "#svg_6 > g", "id": "Logo_Lettrage_Ivoire", "label": "Lettrage « Ivoire »"},
+      {"sel": "#svg_7 > g", "id": "Logo_Point_dore", "label": "Point doré"}
+    ]},
+    { "id": "Textes", "label": "Textes", "items": [
+      {"id": "Slogan_Le_gout_en_or", "label": "Titre « Le goût en or »", "parts": [
+        {"sel": "#w > text", "id": "Mot_Le", "label": "« Le »"},
+        {"sel": "#w_2 > text", "id": "Mot_gout", "label": "« goût »"},
+        {"sel": "#w_3 > text", "id": "Mot_en", "label": "« en »"},
+        {"sel": "#w_4 > text", "id": "Mot_or", "label": "« or »"},
+        {"sel": "#shine > text", "id": "Slogan_reflet_brillant", "label": "Reflet brillant « Le goût en or »"} ] },
+      {"id": "Bouton_Commandez_des_maintenant", "label": "Bouton « Commandez dès maintenant »", "parts": [
+        {"sel": "#cta > g[filter]", "id": "Bouton_ombre", "label": "Ombre portée"},
+        {"sel": "#cta > rect", "id": "Bouton_fond_creme", "label": "Fond crème"},
+        {"sel": "#cta > text", "id": "Texte_Commandez_des_maintenant", "label": "Texte « Commandez dès maintenant »"} ] },
+      {"sel": "#rule", "id": "Filet_dore", "label": "Filet doré (séparateur)"},
+      {"id": "Coordonnees", "label": "Coordonnées", "parts": [
+        {"sel": "#svg_8", "id": "Icone_telephone", "label": "Icône téléphone"},
+        {"sel": "#txt", "id": "Telephone", "label": "Téléphone « +225 01 53 70 26 14 »"},
+        {"sel": "#sep", "id": "Point_separateur_1", "label": "Point séparateur 1"},
+        {"sel": "#txt_2", "id": "Site_web", "label": "Site web « marinorivoire.com »"},
+        {"sel": "#sep_2", "id": "Point_separateur_2", "label": "Point séparateur 2"},
+        {"sel": "#svg_9", "id": "Icone_Facebook", "label": "Icône Facebook"},
+        {"sel": "#svg_10", "id": "Icone_Instagram", "label": "Icône Instagram"},
+        {"sel": "#svg_11", "id": "Icone_LinkedIn", "label": "Icône LinkedIn"},
+        {"sel": "#txt_3", "id": "Compte_marinorivoire", "label": "Réseaux sociaux « @marinorivoire »"} ] }
+    ]}
+  ]
+}
