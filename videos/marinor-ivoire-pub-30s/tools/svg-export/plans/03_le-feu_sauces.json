@@ -1,0 +1,47 @@
+{
+  "title": "03 — Le feu · Sauces",
+  "pruneOffCanvas": true,
+  "remove": [],
+  "layers": [
+    { "id": "Fond", "label": "Fond", "items": [
+      { "sel": "#feu-world > rect", "id": "Aplat_creme", "label": "Aplat crème" },
+      { "id": "Mur_carrele", "label": "Mur carrelé", "parts": [
+        { "sel": "#svg_2 > g > :nth-child(1)" }, { "sel": "#svg_2 > g > :nth-child(2)" } ] },
+      { "sel": "#svg_2 > g > :nth-child(3)", "id": "Lueur_du_feu", "label": "Lueur du feu" },
+      { "id": "Plan_de_travail", "label": "Plan de travail", "parts": [
+        { "sel": "#svg_2 > g > :nth-child(6)" }, { "sel": "#lefeu-joints" }, { "sel": "#svg_2 > g > :nth-child(8)" }, { "sel": "#svg_2 > g > :nth-child(9)" } ] },
+      { "sel": "#svg_2 > g > :nth-child(10)", "id": "Lueur_au_sol", "label": "Lueur au sol" },
+      { "id": "Facade_bois", "label": "Façade bois", "parts": [
+        { "sel": "#svg_2 > g > :nth-child(12)" }, { "sel": "#svg_2 > g > :nth-child(13)" }, { "sel": "#svg_2 > g > :nth-child(14)" }, { "sel": "#lefeu-grain" } ] }
+    ]},
+    { "id": "Illustrations", "label": "Illustrations", "items": [
+      { "id": "Mortier_et_pilon", "label": "Mortier et pilon", "parts": [
+        { "sel": "#lefeu-st1 > :nth-child(1)" }, { "sel": "#lefeu-st1 > :nth-child(2)" }, { "sel": "#lefeu-st1 > :nth-child(3)" }, { "sel": "#lefeu-st1 > :nth-child(4)" },
+        { "sel": "#lefeu-st1 > :nth-child(5)" }, { "sel": "#lefeu-st1 > :nth-child(6)" }, { "sel": "#lefeu-st1 > :nth-child(7)" }, { "sel": "#lefeu-st1 > :nth-child(8)" },
+        { "sel": "#lefeu-st1 > :nth-child(9)" }, { "sel": "#lefeu-st1 > :nth-child(10)" }, { "sel": "#lefeu-st1 > :nth-child(11)" }, { "sel": "#lefeu-st1 > :nth-child(12)" } ] },
+      { "id": "Foyer", "label": "Foyer (braséro)", "parts": [
+        { "sel": "#lefeu-st1 > :nth-child(13)" }, { "sel": "#lefeu-st1 > :nth-child(14)" }, { "sel": "#lefeu-st1 > :nth-child(15)" }, { "sel": "#lefeu-st1 > :nth-child(16)" },
+        { "sel": "#lefeu-st1 > :nth-child(17)" }, { "sel": "#lefeu-st1 > :nth-child(18)" }, { "sel": "#lefeu-door-coals", "id": "Braises_porte", "label": "Braises" }, { "sel": "#lefeu-st1 > :nth-child(20)" } ] },
+      { "sel": "#lefeu-flames-back", "id": "Flammes_arriere", "label": "Flammes arrière" },
+      { "id": "Marmite_sauce_graine", "label": "Marmite – sauce graine", "parts": [
+        { "sel": "#lefeu-st1 > :nth-child(22)" }, { "sel": "#lefeu-st1 > :nth-child(23)" }, { "sel": "#lefeu-st1 > :nth-child(24)" }, { "sel": "#lefeu-st1 > :nth-child(25)" },
+        { "sel": "#lefeu-st1 > :nth-child(26)" }, { "sel": "#lefeu-st1 > :nth-child(27)" }, { "sel": "#lefeu-st1 > :nth-child(28)" }, { "sel": "#lefeu-st1 > :nth-child(29)" },
+        { "sel": "#lefeu-st1 > :nth-child(30)" }, { "sel": "#lefeu-st1 > :nth-child(31)" }, { "sel": "#lefeu-st1 > :nth-child(32)" }, { "sel": "#lefeu-st1 > :nth-child(33)" },
+        { "sel": "#lefeu-st1 > :nth-child(34)" }, { "sel": "#lefeu-st1 > :nth-child(35)" }, { "sel": "#lefeu-st1 > :nth-child(36)", "id": "Sauce", "label": "Sauce graine" },
+        { "sel": "#lefeu-st1 > :nth-child(37)", "id": "Morceaux_viande", "label": "Morceaux de viande" }, { "sel": "#lefeu-bubbles", "id": "Bulles", "label": "Bulles" } ] },
+      { "id": "Flammes_avant", "label": "Flammes avant", "parts": [ { "sel": "#lefeu-st1 > :nth-child(39)" }, { "sel": "#lefeu-flames-front" } ] },
+      { "sel": "#lefeu-steam1", "id": "Vapeur", "label": "Vapeur" },
+      { "id": "Calebasse_noix_de_palme", "label": "Calebasse de noix de palme", "parts": [
+        { "sel": "#lefeu-st1 > :nth-child(42)" }, { "sel": "#lefeu-nuts", "id": "Noix_de_palme", "label": "Noix de palme" }, { "sel": "#lefeu-st1 > :nth-child(44)" },
+        { "sel": "#lefeu-st1 > :nth-child(45)" }, { "sel": "#lefeu-st1 > :nth-child(46)" }, { "sel": "#lefeu-st1 > :nth-child(47)" } ] },
+      { "id": "Tomate", "label": "Tomate", "parts": [ { "sel": "#lefeu-st1 > :nth-child(48)" }, { "sel": "#lefeu-st1 > :nth-child(49)" }, { "sel": "#lefeu-st1 > :nth-child(50)" }, { "sel": "#lefeu-st1 > :nth-child(51)" } ] },
+      { "id": "Piment", "label": "Piment", "parts": [ { "sel": "#lefeu-st1 > :nth-child(52)" }, { "sel": "#lefeu-st1 > :nth-child(53)" }, { "sel": "#lefeu-st1 > :nth-child(54)" } ] }
+    ]},
+    { "id": "Textes", "label": "Textes", "items": [
+      { "sel": "#feu-chip1", "id": "Pastille_Sauces", "label": "Pastille « Sauces »" }
+    ]},
+    { "id": "Effets", "label": "Effets & lumière", "items": [
+      { "sel": "#lf-light", "id": "Lumiere_chaude", "label": "Lumière chaude" }
+    ]}
+  ]
+}

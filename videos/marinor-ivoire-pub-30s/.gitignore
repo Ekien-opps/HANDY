@@ -1,3 +1,7 @@
 node_modules/
 snapshots/
 .hyperframes/previews/
+exports/svg/
+exports/final/*.qa.png
+exports/final/*.diff.png
+exports/final/*.side.jpg
