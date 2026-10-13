@@ -1,0 +1,6 @@
+node_modules/
+.hyperframes/
+snapshots/*.png
+renders/check_png/
+renders/*_png_tmp/
+__pycache__/

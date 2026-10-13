@@ -1,0 +1,16 @@
+{
+  "version": 1,
+  "project": "marinor-timbre-marmite",
+  "category": "custom-icon-micro-interaction",
+  "category_note": "No catalog category fits: user-supplied illustrated asset with fully specified choreography. The production spec is the shot plan.",
+  "asset_needs": [],
+  "spec": "../marinor-ivoire-pub-30s/micro-interactions/timbre-marmite/SPEC_timbre-marmite.md",
+  "pipeline_option": "B (2.5D cut raster, rebuilt in HyperFrames instead of After Effects)",
+  "canvas": { "width": 1080, "height": 1350, "fps": 60, "frames": 60, "duration_s": 1.0, "background": "none (alpha)" },
+  "brief": "A hot pot in a blank postage stamp: the lid pops open (f8), a faceted flame bursts out (f9-f12), floats (f12-f21), the lid slams shut while the flame dies in the same motion, zero on the landing frame (f22-f28), the pot squashes and the lid bounces (f28-f32), then the stamp cracks along a branched zigzag (f34-f36) and splits into three paper fragments on a damped spring (f36-f47), still hold to f59. All pot and flame motion stays inside the stamp's picture area; no text anywhere.",
+  "deliverables": [
+    "renders/MOR_stampPot-tear_v001_1080x1350_png/ (RGBA PNG sequence, 60 frames)",
+    "renders/MOR_stampPot-tear_v001_1080x1350_60p_PR4444.mov",
+    "renders/MOR_stampPot-tear_v001_1080x1350_60p_vp9a.webm"
+  ]
+}
