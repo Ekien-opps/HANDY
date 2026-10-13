@@ -1,0 +1,16 @@
+{
+  "huile-rouge": {
+    "name": "MarinOr_Huile-Rouge",
+    "title": "Huile Rouge",
+    "front": "src/huile-rouge/face-avant.webp",
+    "back": "src/huile-rouge/face-arriere.webp",
+    "texture": "etiquette_huile-rouge.png",
+    "cap": "#A0373C",
+    "cap_inner": "#701F25",
+    "cap_name": "rouge framboise",
+    "oil": "#A42B1F",
+    "oil_name": "rouge-orangé profond",
+    "diameter_cm": 6.6,
+    "exposure": 0.85
+  }
+}

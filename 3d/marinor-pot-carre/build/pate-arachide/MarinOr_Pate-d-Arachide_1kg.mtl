@@ -1,0 +1,88 @@
+# Marin'Or Ivoire - Pâte d'arachide 1 kg
+# Kd values are LINEAR RGB (sRGB hex in comments)
+
+newmtl PET_transparent
+Ka 0 0 0
+Kd 0.92 0.93 0.93
+Ks 0.9 0.9 0.9
+Ns 900
+Ni 1.57
+d 0.15
+Tr 0.85
+Tf 0.97 0.98 0.98
+illum 7
+
+newmtl PET_col
+# col, collerette, goulot et lèvre (PET plus épais)
+Ka 0 0 0
+Kd 0.92 0.93 0.93
+Ks 0.9 0.9 0.9
+Ns 900
+Ni 1.57
+d 0.2
+Tr 0.8
+Tf 0.95 0.96 0.96
+illum 7
+
+newmtl Pate_arachide
+# #AE7840 (moyenne de la texture de grain)
+Ka 0 0 0
+Kd 1 1 1
+Ks 0.10 0.10 0.10
+Ns 40
+d 1
+illum 2
+map_Kd pate-arachide_pate-grain.jpg
+
+newmtl Couvercle
+# #843A28
+Ka 0 0 0
+Kd 0.2307 0.0423 0.0212
+Ks 0.30 0.30 0.30
+Ns 250
+d 1
+illum 2
+
+newmtl Couvercle_stries
+# #1A0803 (fond et flancs des stries : ombre des fentes étroites)
+Ka 0 0 0
+Kd 0.0103 0.0024 0.0009
+Ks 0.1 0.1 0.1
+Ns 60
+d 1
+illum 2
+
+newmtl Couvercle_interieur
+# #4E2212
+Ka 0 0 0
+Kd 0.0762 0.0160 0.0060
+Ks 0.1 0.1 0.1
+Ns 40
+d 1
+illum 2
+
+newmtl Etiquette_avant
+Ka 0 0 0
+Kd 1 1 1
+Ks 0.25 0.25 0.25
+Ns 120
+d 1
+illum 2
+map_Kd pate-arachide_etiquette-avant.png
+
+newmtl Etiquette_arriere
+Ka 0 0 0
+Kd 1 1 1
+Ks 0.25 0.25 0.25
+Ns 120
+d 1
+illum 2
+map_Kd pate-arachide_etiquette-arriere.png
+
+newmtl Etiquette_papier
+Ka 0 0 0
+Kd 0.91 0.91 0.90
+Ks 0.05 0.05 0.05
+Ns 20
+d 1
+illum 2

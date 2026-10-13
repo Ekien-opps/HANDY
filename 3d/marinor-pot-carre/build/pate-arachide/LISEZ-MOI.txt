@@ -1,0 +1,68 @@
+Marin'Or Ivoire · Pâte d'arachide 1 kg · pot carré en PET transparent, modèle 3D statique
+==============================================================================
+
+FICHIERS
+--------
+MarinOr_Pate-d-Arachide_1kg.obj   Géométrie (Wavefront OBJ) : normales lissées et UV.
+MarinOr_Pate-d-Arachide_1kg.mtl   Matériaux (PET transparent, pâte, couvercle, étiquettes, papier).
+pate-arachide_etiquette-avant.png   Texture de l'étiquette avant (879 × 767 px, PNG avec transparence hors du contour).
+pate-arachide_etiquette-arriere.png   Texture de l'étiquette arrière (884 × 748 px, PNG avec transparence hors du contour).
+pate-arachide_pate-grain.jpg   Grain de la pâte d'arachide (texture qui se répète, tuile de 2,5 cm).
+MarinOr_Pate-d-Arachide_1kg.glb   Le même modèle en glTF binaire (fichier livré à part), avec les matériaux PBR
+             (PET transmissif, couvercle satiné, étiquettes pelliculées) et les textures intégrées.
+             S'ouvre directement dans Blender, la Visionneuse 3D Windows et les viewers web.
+apercus/     Rendus PNG sur fond transparent : face, 3/4, dos, profil, plongée.
+
+ÉCHELLE ET ORIENTATION
+----------------------
+Unités : centimètres, taille réelle. Pot carré de 12 × 12 cm, hauteur totale 11,7 cm (couvercle compris),
+couvercle Ø 7,4 cm, col Ø 6,4 cm.
+Axe Y vers le haut. Centre du fond à l'origine. Étiquette avant tournée vers +Z.
+- Cinema 4D : import direct (unités en cm).
+- Blender (1 unité = 1 m) : à l'import, mettre Scale = 0,01, ou garder 1 et travailler à l'échelle ×100.
+- Maya / 3ds Max : unités du projet en cm.
+
+OBJETS (68 424 sommets, 108 824 triangles)
+------------------------------------------
+Pot_PET            Pot en PET transparent, paroi de 0,5 mm (surfaces extérieure et intérieure) :
+                   corps à section carrée aux arêtes verticales arrondies (rayon 1 cm), fond arrondi,
+                   épaule qui s'arrondit vers un col rond (profil relevé sur votre maquette), bourrelet
+                   du col, collerette transparente, goulot et lèvre (cachés par le couvercle).
+Pate_arachide      Pâte d'arachide qui remplit le pot jusqu'à la base du col, visible à travers le PET
+                   partout où il n'y a pas d'étiquette.
+Couvercle          Capsule vissante marron (#843A28) Ø 7,4 cm, hauteur 1,0 cm : 70 stries verticales,
+                   bandeau lisse en bas, arête supérieure arrondie, dessus légèrement bombé, face intérieure.
+Etiquette_avant    Étiquette découpée (côtés droits, bas droit, haut en arc) de 9,8 × 8,6 cm sur la face avant.
+Etiquette_arriere  Étiquette découpée de 9,9 × 8,3 cm sur la face arrière, lisible de dos (non inversée).
+                   Les deux étiquettes : papier de 0,12 mm d'épaisseur posé sur la face plate (il suit la
+                   légère courbure du haut de la face). Recto : texture. Verso et tranches : papier blanc.
+
+MATÉRIAUX (à affiner dans votre moteur de rendu)
+------------------------------------------------
+Le format OBJ/MTL ne décrit pas la réfraction. Dans votre moteur, réglez :
+- PET_transparent : transmission 100 %, IOR 1,57, rugosité 0,03 à 0,06, sans teinte.
+- Pate_arachide : texture de grain en sRGB (couleur moyenne #AE7840), rugosité 0,5 à 0,6.
+- Couvercle : #843A28, rugosité 0,35 + léger vernis (clearcoat) 0,3. Couvercle_interieur : #4E2212.
+- Etiquette_avant / Etiquette_arriere : textures en sRGB, rugosité 0,4 + vernis léger (étiquette pelliculée).
+Le fichier GLB contient déjà ces réglages.
+Les valeurs Kd du fichier MTL sont en RVB linéaire (convention de Blender) ; les codes hex sont en sRVB.
+Les couleurs ont été relevées sur vos maquettes et calées par rapport au blanc de l'étiquette.
+
+ÉTIQUETTES : PLACEMENT
+----------------------
+Chaque étiquette est une projection plane de votre maquette (face avant, face arrière) : contour mesuré
+sur l'image, mêmes position, taille et proportions que sur la maquette, sans étirement ni effet miroir.
+Elles tiennent sur les faces plates du pot et ne débordent pas sur les arêtes arrondies.
+
+TEXTURES : À SAVOIR
+-------------------
+Les textures d'étiquette viennent de vos visuels de maquette. Elles contiennent donc l'éclairage de la
+maquette (légers dégradés et reflets). Dans votre logiciel, cet éclairage s'ajoute au vôtre.
+Pour un rendu PBR parfaitement propre et net, envoyez les fichiers d'impression à plat des deux
+étiquettes (AI, PDF ou PNG haute définition) : je remplace les textures en quelques minutes, sans toucher
+au modèle.
+
+Régénération (dossier 3d/marinor-pot-carre) :
+python3 tools/build_square_jar.py <produit>
+node tools/render_preview.mjs <produit>     (aperçus PNG + export GLB)
+tools/package.sh <produit>                  (archive de livraison)

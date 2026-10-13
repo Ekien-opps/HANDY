@@ -1,0 +1,17 @@
+{
+  "pate-arachide": {
+    "name": "MarinOr_Pate-d-Arachide_1kg",
+    "title": "Pâte d'arachide 1 kg",
+    "front": "src/pate-arachide/face-avant.webp",
+    "back": "src/pate-arachide/face-arriere.webp",
+    "width_cm": 12.0,
+    "label_front": {"xl": 323.0, "xr": 1181.5, "yb": 982.0, "r_bottom": 20.0, "r_top": 5.0, "arc": [749.6, 919.4, 684.2]},
+    "label_back": {"xl": 318.5, "xr": 1182.0, "yb": 966.0, "r_bottom": 24.0, "r_top": 14.0, "arc": [744.9, 1383.0, 1144.9]},
+    "paste": "#AE7840",
+    "paste_name": "beige caramel granuleux",
+    "cap": "#843A28",
+    "cap_groove": "#1A0803",
+    "cap_inner": "#4E2212",
+    "cap_name": "marron"
+  }
+}

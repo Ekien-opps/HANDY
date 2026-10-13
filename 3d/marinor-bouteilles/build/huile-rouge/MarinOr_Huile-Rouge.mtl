@@ -1,0 +1,57 @@
+# Marin'Or Ivoire - Huile Rouge
+# Kd values are LINEAR RGB (sRGB hex in comments)
+
+newmtl PET
+Ka 0 0 0
+Kd 0.92 0.94 0.94
+Ks 0.9 0.9 0.9
+Ns 900
+Ni 1.57
+d 0.15
+Tr 0.85
+Tf 0.97 0.98 0.98
+illum 7
+
+newmtl Huile
+# #A42B1F
+Ka 0 0 0
+Kd 0.3712 0.0242 0.0137
+Ks 0.5 0.5 0.5
+Ns 400
+d 1
+illum 2
+
+newmtl Bouchon
+# #A0373C
+Ka 0 0 0
+Kd 0.3515 0.0382 0.0452
+Ks 0.25 0.25 0.25
+Ns 120
+d 1
+illum 2
+
+newmtl Bouchon_interieur
+# #701F25
+Ka 0 0 0
+Kd 0.1620 0.0137 0.0185
+Ks 0.1 0.1 0.1
+Ns 40
+d 1
+illum 2
+
+newmtl Etiquette_impression
+Ka 0 0 0
+Kd 1 1 1
+Ks 0.35 0.35 0.35
+Ns 250
+d 1
+illum 2
+map_Kd etiquette_huile-rouge.png
+
+newmtl Etiquette_verso
+Ka 0 0 0
+Kd 0.85 0.85 0.84
+Ks 0.1 0.1 0.1
+Ns 40
+d 1
+illum 2

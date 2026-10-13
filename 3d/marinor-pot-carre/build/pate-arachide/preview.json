@@ -1,0 +1,12 @@
+{
+ "name": "MarinOr_Pate-d-Arachide_1kg",
+ "obj": "../build/pate-arachide/MarinOr_Pate-d-Arachide_1kg.obj",
+ "front": "../build/pate-arachide/pate-arachide_etiquette-avant.png",
+ "back": "../build/pate-arachide/pate-arachide_etiquette-arriere.png",
+ "paste": "../build/pate-arachide/pate-arachide_pate-grain.jpg",
+ "tile": 2.5,
+ "cap": "#843A28",
+ "cap_groove": "#1A0803",
+ "cap_inner": "#4E2212",
+ "height": 11.749
+}

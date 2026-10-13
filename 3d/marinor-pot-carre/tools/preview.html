@@ -1,0 +1,141 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8" />
+<style>html,body{margin:0;background:transparent}canvas{display:block}</style>
+<script type="importmap">
+{ "imports": {
+  "three": "./node_modules/three/build/three.module.js",
+  "three/addons/": "./node_modules/three/examples/jsm/"
+} }
+</script>
+</head>
+<body>
+<script type="module">
+import * as THREE from "three";
+import { OBJLoader } from "three/addons/loaders/OBJLoader.js";
+import { RoomEnvironment } from "three/addons/environments/RoomEnvironment.js";
+import { GLTFExporter } from "three/addons/exporters/GLTFExporter.js";
+import { mergeVertices } from "three/addons/utils/BufferGeometryUtils.js";
+
+const P = new URLSearchParams(location.search);
+const W = +(P.get("w") || 1200), H = +(P.get("h") || 1500);
+const CFG = await (await fetch(P.get("cfg"))).json();
+
+const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true, preserveDrawingBuffer: true });
+renderer.setPixelRatio(1);
+renderer.setSize(W, H);
+renderer.outputColorSpace = THREE.SRGBColorSpace;
+renderer.toneMapping = THREE.NeutralToneMapping;
+renderer.toneMappingExposure = 0.72;  // the faces get more key light than on the round jars (lower key light)
+renderer.shadowMap.enabled = true;
+renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+renderer.setClearColor(0x000000, 0);
+document.body.appendChild(renderer.domElement);
+
+const scene = new THREE.Scene();
+const pmrem = new THREE.PMREMGenerator(renderer);
+// product-studio environment: soft room + tall softboxes for crisp vertical highlights on the PET and the cap
+const envScene = new RoomEnvironment();
+const box = (w, h, x, y, z, ry, k) => {
+  const m = new THREE.Mesh(new THREE.PlaneGeometry(w, h), new THREE.MeshBasicMaterial({ color: new THREE.Color(k, k, k), side: THREE.DoubleSide }));
+  m.position.set(x, y, z); m.rotation.y = ry; envScene.add(m); return m;
+};
+box(1.2, 9, -6.2, 1.5, 2.5, Math.PI / 2.6, 9);   // left strip softbox
+box(1.0, 9, 6.2, 1.5, 1.5, -Math.PI / 2.4, 6);   // right strip softbox
+box(6, 3, 0, 6.5, 0, 0, 1.5).rotation.x = Math.PI / 2; // top light (softer than for the round jars: the PET shoulder faces it)
+scene.environment = pmrem.fromScene(envScene, 0.02).texture;
+scene.environmentIntensity = 0.95;
+
+const key = new THREE.DirectionalLight(0xffffff, 1.6);
+key.position.set(-14, 26, 22);
+scene.add(key);
+// the key light is low for this jar (even light on the flat faces); the contact shadow comes from a
+// zero-intensity light placed high like the round jars' key, so the shadow stays short and under the jar
+const shadowLight = new THREE.DirectionalLight(0xffffff, 0);
+shadowLight.castShadow = true;
+shadowLight.shadow.mapSize.set(2048, 2048);
+shadowLight.shadow.camera.left = -14; shadowLight.shadow.camera.right = 14; shadowLight.shadow.camera.top = 14; shadowLight.shadow.camera.bottom = -14;
+shadowLight.shadow.radius = 9;
+shadowLight.shadow.bias = -0.0004;
+scene.add(shadowLight);
+const rim = new THREE.DirectionalLight(0xffffff, 0.8);
+rim.position.set(16, 12, -18);
+scene.add(rim);
+
+const ground = new THREE.Mesh(new THREE.PlaneGeometry(80, 80), new THREE.ShadowMaterial({ opacity: 0.12 }));
+ground.rotation.x = -Math.PI / 2;
+ground.receiveShadow = true;
+scene.add(ground);
+
+const loadTex = async (u, repeat) => {
+  const x = await new THREE.TextureLoader().loadAsync(u);
+  x.colorSpace = THREE.SRGBColorSpace; x.anisotropy = renderer.capabilities.getMaxAnisotropy();
+  if (repeat) { x.wrapS = x.wrapT = THREE.RepeatWrapping; x.userData.mimeType = "image/jpeg"; }
+  return x;
+};
+const texF = await loadTex(CFG.front), texB = await loadTex(CFG.back), texP = await loadTex(CFG.paste, true);
+const M = {
+  PET_transparent: new THREE.MeshPhysicalMaterial({ color: 0xffffff, metalness: 0, roughness: 0.05, transmission: 1, thickness: 0.05, ior: 1.57,
+    specularIntensity: 0.6, envMapIntensity: 1.0 }),
+  // thick moulded neck/flange: stronger refraction, shows the cap and the paste around it like real PET
+  PET_col: new THREE.MeshPhysicalMaterial({ color: 0xffffff, metalness: 0, roughness: 0.04, transmission: 1, thickness: 0.6, ior: 1.57,
+    specularIntensity: 1.0, envMapIntensity: 1.2 }),
+  Pate_arachide: new THREE.MeshPhysicalMaterial({ map: texP, roughness: 0.55 }),
+  Couvercle: new THREE.MeshPhysicalMaterial({ color: new THREE.Color(CFG.cap), roughness: 0.36, clearcoat: 0.3, clearcoatRoughness: 0.3 }),
+  Couvercle_stries: new THREE.MeshPhysicalMaterial({ color: new THREE.Color(CFG.cap_groove), roughness: 0.8, specularIntensity: 0.3 }),
+  Couvercle_interieur: new THREE.MeshPhysicalMaterial({ color: new THREE.Color(CFG.cap_inner), roughness: 0.6 }),
+  // satin laminate with a low specular level so the printed colours stay as on the mockups (no white veil)
+  Etiquette_avant: new THREE.MeshPhysicalMaterial({ map: texF, roughness: 0.45, specularIntensity: 0.35, clearcoat: 0.12, clearcoatRoughness: 0.3 }),
+  Etiquette_arriere: new THREE.MeshPhysicalMaterial({ map: texB, roughness: 0.45, specularIntensity: 0.35, clearcoat: 0.12, clearcoatRoughness: 0.3 }),
+  Etiquette_papier: new THREE.MeshPhysicalMaterial({ color: 0xf3f3f1, roughness: 0.8 }),
+};
+for (const [n, m] of Object.entries(M)) m.name = n;
+
+const obj = await new OBJLoader().loadAsync(CFG.obj);
+obj.traverse((o) => {
+  if (!o.isMesh) return;
+  o.geometry = mergeVertices(o.geometry);  // indexed geometry: same surface, much smaller GLB
+  const swap = (m) => M[m.name] || m;
+  o.material = Array.isArray(o.material) ? o.material.map(swap) : swap(o.material);
+  o.castShadow = o.name !== "Pot_PET";
+  o.receiveShadow = false;
+});
+scene.add(obj);
+for (const n of (P.get("hide") || "").split(",").filter(Boolean)) { const o = obj.getObjectByName(n); if (o) o.visible = false; }  // debug views
+
+// studio backdrop seen only THROUGH the PET (three.js transmission pass), as on the mockups' studio shot:
+// without it three.js fills what is behind clear PET with a 50 % white haze when the background is transparent
+const backdrop = new THREE.Mesh(new THREE.SphereGeometry(60, 48, 24), new THREE.MeshBasicMaterial({ color: 0x5e6062, side: THREE.BackSide }));
+backdrop.onBeforeRender = (r) => { const t = r.getRenderTarget() !== null; backdrop.material.colorWrite = t; backdrop.material.depthWrite = t; };
+scene.add(backdrop);
+
+const camera = new THREE.PerspectiveCamera(+(P.get("fov") || 20), W / H, 1, 400);
+const target = new THREE.Vector3(0, CFG.height * 0.5, 0);
+backdrop.position.copy(target);
+window.renderView = (azDeg, elevDeg, dist) => {
+  const az = THREE.MathUtils.degToRad(azDeg), el = THREE.MathUtils.degToRad(elevDeg);
+  camera.position.set(target.x + dist * Math.cos(el) * Math.sin(az), target.y + dist * Math.sin(el), target.z + dist * Math.cos(el) * Math.cos(az));
+  camera.lookAt(target);
+  camera.near = Math.max(1, dist - 40); camera.far = dist + 80; camera.updateProjectionMatrix();  // tight depth range: no z-fighting on the labels
+  // keep the key light on the camera's front-left so every view is lit like a product shot
+  // (lower than for the round jars so the flat faces and the shoulder are lit evenly, as on the mockups)
+  key.position.set(-10 * Math.cos(az) + 14 * Math.sin(az), 14, 10 * Math.sin(az) + 14 * Math.cos(az));
+  shadowLight.position.set(-10 * Math.cos(az) + 12 * Math.sin(az), 44, 10 * Math.sin(az) + 12 * Math.cos(az));
+  scene.environmentRotation.set(0, az, 0);  // studio turns with the camera: front and back lit alike
+  rim.position.set(16 * Math.cos(az) - 18 * Math.sin(az), 12, -16 * Math.sin(az) - 18 * Math.cos(az));
+  renderer.render(scene, camera);
+  return renderer.domElement.toDataURL("image/png");
+};
+window.exportGLB = async () => {
+  ground.visible = false;
+  const buf = await new GLTFExporter().parseAsync(obj, { binary: true, maxTextureSize: 4096 });
+  ground.visible = true;
+  let s = ""; const b = new Uint8Array(buf);
+  for (let i = 0; i < b.length; i += 0x8000) s += String.fromCharCode.apply(null, b.subarray(i, i + 0x8000));
+  return btoa(s);
+};
+window.__ready = true;
+</script>
+</body>
+</html>

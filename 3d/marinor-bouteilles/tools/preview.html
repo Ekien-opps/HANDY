@@ -1,0 +1,117 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8" />
+<style>html,body{margin:0;background:transparent}canvas{display:block}</style>
+<script type="importmap">
+{ "imports": {
+  "three": "./node_modules/three/build/three.module.js",
+  "three/addons/": "./node_modules/three/examples/jsm/"
+} }
+</script>
+</head>
+<body>
+<script type="module">
+import * as THREE from "three";
+import { OBJLoader } from "three/addons/loaders/OBJLoader.js";
+import { RoomEnvironment } from "three/addons/environments/RoomEnvironment.js";
+import { GLTFExporter } from "three/addons/exporters/GLTFExporter.js";
+
+const P = new URLSearchParams(location.search);
+const W = +(P.get("w") || 1200), H = +(P.get("h") || 1500);
+const CFG = await (await fetch(P.get("cfg"))).json();
+const OBJ = CFG.obj, TEX = CFG.tex;
+
+const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true, preserveDrawingBuffer: true });
+renderer.setPixelRatio(1);
+renderer.setSize(W, H);
+renderer.outputColorSpace = THREE.SRGBColorSpace;
+renderer.toneMapping = THREE.NeutralToneMapping;
+renderer.toneMappingExposure = CFG.exposure || 1.0;
+renderer.shadowMap.enabled = true;
+renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+renderer.setClearColor(0x000000, 0);
+document.body.appendChild(renderer.domElement);
+
+const scene = new THREE.Scene();
+const pmrem = new THREE.PMREMGenerator(renderer);
+// product-studio environment: soft room + tall softboxes for crisp vertical highlights on glass and cap
+const envScene = new RoomEnvironment();
+const box = (w, h, x, y, z, ry, k) => {
+  const m = new THREE.Mesh(new THREE.PlaneGeometry(w, h), new THREE.MeshBasicMaterial({ color: new THREE.Color(k, k, k), side: THREE.DoubleSide }));
+  m.position.set(x, y, z); m.rotation.y = ry; envScene.add(m); return m;
+};
+box(1.2, 9, -6.2, 1.5, 2.5, Math.PI / 2.6, 9);   // left strip softbox
+box(1.0, 9, 6.2, 1.5, 1.5, -Math.PI / 2.4, 6);   // right strip softbox
+box(6, 3, 0, 6.5, 0, 0, 3).rotation.x = Math.PI / 2; // top light
+scene.environment = pmrem.fromScene(envScene, 0.02).texture;
+scene.environmentIntensity = 0.95;
+
+const key = new THREE.DirectionalLight(0xffffff, 1.6);
+key.position.set(-14, 26, 22);
+key.castShadow = true;
+key.shadow.mapSize.set(2048, 2048);
+key.shadow.camera.left = -14; key.shadow.camera.right = 14; key.shadow.camera.top = 14; key.shadow.camera.bottom = -14;
+key.shadow.radius = 9;
+key.shadow.bias = -0.0004;
+scene.add(key);
+const rim = new THREE.DirectionalLight(0xffffff, 0.8);
+rim.position.set(16, 12, -18);
+scene.add(rim);
+
+const ground = new THREE.Mesh(new THREE.PlaneGeometry(80, 80), new THREE.ShadowMaterial({ opacity: 0.12 }));
+ground.rotation.x = -Math.PI / 2;
+ground.receiveShadow = true;
+scene.add(ground);
+
+const tex = await new THREE.TextureLoader().loadAsync(TEX);
+tex.colorSpace = THREE.SRGBColorSpace;
+tex.anisotropy = renderer.capabilities.getMaxAnisotropy();
+tex.wrapS = THREE.RepeatWrapping; // the label goes all the way round (u = 0 and 1 meet on the left side)
+
+// clear PET shell, red palm oil, satin PP cap, glossy printed film
+const M = {
+  PET: new THREE.MeshPhysicalMaterial({ color: 0xffffff, metalness: 0, roughness: 0.05, transmission: 1, thickness: 0.06, ior: 1.57,
+    attenuationColor: new THREE.Color(0xf6f8f8), attenuationDistance: 20, specularIntensity: 0.55, envMapIntensity: 1.0 }),
+  Huile: new THREE.MeshPhysicalMaterial({ color: new THREE.Color(CFG.oil), roughness: 0.35, specularIntensity: 0.3 }),
+  Bouchon: new THREE.MeshPhysicalMaterial({ color: new THREE.Color(CFG.cap), roughness: 0.42, clearcoat: 0.15, clearcoatRoughness: 0.4 }),
+  Bouchon_interieur: new THREE.MeshPhysicalMaterial({ color: new THREE.Color(CFG.cap_inner), roughness: 0.6 }),
+  Etiquette_impression: new THREE.MeshPhysicalMaterial({ map: tex, roughness: 0.4, clearcoat: 0.25, clearcoatRoughness: 0.2 }),
+  Etiquette_verso: new THREE.MeshPhysicalMaterial({ color: 0xdcdcda, roughness: 0.6 }),
+};
+
+const obj = await new OBJLoader().loadAsync(OBJ);
+obj.traverse((o) => {
+  if (!o.isMesh) return;
+  const swap = (m) => M[m.name] || m;
+  o.material = Array.isArray(o.material) ? o.material.map(swap) : swap(o.material);
+  o.castShadow = o.name !== "Bouteille";
+  o.receiveShadow = false;
+});
+scene.add(obj);
+
+const camera = new THREE.PerspectiveCamera(CFG.fov || 16, W / H, 5, 500);
+const target = new THREE.Vector3(0, CFG.height * 0.5, 0);
+window.renderView = (azDeg, elevDeg, dist) => {
+  const az = THREE.MathUtils.degToRad(azDeg), el = THREE.MathUtils.degToRad(elevDeg);
+  camera.position.set(target.x + dist * Math.cos(el) * Math.sin(az), target.y + dist * Math.sin(el), target.z + dist * Math.cos(el) * Math.cos(az));
+  camera.lookAt(target);
+  scene.environmentRotation.y = az; // studio (softboxes) turns with the camera: every view is lit like the face
+  // keep the key light on the camera's front-left so every view is lit like a product shot
+  key.position.set(-10 * Math.cos(az) + 12 * Math.sin(az), 44, 10 * Math.sin(az) + 12 * Math.cos(az));
+  rim.position.set(16 * Math.cos(az) - 18 * Math.sin(az), 12, -16 * Math.sin(az) - 18 * Math.cos(az));
+  renderer.render(scene, camera);
+  return renderer.domElement.toDataURL("image/png");
+};
+window.exportGLB = async () => {
+  ground.visible = false;
+  const buf = await new GLTFExporter().parseAsync(obj, { binary: true, maxTextureSize: 4096 });
+  ground.visible = true;
+  let s = ""; const b = new Uint8Array(buf);
+  for (let i = 0; i < b.length; i += 0x8000) s += String.fromCharCode.apply(null, b.subarray(i, i + 0x8000));
+  return btoa(s);
+};
+window.__ready = true;
+</script>
+</body>
+</html>

@@ -1,0 +1,13 @@
+{
+ "name": "MarinOr_Huile-Rouge",
+ "obj": "../build/huile-rouge/MarinOr_Huile-Rouge.obj",
+ "tex": "../build/huile-rouge/etiquette_huile-rouge.png",
+ "cap": "#A0373C",
+ "cap_inner": "#701F25",
+ "oil": "#A42B1F",
+ "height": 18.316,
+ "eye_y": 10.786,
+ "dist": 81.59,
+ "fov": 16,
+ "exposure": 0.85
+}

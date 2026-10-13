@@ -1,0 +1,126 @@
+{
+ "product": "pate-arachide",
+ "objects": {
+  "Pot_PET": {
+   "vertices": 17802,
+   "triangles": 34816
+  },
+  "Pate_arachide": {
+   "vertices": 7984,
+   "triangles": 14848
+  },
+  "Couvercle": {
+   "vertices": 23834,
+   "triangles": 26040
+  },
+  "Etiquette_avant": {
+   "vertices": 9402,
+   "triangles": 16560
+  },
+  "Etiquette_arriere": {
+   "vertices": 9402,
+   "triangles": 16560
+  }
+ },
+ "label_clearance_cm_min": 0.00361,
+ "bbox_cm": [
+  [
+   -6.0,
+   0.0,
+   -6.018
+  ],
+  [
+   6.0,
+   11.749,
+   6.018
+  ]
+ ],
+ "jar": {
+  "width_cm": 12.0,
+  "depth_cm": 12.0,
+  "height_cm": 11.749,
+  "corner_radius_cm": 1.0,
+  "neck_diameter_cm": 6.379,
+  "flange_diameter_cm": 7.463,
+  "cap_diameter_cm": 7.402,
+  "cap_height_cm": 1.015,
+  "cap_bottom_cm": 10.733,
+  "shoulder_start_cm": 8.567,
+  "neck_base_cm": 10.302,
+  "paste_fill_cm": 10.205,
+  "paste_volume_ml": 1363.6
+ },
+ "mockup_frames": {
+  "front": {
+   "x0": 753.23,
+   "px_per_cm": 87.02,
+   "base_row": 1038.0
+  },
+  "back": {
+   "x0": 751.61,
+   "px_per_cm": 87.17,
+   "base_row": 1036.0
+  }
+ },
+ "labels": {
+  "label_front": {
+   "width_cm": 9.843,
+   "height_cm": 8.559,
+   "x_cm": [
+    -4.933,
+    4.91
+   ],
+   "y_cm": [
+    0.655,
+    9.214
+   ],
+   "texture_px": [
+    879,
+    767
+   ],
+   "edge_band_px_replaced": 132,
+   "edge_band_px": 11771,
+   "texture": "pate-arachide_etiquette-avant.png"
+  },
+  "label_back": {
+   "width_cm": 9.883,
+   "height_cm": 8.327,
+   "x_cm": [
+    -4.926,
+    4.957
+   ],
+   "y_cm": [
+    0.814,
+    9.142
+   ],
+   "texture_px": [
+    884,
+    748
+   ],
+   "edge_band_px_replaced": 111,
+   "edge_band_px": 11966,
+   "texture": "pate-arachide_etiquette-arriere.png"
+  }
+ },
+ "colours": {
+  "label_white": "#FEFDFD",
+  "paste_mockup": "#BE8240",
+  "cap_mockup": "#96422A",
+  "cap_groove_mockup": "#1F0B03",
+  "cap_top_mockup": "#833D27",
+  "paste_over_white": [
+   0.749,
+   0.513,
+   0.253
+  ],
+  "cap_over_white": [
+   0.591,
+   0.261,
+   0.166
+  ],
+  "paste_used": "#AE7840",
+  "cap_used": "#843A28",
+  "cap_groove_used": "#1A0803",
+  "cap_inner_used": "#4E2212"
+ }
+}
