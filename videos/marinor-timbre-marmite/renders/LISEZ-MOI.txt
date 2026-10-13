@@ -50,3 +50,14 @@ ffmpeg -framerate 60 -i MOR_stampPot-tear_v001_2160x2700_png/MOR_stampPot-tear_v
   la marge blanche serait invisible).
 - Pas de flou de mouvement sur les fragments à f37 et f38 (au plus ~2 px).
 - La version 30 i/s n'est pas fournie (sur demande).
+
+RECONSTRUIRE LES PRORES À PARTIR DES PNG (ffmpeg)
+--------------------------------------------------
+Les ProRes dépassent la limite d'envoi de la conversation (30 Mo). Le ProRes 1080
+est sur la branche GitHub, dans videos/marinor-timbre-marmite/renders/. Les deux se
+reconstruisent à l'identique depuis les séquences PNG (dézipper toutes les parties
+dans un même dossier) :
+ffmpeg -framerate 60 -i MOR_stampPot-tear_v001_2160x2700_%04d.png -vf "scale=out_color_matrix=bt709:out_range=tv" \
+  -c:v prores_ks -profile:v 4444xq -pix_fmt yuva444p10le -alpha_bits 16 -vendor apl0 \
+  -colorspace bt709 -color_primaries bt709 -color_trc bt709 MOR_stampPot-tear_v001_2160x2700_60p_PR4444XQ.mov
+(même commande avec les PNG 1080 et -profile:v 4444 pour la version 1080)
