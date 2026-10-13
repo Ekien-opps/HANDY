@@ -1,0 +1,8 @@
+{
+ "name": "MarinOr_Marinade-Mixte_500g",
+ "obj": "../build/mixte/MarinOr_Marinade-Mixte_500g.obj",
+ "tex": "../build/mixte/etiquette_marinade-mixte.png",
+ "lid": "#721208",
+ "lid_inner": "#460B05",
+ "sauce": "#D1A26B"
+}

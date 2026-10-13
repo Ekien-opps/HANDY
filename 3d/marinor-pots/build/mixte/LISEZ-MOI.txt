@@ -1,0 +1,65 @@
+Marin'Or Ivoire · Marinade Mixte 500 g · modèle 3D statique
+=============================================================
+
+FICHIERS
+--------
+MarinOr_Marinade-Mixte_500g.obj   Géométrie (Wavefront OBJ) : normales lissées et UV.
+MarinOr_Marinade-Mixte_500g.mtl   Matériaux associés (couleurs de la charte, transparence du verre).
+etiquette_marinade-mixte.png  Texture de l'étiquette (votre étiquette à plat, 2000 × 1144 px).
+MarinOr_Marinade-Mixte_500g.glb   Le même modèle en glTF binaire, avec matériaux PBR
+                                    (verre transmissif, couvercle vernis, étiquette pelliculée)
+                                    et la texture intégrée. S'ouvre directement dans Blender,
+                                    la Visionneuse 3D Windows et les viewers web.
+apercus/                            Rendus d'aperçu PNG sur fond transparent (face, 3/4, dos, profil, plongée).
+
+ÉCHELLE ET ORIENTATION
+----------------------
+Unités : centimètres, taille réelle. Diamètre du corps 8,6 cm, couvercle Ø 7,9 cm, hauteur 15,9 cm.
+Axe Y vers le haut. Base du pot centrée sur l'origine. Face avant de l'étiquette tournée vers +Z.
+- Cinema 4D : import direct (unités en cm).
+- Blender (1 unité = 1 m) : à l'import, mettre Scale = 0,01, ou garder 1 et travailler à l'échelle ×100.
+- Maya / 3ds Max : unités du projet en cm.
+
+OBJETS (82 881 sommets, 159 452 triangles)
+------------------------------------------
+Verre       Pot en verre avec épaisseur réelle (paroi 2,8 mm, fond 3 à 4,5 mm), col lisse
+            (filetage non modélisé, caché par le couvercle), bague, lèvre roulée.
+Sauce       Marinade beige orangé (#D1A26B) qui remplit le pot jusqu'au col, avec ménisque.
+Couvercle   Capsule vissante rouge bordeaux (#721208) : jupe évasée, arête supérieure arrondie, dessus
+            légèrement bombé, face intérieure.
+Etiquette   Étiquette papier de 0,12 mm d'épaisseur sur la partie droite du corps.
+            Recto : matériau Etiquette_impression (texture). Verso et tranches : papier blanc.
+Pastilles   Couronne de 32 petites gouttes en relief dans le verre, sous l'étiquette,
+            comme sur votre maquette.
+
+MATÉRIAUX (à affiner dans votre moteur de rendu)
+------------------------------------------------
+Le format OBJ/MTL ne décrit pas la réfraction. Dans votre moteur, réglez :
+- Verre : transmission 100 %, IOR 1,5, rugosité 0,02 à 0,05, très légère teinte verte.
+- Sauce : #D1A26B, rugosité 0,35 à 0,45 (un léger SSS est un plus).
+- Couvercle : #721208, rugosité 0,3 + vernis (clearcoat) 0,5.
+- Etiquette_impression : texture en sRGB, rugosité 0,4 + vernis léger (étiquette pelliculée).
+Le fichier GLB contient déjà ces réglages.
+Les valeurs Kd du fichier MTL sont en RVB linéaire (convention de Blender) ; les codes hex sont en sRVB.
+
+ÉTIQUETTE : CHOIX D'ENROULEMENT
+-------------------------------
+Votre étiquette à plat a un rapport largeur/hauteur de 1,75. Sur un pot de ce diamètre,
+elle ne peut pas faire le tour complet sans être étirée. Le modèle reproduit vos maquettes :
+- facteur horizontal ×1,31, comme sur votre visuel de face ;
+- l'étiquette couvre 289° ;
+- le panneau avant est centré face caméra, « Mode d'emploi » et « Ingrédients » sont sur les côtés ;
+- il reste à l'arrière une fenêtre de 71° sur la sauce.
+Variantes possibles en quelques secondes (python3 tools/build_jar.py <produit> --wrap-scale X) :
+- X = 1,63 : tour complet à 360°, panneaux arrière jointifs, texte élargi de 63 % ;
+- X = 1,00 : proportions exactes de l'impression, couverture de 221°.
+Pour une impression réelle sans déformation, l'étiquette devrait avoir un rapport d'environ 2,8:1.
+
+NETTETÉ
+-------
+La texture vient de l'image fournie (2000 × 1144 px). Pour des gros plans parfaitement nets,
+envoyez l'étiquette en vectoriel (AI, PDF ou SVG) : j'exporterai une texture 8K.
+
+Régénération (dossier 3d/marinor-pots) :
+python3 tools/build_jar.py <produit>
+node tools/render_preview.mjs <produit>     (aperçus PNG + export GLB)

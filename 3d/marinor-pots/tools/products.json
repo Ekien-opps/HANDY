@@ -20,5 +20,16 @@
     "lid_name": "bordeaux",
     "sauce": "#CFAB79",
     "sauce_name": "beige doré"
+  },
+  "mixte": {
+    "name": "MarinOr_Marinade-Mixte_500g",
+    "title": "Marinade Mixte 500 g",
+    "label": "src/mixte/etiquette-a-plat.webp",
+    "texture": "etiquette_marinade-mixte.png",
+    "lid": "#721208",
+    "lid_inner": "#460B05",
+    "lid_name": "rouge bordeaux",
+    "sauce": "#D1A26B",
+    "sauce_name": "beige orangé"
   }
 }

@@ -1,0 +1,57 @@
+# Marin'Or Ivoire - Marinade Mixte 500 g
+# Kd values are LINEAR RGB (sRGB hex in comments)
+
+newmtl Verre
+Ka 0 0 0
+Kd 0.83 0.89 0.85
+Ks 0.9 0.9 0.9
+Ns 900
+Ni 1.50
+d 0.18
+Tr 0.82
+Tf 0.95 0.98 0.96
+illum 7
+
+newmtl Sauce
+# #D1A26B
+Ka 0 0 0
+Kd 0.6376 0.3613 0.1470
+Ks 0.12 0.12 0.12
+Ns 60
+d 1
+illum 2
+
+newmtl Couvercle
+# #721208
+Ka 0 0 0
+Kd 0.1683 0.0060 0.0024
+Ks 0.45 0.45 0.45
+Ns 350
+d 1
+illum 2
+
+newmtl Couvercle_interieur
+# #460B05
+Ka 0 0 0
+Kd 0.0612 0.0033 0.0015
+Ks 0.1 0.1 0.1
+Ns 40
+d 1
+illum 2
+
+newmtl Etiquette_impression
+Ka 0 0 0
+Kd 1 1 1
+Ks 0.25 0.25 0.25
+Ns 120
+d 1
+illum 2
+map_Kd etiquette_marinade-mixte.png
+
+newmtl Etiquette_papier
+Ka 0 0 0
+Kd 0.91 0.91 0.90
+Ks 0.05 0.05 0.05
+Ns 20
+d 1
+illum 2
