@@ -83,6 +83,7 @@ const M = {
   Etiquette_verso: new THREE.MeshPhysicalMaterial({ color: 0xdcdcda, roughness: 0.6 }),
 };
 
+for (const [k, m] of Object.entries(M)) m.name = k; // material names kept in the GLB
 const obj = await new OBJLoader().loadAsync(OBJ);
 obj.traverse((o) => {
   if (!o.isMesh) return;
