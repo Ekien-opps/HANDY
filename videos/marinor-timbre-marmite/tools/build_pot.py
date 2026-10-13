@@ -528,39 +528,104 @@ def build():
     lid512[band] = sample512(lid512, src_x[band], src_y[band])
     lid_rgb = unsharp(up(lid512))
     lid_a = M_cut * S_lid
+    # (d) left skirt corner: on the left the lid keeps the raster silhouette, which rounds
+    # into the joint slightly outside the fitted cut ellipse.  Those AA pixels belong to the
+    # lid (left on pot_front they stay behind as a dashed sliver when the lid lifts).
+    body_cov = soft_inside(np.abs(RX - g.cxr) - g.a_o)
+    # (the last ~3 rows hug the body edge within 1 px: they stay on pot_front, where they
+    # read as the body silhouette; on the lid they would stick out as a tick when it opens)
+    corner = (RX < g.cxr - g.a_o + 1.0) & (RY > g.cyj - 4.0) & (RY < g.cyj + 20.5)
+    lid_extra = np.where(corner, np.clip(A0 - body_cov - lid_a, 0.0, 1.0), 0.0)
+    lid_rgb = np.where((lid_extra > 0)[..., None], C0, lid_rgb)
+    lid_a = lid_a + lid_extra
+    g.lid_extra = lid_extra   # (lid_center_C is measured without this sub-pixel sliver)
 
-    # ---------------- right handle: hidden root (behind the lid) ---------------
-    # far arm silhouette continues up-left under the lid and tucks behind the back rim
-    hpoly = [(459, 125.6), (447, 121.3), (440, 119.5), (430, 117.7), (421, 116.8), (416.5, 117.4),
-             (412.5, 119.6), (409.5, 123.4), (407.4, 128.6), (406.0, 135.0), (404.5, 146), (400, 160),
-             (440, 216), (459, 216)]
-    bx = (RX > 372) & (RX < 462) & (RY > 108) & (RY < 220)
+    # ---------------- right handle: the part the lid hides -----------------------
+    # Painted procedurally in the clay modelling of the visible handle (rounded-square
+    # section): flat lit top face, thin cool rim light inside the dark contour (stronger
+    # where the contour faces the top-left key), lit rounded crease, darker front face,
+    # contact AO + soft shadow where the handle tucks behind the rim / body.  No texture
+    # is copied from the raster (that produced streaks and JPEG block lines).
+    # Measured on the raster silhouette / colours (continuous raster coords):
+    #   top contour : apex (424, 116.5), slope ~0.55 to the right; continued to the left
+    #                 as a parabola (k 0.02) that meets the outer rim at ~(396, 132)
+    #   crease      : top face -> front face boundary
+    #   bottom      : lower contour of the front face, ends on the body at ~(444.5, 208.6)
+    #   colours     : top face mean (137, 98, 67), front face mean (98, 66, 42),
+    #                 crease highlight ~ +(15, 12, 12), contour ~ (88, 70, 58)
+    top_pts = [(420.5, 116.56), (423.5, 116.5), (426.5, 116.57), (429.5, 116.68), (432.5, 117.8),
+               (435.5, 118.33), (438.5, 120.1), (441.5, 121.28), (444.5, 122.96), (447.5, 124.15),
+               (450.5, 125.82), (453.5, 127.53), (456.5, 129.24), (459.5, 131.02), (462.5, 132.82),
+               (465.5, 134.56), (468.5, 136.17), (471.5, 137.84), (474.5, 139.55), (477.5, 141.15),
+               (480.5, 142.96), (483.5, 146.01), (486.5, 149.27), (489.5, 153.79)]
+    tp = np.array(top_pts)
+    tp[1:-1, 1] = (tp[:-2, 1] + 2 * tp[1:-1, 1] + tp[2:, 1]) / 4          # de-quantise
+    tp = tp[tp[:, 0] >= 426.0]
+    arc_x = np.arange(388.0, 426.0, 1.0)
+    arc = np.stack([arc_x, 116.5 + 0.02 * (424.0 - arc_x) ** 2 * (arc_x < 424)], 1)
+    bot_pts = [(490.4, 160.0), (490.6, 172.0), (489.5, 182.8), (486.5, 188.8), (483.5, 191.8),
+               (480.5, 193.8), (477.5, 195.8), (474.5, 196.8), (471.5, 197.8), (468.5, 198.8),
+               (465.5, 200.8), (462.5, 201.8), (459.5, 202.8), (456.5, 204.8), (453.5, 205.8),
+               (450.5, 206.8), (447.5, 207.8), (444.5, 208.6),
+               (436.0, 214.0), (412.0, 190.0), (392.0, 160.0), (386.0, 140.0)]  # (inside the body)
+    hpoly = [tuple(p) for p in arc] + [tuple(p) for p in tp] + bot_pts
+    bx = (RX > 380) & (RX < 496) & (RY > 108) & (RY < 220)
     sd_h = np.full(RX.shape, 50.0)
     sd_h[bx] = polygon_sd(hpoly, RX[bx], RY[bx])
-    sd_ro = ell_sd(g.cxr, g.cyr, g.a_o, g.b_o)              # outer rim, <0 inside
-    side_ok = np.maximum(smooth(g.cxr + g.a_o - 0.6, g.cxr + g.a_o + 0.6, RX),
-                         1 - smooth(g.cyr - 0.6, g.cyr + 0.6, RY))
-    bottom_ok = 1 - smooth(205.8, 207.0, RY)
     H_poly = soft_inside(sd_h)
-    H_front = H_poly * soft_inside(-sd_ro) * side_ok * bottom_ok      # visible once the lid lifts
-    H_back = H_poly * soft_inside(sd_ro - 2.5) * bottom_ok            # root strip under the back rim
-    # colour: sample the clean visible handle (x >= 455) along the top-face direction
-    slope = np.full(RX.shape, 0.30)
-    sx = 456.5
-    sy = RY + slope * (sx - RX)
-    hsrc = np.zeros(RX.shape + (3,))
-    hsrc[bx] = (samplewin(C0, np.full(int(bx.sum()), sx), sy[bx]) +
-                samplewin(C0, np.full(int(bx.sum()), sx + 1.2), sy[bx] + 0.0) +
-                samplewin(C0, np.full(int(bx.sum()), sx + 2.4), sy[bx])) / 3.0
-    hsrc = ndi.gaussian_filter(hsrc, (2.0, 0.0, 0))
-    d_rim = np.maximum(sd_ro, 0)
-    shade = (1 - 0.38 * np.exp(-d_rim / 3.0))                       # AO where it tucks behind
-    shade *= (1 - 0.30 * np.exp(-np.maximum(RX - (g.cxr + g.a_o), 0) / 2.0) * (RY > g.cyr))
-    edge = (1 - 0.42 * np.exp(-np.maximum(-sd_h, 0) / 0.55))       # dark rim like the original
-    H_rgb = hsrc * (shade * edge)[..., None]
-    # the original handle carries a dark/red seam where the lid edge sat: replace it
-    seam = smooth(445.5, 447.0, RX) * (1 - smooth(453.5, 456.0, RX)) * \
-        smooth(116.0, 118.5, RY) * (1 - smooth(205.5, 207.5, RY))
+    sd_ro = ell_sd(g.cxr, g.cyr, g.a_o, g.b_o)              # outer rim, <0 inside
+    # occluder in front of the handle root: the rim (back half) and the body side (front half)
+    sd_occ = np.minimum(sd_ro, np.maximum(RX - (g.cxr + g.a_o), g.cyr - RY))
+    d_occ = np.maximum(sd_occ, 0.0)
+    crease_y = np.interp(RX, [436.0, 444.0, 452.5, 455.5, 458.5, 461.5, 464.5, 467.5, 470.5,
+                              473.5, 476.5, 479.5, 488.0],
+                         [176.6, 175.6, 174.0, 173.6, 173.0, 172.0, 170.4, 169.2, 168.0,
+                          166.8, 165.2, 164.0, 160.5])
+    dc = RY - crease_y                                       # >0 below the crease (front face)
+    TOP, FRONT = np.array([137.0, 98, 67]), np.array([98.0, 66, 42])
+    face = lerp(TOP, FRONT, smooth(-0.45, 0.55, dc))
+    # lit rounded crease (top-face side)
+    hl = np.exp(-((dc + 1.7) / 0.85) ** 2)
+    face = face + np.array([15.0, 12, 12]) * hl[..., None]
+    # contour: thin dark line + cool rim light just inside, keyed by the top-left light
+    nxh, nyh = num_normal(sd_h)
+    facing = np.clip(-0.6 * nxh - 0.8 * nyh, 0.0, 1.0)
+    d_in = np.maximum(-sd_h, 0.0)
+    rim_l = np.exp(-((d_in - 1.6) / 0.75) ** 2) * (0.35 + 0.65 * facing) * (dc < -1.0)
+    face = face + np.array([2.0, 8, 14]) * rim_l[..., None]
+    face = lerp(face, np.array([88.0, 70, 58]), 0.85 * np.exp(-d_in / 0.55))
+    # contact AO + soft shadow of the rim / body (key light top-left)
+    ao = (1 - 0.30 * np.exp(-d_occ / 1.6)) * (1 - 0.12 * np.exp(-d_occ / 6.0))
+    H_rgb = face * ao[..., None]
+    # low-frequency tint of the original just outside the old lid outline (its red JPEG
+    # chroma bleed / soft shading, measured ~6.5 px out as smoothed original / paint),
+    # carried into the paint near that outline so no tonal step remains along it
+    ys_, xs_ = np.nonzero(bx)
+    sub = np.s_[ys_.min():ys_.max() + 1, xs_.min():xs_.max() + 1]
+    hin = ((sd_h[sub] < -1.5) & (sd_occ[sub] > 0.5) & (sd_out[sub] > 4.5) & (sd_out[sub] < 12.0)
+           & (A0[sub] > 0.99)).astype(float)
+    sig = 2.5 * PX
+    wsum = ndi.gaussian_filter(hin, sig)
+    num = np.stack([ndi.gaussian_filter(C0[sub][..., c] * hin, sig) for c in range(3)], -1)
+    den = np.stack([ndi.gaussian_filter(H_rgb[sub][..., c] * hin, sig) for c in range(3)], -1)
+    tint_sub = np.clip(num / np.maximum(den, 1e-3), 0.8, 1.15)
+    tint_sub = lerp(np.ones(3), tint_sub, smooth(0.08, 0.3, wsum))
+    tint = np.ones(RX.shape + (3,))
+    tint[sub] = tint_sub
+    nxo, nyo = num_normal(sd_out)
+    reach = 6.5 - sd_out
+    w_t = smooth(-6.0, 3.3, sd_out) * (H_poly > 0) * bx
+    kt = w_t > 0
+    t_s = samplewin(tint, RX[kt] + nxo[kt] * reach[kt], RY[kt] + nyo[kt] * reach[kt])
+    H_rgb[kt] = H_rgb[kt] * lerp(np.ones(3), t_s, w_t[kt])
+    # coverage: outside the occluder (pot_front), extended 0.9 px under it so the rim /
+    # body painted on top closes the seam; the root under the back rim goes to pot_back
+    H_vis = H_poly * soft_inside(-(sd_occ + 0.9))
+    H_back = H_poly * soft_inside(sd_ro - 2.5)
+    # visible-at-rest seam on the handle along the lid outline (dark contact line + red
+    # JPEG fringe of the original, centred ~2.5 px out): clean paint up to 3.3 px, fade by 5 px
+    w_seam = (1 - smooth(3.3, 5.0, sd_out)) * soft_inside(sd_h + 1.0) * soft_inside(-sd_occ) \
+        * (RX > 405)
 
     # ---------------- pot_back -------------------------------------------------
     ring = ring_colour(g, RX, RY)
@@ -583,11 +648,26 @@ def build():
     below_mid = smooth(g.cyr - 1.5, g.cyr + 1.5, RY)
     outside_inner = 1 - inner_cov
     rep_a = body_sides * below_mid * outside_inner
-    rep_rgb, rep_a = over(rep_rgb, rep_a, H_rgb, H_front)
+    # handle under the body / rim: rim colour painted over its 0.9 px overlap (back half)
+    ring_patch = soft_inside(sd_ro) * (1 - below_mid) * (H_vis > 0)
+    hand_rgb, hand_a = over(H_rgb, H_vis, ring, ring_patch)
+    rep_rgb, rep_a = over(hand_rgb, hand_a, rep_rgb, rep_a)
     # original (visible at rest) outside the lid region, repaint under it
-    orig_rgb = lerp(C0, H_rgb, seam * (H_poly > 0.5))
-    front_pm = orig_rgb * (A0 * (1 - LRg))[..., None] + rep_rgb * (rep_a * LRg)[..., None]
-    front_a = A0 * (1 - LRg) + rep_a * LRg
+    # + the 8 px JPEG block edge of the source at raster x = 456 draws a faint vertical
+    # line across the visible handle: bridge it along the crease direction
+    m_cr, x0b, x1b = -0.36, 454.3, 457.8
+    w_blk = smooth(454.5, 455.2, RX) * (1 - smooth(457.0, 457.6, RX)) * soft_inside(sd_h + 1.4) \
+        * soft_inside(-sd_occ) * (RY < 212)
+    kb = w_blk > 0
+    tb = (RX[kb] - x0b) / (x1b - x0b)
+    c_l = samplewin(C0, np.full(int(kb.sum()), x0b), RY[kb] + m_cr * (x0b - RX[kb]))
+    c_r = samplewin(C0, np.full(int(kb.sum()), x1b), RY[kb] + m_cr * (x1b - RX[kb]))
+    C0h = C0.copy()
+    C0h[kb] = lerp(C0[kb], c_l + (c_r - c_l) * tb[:, None], w_blk[kb])
+    orig_rgb = lerp(C0h, H_rgb, w_seam)
+    W_o = np.clip(A0 * (1 - LRg) - lid_extra, 0.0, 1.0)
+    front_pm = orig_rgb * W_o[..., None] + rep_rgb * (rep_a * LRg)[..., None]
+    front_a = W_o + rep_a * LRg
     front_rgb = front_pm / np.maximum(front_a, 1e-6)[..., None]
 
     # ---------------- lid underside --------------------------------------------
@@ -820,7 +900,7 @@ def finish(g, m, layers, ref):
                 round((xs.max() + 1 + ox) / 2, 1), round((ys.max() + 1 + oy) / 2, 1)]
 
     lid_a = layers["pot_lid"][1]
-    ys, xs = np.nonzero(lid_a > 0.5)
+    ys, xs = np.nonzero(lid_a - getattr(g, "lid_extra", 0.0) > 0.5)
     lc = [round(float((xs.mean() + 0.5 + WX0) / 2), 2), round(float((ys.mean() + 0.5 + WY0) / 2), 2)]
     sil = ra
     ys, xs = np.nonzero(sil > 0.5)

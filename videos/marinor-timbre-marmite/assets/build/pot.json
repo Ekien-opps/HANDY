@@ -605,13 +605,13 @@
   },
   "parity": {
     "reference": "original pot raster, sticker outline removed, same 2x upscale (LANCZOS x2.88 + unsharp)",
-    "mean_abs_rgb_inside": 0.15355235059761352,
-    "p99_abs_rgb_inside": 3.1353515148376423,
-    "max_abs_rgb_inside": 101.86133897673896,
+    "mean_abs_rgb_inside": 0.1494710117510276,
+    "p99_abs_rgb_inside": 2.6662360753468306,
+    "max_abs_rgb_inside": 104.22841569950536,
     "pixels_inside": 1109201,
-    "pct_inside_over_8": 0.5416511524962563,
-    "mean_abs_rgb_over_white_silhouette": 0.17156016856086845,
-    "mean_abs_alpha_silhouette_x255": 0.0410925308441963,
+    "pct_inside_over_8": 0.5189320961665199,
+    "mean_abs_rgb_over_white_silhouette": 0.16678498764886782,
+    "mean_abs_alpha_silhouette_x255": 0.03940537387811166,
     "max_abs_alpha_x255": 255.0,
     "lid_under_at_rest_max_change_x255": 0.0
   }
