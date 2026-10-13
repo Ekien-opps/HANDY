@@ -41,9 +41,13 @@ MATÉRIAUX (à affiner dans votre moteur de rendu)
 ------------------------------------------------
 Le format OBJ/MTL ne décrit pas la réfraction. Dans votre moteur, réglez :
 - PET_transparent : transmission 100 %, IOR 1,57, rugosité 0,03 à 0,06, sans teinte.
-- Pate_arachide : texture de grain en sRGB (couleur moyenne #AE7840), rugosité 0,5 à 0,6.
-- Couvercle : #843A28, rugosité 0,35 + léger vernis (clearcoat) 0,3. Couvercle_interieur : #4E2212.
-- Etiquette_avant / Etiquette_arriere : textures en sRGB, rugosité 0,4 + vernis léger (étiquette pelliculée).
+  PET_col (col, collerette, goulot) : même réglage, avec une épaisseur de réfraction plus forte (PET moulé épais).
+- Pate_arachide : texture de grain en sRGB (couleur moyenne #AE7B46), rugosité 0,5 à 0,6.
+- Couvercle : #843A28, rugosité 0,35 + léger vernis (clearcoat) 0,3.
+  Couvercle_stries : #1A0803 (fond et flancs des 70 stries, l'ombre des fentes étroites).
+  Couvercle_interieur : #4E2212.
+- Etiquette_avant / Etiquette_arriere : textures en sRGB, rugosité 0,5, reflet faible (spéculaire 0,15),
+  pour que les couleurs imprimées restent celles de vos maquettes.
 Le fichier GLB contient déjà ces réglages.
 Les valeurs Kd du fichier MTL sont en RVB linéaire (convention de Blender) ; les codes hex sont en sRVB.
 Les couleurs ont été relevées sur vos maquettes et calées par rapport au blanc de l'étiquette.

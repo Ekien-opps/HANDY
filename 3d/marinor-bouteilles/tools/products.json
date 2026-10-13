@@ -5,12 +5,11 @@
     "front": "src/huile-rouge/face-avant.webp",
     "back": "src/huile-rouge/face-arriere.webp",
     "texture": "etiquette_huile-rouge.png",
-    "cap": "#A0373C",
-    "cap_inner": "#701F25",
+    "cap": "#9C363B",
+    "cap_inner": "#6E2226",
     "cap_name": "rouge framboise",
-    "oil": "#A42B1F",
+    "oil": "#A12B1F",
     "oil_name": "rouge-orangé profond",
-    "diameter_cm": 6.6,
-    "exposure": 0.85
+    "diameter_cm": 6.6
   }
 }

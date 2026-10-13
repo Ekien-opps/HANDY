@@ -1,12 +1,12 @@
 {
  "objects": {
   "Bouteille": {
-   "vertices": 35126,
-   "triangles": 69120
+   "vertices": 34933,
+   "triangles": 68736
   },
   "Huile": {
-   "vertices": 15247,
-   "triangles": 29568
+   "vertices": 14668,
+   "triangles": 28416
   },
   "Bouchon": {
    "vertices": 27376,
@@ -18,25 +18,25 @@
   }
  },
  "size_cm": {
-  "height": 18.316,
+  "height": 18.297,
   "max_diameter": 6.6,
   "label_diameter": 6.513,
   "cap_diameter": 4.039,
   "neck_diameter": 3.458,
   "bbox_min": [
    -3.3161,
-   0.0007,
+   0.0003,
    -3.3161
   ],
   "bbox_max": [
    3.3161,
-   18.3159,
+   18.2966,
    3.3161
   ]
  },
  "label": {
-  "bottom_cm": 0.922,
-  "top_cm": 8.986,
+  "bottom_cm": 0.903,
+  "top_cm": 8.966,
   "height_cm": 8.064,
   "texture_px": [
    3072,
@@ -65,17 +65,17 @@
    ]
   }
  },
- "oil_level_cm": 15.549,
+ "oil_level_cm": 15.53,
  "mockup_camera": {
   "px_per_cm": 92.266,
   "distance_cm": 81.59,
-  "eye_height_cm": 10.786,
-  "base_row_px": 1704.7,
+  "eye_height_cm": 10.767,
+  "base_row_px": 1702.9,
   "cap_top_row_px": 14.8
  },
  "colours": {
-  "cap": "#A0373C",
-  "cap_inner": "#701F25",
-  "oil": "#A42B1F"
+  "cap": "#9C363B",
+  "cap_inner": "#6E2226",
+  "oil": "#A12B1F"
  }
 }

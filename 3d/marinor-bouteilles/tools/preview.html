@@ -73,10 +73,13 @@ tex.wrapS = THREE.RepeatWrapping; // the label goes all the way round (u = 0 and
 const M = {
   PET: new THREE.MeshPhysicalMaterial({ color: 0xffffff, metalness: 0, roughness: 0.05, transmission: 1, thickness: 0.06, ior: 1.57,
     attenuationColor: new THREE.Color(0xf6f8f8), attenuationDistance: 20, specularIntensity: 0.55, envMapIntensity: 1.0 }),
+  // support ring and finish: thick, injection-moulded PET, reads as a grey glassy band
+  PET_bague: new THREE.MeshPhysicalMaterial({ color: 0xdfe2e2, metalness: 0, roughness: 0.12, transmission: 0.55, thickness: 0.3, ior: 1.57,
+    specularIntensity: 1, envMapIntensity: 1.2 }),
   Huile: new THREE.MeshPhysicalMaterial({ color: new THREE.Color(CFG.oil), roughness: 0.35, specularIntensity: 0.3 }),
   Bouchon: new THREE.MeshPhysicalMaterial({ color: new THREE.Color(CFG.cap), roughness: 0.42, clearcoat: 0.15, clearcoatRoughness: 0.4 }),
   Bouchon_interieur: new THREE.MeshPhysicalMaterial({ color: new THREE.Color(CFG.cap_inner), roughness: 0.6 }),
-  Etiquette_impression: new THREE.MeshPhysicalMaterial({ map: tex, roughness: 0.4, clearcoat: 0.25, clearcoatRoughness: 0.2 }),
+  Etiquette_impression: new THREE.MeshPhysicalMaterial({ map: tex, roughness: 0.45, specularIntensity: 0.5, clearcoat: 0.15, clearcoatRoughness: 0.2 }),
   Etiquette_verso: new THREE.MeshPhysicalMaterial({ color: 0xdcdcda, roughness: 0.6 }),
 };
 

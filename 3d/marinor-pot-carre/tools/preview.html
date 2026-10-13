@@ -86,8 +86,8 @@ const M = {
   Couvercle_stries: new THREE.MeshPhysicalMaterial({ color: new THREE.Color(CFG.cap_groove), roughness: 0.8, specularIntensity: 0.3 }),
   Couvercle_interieur: new THREE.MeshPhysicalMaterial({ color: new THREE.Color(CFG.cap_inner), roughness: 0.6 }),
   // satin laminate with a low specular level so the printed colours stay as on the mockups (no white veil)
-  Etiquette_avant: new THREE.MeshPhysicalMaterial({ map: texF, roughness: 0.45, specularIntensity: 0.35, clearcoat: 0.12, clearcoatRoughness: 0.3 }),
-  Etiquette_arriere: new THREE.MeshPhysicalMaterial({ map: texB, roughness: 0.45, specularIntensity: 0.35, clearcoat: 0.12, clearcoatRoughness: 0.3 }),
+  Etiquette_avant: new THREE.MeshPhysicalMaterial({ map: texF, roughness: 0.5, specularIntensity: 0.15, clearcoat: 0.05, clearcoatRoughness: 0.3 }),
+  Etiquette_arriere: new THREE.MeshPhysicalMaterial({ map: texB, roughness: 0.5, specularIntensity: 0.15, clearcoat: 0.05, clearcoatRoughness: 0.3 }),
   Etiquette_papier: new THREE.MeshPhysicalMaterial({ color: 0xf3f3f1, roughness: 0.8 }),
 };
 for (const [n, m] of Object.entries(M)) m.name = n;

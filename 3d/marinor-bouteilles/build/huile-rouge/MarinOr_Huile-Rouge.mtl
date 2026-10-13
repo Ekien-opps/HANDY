@@ -12,28 +12,39 @@ Tr 0.85
 Tf 0.97 0.98 0.98
 illum 7
 
-newmtl Huile
-# #A42B1F
+newmtl PET_bague
 Ka 0 0 0
-Kd 0.3712 0.0242 0.0137
+Kd 0.88 0.89 0.89
+Ks 0.9 0.9 0.9
+Ns 600
+Ni 1.57
+d 0.45
+Tr 0.55
+Tf 0.8 0.82 0.82
+illum 7
+
+newmtl Huile
+# #A12B1F
+Ka 0 0 0
+Kd 0.3564 0.0242 0.0137
 Ks 0.5 0.5 0.5
 Ns 400
 d 1
 illum 2
 
 newmtl Bouchon
-# #A0373C
+# #9C363B
 Ka 0 0 0
-Kd 0.3515 0.0382 0.0452
+Kd 0.3325 0.0369 0.0437
 Ks 0.25 0.25 0.25
 Ns 120
 d 1
 illum 2
 
 newmtl Bouchon_interieur
-# #701F25
+# #6E2226
 Ka 0 0 0
-Kd 0.1620 0.0137 0.0185
+Kd 0.1559 0.0160 0.0194
 Ks 0.1 0.1 0.1
 Ns 40
 d 1

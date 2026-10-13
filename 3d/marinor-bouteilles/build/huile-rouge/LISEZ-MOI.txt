@@ -21,15 +21,15 @@ Axe Y vers le haut. Centre du fond de la bouteille à l'origine. Face avant de l
 - Blender (1 unité = 1 m) : à l'import, mettre Scale = 0,01, ou garder 1 et travailler à l'échelle ×100.
 - Maya / 3ds Max : unités du projet en cm.
 
-OBJETS (86 627 sommets, 168 192 triangles)
+OBJETS (85 855 sommets, 166 656 triangles)
 ------------------------------------------
 Bouteille   Coque en PET transparent de 0,3 mm d'épaisseur (paroi extérieure et intérieure) :
             fond à pied rond avec voûte centrale, corps légèrement conique, longue épaule,
             col, bague de col et goulot (fileté non modélisé, caché par le bouchon).
             Silhouette relevée sur votre maquette de face.
-Huile       Huile rouge rouge-orangé profond (#A42B1F) qui remplit la bouteille jusqu'au col
+Huile       Huile rouge rouge-orangé profond (#A12B1F) qui remplit la bouteille jusqu'au col
             (niveau à 15,5 cm du fond), avec un léger ménisque.
-Bouchon     Bouchon à vis rouge framboise (#A0373C) : 96 stries verticales, bande lisse, rainure de la
+Bouchon     Bouchon à vis rouge framboise (#9C363B) : 96 stries verticales, bande lisse, rainure de la
             bague d'inviolabilité, arête supérieure arrondie, faces intérieures.
 Etiquette   Film imprimé de 0,12 mm d'épaisseur qui fait le tour complet du corps
             (8,1 cm de haut, à 0,9 cm du fond).
@@ -39,9 +39,9 @@ MATÉRIAUX (à affiner dans votre moteur de rendu)
 ------------------------------------------------
 Le format OBJ/MTL ne décrit pas la réfraction. Dans votre moteur, réglez :
 - PET : transmission 100 %, IOR 1,57, rugosité 0,03 à 0,06, incolore.
-- Huile : #A42B1F, rugosité 0,15 à 0,25 ; pour un effet translucide, une légère transmission
+- Huile : #A12B1F, rugosité 0,15 à 0,25 ; pour un effet translucide, une légère transmission
   ou un SSS rouge-orangé (l'huile de palme reste presque opaque en bouteille).
-- Bouchon : #A0373C, plastique satiné, rugosité 0,4.
+- Bouchon : #9C363B, plastique satiné, rugosité 0,4.
 - Etiquette_impression : texture en sRGB, rugosité 0,3 + vernis (clearcoat) 0,5 (film brillant).
 Le fichier GLB contient déjà ces réglages.
 Les valeurs Kd du fichier MTL sont en RVB linéaire (convention de Blender) ; les codes hex sont en sRVB.

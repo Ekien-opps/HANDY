@@ -49,7 +49,7 @@ WIN_TOP, WIN_BOT = (850, 898), (1598, 1688)   # search windows: label top / bott
 LAB_ROWS = (960, 1590)                       # straight part of the label (centre, radius)
 NECK_TOP = 209                               # top of the straight neck (below: support ring)
 HEEL_JOIN = 1690                             # lowest silhouette row used (below: base in perspective)
-RC_PX = 248.0                                # base contact ring (bottom ellipse of the silhouette)
+RC_PX = 262.0                                # base contact ring (bottom ellipse of the silhouette)
 R_RING, R_FIN = 185.5, 168.6                 # support ring, threaded finish
 CAP_BOT, GROOVE, KNURL = 178.0, 133.5, (30.5, 118.5)
 SKIRT_IN, UNDER_TOP = 173.0, 22.6
@@ -150,7 +150,9 @@ class Mesh:
 
 
 def revolve(mesh, faces, P, N, u_range=(0.0, 1.0), v_vals=None, seg=SEG, phi0=-math.pi, phi1=math.pi):
-    """Revolve profile P (r, y) with 2D normals N around Y (seam duplicated for clean UVs)."""
+    """Revolve profile P (r, y) with 2D normals N around Y (seam duplicated for clean UVs).
+    faces: one face list, or one list per profile segment (len(P) - 1) to split materials without seams."""
+    seg_faces = faces if (len(faces) == len(P) - 1 and all(isinstance(x, list) for x in faces)) else [faces] * (len(P) - 1)
     if v_vals is None:
         L = np.concatenate([[0], np.cumsum(np.hypot(*np.diff(P, axis=0).T))])
         v_vals = L / (L[-1] if L[-1] > 0 else 1)
@@ -165,6 +167,7 @@ def revolve(mesh, faces, P, N, u_range=(0.0, 1.0), v_vals=None, seg=SEG, phi0=-m
     for i in range(seg):
         for j in range(len(P) - 1):
             a, b, c2, d = idx[i, j], idx[i + 1, j], idx[i + 1, j + 1], idx[i, j + 1]
+            faces = seg_faces[j]
             if P[j][0] < 1e-9 and P[j + 1][0] < 1e-9:
                 continue
             if P[j][0] < 1e-9:
@@ -209,10 +212,16 @@ def fill_outside(img):
     return img[idx[0], idx[1], :3]
 
 
-def fit_edge(img, cx, R, win, signed):
+def edge_basis(phi, nt=5):
+    """Label edge model y(phi): tilted ellipse (1, sin, cos) [+ second harmonics for the mockup's warp]."""
+    phi = np.asarray(phi, float)
+    return np.stack([np.ones_like(phi), np.sin(phi), np.cos(phi), np.sin(2 * phi), np.cos(2 * phi)][:nt], -1)
+
+
+def fit_edge(img, cx, R, win, signed, nt=5, reach=0.985):
     """Label edge row per column (max colour gradient), fitted robustly with y = a + b sin(phi) + c cos(phi)."""
     rgb = img[..., :3]
-    xs = np.arange(int(math.ceil(cx - 0.93 * R)), int(cx + 0.93 * R) + 1)
+    xs = np.arange(int(math.ceil(cx - reach * R)), int(cx + reach * R) + 1)
     y0, y1 = win
     col = rgb[y0 - 4:y1 + 4][:, xs]
     c = col[2:-2]
@@ -226,7 +235,7 @@ def fit_edge(img, cx, R, win, signed):
         ok = bottle(up) & (np.abs(dn - up).sum(-1) > 60)
     g = np.where(ok, g, -1e9)
     phi = np.arcsin(np.clip((xs - cx) / R, -1, 1))
-    A = np.stack([np.ones_like(phi), np.sin(phi), np.cos(phi)], 1)
+    A = edge_basis(phi, nt)
     n = np.arange(len(xs))
     keep = np.abs(phi) < math.radians(40)
     for it in range(8):
@@ -265,11 +274,13 @@ def measure(P):
     for nm, img in (("front", F), ("back", B)):
         hw, c = silhouette(img)
         cx, R = float(np.median(c[LAB_ROWS[0]:LAB_ROWS[1]])), float(np.median(hw[LAB_ROWS[0]:LAB_ROWS[1]]))
-        top = fit_edge(img, cx, R, WIN_TOP, False)
+        top = fit_edge(img, cx, R, WIN_TOP, False)  # 5 terms, up to 80°: rectification of the texture
         bot = fit_edge(img, cx, R, WIN_BOT, True)
-        views[nm] = dict(img=img, hw=hw, cx=cx, R=R, top=top[0], bot=bot[0], q=(top[1:], bot[1:]))
-    at = np.mean([v["top"] for v in views.values()], 0)
-    ab = np.mean([v["bot"] for v in views.values()], 0)
+        top3 = fit_edge(img, cx, R, WIN_TOP, False, 3, 0.93)[0]  # 3 terms, robust: camera and label heights
+        bot3 = fit_edge(img, cx, R, WIN_BOT, True, 3, 0.93)[0]
+        views[nm] = dict(img=img, hw=hw, cx=cx, R=R, top=top[0], bot=bot[0], top3=top3, bot3=bot3, q=(top[1:], bot[1:]))
+    at = np.mean([v["top3"] for v in views.values()], 0)
+    ab = np.mean([v["bot3"] for v in views.values()], 0)
     R = np.mean([v["R"] for v in views.values()])
     d = R * (ab[0] - at[0]) / (ab[2] - at[2])  # camera distance (px)
     y_eye = at[0] - at[2] * d / R               # eye height (mockup row)
@@ -303,9 +314,8 @@ def label_texture(M, rr, Ht):
         PH = np.clip(np.radians(phi[cols])[None, :], -lim[:, None], lim[:, None])
         m = M["d"] / (M["d"] - R[:, None] * np.cos(PH))
         X = V["cx"] + R[:, None] * np.sin(PH) * m
-        a, b = V["top"], V["bot"]
-        yt = a[0] + a[1] * np.sin(PH) + a[2] * np.cos(PH) + INSET
-        yb = b[0] + b[1] * np.sin(PH) + b[2] * np.cos(PH) - INSET
+        yt = edge_basis(PH) @ V["top"] + INSET
+        yb = edge_basis(PH) @ V["bot"] - INSET
         Y = yt + v[:, None] * (yb - yt)
         src = fill_outside(V["img"])
         for ch in range(3):
@@ -363,9 +373,13 @@ def build(product):
     inner_main[0, 0] = 0.0
     shell = dedupe(np.vstack([outer_main, outer_top, inner_main[::-1][1:]]))
     shell_n = profile_normals(shell, 1.0)
-    k = simplify_idx(shell, 0.002, 0.5)
+    k = np.union1d(simplify_idx(shell, 0.002, 0.5), [int(np.argmin(shell[:, 1]))])  # keep the contact ring (Y = 0)
+    # support ring + finish + lip (above the straight neck): thick PET, own material
+    y_neck = (YB - NECK_TOP) * S + 1e-6
+    finish = [bool(shell[k[i], 1] > y_neck and shell[k[i + 1], 1] > y_neck) for i in range(len(k) - 1)]
     pet = Mesh("Bouteille")
-    revolve(pet, pet.add_group("PET"), shell[k], shell_n[k])
+    f_pet, f_col = pet.add_group("PET"), pet.add_group("PET_bague")
+    revolve(pet, [f_col if fl else f_pet for fl in finish], shell[k], shell_n[k])
     meshes.append(pet)
 
     # ---------------------------------------------------------------- oil
@@ -499,6 +513,17 @@ Ni 1.57
 d 0.15
 Tr 0.85
 Tf 0.97 0.98 0.98
+illum 7
+
+newmtl PET_bague
+Ka 0 0 0
+Kd 0.88 0.89 0.89
+Ks 0.9 0.9 0.9
+Ns 600
+Ni 1.57
+d 0.45
+Tr 0.55
+Tf 0.8 0.82 0.82
 illum 7
 
 newmtl Huile

@@ -366,7 +366,7 @@ def cap_profile(fr):
     y0, y_top = fr.Y(ROW_CAP[0]), fr.Y(ROW_CAP[1])
     th = 0.12
     rin = R - th
-    y_r0, y_r1 = y0 + 0.19, y_top - 0.08
+    y_r0, y_r1 = y0 + 0.19, y_top - 0.13  # ribs end below the rounded top edge (radius 0.08)
     outer = []  # (r, Y, rib weight) from the inner bottom edge round the outside to the top centre
     outer.append((rin, y0, 0))
     outer.append((rin + 0.03, y0, 0))
