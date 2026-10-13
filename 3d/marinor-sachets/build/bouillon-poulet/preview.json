@@ -1,0 +1,8 @@
+{
+ "name": "MarinOr_Bouillon-de-Poulet_100g",
+ "obj": "../build/bouillon-poulet/MarinOr_Bouillon-de-Poulet_100g.obj",
+ "front": "../build/bouillon-poulet/bouillon-poulet_face-avant.png",
+ "back": "../build/bouillon-poulet/bouillon-poulet_face-arriere.png",
+ "edge": "#9C4A32",
+ "height": 20.512409927942354
+}

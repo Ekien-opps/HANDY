@@ -1,0 +1,49 @@
+Marin'Or Ivoire · Poudre de Djoumblé 100 g · sachet doypack, modèle 3D statique
+=================================================================
+
+FICHIERS
+--------
+MarinOr_Poudre-de-Djoumble_100g.obj   Géométrie (Wavefront OBJ) : normales lissées et UV.
+MarinOr_Poudre-de-Djoumble_100g.mtl   Matériaux (film laminé, face avant, face arrière, tranche et fond).
+djoumble_face-avant.png   Texture de la face avant.
+djoumble_face-arriere.png   Texture de la face arrière.
+MarinOr_Poudre-de-Djoumble_100g.glb   Le même modèle en glTF binaire, avec les matériaux PBR et les textures intégrées
+             (s'ouvre directement dans Blender, la Visionneuse 3D Windows et les viewers web).
+apercus/     Rendus PNG sur fond transparent : face, 3/4, dos, profil, plongée.
+
+ÉCHELLE ET ORIENTATION
+----------------------
+Unités : centimètres, taille réelle. Sachet tenant debout de 13,99 × 20,51 cm, épaisseur au fond 6,02 cm.
+Axe Y vers le haut, centre du fond à l'origine, face avant tournée vers +Z.
+- Cinema 4D : import direct (unités en cm).
+- Blender (1 unité = 1 m) : à l'import, mettre Scale = 0,01.
+
+GÉOMÉTRIE (54 850 sommets, 106 960 triangles)
+-------------------------------------------
+- Soudure haute plate, avec le relief du zip refermable.
+- Soudures latérales plates de 5,5 mm.
+- Corps gonflé : sa section passe d'une lentille sous le zip à une ellipse en bas.
+- Fond à soufflet ovale qui permet au sachet de tenir debout.
+- Épaisseur du film modélisée sur la tranche.
+Les deux faces sont des surfaces séparées, toutes deux dans le même objet « Sachet » :
+- Sachet_face_avant
+- Sachet_face_arriere
+- Sachet_tranche_fond : tranche et fond, couleur #37563E
+
+TEXTURES : À SAVOIR
+-------------------
+Les textures viennent de vos visuels de maquette, projetés de face. Elles contiennent donc
+l'éclairage de la maquette (reflets du zip, brillances, ombres légères). Dans votre logiciel,
+cet éclairage s'ajoute au vôtre.
+Pour un rendu PBR parfaitement propre et net, envoyez les fichiers d'impression à plat
+(face avant et face arrière, en AI, PDF ou PNG haute définition) : je remplace les textures
+en quelques minutes, sans toucher au modèle.
+
+MATÉRIAUX CONSEILLÉS
+--------------------
+Film laminé satiné : rugosité 0,4, vernis (clearcoat) 0,5, métal 0.
+Pour un effet métallisé, mettre métal 0,3 à 0,5. Le GLB contient déjà les réglages satinés.
+
+Régénération (dossier 3d/marinor-sachets) :
+python3 tools/build_pouch.py <produit>
+node tools/render_preview.mjs <produit>     (aperçus PNG + export GLB)

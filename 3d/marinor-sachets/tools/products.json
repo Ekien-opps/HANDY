@@ -34,5 +34,17 @@
     "title": "Poudre de Crevette 100 g",
     "front": "src/poudre-crevette/face-avant.webp",
     "back": "src/poudre-crevette/face-arriere.webp"
+  },
+  "bouillon-poulet": {
+    "name": "MarinOr_Bouillon-de-Poulet_100g",
+    "title": "Bouillon de Poulet 100 g",
+    "front": "src/bouillon-poulet/face-avant.webp",
+    "back": "src/bouillon-poulet/face-arriere.webp"
+  },
+  "djoumble": {
+    "name": "MarinOr_Poudre-de-Djoumble_100g",
+    "title": "Poudre de Djoumblé 100 g",
+    "front": "src/djoumble/face-avant.webp",
+    "back": "src/djoumble/face-arriere.webp"
   }
 }
