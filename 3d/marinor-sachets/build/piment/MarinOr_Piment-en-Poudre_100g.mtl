@@ -1,0 +1,29 @@
+# Marin'Or Ivoire - Piment en Poudre 100 g
+# Kd values are LINEAR RGB (sRGB hex in comments)
+
+newmtl Sachet_face_avant
+Ka 0 0 0
+Kd 1 1 1
+Ks 0.35 0.35 0.35
+Ns 180
+d 1
+illum 2
+map_Kd piment_face-avant.png
+
+newmtl Sachet_face_arriere
+Ka 0 0 0
+Kd 1 1 1
+Ks 0.35 0.35 0.35
+Ns 180
+d 1
+illum 2
+map_Kd piment_face-arriere.png
+
+newmtl Sachet_tranche_fond
+# #A0211F
+Ka 0 0 0
+Kd 0.3515 0.0152 0.0137
+Ks 0.3 0.3 0.3
+Ns 150
+d 1
+illum 2

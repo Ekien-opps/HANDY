@@ -10,5 +10,17 @@
     "title": "Épice Spéciale Poulet 100 g",
     "front": "src/epice-poulet/face-avant.webp",
     "back": "src/epice-poulet/face-arriere.webp"
+  },
+  "piment": {
+    "name": "MarinOr_Piment-en-Poudre_100g",
+    "title": "Piment en Poudre 100 g",
+    "front": "src/piment/face-avant.webp",
+    "back": "src/piment/face-arriere.webp"
+  },
+  "paprika": {
+    "name": "MarinOr_Paprika_100g",
+    "title": "Paprika 100 g",
+    "front": "src/paprika/face-avant.webp",
+    "back": "src/paprika/face-arriere.webp"
   }
 }

@@ -1,0 +1,8 @@
+{
+ "name": "MarinOr_Paprika_100g",
+ "obj": "../build/paprika/MarinOr_Paprika_100g.obj",
+ "front": "../build/paprika/paprika_face-avant.png",
+ "back": "../build/paprika/paprika_face-arriere.png",
+ "edge": "#7A211E",
+ "height": 20.512409927942354
+}

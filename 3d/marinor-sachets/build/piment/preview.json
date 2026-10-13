@@ -1,0 +1,8 @@
+{
+ "name": "MarinOr_Piment-en-Poudre_100g",
+ "obj": "../build/piment/MarinOr_Piment-en-Poudre_100g.obj",
+ "front": "../build/piment/piment_face-avant.png",
+ "back": "../build/piment/piment_face-arriere.png",
+ "edge": "#A0211F",
+ "height": 20.512409927942354
+}
