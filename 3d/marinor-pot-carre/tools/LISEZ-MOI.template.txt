@@ -47,24 +47,18 @@ Le format OBJ/MTL ne décrit pas la réfraction. Dans votre moteur, réglez :
   Couvercle_stries : {cap_groove} (fond et flancs des 70 stries, l'ombre des fentes étroites).
   Couvercle_interieur : {cap_inner}.
 - Etiquette_avant / Etiquette_arriere : textures en sRGB, rugosité 0,5, reflet faible (spéculaire 0,15),
-  pour que les couleurs imprimées restent celles de vos maquettes.
+  pour que les couleurs imprimées restent celles de vos fichiers.
 Le fichier GLB contient déjà ces réglages.
 Les valeurs Kd du fichier MTL sont en RVB linéaire (convention de Blender) ; les codes hex sont en sRVB.
 Les couleurs ont été relevées sur vos maquettes et calées par rapport au blanc de l'étiquette.
 
-ÉTIQUETTES : PLACEMENT
-----------------------
-Chaque étiquette est une projection plane de votre maquette (face avant, face arrière) : contour mesuré
-sur l'image, mêmes position, taille et proportions que sur la maquette, sans étirement ni effet miroir.
-Elles tiennent sur les faces plates du pot et ne débordent pas sur les arêtes arrondies.
-
-TEXTURES : À SAVOIR
--------------------
-Les textures d'étiquette viennent de vos visuels de maquette. Elles contiennent donc l'éclairage de la
-maquette (légers dégradés et reflets). Dans votre logiciel, cet éclairage s'ajoute au vôtre.
-Pour un rendu PBR parfaitement propre et net, envoyez les fichiers d'impression à plat des deux
-étiquettes (AI, PDF ou PNG haute définition) : je remplace les textures en quelques minutes, sans toucher
-au modèle.
+ÉTIQUETTES : PLACEMENT ET TEXTURES
+----------------------------------
+Les deux étiquettes utilisent vos fichiers d'impression à plat : textures nettes, sans l'éclairage
+des maquettes, avec la découpe en arche reprise de leur contour.
+Chacune est posée sur sa face du pot à la position et à la largeur mesurées sur vos maquettes, en
+gardant ses proportions exactes, sans étirement ni effet miroir. Elle suit la face plate et la légère
+courbure du haut, sans déborder sur les arêtes arrondies.
 
 Régénération (dossier 3d/marinor-pot-carre) :
 python3 tools/build_square_jar.py <produit>

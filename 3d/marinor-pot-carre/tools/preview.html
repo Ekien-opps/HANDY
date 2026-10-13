@@ -26,8 +26,26 @@ const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true, preserv
 renderer.setPixelRatio(1);
 renderer.setSize(W, H);
 renderer.outputColorSpace = THREE.SRGBColorSpace;
-renderer.toneMapping = THREE.NeutralToneMapping;
-renderer.toneMappingExposure = 0.72;  // the faces get more key light than on the round jars (lower key light)
+// Tone mapping: the Khronos "Neutral" highlight roll-off, but hue-preserving and without Neutral's toe.
+// The stock NeutralToneMapping mixes ~3 % white into every bright print colour (the blue channel of the
+// label yellows went from 19 to 54 /255: washed-out oranges) and its toe subtracts up to 0.04 from the
+// smallest channel (dark browns and bordeaux over-saturated). Here R, G and B are scaled by the same factor,
+// so the ratios colour / label white of the printed labels stay those of the client's mockups; only real
+// specular glints (peak > 1.5) are desaturated towards white, as on film.
+THREE.ShaderChunk.tonemapping_pars_fragment = THREE.ShaderChunk.tonemapping_pars_fragment.replace(
+  "vec3 CustomToneMapping( vec3 color ) { return color; }",
+  `vec3 CustomToneMapping( vec3 color ) {
+    const float S = 0.76;
+    const float d = 1.0 - S;
+    color *= toneMappingExposure;
+    float peak = max( color.r, max( color.g, color.b ) );
+    if ( peak < S ) return color;
+    float np = 1.0 - d * d / ( peak + d - S );
+    color *= np / peak;
+    return mix( color, vec3( np ), smoothstep( 1.5, 4.0, peak ) );
+  }`);
+renderer.toneMapping = THREE.CustomToneMapping;
+renderer.toneMappingExposure = +(P.get("exp") || 0.68);  // the faces get more key light than on the round jars (lower key light)
 renderer.shadowMap.enabled = true;
 renderer.shadowMap.type = THREE.PCFSoftShadowMap;
 renderer.setClearColor(0x000000, 0);
@@ -43,7 +61,7 @@ const box = (w, h, x, y, z, ry, k) => {
 };
 box(1.2, 9, -6.2, 1.5, 2.5, Math.PI / 2.6, 9);   // left strip softbox
 box(1.0, 9, 6.2, 1.5, 1.5, -Math.PI / 2.4, 6);   // right strip softbox
-box(6, 3, 0, 6.5, 0, 0, 1.5).rotation.x = Math.PI / 2; // top light (softer than for the round jars: the PET shoulder faces it)
+box(6, 3, 0, 6.5, 0, 0, +(P.get("top") || 1.5)).rotation.x = Math.PI / 2; // top light (softer than for the round jars: the PET shoulder faces it)
 scene.environment = pmrem.fromScene(envScene, 0.02).texture;
 scene.environmentIntensity = 0.95;
 
@@ -81,13 +99,13 @@ const M = {
   // thick moulded neck/flange: stronger refraction, shows the cap and the paste around it like real PET
   PET_col: new THREE.MeshPhysicalMaterial({ color: 0xffffff, metalness: 0, roughness: 0.04, transmission: 1, thickness: 0.6, ior: 1.57,
     specularIntensity: 1.0, envMapIntensity: 1.2 }),
-  Pate_arachide: new THREE.MeshPhysicalMaterial({ map: texP, roughness: 0.55 }),
+  Pate_arachide: new THREE.MeshPhysicalMaterial({ map: texP, roughness: 0.7, specularIntensity: 0.3 }),
   Couvercle: new THREE.MeshPhysicalMaterial({ color: new THREE.Color(CFG.cap), roughness: 0.36, clearcoat: 0.3, clearcoatRoughness: 0.3 }),
   Couvercle_stries: new THREE.MeshPhysicalMaterial({ color: new THREE.Color(CFG.cap_groove), roughness: 0.8, specularIntensity: 0.3 }),
   Couvercle_interieur: new THREE.MeshPhysicalMaterial({ color: new THREE.Color(CFG.cap_inner), roughness: 0.6 }),
   // satin laminate with a low specular level so the printed colours stay as on the mockups (no white veil)
-  Etiquette_avant: new THREE.MeshPhysicalMaterial({ map: texF, roughness: 0.5, specularIntensity: 0.15, clearcoat: 0.05, clearcoatRoughness: 0.3 }),
-  Etiquette_arriere: new THREE.MeshPhysicalMaterial({ map: texB, roughness: 0.5, specularIntensity: 0.15, clearcoat: 0.05, clearcoatRoughness: 0.3 }),
+  Etiquette_avant: new THREE.MeshPhysicalMaterial({ map: texF, roughness: 0.5, specularIntensity: +(P.get("lspec") || 0.15), clearcoat: +(P.get("lcc") || 0.05), clearcoatRoughness: 0.3 }),
+  Etiquette_arriere: new THREE.MeshPhysicalMaterial({ map: texB, roughness: 0.5, specularIntensity: +(P.get("lspec") || 0.15), clearcoat: +(P.get("lcc") || 0.05), clearcoatRoughness: 0.3 }),
   Etiquette_papier: new THREE.MeshPhysicalMaterial({ color: 0xf3f3f1, roughness: 0.8 }),
 };
 for (const [n, m] of Object.entries(M)) m.name = n;

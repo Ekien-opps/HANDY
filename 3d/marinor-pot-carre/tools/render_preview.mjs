@@ -37,7 +37,7 @@ const browser = await chromium.launch({
 const page = await browser.newPage({ viewport: { width: +w, height: +h } });
 page.on("console", (m) => { if (m.type() === "error") console.error("[page]", m.text()); });
 page.on("pageerror", (e) => console.error("[pageerror]", e.message));
-await page.goto(`http://127.0.0.1:${port}/tools/preview.html?w=${w}&h=${h}&fov=${FOV}&hide=${process.env.HIDE || ""}&cfg=../build/${product}/preview.json`);
+await page.goto(`http://127.0.0.1:${port}/tools/preview.html?w=${w}&h=${h}&fov=${FOV}&hide=${process.env.HIDE || ""}&${process.env.PREVIEW_QS || ""}&cfg=../build/${product}/preview.json`);
 await page.waitForFunction(() => window.__ready === true, null, { timeout: 180000 });
 
 const VIEWS = [

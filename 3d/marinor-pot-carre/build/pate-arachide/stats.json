@@ -22,7 +22,7 @@
    "triangles": 16560
   }
  },
- "label_clearance_cm_min": 0.00361,
+ "label_clearance_cm_min": 0.00432,
  "bbox_cm": [
   [
    -6.0,
@@ -65,40 +65,38 @@
  "labels": {
   "label_front": {
    "width_cm": 9.843,
-   "height_cm": 8.559,
+   "height_cm": 8.348,
    "x_cm": [
     -4.933,
     4.91
    ],
    "y_cm": [
     0.655,
-    9.214
+    9.003
    ],
    "texture_px": [
-    879,
-    767
+    2000,
+    1697
    ],
-   "edge_band_px_replaced": 132,
-   "edge_band_px": 11771,
+   "source": "fichier d'impression a plat",
    "texture": "pate-arachide_etiquette-avant.png"
   },
   "label_back": {
    "width_cm": 9.883,
-   "height_cm": 8.327,
+   "height_cm": 8.357,
    "x_cm": [
     -4.926,
     4.957
    ],
    "y_cm": [
     0.814,
-    9.142
+    9.172
    ],
    "texture_px": [
-    884,
-    748
+    2000,
+    1692
    ],
-   "edge_band_px_replaced": 111,
-   "edge_band_px": 11966,
+   "source": "fichier d'impression a plat",
    "texture": "pate-arachide_etiquette-arriere.png"
   }
  },
@@ -118,7 +116,7 @@
    0.261,
    0.166
   ],
-  "paste_used": "#AE7B46",
+  "paste_used": "#A66A28",
   "cap_used": "#843A28",
   "cap_groove_used": "#1A0803",
   "cap_inner_used": "#4E2212"

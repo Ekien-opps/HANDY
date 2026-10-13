@@ -25,7 +25,7 @@ Tf 0.95 0.96 0.96
 illum 7
 
 newmtl Pate_arachide
-# #AE7B46 (moyenne de la texture de grain)
+# #A66A28 (moyenne de la texture de grain)
 Ka 0 0 0
 Kd 1 1 1
 Ks 0.10 0.10 0.10

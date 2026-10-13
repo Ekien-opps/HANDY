@@ -451,6 +451,28 @@ def label_texture(fr, poly, dst):
     return (cx0, cy0, cx1 - cx0, cy1 - cy0), stats
 
 
+def flat_label(flat_path, L, dst):
+    """Client's flat print file: die-cut outline from its alpha, placed on the mockup label footprint
+    (same width, same bottom edge, centred), texture = the print file itself (colours pushed past the cut)."""
+    im = np.asarray(Image.open(flat_path).convert("RGBA")).astype(np.float32)
+    a = im[..., 3] / 255.0
+    H, W = a.shape
+    opaque = a > 0.5
+    ys = np.where(opaque.any(1))[0]
+    ybot = float(ys.max() + 1)
+    top = [(float(x), float(np.argmax(opaque[:, x]))) for x in range(0, W, 4)] + [(float(W), float(np.argmax(opaque[:, W - 1])))]
+    poly_flat = Polygon(top + [(float(W), ybot), (0.0, ybot)]).buffer(0)
+    s = (L["xr"] - L["xl"]) / W  # mockup px per print px
+    to_px = lambda x, y: (L["xl"] + x * s, L["yb"] - (ybot - y) * s)
+    poly_px = Polygon([to_px(x, y) for x, y in np.asarray(poly_flat.exterior.coords)])
+    solid_px = a > 0.98
+    idx = ndimage.distance_transform_edt(~solid_px, return_distances=False, return_indices=True)
+    rgb = im[..., :3][idx[0], idx[1]]
+    Image.fromarray(np.dstack([rgb, im[..., 3]]).round().clip(0, 255).astype(np.uint8), "RGBA").save(dst, optimize=True)
+    crop = (L["xl"], L["yb"] - ybot * s, W * s, H * s)
+    return poly_px, crop, {"texture_px": [W, H], "source": "fichier d'impression a plat"}
+
+
 def build_label(name, mat, fr, poly_px, crop, face_z, back):
     """Thin paper label: printed grid (planar UV of the mockup), white back, edge strip."""
     geo = poly_px.buffer(-1.0, quad_segs=32)
@@ -630,8 +652,11 @@ def build(product):
                                    ("label_back", fb, True, "Etiquette_arriere", "Etiquette_arriere")):
         poly = label_outline(P[key])
         tex = f"{product}_{'etiquette-arriere' if back else 'etiquette-avant'}.png"
-        crop, tstats = label_texture(fr, poly, os.path.join(BUILD, tex))
-        masks.append(rasterize(poly, fr.alpha.shape))
+        masks.append(rasterize(poly, fr.alpha.shape))  # mockup footprint (colour sampling of the paste)
+        if P[key].get("flat"):
+            poly, crop, tstats = flat_label(os.path.join(ROOT, P[key]["flat"]), P[key], os.path.join(BUILD, tex))
+        else:
+            crop, tstats = label_texture(fr, poly, os.path.join(BUILD, tex))
         lm, lstats = build_label(nm, mat, fr, poly, crop, face_z, back)
         meshes.append(lm)
         labels[key] = {**lstats, **tstats, "texture": tex}
