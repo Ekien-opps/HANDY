@@ -1,0 +1,8 @@
+{
+ "name": "MarinOr_Poudre-de-Crevette_100g",
+ "obj": "../build/poudre-crevette/MarinOr_Poudre-de-Crevette_100g.obj",
+ "front": "../build/poudre-crevette/poudre-crevette_face-avant.png",
+ "back": "../build/poudre-crevette/poudre-crevette_face-arriere.png",
+ "edge": "#9F301E",
+ "height": 20.512409927942354
+}

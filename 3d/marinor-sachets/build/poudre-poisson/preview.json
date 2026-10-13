@@ -1,0 +1,8 @@
+{
+ "name": "MarinOr_Poudre-de-Poisson_100g",
+ "obj": "../build/poudre-poisson/MarinOr_Poudre-de-Poisson_100g.obj",
+ "front": "../build/poudre-poisson/poudre-poisson_face-avant.png",
+ "back": "../build/poudre-poisson/poudre-poisson_face-arriere.png",
+ "edge": "#BD4B32",
+ "height": 20.512409927942354
+}

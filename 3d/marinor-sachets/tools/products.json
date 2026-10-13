@@ -22,5 +22,17 @@
     "title": "Paprika 100 g",
     "front": "src/paprika/face-avant.webp",
     "back": "src/paprika/face-arriere.webp"
+  },
+  "poudre-poisson": {
+    "name": "MarinOr_Poudre-de-Poisson_100g",
+    "title": "Poudre de Poisson 100 g",
+    "front": "src/poudre-poisson/face-avant.webp",
+    "back": "src/poudre-poisson/face-arriere.webp"
+  },
+  "poudre-crevette": {
+    "name": "MarinOr_Poudre-de-Crevette_100g",
+    "title": "Poudre de Crevette 100 g",
+    "front": "src/poudre-crevette/face-avant.webp",
+    "back": "src/poudre-crevette/face-arriere.webp"
   }
 }
