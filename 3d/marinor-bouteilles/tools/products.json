@@ -10,6 +10,7 @@
     "cap_name": "rouge framboise",
     "oil": "#A12B1F",
     "oil_name": "rouge-orangé profond",
-    "diameter_cm": 6.6
+    "diameter_cm": 6.6,
+    "flat": "src/huile-rouge/etiquette-plat.webp"
   }
 }

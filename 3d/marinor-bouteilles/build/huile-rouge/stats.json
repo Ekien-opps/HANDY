@@ -13,8 +13,8 @@
    "triangles": 53376
   },
   "Etiquette": {
-   "vertices": 8878,
-   "triangles": 16128
+   "vertices": 5404,
+   "triangles": 9216
   }
  },
  "size_cm": {
@@ -24,23 +24,23 @@
   "cap_diameter": 4.039,
   "neck_diameter": 3.458,
   "bbox_min": [
-   -3.3161,
+   -3.3001,
    0.0,
-   -3.3161
+   -3.3001
   ],
   "bbox_max": [
-   3.3161,
+   3.3001,
    18.2966,
-   3.3161
+   3.3001
   ]
  },
  "label": {
-  "bottom_cm": 0.903,
-  "top_cm": 8.966,
-  "height_cm": 8.064,
+  "bottom_cm": 1.792,
+  "top_cm": 8.079,
+  "height_cm": 6.286,
   "texture_px": [
    3072,
-   1218
+   618
   ],
   "edge_fit_quality": {
    "front": [

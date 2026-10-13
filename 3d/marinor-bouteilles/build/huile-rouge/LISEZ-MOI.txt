@@ -5,12 +5,13 @@ FICHIERS
 --------
 MarinOr_Huile-Rouge.obj   Géométrie (Wavefront OBJ) : normales lissées et UV.
 MarinOr_Huile-Rouge.mtl   Matériaux associés (couleurs prélevées sur vos maquettes, transparence du PET).
-etiquette_huile-rouge.png    Texture de l'étiquette, développée sur 360° (3072 × 1218 px).
+etiquette_huile-rouge.png   Texture de l'étiquette, développée sur 360° (2000 × 618 px).
 MarinOr_Huile-Rouge.glb   Le même modèle en glTF binaire, avec matériaux PBR
              (PET transparent transmissif, huile brillante, bouchon satiné, étiquette pelliculée)
              et la texture intégrée. S'ouvre directement dans Blender, la Visionneuse 3D Windows
              et les viewers web.
 apercus/     Rendus d'aperçu PNG sur fond transparent (face, 3/4, dos, profil, plongée).
+             Face et dos sont vus sous le même angle que vos maquettes.
 
 ÉCHELLE ET ORIENTATION
 ----------------------
@@ -21,51 +22,45 @@ Axe Y vers le haut. Centre du fond de la bouteille à l'origine. Face avant de l
 - Blender (1 unité = 1 m) : à l'import, mettre Scale = 0,01, ou garder 1 et travailler à l'échelle ×100.
 - Maya / 3ds Max : unités du projet en cm.
 
-OBJETS (86 048 sommets, 167 040 triangles)
+OBJETS (82 574 sommets, 160 128 triangles)
 ------------------------------------------
 Bouteille   Coque en PET transparent de 0,3 mm d'épaisseur (paroi extérieure et intérieure) :
             fond à pied rond avec voûte centrale, corps légèrement conique, longue épaule,
-            col, bague de col et goulot (fileté non modélisé, caché par le bouchon).
-            Silhouette relevée sur votre maquette de face.
-Huile       Huile rouge rouge-orangé profond (#A12B1F) qui remplit la bouteille jusqu'au col
-            (niveau à 15,5 cm du fond), avec un léger ménisque.
+            col. Silhouette relevée sur votre maquette de face.
+            Matériau PET pour la bouteille, PET_bague pour la bague de col et le goulot
+            (PET épais, plus visible ; le filetage n'est pas modélisé, il est caché par le bouchon).
+Huile       Huile de palme rouge, teinte rouge-orangé profond (#A12B1F), qui remplit la bouteille
+            jusqu'au col (niveau à 15,5 cm du fond), avec un léger ménisque.
 Bouchon     Bouchon à vis rouge framboise (#9C363B) : 96 stries verticales, bande lisse, rainure de la
             bague d'inviolabilité, arête supérieure arrondie, faces intérieures.
 Etiquette   Film imprimé de 0,12 mm d'épaisseur qui fait le tour complet du corps
-            (8,1 cm de haut, à 0,9 cm du fond).
+            (6,3 cm de haut, à 1,8 cm du fond).
             Recto : matériau Etiquette_impression (texture). Verso et tranches : Etiquette_verso.
 
 MATÉRIAUX (à affiner dans votre moteur de rendu)
 ------------------------------------------------
 Le format OBJ/MTL ne décrit pas la réfraction. Dans votre moteur, réglez :
 - PET : transmission 100 %, IOR 1,57, rugosité 0,03 à 0,06, incolore.
-- Huile : #A12B1F, rugosité 0,15 à 0,25 ; pour un effet translucide, une légère transmission
+- PET_bague : même PET, un peu moins transparent (transmission 50 à 60 %), légèrement grisé.
+- Huile : #A12B1F, rugosité 0,3 à 0,4 ; pour un effet translucide, une légère transmission
   ou un SSS rouge-orangé (l'huile de palme reste presque opaque en bouteille).
 - Bouchon : #9C363B, plastique satiné, rugosité 0,4.
-- Etiquette_impression : texture en sRGB, rugosité 0,3 + vernis (clearcoat) 0,5 (film brillant).
+- Etiquette_impression : texture en sRGB, rugosité 0,45 + vernis léger (clearcoat 0,15) : film imprimé.
 Le fichier GLB contient déjà ces réglages.
 Les valeurs Kd du fichier MTL sont en RVB linéaire (convention de Blender) ; les codes hex sont en sRVB.
 
-ÉTIQUETTE : COMMENT ELLE A ÉTÉ CONSTRUITE
------------------------------------------
-Vous avez fourni deux vues (face et dos) de la bouteille étiquetée. L'étiquette fait le tour
-complet ; elle a été « déroulée » à partir de ces deux vues :
-- la vue de face donne la moitié avant (jaune), la vue de dos la moitié arrière (bordeaux) ;
-- chaque colonne de pixels est replacée à son angle exact sur le cylindre, en tenant compte
-  de la perspective de vos maquettes : textes et visuels gardent leurs proportions,
-  sans étirement ni effet miroir ;
-- les deux moitiés se rejoignent sur les côtés (à gauche et à droite, vus de face), avec un
-  fondu de quelques degrés. Sur les côtés, vos deux vues sont très en raccourci : cette bande
-  latérale est donc moins détaillée que la face et le dos.
-Aucun texte n'a été ajouté ni retouché : tout vient des pixels de vos maquettes.
-
-TEXTURES : À SAVOIR
--------------------
-La texture vient de vos visuels de maquette. Elle contient donc l'éclairage de la maquette
-(reflets, ombres légères sur les bords). Dans votre logiciel, cet éclairage s'ajoute au vôtre.
-Pour un rendu PBR parfaitement propre et net (et des côtés aussi détaillés que la face),
-envoyez le fichier d'impression de l'étiquette à plat (AI, PDF ou PNG haute définition) :
-je remplace la texture en quelques minutes, sans toucher au modèle.
+ÉTIQUETTE : COMMENT ELLE EST POSÉE
+----------------------------------
+L'étiquette est votre fichier d'impression à plat, enroulé sur 360° autour du corps. La texture
+est donc nette, sans l'éclairage des maquettes, et aussi détaillée sur les côtés qu'en face.
+- Le panneau jaune « Huile Rouge » est centré face caméra (+Z). Le panneau « Ingrédients /
+  code-barres » est à droite, le panneau « Marin'Or Ivoire : Huile Rouge / QR / réseaux » à
+  gauche. Les deux bords du fichier se rejoignent au dos.
+- Les proportions de votre fichier sont respectées : sa largeur fait exactement le tour de la
+  bouteille, ce qui donne une étiquette de 6,3 cm de haut (de 1,8 à 8,1 cm du fond).
+  Sur vos maquettes, l'étiquette était dessinée plus haute (environ 8 cm), donc étirée
+  verticalement d'environ 28 %.
+Aucun texte n'a été ajouté ni retouché.
 
 Régénération (dossier 3d/marinor-bouteilles) :
 python3 tools/build_bottle.py <produit>

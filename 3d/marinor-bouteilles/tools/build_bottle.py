@@ -458,6 +458,15 @@ def build(product):
 
     # ---------------------------------------------------------------- label (360°, seam at -90° = left side)
     lt, lb = M["lt"] + INSET, M["lb"] - INSET
+    flat = None
+    if P.get("flat"):
+        # client's flat print file: full 360° wrap at its true proportions (height = circumference x h/w),
+        # centred on the mockup label's mid-height; yellow front panel centred on +Z
+        flat = Image.open(os.path.join(ROOT, P["flat"])).convert("RGB")
+        fw, fh = flat.size
+        mid = 0.5 * (M["lt"] + M["lb"])
+        hpx = 2 * math.pi * rint(mid) * fh / fw
+        lt, lb = mid - hpx / 2, mid + hpx / 2
     ys = np.arange(lb, lt - 0.01, -1.0)  # bottom -> top
     base = cm(np.array([(rint(y), y) for y in ys]))
     base = base[simplify_idx(base, 0.001, 1.0)]
@@ -473,7 +482,13 @@ def build(product):
     revolve(lab, fv, np.array([outer[0], inner[0]]), np.array([(0.0, -1.0), (0.0, -1.0)]), v_vals=[0.0, 1.0], **ph)
     meshes.append(lab)
     Ht = int(round(TEX_W * (lb - lt) / (2 * math.pi * rint(0.5 * (lt + lb)))))
-    tex = label_texture(M, rr, Ht)
+    if flat is not None:
+        # print file: u=0.5 is the front centre; our UVs start at -90° (u_ours = u_print - 0.25)
+        arr = np.asarray(flat)
+        tex = np.roll(arr, -int(round(0.25 * arr.shape[1])), axis=1)
+        Ht = arr.shape[0]
+    else:
+        tex = label_texture(M, rr, Ht)
     Image.fromarray(tex, "RGB").save(os.path.join(BUILD, P["texture"]), optimize=True)
 
     # ---------------------------------------------------------------- write OBJ + MTL
@@ -597,9 +612,9 @@ illum 2
     fmt = lambda x, n=1: f"{x:.{n}f}".replace(".", ",")
     readme = open(os.path.join(ROOT, "tools", "LISEZ-MOI.template.txt"), encoding="utf-8").read()
     for key, val in {**P, "verts": f"{tv:,}".replace(",", " "), "tris": f"{tt_:,}".replace(",", " "),
-                     "tex_w": TEX_W, "tex_h": Ht, "h": fmt(H), "d": fmt(2 * r_max * S), "d_lab": fmt(stats["size_cm"]["label_diameter"]),
+                     "tex_w": int(tex.shape[1]), "tex_h": int(tex.shape[0]), "h": fmt(H), "d": fmt(2 * r_max * S), "d_lab": fmt(stats["size_cm"]["label_diameter"]),
                      "d_cap": fmt(stats["size_cm"]["cap_diameter"]), "d_neck": fmt(stats["size_cm"]["neck_diameter"]),
-                     "lab_h": fmt(stats["label"]["height_cm"]), "lab_b": fmt(stats["label"]["bottom_cm"]),
+                     "lab_h": fmt(stats["label"]["height_cm"]), "lab_b": fmt(stats["label"]["bottom_cm"]), "lab_t": fmt(stats["label"]["top_cm"]),
                      "fill": fmt(stats["oil_level_cm"])}.items():
         readme = readme.replace("{" + key + "}", str(val))
     open(os.path.join(BUILD, "LISEZ-MOI.txt"), "w", encoding="utf-8").write(readme)
