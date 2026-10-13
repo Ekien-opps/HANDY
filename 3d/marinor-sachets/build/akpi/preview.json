@@ -1,0 +1,8 @@
+{
+ "name": "MarinOr_Graines-Akpi_100g",
+ "obj": "../build/akpi/MarinOr_Graines-Akpi_100g.obj",
+ "front": "../build/akpi/akpi_face-avant.png",
+ "back": "../build/akpi/akpi_face-arriere.png",
+ "edge": "#714A3A",
+ "height": 20.512409927942354
+}

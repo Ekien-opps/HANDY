@@ -1,0 +1,14 @@
+{
+  "akpi": {
+    "name": "MarinOr_Graines-Akpi_100g",
+    "title": "Graines d'Akpi 100 g",
+    "front": "src/akpi/face-avant.webp",
+    "back": "src/akpi/face-arriere.webp"
+  },
+  "epice-poulet": {
+    "name": "MarinOr_Epice-Speciale-Poulet_100g",
+    "title": "Épice Spéciale Poulet 100 g",
+    "front": "src/epice-poulet/face-avant.webp",
+    "back": "src/epice-poulet/face-arriere.webp"
+  }
+}

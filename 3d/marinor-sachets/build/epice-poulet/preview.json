@@ -1,0 +1,8 @@
+{
+ "name": "MarinOr_Epice-Speciale-Poulet_100g",
+ "obj": "../build/epice-poulet/MarinOr_Epice-Speciale-Poulet_100g.obj",
+ "front": "../build/epice-poulet/epice-poulet_face-avant.png",
+ "back": "../build/epice-poulet/epice-poulet_face-arriere.png",
+ "edge": "#9A3A1F",
+ "height": 20.512409927942354
+}
