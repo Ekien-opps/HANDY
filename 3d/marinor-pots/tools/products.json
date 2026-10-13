@@ -1,0 +1,24 @@
+{
+  "poisson": {
+    "name": "MarinOr_Marinade-Poisson_500g",
+    "title": "Marinade Poisson 500 g",
+    "label": "src/poisson/etiquette-a-plat.webp",
+    "texture": "etiquette_marinade-poisson.png",
+    "lid": "#5A6430",
+    "lid_inner": "#3B421F",
+    "lid_name": "verte",
+    "sauce": "#D3C8B6",
+    "sauce_name": "crème"
+  },
+  "poulet": {
+    "name": "MarinOr_Marinade-Poulet_500g",
+    "title": "Marinade Poulet 500 g",
+    "label": "src/poulet/etiquette-a-plat.webp",
+    "texture": "etiquette_marinade-poulet.png",
+    "lid": "#6E101C",
+    "lid_inner": "#430A11",
+    "lid_name": "bordeaux",
+    "sauce": "#CFAB79",
+    "sauce_name": "beige doré"
+  }
+}

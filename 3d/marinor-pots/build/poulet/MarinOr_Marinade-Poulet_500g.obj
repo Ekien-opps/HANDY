@@ -1,6 +1,6 @@
-# Marin'Or Ivoire - Marinade Poisson 500 g - glass jar with green screw cap
+# Marin'Or Ivoire - Marinade Poulet 500 g - glass jar with bordeaux screw cap
 # Units: centimetres. Y up. Base centre at origin. Label front faces +Z.
-mtllib MarinOr_Marinade-Poisson_500g.mtl
+mtllib MarinOr_Marinade-Poulet_500g.mtl
 o Verre
 v -0.00000 0.16000 -0.00000
 v -0.00000 0.12000 -1.20000
@@ -288625,7 +288625,7 @@ vn -0.00000 0.99563 0.09334
 vn -0.00000 0.99965 0.02646
 vn -0.00000 0.99997 0.00750
 vn -0.00000 1.00000 0.00250
-usemtl Sauce_creme
+usemtl Sauce
 s 1
 f 48444/48444/48444 48528/48528/48528 48445/48445/48445
 f 48445/48445/48445 48529/48529/48529 48446/48446/48446
@@ -363157,7 +363157,7 @@ vn -0.00000 -0.09334 0.99563
 vn -0.00000 -0.98805 0.15416
 vn -0.00000 -0.99989 0.01515
 vn -0.00000 -0.99999 0.00500
-usemtl Couvercle_vert
+usemtl Couvercle
 s 1
 f 64463/64463/64463 64533/64533/64533 64464/64464/64464
 f 64463/64463/64463 64532/64532/64532 64533/64533/64533

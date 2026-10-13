@@ -1,0 +1,8 @@
+{
+ "name": "MarinOr_Marinade-Poulet_500g",
+ "obj": "../build/poulet/MarinOr_Marinade-Poulet_500g.obj",
+ "tex": "../build/poulet/etiquette_marinade-poulet.png",
+ "lid": "#6E101C",
+ "lid_inner": "#430A11",
+ "sauce": "#CFAB79"
+}

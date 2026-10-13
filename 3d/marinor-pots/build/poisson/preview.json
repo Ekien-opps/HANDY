@@ -1,0 +1,8 @@
+{
+ "name": "MarinOr_Marinade-Poisson_500g",
+ "obj": "../build/poisson/MarinOr_Marinade-Poisson_500g.obj",
+ "tex": "../build/poisson/etiquette_marinade-poisson.png",
+ "lid": "#5A6430",
+ "lid_inner": "#3B421F",
+ "sauce": "#D3C8B6"
+}

@@ -19,8 +19,8 @@ import { GLTFExporter } from "three/addons/exporters/GLTFExporter.js";
 
 const P = new URLSearchParams(location.search);
 const W = +(P.get("w") || 1200), H = +(P.get("h") || 1500);
-const OBJ = P.get("obj") || "../build/MarinOr_Marinade-Poisson_500g.obj";
-const TEX = P.get("tex") || "../build/etiquette_marinade-poisson.png";
+const CFG = await (await fetch(P.get("cfg"))).json();
+const OBJ = CFG.obj, TEX = CFG.tex;
 
 const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true, preserveDrawingBuffer: true });
 renderer.setPixelRatio(1);
@@ -71,9 +71,9 @@ tex.anisotropy = renderer.capabilities.getMaxAnisotropy();
 const M = {
   Verre: new THREE.MeshPhysicalMaterial({ color: 0xf4fbf7, metalness: 0, roughness: 0.04, transmission: 1, thickness: 0.28, ior: 1.5,
     attenuationColor: new THREE.Color(0xeef5f0), attenuationDistance: 12, specularIntensity: 1, envMapIntensity: 1.1 }),
-  Sauce_creme: new THREE.MeshPhysicalMaterial({ color: 0xe9e1d0, roughness: 0.38, sheen: 0.3, sheenColor: new THREE.Color(0xfff6e6) }),
-  Couvercle_vert: new THREE.MeshPhysicalMaterial({ color: 0x5c6c22, roughness: 0.3, clearcoat: 0.55, clearcoatRoughness: 0.18 }),
-  Couvercle_interieur: new THREE.MeshPhysicalMaterial({ color: 0x3f4a17, roughness: 0.6 }),
+  Sauce: new THREE.MeshPhysicalMaterial({ color: new THREE.Color(CFG.sauce), roughness: 0.38, sheen: 0.3, sheenColor: new THREE.Color(0xfff6e6) }),
+  Couvercle: new THREE.MeshPhysicalMaterial({ color: new THREE.Color(CFG.lid), roughness: 0.3, clearcoat: 0.55, clearcoatRoughness: 0.18 }),
+  Couvercle_interieur: new THREE.MeshPhysicalMaterial({ color: new THREE.Color(CFG.lid_inner), roughness: 0.6 }),
   Etiquette_impression: new THREE.MeshPhysicalMaterial({ map: tex, roughness: 0.42, clearcoat: 0.3, clearcoatRoughness: 0.25 }),
   Etiquette_papier: new THREE.MeshPhysicalMaterial({ color: 0xf3f3f1, roughness: 0.8 }),
 };

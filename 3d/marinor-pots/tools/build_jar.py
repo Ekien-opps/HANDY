@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Marin'Or Ivoire · Marinade Poisson 500 g jar -> Wavefront OBJ + MTL (+ label texture).
+"""Marin'Or Ivoire · 500 g marinade jars -> Wavefront OBJ + MTL (+ label texture).
 
 Units: centimetres, Y up, jar base centre at the origin, label front facing +Z.
 Silhouette measured on src/ref-face-dos.webp (right jar, 804 px = 8.6 cm body diameter).
@@ -11,7 +11,7 @@ Objects (each a closed or properly bounded surface, smooth normals, UVs):
   Etiquette    paper label wrapped on the straight body (front = artwork, back + edges = white paper)
   Pastilles    ring of small embossed glass dots just under the label (as on the reference)
 
-Run:  python3 tools/build_jar.py [--wrap-scale 1.31]
+Run:  python3 tools/build_jar.py <produit> [--wrap-scale 1.31]   (produits: tools/products.json)
 """
 import argparse
 import json
@@ -23,8 +23,13 @@ import numpy as np
 from PIL import Image
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-BUILD = os.path.join(ROOT, "build")
-NAME = "MarinOr_Marinade-Poisson_500g"
+PRODUCTS = json.load(open(os.path.join(ROOT, "tools", "products.json")))
+
+
+def hex_lin(h):
+    """sRGB hex -> linear RGB (OBJ importers such as Blender's copy Kd straight into linear base colour)."""
+    c = [int(h[i:i + 2], 16) / 255 for i in (1, 3, 5)]
+    return " ".join("%.4f" % (x / 12.92 if x <= 0.04045 else ((x + 0.055) / 1.055) ** 2.4) for x in c)
 
 SEG = 192  # radial segments
 
@@ -174,7 +179,10 @@ def cap_profile():
 
 
 # --------------------------------------------------------------------------- build
-def build(wrap_scale):
+def build(product, wrap_scale):
+    P = PRODUCTS[product]
+    NAME = P["name"]
+    BUILD = os.path.join(ROOT, "build", product)
     os.makedirs(BUILD, exist_ok=True)
     meshes = []
 
@@ -188,23 +196,23 @@ def build(wrap_scale):
     # ---- sauce
     sp = sauce_profile()
     s = Mesh("Sauce")
-    revolve(s, "Sauce_creme", sp, profile_normals(sp, 1.0))
+    revolve(s, "Sauce", sp, profile_normals(sp, 1.0))
     meshes.append(s)
 
     # ---- cap
     co, ci = cap_profile()
     c = Mesh("Couvercle")
-    revolve(c, "Couvercle_vert", co, profile_normals(co, 1.0))
+    revolve(c, "Couvercle", co, profile_normals(co, 1.0))
     revolve(c, "Couvercle_interieur", ci, profile_normals(ci, -1.0))
     meshes.append(c)
 
     # ---- label
-    lab_src = os.path.join(ROOT, "src", "etiquette-a-plat.webp")
+    lab_src = os.path.join(ROOT, P["label"])
     lab = Image.open(lab_src).convert("RGBA")
     W, H = lab.size
     bg = Image.new("RGBA", lab.size, (255, 255, 255, 255))
     bg.alpha_composite(lab)
-    bg.convert("RGB").save(os.path.join(BUILD, "etiquette_marinade-poisson.png"), optimize=True)
+    bg.convert("RGB").save(os.path.join(BUILD, P["texture"]), optimize=True)
     R_LAB, Y0, Y1, TH = 4.312, 1.66, 11.16, 0.012
     h = Y1 - Y0
     arc_len = (W / H) * h * wrap_scale
@@ -282,7 +290,7 @@ def build(wrap_scale):
     obj_path = os.path.join(BUILD, NAME + ".obj")
     mtl_name = NAME + ".mtl"
     with open(obj_path, "w") as f:
-        f.write(f"# Marin'Or Ivoire - Marinade Poisson 500 g - glass jar with green screw cap\n")
+        f.write(f"# Marin'Or Ivoire - {P['title']} - glass jar with {P['lid_name']} screw cap\n")
         f.write("# Units: centimetres. Y up. Base centre at origin. Label front faces +Z.\n")
         f.write(f"mtllib {mtl_name}\n")
         off = 1
@@ -306,11 +314,11 @@ def build(wrap_scale):
                     f.write(f"f {a}/{a}/{a} {b}/{b}/{b} {c3}/{c3}/{c3}\n")
             off += len(m.v)
     with open(os.path.join(BUILD, mtl_name), "w") as f:
-        f.write("# Marin'Or Ivoire - Marinade Poisson 500 g\n")
-        f.write("""
+        f.write(f"# Marin'Or Ivoire - {P['title']}\n# Kd values are LINEAR RGB (sRGB hex in comments)\n")
+        f.write(f"""
 newmtl Verre
 Ka 0 0 0
-Kd 0.92 0.95 0.93
+Kd 0.83 0.89 0.85
 Ks 0.9 0.9 0.9
 Ns 900
 Ni 1.50
@@ -319,25 +327,28 @@ Tr 0.82
 Tf 0.95 0.98 0.96
 illum 7
 
-newmtl Sauce_creme
+newmtl Sauce
+# {P['sauce']}
 Ka 0 0 0
-Kd 0.906 0.875 0.812
+Kd {hex_lin(P['sauce'])}
 Ks 0.12 0.12 0.12
 Ns 60
 d 1
 illum 2
 
-newmtl Couvercle_vert
+newmtl Couvercle
+# {P['lid']}
 Ka 0 0 0
-Kd 0.369 0.431 0.141
+Kd {hex_lin(P['lid'])}
 Ks 0.45 0.45 0.45
 Ns 350
 d 1
 illum 2
 
 newmtl Couvercle_interieur
+# {P['lid_inner']}
 Ka 0 0 0
-Kd 0.30 0.35 0.12
+Kd {hex_lin(P['lid_inner'])}
 Ks 0.1 0.1 0.1
 Ns 40
 d 1
@@ -350,11 +361,11 @@ Ks 0.25 0.25 0.25
 Ns 120
 d 1
 illum 2
-map_Kd etiquette_marinade-poisson.png
+map_Kd {P['texture']}
 
 newmtl Etiquette_papier
 Ka 0 0 0
-Kd 0.96 0.96 0.95
+Kd 0.91 0.91 0.90
 Ks 0.05 0.05 0.05
 Ns 20
 d 1
@@ -368,11 +379,23 @@ illum 2
     }
     with open(os.path.join(BUILD, "stats.json"), "w") as f:
         json.dump(stats, f, indent=1)
+    with open(os.path.join(BUILD, "preview.json"), "w") as f:
+        json.dump({"name": NAME, "obj": f"../build/{product}/{NAME}.obj", "tex": f"../build/{product}/{P['texture']}",
+                   "lid": P["lid"], "lid_inner": P["lid_inner"], "sauce": P["sauce"]}, f, indent=1)
+    readme = open(os.path.join(ROOT, "tools", "LISEZ-MOI.template.txt"), encoding="utf-8").read()
+    for k, v in {**P, "wrap_deg": f"{math.degrees(ang):.0f}", "gap_deg": f"{360 - math.degrees(ang):.0f}",
+                 "verts": f"{sum(len(m.v) for m in meshes):,}".replace(",", " "),
+                 "tris": f"{sum(sum(len(fs) for _, fs in m.groups) for m in meshes):,}".replace(",", " "),
+                 "tex_w": W, "tex_h": H}.items():
+        readme = readme.replace("{" + k + "}", str(v))
+    open(os.path.join(BUILD, "LISEZ-MOI.txt"), "w", encoding="utf-8").write(readme)
     print(json.dumps(stats, indent=1))
 
 
 if __name__ == "__main__":
     ap = argparse.ArgumentParser()
+    ap.add_argument("product", choices=sorted(PRODUCTS), help="product key in tools/products.json")
     ap.add_argument("--wrap-scale", type=float, default=1.31,
                     help="horizontal scale of the label artwork on the jar (1.0 = true proportions; 1.31 = as in the client's mockups)")
-    build(ap.parse_args().wrap_scale)
+    a = ap.parse_args()
+    build(a.product, a.wrap_scale)

@@ -1,0 +1,57 @@
+# Marin'Or Ivoire - Marinade Poisson 500 g
+# Kd values are LINEAR RGB (sRGB hex in comments)
+
+newmtl Verre
+Ka 0 0 0
+Kd 0.83 0.89 0.85
+Ks 0.9 0.9 0.9
+Ns 900
+Ni 1.50
+d 0.18
+Tr 0.82
+Tf 0.95 0.98 0.96
+illum 7
+
+newmtl Sauce
+# #D3C8B6
+Ka 0 0 0
+Kd 0.6514 0.5776 0.4678
+Ks 0.12 0.12 0.12
+Ns 60
+d 1
+illum 2
+
+newmtl Couvercle
+# #5A6430
+Ka 0 0 0
+Kd 0.1022 0.1274 0.0296
+Ks 0.45 0.45 0.45
+Ns 350
+d 1
+illum 2
+
+newmtl Couvercle_interieur
+# #3B421F
+Ka 0 0 0
+Kd 0.0437 0.0545 0.0137
+Ks 0.1 0.1 0.1
+Ns 40
+d 1
+illum 2
+
+newmtl Etiquette_impression
+Ka 0 0 0
+Kd 1 1 1
+Ks 0.25 0.25 0.25
+Ns 120
+d 1
+illum 2
+map_Kd etiquette_marinade-poisson.png
+
+newmtl Etiquette_papier
+Ka 0 0 0
+Kd 0.91 0.91 0.90
+Ks 0.05 0.05 0.05
+Ns 20
+d 1
+illum 2

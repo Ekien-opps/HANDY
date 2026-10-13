@@ -1,0 +1,40 @@
+{
+ "objects": {
+  "Verre": {
+   "vertices": 48443,
+   "triangles": 95232
+  },
+  "Sauce": {
+   "vertices": 16019,
+   "triangles": 31104
+  },
+  "Couvercle": {
+   "vertices": 14475,
+   "triangles": 27648
+  },
+  "Etiquette": {
+   "vertices": 1256,
+   "triangles": 1244
+  },
+  "Pastilles": {
+   "vertices": 2688,
+   "triangles": 4224
+  }
+ },
+ "label": {
+  "height_cm": 9.5,
+  "arc_cm": 21.795,
+  "wrap_deg": 289.6,
+  "wrap_scale": 1.31,
+  "radius_cm": 4.312,
+  "texture_px": [
+   2000,
+   1142
+  ]
+ },
+ "jar": {
+  "body_diameter_cm": 8.6,
+  "height_cm": 15.885,
+  "cap_diameter_cm": 7.88
+ }
+}
