@@ -22,8 +22,8 @@ Axe Y vers le haut. Base du pot centrée sur l'origine. Face avant de l'étiquet
 
 OBJETS (≈ 83 000 sommets, 159 000 triangles)
 ------------------------------------------
-Verre       Pot en verre avec épaisseur réelle (paroi 2,8 mm, fond 3 à 4,5 mm), col fileté
-            et bague, lèvre roulée.
+Verre       Pot en verre avec épaisseur réelle (paroi 2,8 mm, fond 3 à 4,5 mm), col lisse
+            (filetage non modélisé, caché par le couvercle), bague, lèvre roulée.
 Sauce       Marinade crème qui remplit le pot jusqu'au col, avec ménisque.
 Couvercle   Capsule vissante verte : jupe évasée, arête supérieure arrondie, dessus
             légèrement bombé, face intérieure.
