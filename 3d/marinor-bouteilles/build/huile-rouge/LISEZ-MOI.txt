@@ -21,7 +21,7 @@ Axe Y vers le haut. Centre du fond de la bouteille à l'origine. Face avant de l
 - Blender (1 unité = 1 m) : à l'import, mettre Scale = 0,01, ou garder 1 et travailler à l'échelle ×100.
 - Maya / 3ds Max : unités du projet en cm.
 
-OBJETS (85 855 sommets, 166 656 triangles)
+OBJETS (86 048 sommets, 167 040 triangles)
 ------------------------------------------
 Bouteille   Coque en PET transparent de 0,3 mm d'épaisseur (paroi extérieure et intérieure) :
             fond à pied rond avec voûte centrale, corps légèrement conique, longue épaule,
