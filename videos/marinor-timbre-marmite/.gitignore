@@ -4,3 +4,7 @@ snapshots/*.png
 renders/check_png/
 renders/*_png_tmp/
 __pycache__/
+renders/*_2160x2700_png/
+renders/*_2160x2700_png.zip
+renders/*PR4444XQ.mov
+renders/*_png.zip

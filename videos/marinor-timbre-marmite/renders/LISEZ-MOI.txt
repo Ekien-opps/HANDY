@@ -1,0 +1,52 @@
+Marin'Or Ivoire · Timbre « Marmite chaude » · micro-interaction de 1 s · v001
+=============================================================================
+
+60 images à 60 i/s = 1,000 s. Fond transparent (alpha). Aucun texte.
+Production : option B des spécifications (marmite 2,5D découpée et repeinte),
+animée et rendue dans HyperFrames (HTML + SVG + GSAP, Chrome headless).
+
+LIVRABLES
+---------
+MOR_stampPot-tear_v001_2160x2700_png/ (+ .zip)
+    Master @2x : séquence PNG RGBA 8 bits, alpha droit, images 0000 à 0059.
+MOR_stampPot-tear_v001_2160x2700_60p_PR4444XQ.mov
+    ProRes 4444 XQ avec alpha, 2160 × 2700, 60p, BT.709. Pour monteurs et reels.
+MOR_stampPot-tear_v001_1080x1350_png/ (+ .zip)
+    Séquence PNG RGBA @1x (1080 × 1350), images 0000 à 0059.
+MOR_stampPot-tear_v001_1080x1350_60p_PR4444.mov
+    ProRes 4444 avec alpha, 1080 × 1350, 60p, BT.709 (Premiere, Resolve, AE, Final Cut).
+MOR_stampPot-tear_v001_1080x1350_60p_vp9a.webm
+    WebM VP9 avec alpha, 1080 × 1350 (Chrome, Edge, Firefox). 0,6 Mo.
+MOR_stampPot-tear_v001_432x540_60p_vp9a.webm
+    WebM VP9 avec alpha, 432 × 540, pour l'intégration UI. 0,2 Mo.
+preview/apercu_temps-reel_1s.mp4 et preview/apercu_ralenti-x4.mp4
+    Aperçus H.264 sur fond crème (pas d'alpha), pour relecture uniquement.
+
+Contrôles (tools/verify_render.py) : 60 images, durée de conteneur 1,000 s sur
+chaque fichier ; alpha = 0 hors du timbre ; timbre immobile jusqu'à f32 ;
+aucun pixel de feu dans la marmite de f28 à f59 ; toute l'action de la marmite
+dans la vignette (zone de sécurité de 24 px respectée) ; image de repos
+identique à l'illustration d'origine (écart moyen 0,66/255).
+
+INTÉGRATION WEB
+---------------
+<video muted playsinline preload="auto" width="1080" height="1350">
+  <source src="MOR_stampPot-tear_v001_1080x1350_60p_vp9a.webm" type="video/webm">
+</video>
+Lecture unique (pas de boucle), la vidéo se fige sur la dernière image.
+Safari : prévoir une version HEVC avec alpha, encodée sur Mac :
+ffmpeg -framerate 60 -i MOR_stampPot-tear_v001_2160x2700_png/MOR_stampPot-tear_v001_2160x2700_%04d.png \
+  -vf "premultiply=inplace=1,scale=1080:1350:flags=area,unpremultiply=inplace=1,format=bgra" \
+  -c:v hevc_videotoolbox -alpha_quality 0.9 -b:v 8M -tag:v hvc1 \
+  MOR_stampPot-tear_v001_1080x1350_60p_hevca.mov
+
+ÉCARTS ASSUMÉS PAR RAPPORT AUX SPÉCIFICATIONS
+---------------------------------------------
+- Couvercle : raccourci vertical à 85 % au pic (et non 70 %), plus juste pour cet angle de vue.
+- Fragment F3 : translation au repos (+6,4 ; +7,5) et au pic (+8,6 ; +10,1), au lieu de
+  (+6,4 ; +4,8) et (+8,6 ; +6,5). Sans ce correctif, la branche A restait fermée à ses
+  crans (« pont de papier »).
+- Marque de stress à f33 : micro-fente grise et fibres blanches (un trait blanc sur
+  la marge blanche serait invisible).
+- Pas de flou de mouvement sur les fragments à f37 et f38 (au plus ~2 px).
+- La version 30 i/s n'est pas fournie (sur demande).

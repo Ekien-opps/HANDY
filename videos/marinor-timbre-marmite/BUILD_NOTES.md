@@ -70,3 +70,15 @@ Rebuild: python3 tools/split_front.py && python3 tools/build_index.py ; render: 
   data-layout-allow-overflow: full-canvas rasters rotated with the lid; visible pixels verified in canvas).
 - QA script: python3 tools/verify_render.py [renders/check_png] -> JSON + snapshots/contact-sheet.jpg +
   snapshots/f0_vs_reference.png.
+
+## Review fixes (spec lens review, 2026-10-13)
+- SPEC-1 (no paper bridge on branch A): F3 rest translate (+6.4,+4.8) -> (+6.4,+7.5), peak (+8.6,+6.5) -> (+8.6,+10.1)
+  in tools/build_tear.py. Result: no sealed alpha-0 holes on f37-f40 and f43-f59; transient contact only at the
+  spring undershoot frames f41/f42 (x0.88/x0.92), which reads as the pieces knocking back. f59 gap continuous.
+- SPEC-2 (no fragment motion blur f37/f38), SPEC-3 (grey stress mark), SPEC-4 (no 30 fps version): accepted, documented.
+- 2x master rendered with: node tools/snap_frames.mjs renders/<dir> 0-59 transparent 2 (matches the 1x render
+  after a 2:1 box downscale: mean |d| 0.25-0.32/255).
+
+## Deliverables (renders/, see renders/LISEZ-MOI.txt)
+- PNG 1080x1350 and 2160x2700 (RGBA), ProRes 4444 (1080) / 4444 XQ (2160) with alpha, WebM VP9 alpha 1080 and 432.
+- Verified: ffprobe 60 frames, 1.000 s each; decoded alpha vs PNG: MOV mean 0.004/255, WebM 0.05/255.

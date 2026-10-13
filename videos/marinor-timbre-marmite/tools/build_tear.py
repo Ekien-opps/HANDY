@@ -46,8 +46,8 @@ TRANSFORMS = {  # spec 6.4 table: rot deg (SVG/screen convention, + = clockwise)
            "peak": {"rot": 1.5, "tx": -3.2, "ty": -6.5, "tilt": ("rotY", -2.7)}},
     "F2": {"pivot": "E_B", "rest": {"rot": -0.8, "tx": -6.4, "ty": 4.8, "tilt": ("rotX", 1.5)},
            "peak": {"rot": -1.1, "tx": -8.6, "ty": 6.5, "tilt": ("rotX", 2.0)}},
-    "F3": {"pivot": "E_B", "rest": {"rot": 0.8, "tx": 6.4, "ty": 4.8, "tilt": ("rotY", 1.5)},
-           "peak": {"rot": 1.1, "tx": 8.6, "ty": 6.5, "tilt": ("rotY", 2.0)}},
+    "F3": {"pivot": "E_B", "rest": {"rot": 0.8, "tx": 6.4, "ty": 7.5, "tilt": ("rotY", 1.5)},  # ty 4.8 -> 7.5: opens branch A notches (review SPEC-1, no paper bridge)
+           "peak": {"rot": 1.1, "tx": 8.6, "ty": 10.1, "tilt": ("rotY", 2.0)}},
 }
 # Luminance from tilt. Convention (After Effects, right-handed: x right, y down, z into screen):
 # +rotY brings the right edge toward camera -> the face turns left; +rotX brings the top edge toward camera
