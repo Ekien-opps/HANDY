@@ -270,6 +270,8 @@ marinor_boutique/
 ├── marinor_batiment.py               (script Blender 5.1 : le magasin)
 ├── marinor_environnement.py          (script Blender 5.1 : décor de Cocody, §9)
 ├── generer_textures_env.py           (refait les textures de végétation, Pillow)
+├── modeles/                          (TREE.fbx, GMC Sierra .zip, BMW GT3 .fbx)
+├── apercus/                          (rendus de contrôle)
 ├── colorimetrie_marque.txt           (charte de la marque)
 └── textures/
     ├── env/                          (feuillages, palmes, fleurs, haie : PNG transparents)
@@ -321,9 +323,29 @@ Script : `marinor_environnement.py`. On l'exécute dans Blender 5.1 comme le scr
 | Chaussée 2 × 1 voie, axe discontinu, lignes de rive, caniveaux | -19,35 à -11,35 | -0,30 |
 | Bordure, accotement, trottoir, bande plantée (côté opposé) | -19,35 à -23,70 | idem |
 
+### Mise en scène (version 3.1)
+
+Une mise en scène resserrée, pour un cadrage précis : le « carré » de villas et d'arbres autour du magasin.
+
+- **Villas** : 2 à gauche et 1 à droite du magasin, 3 en face (constantes `VILLAS_NORD_GAUCHE`, `VILLAS_NORD_DROITE`, `VILLAS_SUD`). Bloc d'environ 120 m, de x -56 à 65.
+- **Avenue** : elle s'arrête 60 m après le bloc de chaque côté (`MARGE_AVENUE_M`), environ 240 m en tout. Aux deux bouts, un rideau d'arbres ferme la perspective. De part et d'autre du bloc, des jardins arborés.
+- **Lagune** derrière le bloc (côté nord) :
+  - berge en pente à y = 50 (`Y_RIVE`), eau à rides de vent (`ENV_Eau_Lagune`) ;
+  - rive plantée de cocotiers et de grands arbres ;
+  - sur la rive d'en face, à environ 2 km, les tours du Plateau dans la brume.
+- **Modèles fournis**, dans `modeles/`, importés au lancement et posés en instances de collection (la collection `ENV_Modeles_importes` est exclue du rendu, les instances non) :
+
+  | Fichier | Usage | Mise au point |
+  |---|---|---|
+  | `TREE.fbx` | arbre d'alignement (45 %), jardins, rive, rideaux | textures non fournies : cartes de feuilles avec les rameaux du script (`ENV_Rameau_Feuillu`, variante fleurie `ENV_Rameau_Fleuri`), tronc avec l'écorce du script. Si `trunk_Base_color.png` est posé dans `modeles/`, il est gardé. |
+  | `2024_gmc_sierra_1500_at4x.zip` | GMC Sierra AT4X : parking du magasin, avenue | `.glb` extrait au premier lancement ; ramené à 5,89 m, avant vers +X |
+  | `FINAL_MODEL_GT325.fbx` | BMW M4 GT3 : parking du magasin, avenue | modélisée en centimètres : remise à 5,00 m |
+
+  Si un fichier manque, le script reprend ses propres arbres et voitures, avec un avertissement.
+
 ### Contenu
 
-- **Villas contemporaines**, des deux côtés, sur 1 km :
+- **Villas contemporaines** (version 3.1 : 6 villas) :
   - hauts murs blancs à piliers, chaperons et appliques allumées, parfois surmontés d'une grille ;
   - portail et portillon en fer forgé noir (barreaux, pointes de lance, volutes) ;
   - maison à étage en porte-à-faux, dalles débordantes, grandes baies sombres, claustras bois, bande de pierre ; une sur trois a un toit à quatre pans.
@@ -332,10 +354,8 @@ Script : `marinor_environnement.py`. On l'exécute dans Blender 5.1 comme le scr
   - jardins : cocotiers, bananiers ;
   - au pied des murs : hibiscus, bougainvilliers en cascade, haies taillées ;
   - sur les accotements : touffes d'herbe.
-- **Arrière-quartier** de maisons et de jardins arborés, canopée lointaine, collines et silhouettes d'immeubles dans la brume.
-- **Voitures** :
-  - SUV noir et berline blanche sur le parking du magasin ;
-  - SUV bleu nuit, berlines et SUV dans l'avenue, sur leur voie (circulation à droite).
+- **Au loin** : canopée de Cocody, collines, et le Plateau de l'autre côté de la lagune, dans la brume.
+- **Voitures** : GMC Sierra et BMW GT3 sur le parking (garées nez vers le magasin) et dans l'avenue, sur leur voie (circulation à droite).
 - **Agent de sécurité** en uniforme devant un portail, avec une plaque « RIVIERA 3 » sur le mur.
 - **Lumière** :
   - soleil bas de sud-ouest, à 17° de hauteur, 3600 K, ombres longues ;

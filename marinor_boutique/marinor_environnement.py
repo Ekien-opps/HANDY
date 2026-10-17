@@ -3,11 +3,13 @@
 Marin'Or Ivoire : environnement urbain de Cocody Riviera, Abidjan (Blender 5.1)
 ==============================================================================
 
-Une avenue résidentielle de Cocody Riviera à l'heure dorée, autour du magasin :
-avenue bitumée bordée de flamboyants, manguiers, fromagers et palmiers, villas
-contemporaines derrière de hauts murs blancs et des portails en fer forgé
-noir, jardins débordants (hibiscus, bougainvilliers, bananiers), voitures,
-agent de sécurité devant un portail, soleil bas et ciel bleu à nuages doux.
+Une mise en scène de Cocody Riviera à l'heure dorée, autour du magasin : un
+« carré » de six villas contemporaines (hauts murs blancs, portails en fer
+forgé noir, jardins d'hibiscus, bougainvilliers et bananiers) le long d'un
+court tronçon d'avenue bordé de flamboyants, manguiers, fromagers, palmiers et
+de l'arbre fourni (TREE.fbx), la lagune derrière le bloc, le GMC Sierra et la
+BMW GT3 fournis, un agent de sécurité devant un portail, soleil bas et ciel
+bleu à nuages doux.
 
 Le magasin n'est pas modifié : il est posé sur sa parcelle, au niveau du
 trottoir, avec un parvis pavé en pente douce, un parking devant la façade et
@@ -16,7 +18,8 @@ une allée de service vers la porte de livraison.
 Utilisation
 -----------
 1. Ce script est dans `marinor_boutique/`, à côté de `marinor_batiment.py`,
-   `elements.csv` et du dossier `textures/` (avec `textures/env/`).
+   `elements.csv`, du dossier `textures/` (avec `textures/env/`) et du dossier
+   `modeles/` (arbre et voitures fournis).
 2. Dans Blender 5.1 : Scripting > Ouvrir > ce fichier > Exécuter (Alt+P).
    - Si le magasin n'est pas dans la scène, le script lance d'abord
      `marinor_batiment.py` pour le construire.
