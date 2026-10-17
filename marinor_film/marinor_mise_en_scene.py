@@ -137,7 +137,7 @@ CAMERA_CLES = [
 # =============================================================================
 
 RAPPORT = {"produits": [], "instances": 0, "manquants": [], "avertissements": [], "erreurs": [],
-           "personnages": [], "objets": 0}
+           "personnages": [], "objets": 0, "orientations": []}
 COLLS = {}
 MATS = {}
 
@@ -218,6 +218,10 @@ def nettoyer():
         if ob.get(TAG + "_anime"):
             ob.animation_data_clear()
             del ob[TAG + "_anime"]
+    for ob in bpy.data.objects:                      # modificateurs posés sur des objets existants
+        for m in list(ob.modifiers):
+            if m.name.startswith("FILM_"):
+                ob.modifiers.remove(m)
     for ob in bpy.data.objects:
         if ob.name.startswith(PREFIXES_PLAFOND):
             ob.hide_render = False
@@ -385,8 +389,16 @@ def importer_produit(dossier, p, coll):
     mx = Vector((max(v.x for v in pts), max(v.y for v in pts), max(v.z for v in pts)))
     centre = Vector(((mn.x + mx.x) / 2, (mn.y + mx.y) / 2, mn.z))
     s = p["hauteur_m"] / max(mx.z - mn.z, 1e-6)
-    me.transform(Matrix.Rotation(math.radians(p.get("rot_z_deg", 0.0)), 4, 'Z') @
-                 Matrix.Scale(s, 4) @ Matrix.Translation(-centre))
+    me.transform(Matrix.Scale(s, 4) @ Matrix.Translation(-centre))
+    me.update()
+    manuel = p.get("rot_z_deg")
+    if manuel is None or str(manuel).lower() == "auto":
+        angle, motif = orientation_etiquette(me)
+        RAPPORT["orientations"].append("%s : %+.0f° (%s)" % (p["id"], math.degrees(angle), motif))
+    else:
+        angle = math.radians(float(manuel))
+        RAPPORT["orientations"].append("%s : %+.0f° (réglage du catalogue)" % (p["id"], float(manuel)))
+    me.transform(Matrix.Rotation(angle, 4, 'Z'))
     me.update()
     ob.name = me.name = "PROD_" + p["id"]
     marquer(ob)
@@ -405,6 +417,98 @@ def importer_produit(dossier, p, coll):
     p["_dims"] = (d.x, d.y, d.z)
     RAPPORT["produits"].append("%s (%.3f x %.3f x %.3f m)" % (p["id"], d.x, d.y, d.z))
     return ob
+
+
+def image_base(mat):
+    """Image branchée (directement ou non) sur la couleur de base du matériau."""
+    if mat is None or not mat.use_nodes:
+        return None
+    for n in mat.node_tree.nodes:
+        if n.type == 'BSDF_PRINCIPLED':
+            pile, vus = [n.inputs["Base Color"]], set()
+            while pile:
+                sock = pile.pop()
+                for l in sock.links:
+                    nd = l.from_node
+                    if nd.name in vus:
+                        continue
+                    vus.add(nd.name)
+                    if nd.type == 'TEX_IMAGE' and nd.image is not None:
+                        return nd.image
+                    pile.extend(nd.inputs)
+    for n in mat.node_tree.nodes:
+        if n.type == 'TEX_IMAGE' and n.image is not None:
+            return n.image
+    return None
+
+
+def orientation_etiquette(me):
+    """Angle (autour de Z) qui tourne la face la plus « imprimée » du produit vers l'allée (-Y).
+    La face avant d'un emballage porte le logo et la photo : elle est la plus colorée.
+    On échantillonne la texture sur les faces verticales, par secteur de 45°."""
+    import numpy as np
+    rg = random.Random(1)
+    me.calc_loop_triangles()
+    uv = me.uv_layers.active
+    pixels = {}
+    for i, m in enumerate(me.materials):
+        img = image_base(m)
+        if img is not None and img.size[0] > 0:
+            try:
+                arr = np.empty(img.size[0] * img.size[1] * 4, dtype=np.float32)
+                img.pixels.foreach_get(arr)
+                pixels[i] = (arr.reshape(img.size[1], img.size[0], 4), img.size)
+            except Exception:
+                pass
+    aire_tot = sum(t.area for t in me.loop_triangles if abs(t.normal.z) < 0.6) or 1.0
+    faces = []                                                         # (saturation, aire, normale xy)
+    for t in me.loop_triangles:
+        nrm = t.normal
+        if abs(nrm.z) >= 0.6 or t.area <= 0:
+            continue
+        sat = None
+        if t.material_index in pixels and uv is not None:
+            img, (w, h) = pixels[t.material_index]
+            uvs = [uv.data[l].uv for l in t.loops]
+            vals = []
+            for _ in range(max(3, min(400, int(3000 * t.area / aire_tot)))):
+                a, b = rg.random(), rg.random()
+                if a + b > 1:
+                    a, b = 1 - a, 1 - b
+                u = uvs[0].x + a * (uvs[1].x - uvs[0].x) + b * (uvs[2].x - uvs[0].x)
+                v = uvs[0].y + a * (uvs[1].y - uvs[0].y) + b * (uvs[2].y - uvs[0].y)
+                px = img[int((v % 1.0) * (h - 1)), int((u % 1.0) * (w - 1))]
+                hi, lo = max(px[:3]), min(px[:3])
+                vals.append((hi - lo) / hi if hi > 1e-4 else 0.0)
+            sat = sum(vals) / len(vals)
+        elif t.material_index < len(me.materials) and me.materials[t.material_index] is not None:
+            c = me.materials[t.material_index].diffuse_color
+            hi, lo = max(c[:3]), min(c[:3])
+            sat = (hi - lo) / hi if hi > 1e-4 else 0.0
+        if sat is not None:
+            faces.append((sat, t.area, Vector((nrm.x, nrm.y)).normalized()))
+    if not faces:
+        return 0.0, "pas de faces latérales imprimées, inchangé"
+    # Direction de l'impression : somme des normales pondérées par l'excès de couleur
+    # (face avant d'un doypack, centre de l'étiquette d'une bouteille).
+    aire = sum(f[1] for f in faces)
+    moy = sum(f[0] * f[1] for f in faces) / aire
+    res = Vector((0.0, 0.0))
+    total = 0.0
+    for sat, ai, n in faces:
+        res += n * (sat - moy) * ai
+        total += abs(sat - moy) * ai
+    if total < 1e-9 or res.length < 0.08 * total:
+        return 0.0, "faces uniformes, inchangé : régler rot_z_deg si besoin"
+    theta = math.atan2(res.y, res.x)
+    angle = -math.pi / 2 - theta
+    quart = round(angle / (math.pi / 2)) * (math.pi / 2)        # emballages à faces planes : angle droit
+    if abs(angle - quart) < math.radians(12):
+        angle = quart
+    angle = math.atan2(math.sin(angle), math.cos(angle))
+    confiance = res.length / total
+    motif = "face imprimée détectée" if confiance > 0.25 else "contraste faible, à vérifier"
+    return angle, motif
 
 
 def ajouter(pid, pos, rot_z):
@@ -976,6 +1080,93 @@ def echantillon(res, cumul, s):
     return res[i - 1].lerp(res[i], t)
 
 
+def points_corps(arm, objs):
+    """Sommets du personnage (maillage déformé) en coordonnées monde, ou à défaut les os."""
+    dg = bpy.context.evaluated_depsgraph_get()
+    pts = []
+    for o in objs:
+        if o.type != 'MESH':
+            continue
+        oe = o.evaluated_get(dg)
+        me = oe.to_mesh()
+        M = oe.matrix_world
+        pts += [M @ v.co for v in me.vertices[::3]]
+        oe.to_mesh_clear()
+    if not pts:
+        for pb in arm.pose.bones:
+            pts += [arm.matrix_world @ pb.head, arm.matrix_world @ pb.tail]
+    return pts
+
+
+NICHE = {"comptoir": "Comptoir_bar_1", "y_fond": 3.85, "z_haut": 0.70, "demi_largeur": 0.50}
+
+
+def niche_comptoir(x):
+    """Dégagement pour les jambes sous le comptoir côté caissière (poste de travail assis) :
+    booléen non destructif sur le comptoir, retiré au prochain lancement."""
+    cpt = bpy.data.objects.get(NICHE["comptoir"])
+    if cpt is None:
+        avertir("comptoir %s introuvable : pas de dégagement pour les jambes" % NICHE["comptoir"])
+        return False
+    coll = collection("FILM_Caisse", COLLS["FILM"])
+    l = NICHE["demi_largeur"]
+    dec = boite("Niche_caisse_decoupe", (2 * l, NICHE["y_fond"] - 3.30, NICHE["z_haut"] + 0.02), coll,
+                (x, (3.30 + NICHE["y_fond"]) / 2, (NICHE["z_haut"] - 0.02) / 2), [])
+    dec.display_type = 'WIRE'
+    dec.hide_render = True
+    m = cpt.modifiers.new("FILM_Niche_caisse", 'BOOLEAN')
+    m.operation = 'DIFFERENCE'
+    m.object = dec
+    try:
+        m.solver = 'EXACT'
+    except Exception:
+        pass
+    return True
+
+
+def asseoir(ctrl, arm, objs, cfg):
+    """Pose la caissière sur le tabouret (dessous des fesses = dessus de l'assise), puis la recule
+    juste ce qu'il faut : au-dessus de la niche, rien ne doit dépasser la face du comptoir (y 3,40) ;
+    dans la niche, les jambes doivent rester avant son fond."""
+    sc = bpy.context.scene
+    hanches = next((p for p in arm.pose.bones if p.name.endswith("Hips")), None)
+    if hanches is None:
+        avertir("caissière : os Hips introuvable, hauteur par défaut")
+        ctrl.location.z = cfg["z_assise"] - 0.47
+        return
+    bas, devant = [], []
+    for f in (1, 300, 700, 1100):                       # plusieurs instants de l'animation
+        sc.frame_set(f)
+        h = arm.matrix_world @ hanches.head
+        pts = points_corps(arm, objs)
+        bassin = [p for p in pts if (p.xy - h.xy).length < 0.16 and p.z < h.z]
+        maillage = any(o.type == 'MESH' for o in objs)
+        # sans maillage, on ne connaît que l'articulation de la hanche : la peau est ~9 cm dessous
+        bas.append(min(p.z for p in bassin) - (0.0 if maillage else 0.09) if bassin else h.z - 0.12)
+        devant.append(pts)
+    dz = cfg["z_assise"] - min(bas)
+    ctrl.location.z += dz
+    niche = niche_comptoir(cfg["pos"][0])
+    dy = 0.0
+    for pts in devant:
+        for p in pts:
+            z = p.z + dz
+            if z >= 1.04:
+                continue                                  # au-dessus du plan de travail
+            if niche and z < NICHE["z_haut"] - 0.03 and abs(p.x - cfg["pos"][0]) < NICHE["demi_largeur"] - 0.04:
+                limite = NICHE["y_fond"] - 0.04
+            else:
+                limite = 3.40 - 0.03
+            dy = max(dy, p.y - limite)
+    if dy > 0:
+        ctrl.location.y -= dy
+        for ob in bpy.data.objects:
+            if ob.name.startswith("Tabouret_caisse_"):
+                ob.location.y -= dy
+    sc.frame_set(1)
+    log("caissière : assise à %.3f m (correction %+.3f), recul %.3f m" % (cfg["z_assise"], dz, dy))
+
+
 def personnages(dossier):
     coll = collection("FILM_Personnages", COLLS["FILM"])
     sc = bpy.context.scene
@@ -1049,13 +1240,15 @@ def personnages(dossier):
         else:
             poser_nla(arm, action)
             x, y = cfg["pos"]
-            z = cfg.get("z", 0.0)
-            if cfg["mode"] == "assis":
-                z = cfg["z_assise"] - 0.47                       # assise Mixamo standard ≈ 0,47 m
-                tabouret_caisse(cfg["pos"])
+            z = cfg.get("z", cfg.get("z_assise", 0.47) - 0.47)
             ctrl.location = (x, y, z)
             ctrl.rotation_euler = (0, 0, math.radians(cfg.get("rot_z_deg", 0.0)))
-            RAPPORT["personnages"].append("%s : %s en (%.2f, %.2f)" % (cfg["nom"], cfg["mode"], x, y))
+            if cfg["mode"] == "assis":
+                tabouret_caisse(cfg["pos"])
+                asseoir(ctrl, arm, objs, cfg)
+            RAPPORT["personnages"].append("%s : %s en (%.2f, %.2f, z %.2f)"
+                                          % (cfg["nom"], cfg["mode"], ctrl.location.x, ctrl.location.y,
+                                             ctrl.location.z))
         for o in objs:
             if o.type == 'MESH':
                 o.visible_shadow = True
@@ -1234,6 +1427,7 @@ def rapport_texte(chemin):
               "Produits importés (%d) :" % len(r["produits"])] + ["  - " + p for p in r["produits"]] + [
               "Produits en rayon : %d instances" % r["instances"],
               "Produits manquants (%d) : %s" % (len(r["manquants"]), ", ".join(r["manquants"]) or "aucun"),
+              "Orientation des étiquettes :"] + ["  - " + o for o in r["orientations"]] + [
               "Personnages (%d) :" % len(r["personnages"])] + ["  - " + p for p in r["personnages"]] + [
               "Objets créés : %d" % r["objets"],
               "Avertissements (%d)" % len(r["avertissements"])] + ["  - " + a for a in r["avertissements"]] + [

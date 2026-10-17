@@ -64,14 +64,17 @@ En plus : une étiquette de rayon par bloc de produits, des panneaux suspendus o
 et des plaques sur les portes du personnel. Aucun prix n'est inscrit : renseigner `PRIX`
 dans `generer_signaletique.py` puis relancer ce script pour les ajouter.
 
-Si une étiquette de produit ne regarde pas l'allée, régler `rot_z_deg` (90, 180 ou -90)
-pour ce produit dans `catalogue_produits.json`.
+**Orientation automatique des étiquettes** : pour chaque produit, le script lit sa texture et
+tourne vers l'allée la face la plus imprimée (logo, photo), face plane d'un doypack comme
+centre de l'étiquette d'une bouteille. L'angle retenu est écrit dans le rapport
+(« Orientation des étiquettes »). Pour forcer un angle, remplacer `null` par 0, 90, 180 ou
+-90 dans `rot_z_deg` du produit (`catalogue_produits.json`).
 
 ## Étape 2 — personnages Mixamo
 
 | Rôle | Fichiers | Placement |
 |---|---|---|
-| Caissière assise | `Ch41…` (maillage) + `Ch41…Sitting Talking` | Caisse 1, sur un tabouret haut créé pour elle, micro-animations en boucle |
+| Caissière assise | `Ch41…` (maillage) + `Ch41…Sitting Talking` | Caisse 1, sur un tabouret haut créé pour elle, micro-animations en boucle. Sa hauteur est mesurée sur son maillage (dessous des fesses = dessus de l'assise) et un dégagement pour les jambes est creusé sous le comptoir (booléen non destructif) |
 | Employé rayon épices | `Ch12…Walking` | Boucle entre les gondoles G, 1,26 m/s |
 | Employé rayon essentiels | `Ch28…Walking` | Boucle entre les gondoles D, décalée |
 | Agent de sécurité | `Ch18…Idle Looking` | Dehors, à gauche des portes, sous l'auvent |
