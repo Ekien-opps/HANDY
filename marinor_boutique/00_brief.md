@@ -1,6 +1,8 @@
-# CAHIER DES CHARGES : Magasin 3D Marin'Or Ivoire (version 2)
+# CAHIER DES CHARGES : Magasin 3D Marin'Or Ivoire (version 3)
 
 Document de référence. À relire au début de chaque nouvelle conversation, avec `elements.csv`.
+
+**Version 3** : le magasin ne change pas. Son éclairage est fortement renforcé, sans coin sombre : dalles LED encastrées, lécheurs de murs au-dessus des étagères et spots plus puissants. Le magasin est posé dans un **décor urbain de Cocody Riviera (Abidjan) à l'heure dorée** : `marinor_environnement.py`, §9.
 
 **Version 2** : surface agrandie de 60 à 384 m², mobilier et équipements de caisse inclus, locaux du personnel regroupés derrière un couloir fermé (les toilettes et le vestiaire ne sont jamais visibles depuis la salle de vente). Plan inspiré d'une supérette : locaux du personnel au fond, étagères murales sur le pourtour, vitrines réfrigérées au fond, gondoles en îlots, bacs de vrac au centre, caisses et bornes près de l'entrée.
 
@@ -14,7 +16,7 @@ Construire **le magasin meublé**, en 3D, dans **Blender 5.1**, pour une boutiqu
 
 **Exclus** : les **produits** (pots, sachets, bouteilles). Le client les place lui-même. Des **marqueurs vides** (`Zone_...`) indiquent les rayons.
 
-**Ambiance** : chaleureuse et naturelle. Bois, terre cuite, crème, bordeaux. Éclairage 2700 K.
+**Ambiance** : chaleureuse et naturelle. Bois, terre cuite, crème, bordeaux. Éclairage d'accent 2700 K (spots, suspensions, enseigne), éclairage général 3300 K blanc chaud (dalles LED, lécheurs de murs).
 
 ---
 
@@ -54,6 +56,8 @@ Construire **le magasin meublé**, en 3D, dans **Blender 5.1**, pour une boutiqu
 | `spot` | Lampe Spot 2700 K (#FFB46B) pointée vers -Z, plus un disque émissif de 0,10 m sous le plafond | ignorées |
 | `suspension` | Abat-jour cylindrique + lampe Point 2700 K au centre, au bas de l'abat-jour | diamètre × hauteur de l'abat-jour |
 | `area_light` | Lampe Area 2700 K, taille dim_x × dim_y, tournée vers l'enseigne (+Y) | dim_x × dim_y |
+| `panneau_led` | Dalle LED encastrée (version 3) : diffuseur émissif sous le plafond + lampe Area 3300 K de la taille de la dalle, vers le bas, invisible à la caméra | dim_x × dim_y × épaisseur |
+| `ruban_led` | Lécheur de mur (version 3) : profilé émissif au plafond + lampe Area 3300 K inclinée de rot_x vers l'avant du repère des meubles (-Y), orientée par rot_z (180 = vers +Y, 90 = vers +X, -90 = vers -X) | longueur × largeur × épaisseur |
 
 ### Types : meubles
 
@@ -187,6 +191,7 @@ Les fichiers `_roughness.jpg` et `_normal.jpg` sont optionnels, avec le même pr
 | `MAT_Tapis_Fibre` | Tapis d'entrée | `MAT_Tapis_Fibre_color.jpg` | #7B1421 |
 | `MAT_Logo` | Logo enseigne, tapis, mur de marque | `MAT_Logo_color.png` (fond transparent) | #FFECD1 |
 | `MAT_Lumiere_Emissive` | Disques des spots, éclairage des frigos | (émissif) | #fff1d6 |
+| `MAT_Panneau_LED` | Diffuseurs des dalles LED et des lécheurs (version 3) | (émissif) | #fff4e2 |
 | `MAT_Laque_Blanche` | Frigos, bornes, armoire, caissons de casiers | (couleur unie) | #f4f1ea |
 | `MAT_Metal_Galva` | Rayonnages de réserve | (couleur unie, métal) | #a3a8ad |
 | `MAT_Plastique_Noir` | Écrans, clavier, scanner, TPE, imprimante, tiroir-caisse, unités centrales | (couleur unie) | #161616 |
@@ -245,7 +250,7 @@ Format : JPG, **1024 × 1024 px**, texture répétable, raccord sans couture.
 4. **Portes** : pivots et vantaux comme décrit au §1.
 5. **Textures** : chemin relatif au `.blend` (`//textures/`), défini en constante en tête de script.
 6. **Logo** : `textures/MAT_Logo_color.png`. S'il est absent, plan de couleur crème et avertissement. Le ratio du plan suit celui de l'image.
-7. **Éclairage** : vraies lampes Blender, 2700 K. Les lampes d'un même type partagent leurs réglages ; intensité à régler par l'utilisateur.
+7. **Éclairage** : vraies lampes Blender, 2700 K (accents) et 3300 K (général). Les lampes d'un même type partagent leurs réglages ; les puissances sont des constantes en tête de `marinor_batiment.py` (§10).
 8. **Zones** : marqueurs vides, rien de visible.
 9. **Aucun produit**, même décoratif.
 10. **Relançable** : au démarrage, le script supprime les objets, collections et matériaux qu'il a créés.
@@ -262,9 +267,12 @@ marinor_boutique/
 ├── 00_brief.md
 ├── elements.csv                      (produit par generer_elements.py)
 ├── generer_elements.py               (plan du magasin)
-├── marinor_batiment.py               (script Blender 5.1)
+├── marinor_batiment.py               (script Blender 5.1 : le magasin)
+├── marinor_environnement.py          (script Blender 5.1 : décor de Cocody, §9)
+├── generer_textures_env.py           (refait les textures de végétation, Pillow)
 ├── colorimetrie_marque.txt           (charte de la marque)
 └── textures/
+    ├── env/                          (feuillages, palmes, fleurs, haie : PNG transparents)
     ├── MAT_Sol_Terracotta_color.jpg
     ├── MAT_Sol_BetonCire_color.jpg
     ├── MAT_Sol_Carrelage_Blanc_color.jpg
@@ -281,3 +289,99 @@ Le tapis a une texture gris rayé. Sa teinte se modifie dans le nœud « Teinte 
 ## 8. Validation
 
 Le script est testé avec Blender 5.1.2 (module Python) : construction sans erreur, relancement sans doublon, centres et dimensions conformes au CSV, aucune collision entre meubles et murs, test de visibilité des locaux du personnel (§2). En cas d'erreur chez vous, renvoyer le contenu du texte Blender `Rapport_Marinor` ou le message complet de la console.
+
+Version 3 : le décor est testé de la même façon (rapport `Rapport_Cocody`, 0 erreur, relancement sans doublon) et par des rendus Cycles des cinq caméras et de l'intérieur.
+
+---
+
+## 9. Décor urbain : Cocody Riviera à l'heure dorée (version 3)
+
+Script : `marinor_environnement.py`. On l'exécute dans Blender 5.1 comme le script du magasin. Si le magasin n'est pas dans la scène, il lance d'abord `marinor_batiment.py`. Il enregistre `marinor_cocody.blend` (le fichier `magasin_marinor.blend` reste le magasin seul). Il est relançable : tout ce qu'il crée porte la marque `marinor_env`. Le décor est reproductible : la constante `GRAINE` fixe le tirage aléatoire (même graine = même rue).
+
+### Implantation du magasin
+
+- Le magasin garde ses coordonnées : façade sur y = 0, rue du côté des y négatifs, sol fini à z = 0.
+- **Parcelle** x -4 à 38, y -7 à 20 :
+  - **parvis pavé** en pente douce de 1,8 % (z -0,025 au pied de la façade, -0,15 au trottoir), avec un seuil de 2,5 cm à l'entrée et 9 places de parking marquées ;
+  - **allée de service** à gauche, fermée par un portail plein à l'alignement de la façade, qui mène à la cour arrière et à la porte de livraison ;
+  - **jardin** à droite, derrière une grande jardinière basse plantée de palmiers royaux, et un mur blanc couvert de bougainvilliers ;
+  - **murs de clôture** blancs (bas devant, 2,60 m sur les côtés et au fond) ;
+  - **soubassement** gris de 25 cm au pied des murs extérieurs.
+- **Bateau** : bordure abaissée et accotement pavé devant le parvis, pour l'accès des voitures.
+
+### Profil de l'avenue (y), côté magasin puis côté opposé
+
+| Bande | y | Niveau z |
+|---|---|---|
+| Limite des parcelles (murs) | -7,00 | |
+| Bande plantée (haie, massifs) | -7,80 à -7,00 | -0,18 |
+| Trottoir pavé | -9,60 à -7,80 | -0,15 |
+| Accotement engazonné, arbres, lampadaires | -11,20 à -9,60 | -0,16 |
+| Bordure béton | -11,35 à -11,20 | -0,15 |
+| Chaussée 2 × 1 voie, axe discontinu, lignes de rive, caniveaux | -19,35 à -11,35 | -0,30 |
+| Bordure, accotement, trottoir, bande plantée (côté opposé) | -19,35 à -23,70 | idem |
+
+### Contenu
+
+- **Villas contemporaines**, des deux côtés, sur 1 km :
+  - hauts murs blancs à piliers, chaperons et appliques allumées, parfois surmontés d'une grille ;
+  - portail et portillon en fer forgé noir (barreaux, pointes de lance, volutes) ;
+  - maison à étage en porte-à-faux, dalles débordantes, grandes baies sombres, claustras bois, bande de pierre ; une sur trois a un toit à quatre pans.
+- **Végétation** :
+  - arbres d'alignement : flamboyants en fleurs, manguiers, palmiers royaux, fromagers à contreforts ;
+  - jardins : cocotiers, bananiers ;
+  - au pied des murs : hibiscus, bougainvilliers en cascade, haies taillées ;
+  - sur les accotements : touffes d'herbe.
+- **Arrière-quartier** de maisons et de jardins arborés, canopée lointaine, collines et silhouettes d'immeubles dans la brume.
+- **Voitures** :
+  - SUV noir et berline blanche sur le parking du magasin ;
+  - SUV bleu nuit, berlines et SUV dans l'avenue, sur leur voie (circulation à droite).
+- **Agent de sécurité** en uniforme devant un portail, avec une plaque « RIVIERA 3 » sur le mur.
+- **Lumière** :
+  - soleil bas de sud-ouest, à 17° de hauteur, 3600 K, ombres longues ;
+  - ciel physique bleu avec nuages dorés côté soleil ;
+  - brume chaude au loin.
+- **Caméras** :
+
+  | Caméra | Vue |
+  |---|---|
+  | `CAM_Avenue_Cocody` (active) | depuis la chaussée, comme la photo de référence |
+  | `CAM_Facade_Boutique` | façade vue du trottoir d'en face |
+  | `CAM_Trois_Quarts` | magasin de trois-quarts depuis la chaussée |
+  | `CAM_Parvis_Entree` | entrée et intérieur à travers la vitrine |
+  | `CAM_Drone` | vue aérienne |
+
+### Matériaux du décor
+
+- **Préfixe** : ils commencent par `ENV_`.
+- **Procéduraux** : sans fichier image (asphalte, pavés, gazon, enduits, écorces, peintures de voiture, etc.).
+- **Cartes de végétation** : les feuillages sont des plans avec les PNG transparents de `textures/env/`, produits par `generer_textures_env.py`.
+- **Brume** : chaque matériau passe par le groupe de nœuds `ENV_Brume`, qui ajoute la brume selon la distance à la caméra.
+- **Vitrines du magasin** : avec `VITRAGE_REALISTE_MAGASIN = True` (réglage par défaut), le matériau `MAT_Verre_Clair` devient un verre clair (transparent + reflet de Fresnel) dans `marinor_cocody.blend`, pour que l'intérieur éclairé se voie depuis la rue. La géométrie du magasin et `marinor_batiment.py` ne changent pas.
+
+### Réglages (constantes en tête de `marinor_environnement.py`)
+
+- **Soleil** : `SOLEIL_ELEVATION_DEG`, `SOLEIL_AZIMUT_DEG`, `SOLEIL_PUISSANCE`, `SOLEIL_TEMPERATURE_K`.
+- **Ciel** : `CIEL_PUISSANCE`, `CIEL_NUAGES`, `LUMINOSITE_NUAGES`.
+- **Brume** : `BRUME_DISTANCE_M`, `BRUME_FORCE`.
+- **Rendu** : `EXPOSITION`, `MOTEUR` (Cycles par défaut, EEVEE possible), `RESOLUTION`, `ECHANTILLONS_CYCLES`, `CAMERA_ACTIVE`.
+- **Rue** : `GRAINE` pour une autre rue.
+- **Vue dégagée** : `VUE_DEGAGEE_FACADE` et `VUE_DEGAGEE_NORD` gardent la façade au soleil en écartant les grands arbres côté ouest.
+
+Pour le rendu final, Cycles sur carte graphique (Préférences > Système > Cycles Render Devices), 256 échantillons, débruitage actif. Le fichier est déjà réglé ainsi, à part le choix de la carte graphique.
+
+---
+
+## 10. Éclairage du magasin (version 3)
+
+| Source | Nombre | Réglage (en tête de `marinor_batiment.py`) | Version 2 |
+|---|---|---|---|
+| Spots 2700 K, angle 100° | 36 | `PUISSANCE_SPOT_W = 100` | 60 W, 80° |
+| Suspensions 2700 K | 6 | `PUISSANCE_SUSPENSION_W = 60` | 40 W |
+| Enseigne (Area 2700 K) | 1 | `PUISSANCE_ENSEIGNE_W = 120` | 35 W |
+| Dalles LED 3300 K encastrées (0,60 m ; 0,45 m dans le WC et le local technique) | 29 en salle, 13 dans les locaux du personnel | `PUISSANCE_DALLE_W_M2 = 90` (32 W par dalle de 0,60 m) | aucune |
+| Lécheurs de murs 3300 K (étagères gauche, droite, fond, vitrines réfrigérées) | 4 | `PUISSANCE_LECHEUR_W_M = 20` par mètre | aucun |
+
+- **Emplacement des dalles** : elles sont au milieu des mailles de spots, avec une rangée le long des vitrines et une le long du fond. Les lécheurs sont au plafond, à environ 1 m des étagères, inclinés de 35° vers elles. Chaque pièce du personnel a au moins une dalle.
+- **Numérotation** : les nouvelles lignes sont ajoutées à la fin de `elements.csv` (lignes 326 à 371), donc les numéros des lignes existantes, et les « enfant de NNN », ne changent pas.
+- **Réglage global** : pour tout éclaircir ou assombrir d'un coup, on modifie `EXPOSITION` (décor) ou l'exposition de la vue dans Blender (Rendu > Gestion des couleurs).

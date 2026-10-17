@@ -324,3 +324,49 @@ id,nom,type,collection,x,y,z,dim_x,dim_y,dim_z,rot_x_deg,rot_z_deg,materiau,note
 323,Zone_Vestiaire,empty,Zones,16.45,14.7,0,3.1,2.2,0,0,0,,vestiaire
 324,Zone_Pause,empty,Zones,19.95,14.7,0,3.7,2.2,0,0,0,,salle de pause
 325,Zone_Local_technique,empty,Zones,22.85,14.7,0,1.9,2.2,0,0,0,,local technique
+326,Dalle_vente_R1C1,panneau_led,Eclairage,1,0.9,3.465,0.6,0.6,0.01,0,0,MAT_Panneau_LED,dalle LED 0.60 m 3300K vers le bas
+327,Dalle_vente_R1C2,panneau_led,Eclairage,3.95,0.9,3.465,0.6,0.6,0.01,0,0,MAT_Panneau_LED,dalle LED 0.60 m 3300K vers le bas
+328,Dalle_vente_R1C3,panneau_led,Eclairage,7.85,0.9,3.465,0.6,0.6,0.01,0,0,MAT_Panneau_LED,dalle LED 0.60 m 3300K vers le bas
+329,Dalle_vente_R1C4,panneau_led,Eclairage,12,0.9,3.465,0.6,0.6,0.01,0,0,MAT_Panneau_LED,dalle LED 0.60 m 3300K vers le bas
+330,Dalle_vente_R1C5,panneau_led,Eclairage,16.15,0.9,3.465,0.6,0.6,0.01,0,0,MAT_Panneau_LED,dalle LED 0.60 m 3300K vers le bas
+331,Dalle_vente_R1C6,panneau_led,Eclairage,20.05,0.9,3.465,0.6,0.6,0.01,0,0,MAT_Panneau_LED,dalle LED 0.60 m 3300K vers le bas
+332,Dalle_vente_R1C7,panneau_led,Eclairage,23,0.9,3.465,0.6,0.6,0.01,0,0,MAT_Panneau_LED,dalle LED 0.60 m 3300K vers le bas
+333,Dalle_vente_R2C1,panneau_led,Eclairage,1,3,3.465,0.6,0.6,0.01,0,0,MAT_Panneau_LED,dalle LED 0.60 m 3300K vers le bas
+334,Dalle_vente_R2C2,panneau_led,Eclairage,3.95,3,3.465,0.6,0.6,0.01,0,0,MAT_Panneau_LED,dalle LED 0.60 m 3300K vers le bas
+335,Dalle_vente_R2C3,panneau_led,Eclairage,7.85,3,3.465,0.6,0.6,0.01,0,0,MAT_Panneau_LED,dalle LED 0.60 m 3300K vers le bas
+336,Dalle_vente_R2C4,panneau_led,Eclairage,12,3,3.465,0.6,0.6,0.01,0,0,MAT_Panneau_LED,dalle LED 0.60 m 3300K vers le bas
+337,Dalle_vente_R2C5,panneau_led,Eclairage,16.15,3,3.465,0.6,0.6,0.01,0,0,MAT_Panneau_LED,dalle LED 0.60 m 3300K vers le bas
+338,Dalle_vente_R2C6,panneau_led,Eclairage,20.05,3,3.465,0.6,0.6,0.01,0,0,MAT_Panneau_LED,dalle LED 0.60 m 3300K vers le bas
+339,Dalle_vente_R2C7,panneau_led,Eclairage,23,3,3.465,0.6,0.6,0.01,0,0,MAT_Panneau_LED,dalle LED 0.60 m 3300K vers le bas
+340,Dalle_vente_R3C2,panneau_led,Eclairage,3.95,5.9,3.465,0.6,0.6,0.01,0,0,MAT_Panneau_LED,dalle LED 0.60 m 3300K vers le bas
+341,Dalle_vente_R3C3,panneau_led,Eclairage,7.85,5.9,3.465,0.6,0.6,0.01,0,0,MAT_Panneau_LED,dalle LED 0.60 m 3300K vers le bas
+342,Dalle_vente_R3C4,panneau_led,Eclairage,12,5.9,3.465,0.6,0.6,0.01,0,0,MAT_Panneau_LED,dalle LED 0.60 m 3300K vers le bas
+343,Dalle_vente_R3C5,panneau_led,Eclairage,16.15,5.9,3.465,0.6,0.6,0.01,0,0,MAT_Panneau_LED,dalle LED 0.60 m 3300K vers le bas
+344,Dalle_vente_R3C6,panneau_led,Eclairage,20.05,5.9,3.465,0.6,0.6,0.01,0,0,MAT_Panneau_LED,dalle LED 0.60 m 3300K vers le bas
+345,Dalle_vente_R4C2,panneau_led,Eclairage,3.95,8.9,3.465,0.6,0.6,0.01,0,0,MAT_Panneau_LED,dalle LED 0.60 m 3300K vers le bas
+346,Dalle_vente_R4C3,panneau_led,Eclairage,7.85,8.9,3.465,0.6,0.6,0.01,0,0,MAT_Panneau_LED,dalle LED 0.60 m 3300K vers le bas
+347,Dalle_vente_R4C4,panneau_led,Eclairage,12,8.9,3.465,0.6,0.6,0.01,0,0,MAT_Panneau_LED,dalle LED 0.60 m 3300K vers le bas
+348,Dalle_vente_R4C5,panneau_led,Eclairage,16.15,8.9,3.465,0.6,0.6,0.01,0,0,MAT_Panneau_LED,dalle LED 0.60 m 3300K vers le bas
+349,Dalle_vente_R4C6,panneau_led,Eclairage,20.05,8.9,3.465,0.6,0.6,0.01,0,0,MAT_Panneau_LED,dalle LED 0.60 m 3300K vers le bas
+350,Dalle_vente_R5C2,panneau_led,Eclairage,3.95,11.3,3.465,0.6,0.6,0.01,0,0,MAT_Panneau_LED,dalle LED 0.60 m 3300K vers le bas
+351,Dalle_vente_R5C3,panneau_led,Eclairage,7.85,11.3,3.465,0.6,0.6,0.01,0,0,MAT_Panneau_LED,dalle LED 0.60 m 3300K vers le bas
+352,Dalle_vente_R5C4,panneau_led,Eclairage,12,11.3,3.465,0.6,0.6,0.01,0,0,MAT_Panneau_LED,dalle LED 0.60 m 3300K vers le bas
+353,Dalle_vente_R5C5,panneau_led,Eclairage,16.15,11.3,3.465,0.6,0.6,0.01,0,0,MAT_Panneau_LED,dalle LED 0.60 m 3300K vers le bas
+354,Dalle_vente_R5C6,panneau_led,Eclairage,20.05,11.3,3.465,0.6,0.6,0.01,0,0,MAT_Panneau_LED,dalle LED 0.60 m 3300K vers le bas
+355,Lecheur_gauche,ruban_led,Eclairage,1.25,8.15,3.46,6.9,0.06,0.02,-35,-90,MAT_Panneau_LED,"lecheur de mur 3300K, incline vers les etageres (-x)"
+356,Lecheur_droite,ruban_led,Eclairage,22.75,8.2,3.46,5.8,0.06,0.02,-35,90,MAT_Panneau_LED,"lecheur de mur 3300K, incline vers les etageres (+x)"
+357,Lecheur_fond,ruban_led,Eclairage,15.6,10.85,3.46,11.8,0.06,0.02,-35,180,MAT_Panneau_LED,"lecheur de mur 3300K, incline vers les etageres (+y)"
+358,Lecheur_frigos,ruban_led,Eclairage,3.5,10.55,3.46,4.8,0.06,0.02,-35,180,MAT_Panneau_LED,"lecheur de mur 3300K, incline vers les etageres (+y)"
+359,Dalle_reserve_1,panneau_led,Eclairage,4.45,13.3,3.465,0.6,0.6,0.01,0,0,MAT_Panneau_LED,dalle LED 0.60 m 3300K vers le bas
+360,Dalle_reserve_2,panneau_led,Eclairage,4.45,14.9,3.465,0.6,0.6,0.01,0,0,MAT_Panneau_LED,dalle LED 0.60 m 3300K vers le bas
+361,Dalle_reserve_3,panneau_led,Eclairage,1.2,14.1,3.465,0.6,0.6,0.01,0,0,MAT_Panneau_LED,dalle LED 0.60 m 3300K vers le bas
+362,Dalle_reserve_4,panneau_led,Eclairage,7.9,14.1,3.465,0.6,0.6,0.01,0,0,MAT_Panneau_LED,dalle LED 0.60 m 3300K vers le bas
+363,Dalle_couloir_1,panneau_led,Eclairage,10.2,12.8,3.465,0.6,0.6,0.01,0,0,MAT_Panneau_LED,dalle LED 0.60 m 3300K vers le bas
+364,Dalle_couloir_2,panneau_led,Eclairage,14,12.8,3.465,0.6,0.6,0.01,0,0,MAT_Panneau_LED,dalle LED 0.60 m 3300K vers le bas
+365,Dalle_couloir_3,panneau_led,Eclairage,19,12.8,3.465,0.6,0.6,0.01,0,0,MAT_Panneau_LED,dalle LED 0.60 m 3300K vers le bas
+366,Dalle_couloir_4,panneau_led,Eclairage,23.1,12.8,3.465,0.6,0.6,0.01,0,0,MAT_Panneau_LED,dalle LED 0.60 m 3300K vers le bas
+367,Dalle_bureau,panneau_led,Eclairage,11.05,15.3,3.465,0.6,0.6,0.01,0,0,MAT_Panneau_LED,dalle LED 0.60 m 3300K vers le bas
+368,Dalle_WC,panneau_led,Eclairage,13.95,15.3,3.465,0.45,0.45,0.01,0,0,MAT_Panneau_LED,dalle LED 0.45 m 3300K vers le bas
+369,Dalle_vestiaire,panneau_led,Eclairage,16.45,15.3,3.465,0.6,0.6,0.01,0,0,MAT_Panneau_LED,dalle LED 0.60 m 3300K vers le bas
+370,Dalle_pause,panneau_led,Eclairage,19.95,15.3,3.465,0.6,0.6,0.01,0,0,MAT_Panneau_LED,dalle LED 0.60 m 3300K vers le bas
+371,Dalle_local_technique,panneau_led,Eclairage,22.825,15.3,3.465,0.45,0.45,0.01,0,0,MAT_Panneau_LED,dalle LED 0.45 m 3300K vers le bas

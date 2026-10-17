@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 """
-Génère elements.csv : plan du magasin Marin'Or Ivoire (version 2, 24 x 16 m).
+Génère elements.csv : plan du magasin Marin'Or Ivoire (version 3, 24 x 16 m : plan de la version 2, éclairage renforcé).
 
 Python 3 seul, sans Blender :  python3 generer_elements.py
 Le plan (cotes, meubles, lampes) se modifie ici, puis on relance ce script
@@ -147,6 +147,22 @@ def suspension(nom, x, y, z_bas, notes):
     l = Z_PLAFOND - (z_bas + h_abat)
     ajouter(nom + "_cable", "cylinder", "Eclairage", x, y, z_bas + h_abat + l / 2, 0.01, 0.01, l,
             mat="MAT_Alu_Cadre", notes="cable jusqu au plafond")
+
+
+def panneau(nom, x, y, cote=0.60):
+    """Dalle LED encastrée au plafond : diffuseur émissif + lampe Area vers le bas."""
+    ajouter(nom, "panneau_led", "Eclairage", x, y, Z_PLAFOND - 0.005, cote, cote, 0.01,
+            mat="MAT_Panneau_LED", notes="dalle LED %.2f m 3300K vers le bas" % cote)
+
+
+def ruban(nom, x0, y0, x1, y1, vers):
+    """Lécheur de mur : profilé LED au plafond, parallèle au mur, incliné vers les
+    étagères. vers = direction du mur : '-x', '+x' ou '+y'."""
+    longueur = abs(x1 - x0) + abs(y1 - y0)
+    rz = {"+y": 180.0, "+x": 90.0, "-x": -90.0}[vers]     # repère des meubles : avant vers -Y
+    ajouter(nom, "ruban_led", "Eclairage", (x0 + x1) / 2, (y0 + y1) / 2, Z_PLAFOND - 0.01,
+            longueur, 0.06, 0.02, rx=-35.0, rz=rz, mat="MAT_Panneau_LED",
+            notes="lecheur de mur 3300K, incline vers les etageres (%s)" % vers)
 
 
 def meuble(nom, typ, coll, x, y, dx, dy, dz, mat, rz=0.0, z_bas=0.0, notes=""):
@@ -434,6 +450,35 @@ zone("Zone_WC", X_PIECES[0] + CL / 2, X_PIECES[1] - CL / 2, Y_COUL + CL / 2, D -
 zone("Zone_Vestiaire", X_PIECES[1] + CL / 2, X_PIECES[2] - CL / 2, Y_COUL + CL / 2, D - EP, "vestiaire")
 zone("Zone_Pause", X_PIECES[2] + CL / 2, X_PIECES[3] - CL / 2, Y_COUL + CL / 2, D - EP, "salle de pause")
 zone("Zone_Local_technique", X_PIECES[3] + CL / 2, W - EP, Y_COUL + CL / 2, D - EP, "local technique")
+
+# =============================================================================
+# ÉCLAIRAGE RENFORCÉ (version 3) : aucun coin sombre
+# Ajouté en fin de fichier pour garder les numéros des lignes précédentes.
+# Dalles LED entre les spots, lécheurs de murs au-dessus des étagères, une
+# dalle au moins par pièce du personnel.
+# =============================================================================
+
+# Salle de vente : dalles au milieu des mailles de spots, plus une rangée le
+# long des vitrines et une le long du fond.
+for r, y in enumerate([0.9, 3.0, 5.9, 8.9, 11.3], 1):
+    for c, x in enumerate([1.0, 3.95, 7.85, 12.0, 16.15, 20.05, 23.0], 1):
+        if c in (1, 7) and y > 4.5:
+            continue                    # le long des étagères latérales : lécheurs
+        panneau("Dalle_vente_R%dC%d" % (r, c), x, y)
+# Lécheurs : étagères gauche, droite, fond, vitrines réfrigérées.
+ruban("Lecheur_gauche", 1.25, 4.7, 1.25, 11.6, "-x")
+ruban("Lecheur_droite", W - 1.25, 5.3, W - 1.25, 11.1, "+x")
+ruban("Lecheur_fond", 9.7, 10.85, 21.5, 10.85, "+y")
+ruban("Lecheur_frigos", 1.1, 10.55, 5.9, 10.55, "+y")
+# Locaux du personnel
+for i, (x, y) in enumerate([(4.45, 13.3), (4.45, 14.9), (1.2, 14.1), (7.9, 14.1)], 1):
+    panneau("Dalle_reserve_%d" % i, x, y)
+for i, x in enumerate([10.2, 14.0, 19.0, 23.1], 1):
+    panneau("Dalle_couloir_%d" % i, x, 12.8)
+for nom_d, xa, xb in [("Dalle_bureau", X_RES, X_PIECES[0]), ("Dalle_WC", X_PIECES[0], X_PIECES[1]),
+                      ("Dalle_vestiaire", X_PIECES[1], X_PIECES[2]), ("Dalle_pause", X_PIECES[2], X_PIECES[3]),
+                      ("Dalle_local_technique", X_PIECES[3], W - EP)]:
+    panneau(nom_d, (xa + xb) / 2, 15.3, cote=0.60 if xb - xa > 2.2 else 0.45)
 
 
 if __name__ == "__main__":

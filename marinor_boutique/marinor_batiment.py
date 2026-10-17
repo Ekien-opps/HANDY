@@ -44,14 +44,21 @@ BLEND_NAME = "magasin_marinor.blend"
 # Marque posée sur tout ce que le script crée (sert au nettoyage au relancement).
 TAG = "marinor_genere"
 
-# Éclairage 2700 K. Les lampes de même type partagent leurs données :
-# changer la puissance d'un spot change celle de tous les spots.
+# Éclairage (version 3, renforcé : aucun coin sombre). Les lampes de même
+# type partagent leurs données : changer la puissance d'un spot change celle
+# de tous les spots. Accents (spots, suspensions, enseigne) en 2700 K ;
+# éclairage général (dalles LED, lécheurs de murs) en 3300 K, blanc chaud.
 TEMPERATURE_K = 2700.0
+TEMPERATURE_GENERALE_K = 3300.0
 COULEUR_2700K = "#FFB46B"           # utilisée si la température n'est pas disponible
-PUISSANCE_SPOT_W = 60.0
-ANGLE_SPOT_DEG = 80.0
-PUISSANCE_SUSPENSION_W = 40.0
-PUISSANCE_ENSEIGNE_W = 35.0
+COULEUR_3000K = "#FFCB98"           # 3300 K
+PUISSANCE_SPOT_W = 100.0            # version 2 : 60 W
+ANGLE_SPOT_DEG = 100.0              # version 2 : 80°
+PUISSANCE_SUSPENSION_W = 60.0       # version 2 : 40 W
+PUISSANCE_ENSEIGNE_W = 120.0        # version 2 : 35 W
+PUISSANCE_DALLE_W_M2 = 90.0         # dalles LED : puissance par m² (0,60 m -> 32 W)
+PUISSANCE_LECHEUR_W_M = 20.0        # lécheurs de murs : puissance par mètre
+EMISSION_DALLE = 6.0                # luminosité visible du diffuseur des dalles
 DIAMETRE_DISQUE_SPOT = 0.10         # §1 : disque émissif de 0,10 m
 
 # Lampe Area de l'enseigne. Elle est placée devant l'enseigne (y < 0) :
@@ -89,6 +96,8 @@ MATERIAUX = {
     "MAT_Tapis_Fibre":         dict(couleur="#7B1421", texture="requise",     tuile=0.8, rugosite=0.95, teinte=True),
     "MAT_Logo":                dict(couleur="#FFECD1", texture="requise",     rugosite=0.50, logo=True),
     "MAT_Lumiere_Emissive":    dict(couleur="#fff1d6", texture=None,          rugosite=0.50, emission=8.0),
+    "MAT_Panneau_LED":         dict(couleur="#fff4e2", texture=None,          rugosite=0.50,
+                                    emission=EMISSION_DALLE, couleur_emission="#ffe3bf"),
     # Mobilier et équipements
     "MAT_Laque_Blanche":       dict(couleur="#f4f1ea", texture=None,          rugosite=0.30),
     "MAT_Metal_Galva":         dict(couleur="#a3a8ad", texture=None,          rugosite=0.35, metal=0.9),
@@ -756,22 +765,23 @@ def maillage_meuble(nom, typ, dim):
 # LAMPES
 # =============================================================================
 
-def couleur_2700k(lum):
+def couleur_2700k(lum, temperature=TEMPERATURE_K):
     if hasattr(lum, "use_temperature") and hasattr(lum, "temperature"):
         lum.use_temperature = True
-        lum.temperature = TEMPERATURE_K
+        lum.temperature = temperature
         lum.color = (1.0, 1.0, 1.0)
     else:
-        lum.color = hex_vers_lineaire(COULEUR_2700K)[:3]
+        secours = COULEUR_2700K if temperature <= TEMPERATURE_K else COULEUR_3000K
+        lum.color = hex_vers_lineaire(secours)[:3]
 
 
-def donnees_lampe(nom, type_lampe, puissance):
+def donnees_lampe(nom, type_lampe, puissance, temperature=TEMPERATURE_K):
     lum = bpy.data.lights.get(nom)
     if lum is not None and lum.get(TAG):
         return lum
     lum = marquer(bpy.data.lights.new(nom, type_lampe))
     lum.energy = puissance
-    couleur_2700k(lum)
+    couleur_2700k(lum, temperature)
     if type_lampe == 'SPOT':
         lum.spot_size = math.radians(ANGLE_SPOT_DEG)
         lum.spot_blend = 0.4
@@ -779,6 +789,12 @@ def donnees_lampe(nom, type_lampe, puissance):
     elif type_lampe == 'POINT':
         lum.shadow_soft_size = 0.03
     return lum
+
+
+def lampe_invisible_camera(ob):
+    """La lampe éclaire et se reflète ; le diffuseur visible est le maillage émissif."""
+    if hasattr(ob, "visible_camera"):
+        ob.visible_camera = False
 
 
 # =============================================================================
@@ -857,6 +873,31 @@ def construire_ligne(l, collections, materiaux, logo_img):
         ob = nouvel_objet(nom, maillage_cylindre(nom, dim.x, dim.z, fond=False), coll, l)
         lum = donnees_lampe("LUM_Suspension_2700K", 'POINT', PUISSANCE_SUSPENSION_W)
         enfant_annexe(ob, nom + "_lampe", lum, coll, (0, 0, -dim.z / 2 + 0.03))
+
+    elif typ == "panneau_led":
+        # Diffuseur émissif carré sous le plafond ; lampe Area juste dessous, vers le bas.
+        ob = nouvel_objet(nom, maillage_box(nom, dim, pos), coll, l)
+        ob.visible_shadow = False
+        cote = round(dim.x, 2)
+        lum = donnees_lampe("LUM_Dalle_LED_%d" % round(cote * 100), 'AREA',
+                            PUISSANCE_DALLE_W_M2 * dim.x * dim.y, TEMPERATURE_GENERALE_K)
+        lum.shape = 'RECTANGLE'
+        lum.size, lum.size_y = dim.x * 0.96, dim.y * 0.96
+        lampe = enfant_annexe(ob, nom + "_lampe", lum, coll, (0, 0, -dim.z / 2 - 0.002))
+        lampe_invisible_camera(lampe)
+
+    elif typ == "ruban_led":
+        # Profilé LED : ruban émissif ; lampe Area inclinée par rot_x vers l'avant
+        # (-Y local), donc vers le mur après rot_z (repère des meubles).
+        ob = nouvel_objet(nom, maillage_box(nom, dim, Vector((0, 0, 0))), coll, l)
+        ob.visible_shadow = False
+        lum = donnees_lampe("LUM_" + nom, 'AREA', PUISSANCE_LECHEUR_W_M * dim.x, TEMPERATURE_GENERALE_K)
+        lum.shape = 'RECTANGLE'
+        lum.size, lum.size_y = dim.x, max(dim.y, 0.05)
+        lampe = enfant_annexe(ob, nom + "_lampe", lum, coll, (0, 0, -dim.z / 2 - 0.002))
+        lampe.rotation_euler = (math.radians(l["rot_x"]), 0.0, 0.0)
+        lampe_invisible_camera(lampe)
+        rot = Euler((0.0, 0.0, math.radians(l["rot_z"])), 'XYZ')
 
     elif typ == "area_light":
         lum = donnees_lampe("LUM_" + nom, 'AREA', PUISSANCE_ENSEIGNE_W)
@@ -972,7 +1013,7 @@ def rapport_texte(chemin_blend):
     r = RAPPORT
     lignes = ["=" * 64, "RAPPORT Marin'Or Ivoire", "=" * 64]
     lignes.append("Objets créés (lignes du CSV) : %d" % r["objets_csv"])
-    lignes.append("Objets annexes (lampes des spots et suspensions) : %d" % r["objets_annexes"])
+    lignes.append("Objets annexes (lampes des spots, suspensions, dalles et lécheurs) : %d" % r["objets_annexes"])
     lignes.append("Total : %d" % (r["objets_csv"] + r["objets_annexes"]))
     lignes.append("Textures chargées (%d) : %s" % (len(r["textures_chargees"]), ", ".join(r["textures_chargees"]) or "aucune"))
     requises = [f for f, t in r["textures_manquantes"] if t == "requise"]
