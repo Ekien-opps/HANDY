@@ -29,6 +29,9 @@ marinor_boutique/
 └── personnages/                    les FBX Mixamo (contenu de « Animations pus trouvées.zip »)
 ```
 
+Le dossier `textures/signaletique/` doit être à côté du script ; s'il a été décompressé ailleurs dans le
+dossier du projet, le script le retrouve et l'indique dans la console.
+
 Ouvrir `marinor_cocody.blend` dans Blender 5.1, onglet Scripting, ouvrir
 `marinor_mise_en_scene.py`, Exécuter. Le script enregistre `marinor_film.blend` et écrit
 un rapport dans le texte Blender `Rapport_Film` (produits importés, instances, personnages,

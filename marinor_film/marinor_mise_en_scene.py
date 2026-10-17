@@ -311,6 +311,23 @@ def cylindre(nom, diametre, hauteur, coll, loc, mat, segments=24, rot=(0, 0, 0))
     return objet(nom, me, coll, loc, rot)
 
 
+def dossier_signaletique(dossier):
+    """textures/signaletique à côté du script ; sinon le premier dossier « signaletique »
+    contenant des ETQ_*.png trouvé dans le dossier du projet (archive décompressée ailleurs)."""
+    prefere = os.path.join(dossier, SIGNALETIQUE)
+    if glob.glob(os.path.join(prefere, "ETQ_*.png")):
+        return prefere
+    for racine, sous, fichiers in os.walk(dossier):
+        if racine[len(dossier):].count(os.sep) > 5:
+            sous[:] = []
+            continue
+        if os.path.basename(racine).lower() == "signaletique" and any(f.startswith("ETQ_") for f in fichiers):
+            log("signalétique trouvée dans " + racine)
+            return racine
+    avertir("dossier textures/signaletique introuvable : étiquettes et panneaux en couleur unie")
+    return prefere
+
+
 def lire_csv(dossier):
     import csv
     meubles = {}
@@ -460,7 +477,7 @@ def niveaux_frigo(H):
 
 def etiquette(M, x, y, z, pid, coll, sens=-1.0):
     """Étiquette de rayon 10 x 3 cm sur le porte-étiquettes."""
-    mat = mat_image("ETQ_" + pid, os.path.join(DOSSIER_ABS, SIGNALETIQUE, "ETQ_%s.png" % pid), 0.35)
+    mat = mat_image("ETQ_" + pid, os.path.join(DOSSIER_SIGN, "ETQ_%s.png" % pid), 0.35)
     rot = M.to_euler().z + (0.0 if sens < 0 else math.pi)
     loc = M @ Vector((x, y, z))
     plan("Etiquette_%s" % pid, 0.10, 0.03, coll, loc, (math.radians(90), 0, rot), mat)
@@ -603,10 +620,12 @@ def tas_vrac(nom, coll, centre, cw, cd, z0, hauteur, couleur, graines=False):
     for j in range(ny + 1):
         for i in range(nx + 1):
             u, v = i / nx * 2 - 1, j / ny * 2 - 1
-            r2 = min(1.0, (u * u + v * v) * 0.75)
+            du, dv = u - 0.12, v + 0.08                       # sommet légèrement décentré
+            r = min(1.0, math.sqrt(du * du * 0.9 + dv * dv) / 1.25)
             bord = max(abs(u), abs(v))
-            hz = hauteur * (0.55 + 0.45 * (1 - r2) ** 1.4) * (1 - 0.25 * bord ** 6)
-            hz += rg.uniform(-0.004, 0.004)
+            dome = (1 - r * r) ** 1.2                          # tas versé à la pelle
+            hz = hauteur * (0.62 + 0.38 * dome) - 0.012 * bord ** 8
+            hz += 0.004 * math.sin(7 * u + 3 * v) + rg.uniform(-0.0025, 0.0025)
             verts.append((u * cw / 2, v * cd / 2, hz))
     for j in range(ny):
         for i in range(nx):
@@ -619,16 +638,45 @@ def tas_vrac(nom, coll, centre, cw, cd, z0, hauteur, couleur, graines=False):
     m.use_nodes = True
     nt = m.node_tree
     b = nt.nodes.get("Principled BSDF")
-    b.inputs["Base Color"].default_value = hex_lin(couleur)
     b.inputs["Roughness"].default_value = 0.95
+    base = hex_lin(couleur)
+    # teinte nuancée (grains plus sombres / plus clairs) : la poudre ne doit pas paraître unie
+    var = nt.nodes.new("ShaderNodeTexNoise")
+    var.inputs["Scale"].default_value = 35.0
+    var.inputs["Detail"].default_value = 8.0
+    rampe = nt.nodes.new("ShaderNodeValToRGB")
+    rampe.color_ramp.elements[0].color = tuple(c * 0.55 for c in base[:3]) + (1.0,)
+    rampe.color_ramp.elements[1].color = tuple(min(1.0, c * 1.15) for c in base[:3]) + (1.0,)
+    nt.links.new(var.outputs["Fac"], rampe.inputs["Fac"])
+    nt.links.new(rampe.outputs["Color"], b.inputs["Base Color"])
     tex = nt.nodes.new("ShaderNodeTexVoronoi" if graines else "ShaderNodeTexNoise")
-    tex.inputs["Scale"].default_value = 220.0 if graines else 90.0
+    tex.inputs["Scale"].default_value = 260.0 if graines else 140.0
     bump = nt.nodes.new("ShaderNodeBump")
-    bump.inputs["Strength"].default_value = 0.6 if graines else 0.25
-    nt.links.new(tex.outputs[0] if not graines else tex.outputs["Distance"], bump.inputs["Height"])
+    bump.inputs["Strength"].default_value = 0.85 if graines else 0.45
+    nt.links.new(tex.outputs["Distance"] if graines else tex.outputs[0], bump.inputs["Height"])
     nt.links.new(bump.outputs["Normal"], b.inputs["Normal"])
     me.materials.append(m)
     return objet(nom, me, coll, (centre.x, centre.y, z0))
+
+
+def pelle_doseuse(nom, coll, loc, mat, rot_z):
+    """Pelle à épices en inox : godet ouvert (Ø 7 cm) et manche, inclinée et à demi enfoncée."""
+    me = marquer(bpy.data.meshes.new(nom))
+    bm = bmesh.new()
+    bmesh.ops.create_cone(bm, cap_ends=False, segments=20, radius1=0.032, radius2=0.035, depth=0.065)
+    fond = bmesh.ops.create_circle(bm, segments=20, radius=0.032, cap_ends=True)
+    bmesh.ops.translate(bm, vec=(0, 0, -0.0325), verts=fond["verts"])
+    manche = bmesh.ops.create_cone(bm, cap_ends=True, segments=10, radius1=0.007, radius2=0.007, depth=0.11)
+    bmesh.ops.rotate(bm, cent=(0, 0, 0), matrix=Matrix.Rotation(math.radians(90), 3, 'Y'), verts=manche["verts"])
+    bmesh.ops.translate(bm, vec=(0.035 + 0.055, 0, 0.01), verts=manche["verts"])
+    bm.to_mesh(me)
+    bm.free()
+    for p in me.polygons:
+        p.use_smooth = True
+    me.materials.append(mat)
+    ob = objet(nom, me, coll, loc, (0, math.radians(-38), rot_z))
+    ob.modifiers.new("Epaisseur", 'SOLIDIFY').thickness = 0.0015
+    return ob
 
 
 def vrac(produits, meubles):
@@ -637,7 +685,7 @@ def vrac(produits, meubles):
                "epice_poulet", "epice_poisson", "poudre_djoumble", "graines_akpi"],
               ["piment", "paprika", "epice_poisson", "epice_poulet",
                "graines_akpi", "poudre_djoumble", "poudre_poisson", "bouillon_poulet"])
-    pelle = mat_existant("MAT_Alu_Cadre", "#2b2b2b")
+    inox = mat_uni("Inox_pelle", "#cfd2d4", 0.22, metal=1.0)
     for k in range(2):
         nom = "Presentoir_vrac_%d" % (k + 1)
         M, dims = matrice_meuble(nom, meubles)
@@ -654,16 +702,16 @@ def vrac(produits, meubles):
                 xc = -L / 2 + (i + 0.5) * L / cols
                 c = M @ Vector((xc, yc, 0))
                 tas_vrac("Vrac_%d_%s" % (k + 1, pid), coll, c, cw - 2 * e - 0.004, cd - 2 * e - 0.004,
-                         M.translation.z + zb + e, 0.115, p["couleur"], graines=(pid == "graines_akpi"))
+                         M.translation.z + zb + e, 0.165, p["couleur"], graines=(pid == "graines_akpi"))
                 # chevalet incliné sur le bord avant du bac
-                carte = mat_image("VRAC_" + pid, os.path.join(DOSSIER_ABS, SIGNALETIQUE, "VRAC_%s.png" % pid))
+                carte = mat_image("VRAC_" + pid, os.path.join(DOSSIER_SIGN, "VRAC_%s.png" % pid))
                 pos = M @ Vector((xc, yc - cd / 2 - 0.01, zb + 0.14 + 0.045))
                 plan("Chevalet_%d_%s" % (k + 1, pid), 0.12, 0.08, coll, pos,
                      (math.radians(70), 0, M.to_euler().z), carte)
                 # pelle doseuse plantée dans le tas
-                pl = cylindre("Pelle_%d_%s" % (k + 1, pid), 0.055, 0.09, coll,
-                              M @ Vector((xc + cw * 0.25, yc + cd * 0.15, zb + 0.16)), pelle, 16,
-                              rot=(math.radians(55), 0, M.to_euler().z + 0.6))
+                pelle_doseuse("Pelle_%d_%s" % (k + 1, pid), coll,
+                              M @ Vector((xc + cw * 0.22, yc + cd * 0.12, zb + e + 0.15)), inox,
+                              M.to_euler().z + 0.7)
 
 
 def degustation(produits, meubles):
@@ -692,7 +740,7 @@ def reserve(produits, meubles):
     coll = collection("FILM_Reserve", COLLS["FILM"])
     rg = random.Random(GRAINE + 3)
     ids = list(produits)
-    mats = {pid: mat_image("CARTON_" + pid, os.path.join(DOSSIER_ABS, SIGNALETIQUE, "CARTON_%s.png" % pid), 0.85)
+    mats = {pid: mat_image("CARTON_" + pid, os.path.join(DOSSIER_SIGN, "CARTON_%s.png" % pid), 0.85)
             for pid in ids}
     n = 0
     for i in range(1, 6):
@@ -737,7 +785,7 @@ def signaletique():
     zp = 3.47
 
     def panneau(nom, fichier, x, y, zc, rot_z, suspendu=True, largeur=1.6, hauteur=0.4):
-        mat = mat_image("PANNEAU_" + fichier, os.path.join(DOSSIER_ABS, SIGNALETIQUE, "PANNEAU_%s.png" % fichier),
+        mat = mat_image("PANNEAU_" + fichier, os.path.join(DOSSIER_SIGN, "PANNEAU_%s.png" % fichier),
                         0.5, emission=0.25)
         R = Matrix.Rotation(rot_z, 4, 'Z')
         boite("Panneau_%s_support" % nom, (largeur + 0.02, 0.018, hauteur + 0.02), coll, (x, y, zc), [dos], rot_z)
@@ -761,7 +809,7 @@ def signaletique():
     panneau("Gamme", "gamme", 15.6, 11.985, 2.62, 0.0, suspendu=False, largeur=2.4, hauteur=0.6)
 
     def plaque(nom, x, y, z, rot_z, parent=None):
-        mat = mat_image("PLAQUE_" + nom, os.path.join(DOSSIER_ABS, SIGNALETIQUE, "PLAQUE_%s.png" % nom), 0.4)
+        mat = mat_image("PLAQUE_" + nom, os.path.join(DOSSIER_SIGN, "PLAQUE_%s.png" % nom), 0.4)
         ob = plan("Plaque_" + nom, 0.30, 0.10, coll, (x, y, z), (math.radians(90), 0, rot_z), mat)
         if parent is not None:
             ob.parent = parent
@@ -1177,6 +1225,7 @@ def regler_rendu(dossier):
 # =============================================================================
 
 DOSSIER_ABS = ""
+DOSSIER_SIGN = ""
 
 
 def rapport_texte(chemin):
@@ -1195,7 +1244,7 @@ def rapport_texte(chemin):
 
 
 def main():
-    global DOSSIER_ABS
+    global DOSSIER_ABS, DOSSIER_SIGN
     for k in RAPPORT:
         RAPPORT[k] = 0 if isinstance(RAPPORT[k], int) else []
     COLLS.clear()
@@ -1208,6 +1257,7 @@ def main():
         print(rapport_texte(None))
         return
     DOSSIER_ABS = dossier
+    DOSSIER_SIGN = dossier_signaletique(dossier)
     chemin = os.path.join(dossier, BLEND_SORTIE)
     try:
         nettoyer()
