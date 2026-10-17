@@ -253,9 +253,9 @@ def haie_opaque(nom, graine=11):
     r = random.Random(graine)
     T = 512
     S = T * SUR
-    img = Image.new("RGBA", (S, S), hexrgb("#24421a") + (255,))
+    img = Image.new("RGBA", (S, S), hexrgb("#2f5420") + (255,))
     d = ImageDraw.Draw(img)
-    verts = ["#3c6b24", "#477a2a", "#2f5a1d", "#5a8a32", "#35621f"]
+    verts = ["#4f8a2c", "#5c9a34", "#3f7426", "#6eaa3c", "#477f28"]
     for i in range(2600):
         x, y = r.uniform(0, S), r.uniform(0, S)
         lf = S * r.uniform(0.03, 0.05)

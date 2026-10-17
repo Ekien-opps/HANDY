@@ -61,7 +61,7 @@ SOLEIL_TEMPERATURE_K = 3600.0
 SOLEIL_ANGLE_DEG = 0.9              # douceur des ombres
 CIEL_PUISSANCE = 0.15
 CIEL_NUAGES = 0.55                  # 0 = ciel pur, 1 = très nuageux
-LUMINOSITE_NUAGES = 5.5
+LUMINOSITE_NUAGES = 8.0
 BRUME_DISTANCE_M = 1100.0           # distance à laquelle la brume atteint 63 %
 BRUME_COULEUR = "#e8c79a"
 BRUME_FORCE = 0.45                  # luminosité de la brume (à accorder au ciel)
@@ -1751,9 +1751,9 @@ def construire_ciel():
         l.new(sep.outputs[axe], d.inputs[0]); l.new(zc.outputs[0], d.inputs[1])
         l.new(d.outputs[0], comb.inputs[axe])
     nz = n.new("ShaderNodeTexNoise")
-    nz.inputs["Scale"].default_value = 0.55
-    nz.inputs["Detail"].default_value = 10.0
-    nz.inputs["Roughness"].default_value = 0.62
+    nz.inputs["Scale"].default_value = 0.8
+    nz.inputs["Detail"].default_value = 12.0
+    nz.inputs["Roughness"].default_value = 0.58
     nz.inputs["Distortion"].default_value = 0.35
     l.new(comb.outputs[0], nz.inputs["Vector"])
     seuil = 0.62 - 0.14 * CIEL_NUAGES
@@ -1779,8 +1779,8 @@ def construire_ciel():
     l.new(dot.outputs["Value"], fr.inputs["Value"])
     coul = n.new("ShaderNodeValToRGB")
     el = coul.color_ramp.elements
-    el[0].position, el[0].color = 0.0, (0.26, 0.25, 0.27, 1.0)
-    el[1].position, el[1].color = 0.75, (0.42, 0.36, 0.28, 1.0)
+    el[0].position, el[0].color = 0.0, (0.40, 0.40, 0.44, 1.0)
+    el[1].position, el[1].color = 0.75, (0.58, 0.52, 0.44, 1.0)
     e3 = el.new(1.0); e3.color = (1.0, 0.69, 0.38, 1.0)
     l.new(fr.outputs["Result"], coul.inputs["Fac"])
     # densité : dessous plus sombre au cœur des nuages
@@ -1788,7 +1788,7 @@ def construire_ciel():
     coeur.inputs["From Min"].default_value = seuil + 0.05
     coeur.inputs["From Max"].default_value = seuil + 0.3
     coeur.inputs["To Min"].default_value = 1.0
-    coeur.inputs["To Max"].default_value = 0.75
+    coeur.inputs["To Max"].default_value = 0.82
     l.new(nz.outputs["Fac"], coeur.inputs["Value"])
     ombre = n.new("ShaderNodeVectorMath"); ombre.operation = 'SCALE'
     l.new(coul.outputs["Color"], ombre.inputs[0])
@@ -2086,6 +2086,16 @@ def construire_decor(dossier):
                 planter(mod, rg, esp, "ENV_Alignement_%s_%04d" % (cote, n_arbre),
                         (x, yc + rg.uniform(-0.25, 0.25), Z_ACCOTEMENT))
                 x += rg.uniform(11.0, 17.0) if esp != "palmier_royal" else rg.uniform(7.0, 10.0)
+    # Zones dégagées : palmiers royaux seulement (ombre fine, façade au soleil)
+    for cote, (z0, z1), (ya, yb) in (("N", VUE_DEGAGEE_NORD, Y_ACCOTEMENT_N), ("S", VUE_DEGAGEE_FACADE, Y_ACCOTEMENT_S)):
+        coup = coupures_n if cote == "N" else coupures_s + [(-2.0, 26.0)]   # axe de CAM_Facade_Boutique
+        for s0, s1 in segments_libres(z0, z1, coup, marge=1.5):
+            x = s0 + 1.0
+            while x < s1 - 0.5:
+                n_arbre += 1
+                planter(mod, rg, "palmier_royal", "ENV_Alignement_%s_%04d" % (cote, n_arbre),
+                        (x, (ya + yb) / 2, Z_ACCOTEMENT))
+                x += rg.uniform(8.0, 10.0)
     # deux flamboyants pour encadrer le magasin
     planter(mod, rg, "flamboyant", "ENV_Flamboyant_magasin_G", (-25.0, -10.4, Z_ACCOTEMENT), echelle=1.08)
     planter(mod, rg, "flamboyant", "ENV_Flamboyant_magasin_D", (41.5, -10.4, Z_ACCOTEMENT), echelle=1.12)
