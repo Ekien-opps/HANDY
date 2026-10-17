@@ -289,6 +289,11 @@ def main():
                     fleurs=(["#c2187a", "#d61f8c", "#a8126a", "#e13a9d"], 16, 26, 0.022))
     touffe_feuilles("ENV_Hibiscus.png", 1024, ["#2c5e1e", "#376b24", "#24521a"], 240, 0.17, 0.5, graine=71,
                     fleurs=(["#d8141c", "#e52a2a", "#c40f1f"], 10, 3, 0.05))
+    # rameau feuillu pour les cartes de l'arbre importé (TREE.fbx), cartes d'environ 0,6 m
+    touffe_feuilles("ENV_Rameau_Feuillu.png", 512, ["#3f7a26", "#4b8a2e", "#356b22", "#5a9636"],
+                    46, 0.3, 0.4, graine=81)
+    touffe_feuilles("ENV_Rameau_Fleuri.png", 512, ["#4c7f25", "#5a8f2c", "#3e6e1f"],
+                    40, 0.3, 0.38, graine=82, fleurs=(["#e2361c", "#d1261a", "#f0521e"], 4, 7, 0.06))
     palme("ENV_Palme.png")
     feuille_bananier("ENV_Feuille_Bananier.png")
     herbe("ENV_Touffe_Herbe.png")

@@ -99,9 +99,27 @@ Z_SOL = -0.36                       # terrain naturel (sous la chaussée) et pie
 Z_JARDIN = -0.12                    # pelouses des villas
 Z_PARVIS_FACADE = -0.025            # parvis du magasin au pied de la façade
 
-X_AVENUE = (-1600.0, 1600.0)        # longueur de la chaussée
-X_VILLAS = (-520.0, 520.0)          # villas de part et d'autre
-X_ARBRES = (-700.0, 700.0)          # arbres d'alignement
+# Mise en scène resserrée (version 3.1) : un « carré » de villas autour du magasin.
+VILLAS_NORD_GAUCHE = 2              # côté magasin, à sa gauche (x < -4)
+VILLAS_NORD_DROITE = 1              # côté magasin, à sa droite (x > 38)
+VILLAS_SUD = 3                      # en face, centrées sur le magasin
+MARGE_AVENUE_M = 60.0               # chaussée au-delà du bloc, de chaque côté
+# Calculés à partir du bloc au moment de la construction :
+X_AVENUE = (-150.0, 190.0)          # longueur de la chaussée
+X_VILLAS = (-60.0, 100.0)           # étendue du bloc de villas
+X_ARBRES = (-150.0, 190.0)          # arbres d'alignement
+
+# Lagune Ébrié derrière le bloc (côté nord) et rive d'en face (Plateau) dans la brume.
+Y_RIVE = 50.0                       # berge
+Z_LAGUNE = -0.9                     # niveau de l'eau
+
+# Modèles 3D fournis (dossier modeles/). Absents : arbres et voitures du script.
+DOSSIER_MODELES = "modeles"
+MODELE_ARBRE = "TREE.fbx"
+MODELE_PICKUP = "2024_gmc_sierra_1500_at4x.glb"     # extrait du .zip au premier lancement
+MODELE_PICKUP_ZIP = "2024_gmc_sierra_1500_at4x.zip"
+MODELE_SPORTIVE = "FINAL_MODEL_GT325.fbx"
+PART_ARBRES_IMPORTES = 0.45         # part des arbres d'alignement remplacés par l'arbre importé
 
 # Accotement d'en face laissé sans arbre : vue dégagée sur la façade du magasin.
 # Les arbres à l'ouest (côté soleil) sont écartés pour que la façade reste au soleil.
@@ -117,7 +135,7 @@ PARCELLE_MAGASIN = (-4.0, 38.0, Y_LIMITE_N, 20.0)
 COLLECTIONS_ENV = [
     "ENV_Voirie", "ENV_Parcelle_magasin", "ENV_Villas", "ENV_Portails", "ENV_Vegetation",
     "ENV_Mobilier_urbain", "ENV_Vehicules", "ENV_Personnages", "ENV_Lointain",
-    "ENV_Lumieres", "ENV_Cameras",
+    "ENV_Lumieres", "ENV_Cameras", "ENV_Lagune", "ENV_Modeles_importes",
 ]
 
 
@@ -193,7 +211,8 @@ def nettoyer():
                     scene_coll.objects.link(ob)
             bpy.data.collections.remove(coll)
     blocs = (bpy.data.meshes, bpy.data.materials, bpy.data.lights, bpy.data.cameras,
-             bpy.data.images, bpy.data.node_groups, bpy.data.worlds, bpy.data.curves, bpy.data.texts)
+             bpy.data.images, bpy.data.node_groups, bpy.data.worlds, bpy.data.curves, bpy.data.texts,
+             bpy.data.armatures, bpy.data.actions)
     for bloc in blocs:
         for id_data in list(bloc):
             if id_data.get(TAG_ENV):
@@ -457,9 +476,9 @@ def mat_enduit(nom, couleur, salissure=0.12):
     sortie_avec_brume(nt, p.outputs["BSDF"])
 
 
-def mat_ecorce(nom, couleur_a, couleur_b, etirement=(1.0, 6.0, 1.0), anneaux=False):
+def mat_ecorce(nom, couleur_a, couleur_b, etirement=(1.0, 6.0, 1.0), anneaux=False, echelle_uv=1.0):
     mat, nt = nouveau_mat(nom, couleur_a)
-    uv = coord_uv(nt)
+    uv = coord_uv(nt, echelle_uv)
     f = bruit(nt, uv, 3.0, 8.0, 0.65, etirement=etirement)
     c = rampe(nt, f, [(0.3, couleur_b), (0.7, couleur_a)])
     hauteur = f
@@ -531,6 +550,23 @@ def mat_feuillage(nom, fichier, dossier_tex, translucidite=0.35, teinte_dos="#9f
     else:
         mat.blend_method = 'HASHED'
     mat.use_backface_culling = False
+    return mat
+
+
+def mat_eau():
+    """Eau de la lagune : sombre, vert-bleu, rides de vent (relief), reflets du ciel."""
+    mat, nt = nouveau_mat("ENV_Eau_Lagune", "#1d3a3f")
+    uv = coord_uv(nt)
+    rides = bruit(nt, uv, 0.9, 6.0, 0.55, etirement=(0.35, 1.6, 1.0))
+    fines = bruit(nt, uv, 6.0, 4.0, 0.5, etirement=(0.5, 2.0, 1.0))
+    somme = nt.nodes.new("ShaderNodeMath"); somme.operation = 'ADD'
+    nt.links.new(rides, somme.inputs[0]); nt.links.new(fines, somme.inputs[1])
+    couleur = rampe(nt, bruit(nt, uv, 0.01, 3.0, 0.5), [(0.3, "#183238"), (0.7, "#24453f")])
+    p = principled(nt, couleur, 0.05)
+    entree(p, "IOR", 1.33)
+    entree(p, "Specular IOR Level", 0.7)
+    relief(nt, p, somme.outputs[0], 0.25, 0.05)
+    sortie_avec_brume(nt, p.outputs["BSDF"])
     return mat
 
 
@@ -618,6 +654,11 @@ def creer_materiaux(dossier_tex):
     mat_ciel_lointain("ENV_Collines", "#56704a")
     mat_ciel_lointain("ENV_Ville_Lointaine", "#c9c2b4")
     mat_uni("ENV_Canopee_Lointaine", "#34521f", 0.9, grain=0.45, echelle_grain=0.6)
+    mat_eau()
+    mat_uni("ENV_Berge", "#7d6c52", 0.9, grain=0.35, echelle_grain=1.5)
+    mat_feuillage("ENV_Rameau_Feuillu", "ENV_Rameau_Feuillu.png", dossier_tex, 0.3)
+    mat_feuillage("ENV_Rameau_Fleuri", "ENV_Rameau_Fleuri.png", dossier_tex, 0.3)
+    mat_ecorce("ENV_Ecorce_Arbre_Importe", "#5f4d3d", "#3b2f25", echelle_uv=6.0)
 
 
 # =============================================================================
@@ -1175,7 +1216,7 @@ def construire_voirie(rg, coupures_n, coupures_s):
 
     # terrain naturel (sous tout le reste) et collines au loin
     mg = Maille()
-    mg.boite(-3000, 3000, -2500, 2500, Z_SOL - 0.3, Z_SOL - 0.005, "ENV_Terrain", faces=("haut",))
+    mg.boite(-3000, 3000, -2500, Y_RIVE, Z_SOL - 0.3, Z_SOL - 0.005, "ENV_Terrain", faces=("haut",))
     objet("ENV_Terrain", mg, "ENV_Voirie")
 
 
@@ -1357,7 +1398,7 @@ def maison(m, rg, x0, x1, y0, y1, mat_enduit):
     return z_sol
 
 
-def villa(rg, nom, L, P, gauche_mur=True, dossier_vegetation=None):
+def villa(rg, nom, L, P, gauche_mur=True, droite_mur=False):
     """Construit une villa (repère local) : renvoie les mailles et la liste des
     plantations (type, x, y, rot, échelle) en repère local."""
     mur, portes, bati = Maille(), Maille(), Maille()
@@ -1378,7 +1419,10 @@ def villa(rg, nom, L, P, gauche_mur=True, dossier_vegetation=None):
     if gauche_mur:
         mur.boite(0.0, 0.2, 0.2, P, Z_SOL, hm, "ENV_Enduit_Blanc")
         mur.boite(-0.03, 0.23, 0.2, P, hm, hm + 0.06, "ENV_Chaperon")
-    mur.boite(0.0, L, P - 0.2, P, Z_SOL, hm, "ENV_Enduit_Blanc", faces=("avant", "haut"))
+    if droite_mur:
+        mur.boite(L - 0.2, L, 0.2, P, Z_SOL, hm, "ENV_Enduit_Blanc")
+        mur.boite(L - 0.23, L + 0.03, 0.2, P, hm, hm + 0.06, "ENV_Chaperon")
+    mur.boite(0.0, L, P - 0.2, P, Z_SOL, hm, "ENV_Enduit_Blanc", faces=("avant", "haut", "arriere"))
     # portail et portillon
     style = rg.choice(("ajoure", "plein", "ajoure"))
     g = portail(rg, gl, hm - 0.05, style)
@@ -1539,6 +1583,35 @@ def lampadaire():
     return m
 
 
+def construire_lagune(rg, mod, arbre_reel):
+    """Berge en pente douce, eau de la lagune, arbres et cocotiers sur la rive."""
+    m = Maille()
+    xa, xb = -6000.0, 6000.0
+    m.quad((xa, Y_RIVE, Z_SOL - 0.005), (xb, Y_RIVE, Z_SOL - 0.005), (xb, Y_RIVE + 7.0, Z_LAGUNE - 0.6),
+           (xa, Y_RIVE + 7.0, Z_LAGUNE - 0.6), "ENV_Berge", ((xa, 0), (xb, 0), (xb, 7), (xa, 7)))
+    objet("ENV_Berge", m, "ENV_Lagune")
+    e = Maille()
+    e.quad((xa, Y_RIVE + 2.0, Z_LAGUNE), (xb, Y_RIVE + 2.0, Z_LAGUNE), (xb, 6000.0, Z_LAGUNE),
+           (xa, 6000.0, Z_LAGUNE), "ENV_Eau_Lagune", ((xa, Y_RIVE), (xb, Y_RIVE), (xb, 6000), (xa, 6000)))
+    objet("ENV_Eau_Lagune", e, "ENV_Lagune")
+    # rive : cocotiers penchés vers l'eau, grands arbres, buissons, sur la longueur de l'avenue
+    k = 0
+    x = X_AVENUE[0] - 30.0
+    while x < X_AVENUE[1] + 30.0:
+        k += 1
+        esp = rg.choice(("cocotier", "cocotier", "arbre_importe", "manguier", "tropical", "hibiscus")
+                        if arbre_reel else ("cocotier", "cocotier", "manguier", "flamboyant", "tropical", "hibiscus"))
+        y = Y_RIVE - rg.uniform(0.5, 5.0) if esp not in ("arbre_importe", "manguier") else Y_RIVE - rg.uniform(6.0, 12.0)
+        planter(mod, rg, esp, "ENV_Rive_%03d" % k, (x, y, Z_JARDIN))
+        x += rg.uniform(4.0, 9.0)
+    # entre l'arrière des parcelles et la rive : quelques grands arbres
+    for _ in range(int((X_VILLAS[1] - X_VILLAS[0]) / 14.0)):
+        k += 1
+        planter(mod, rg, rg.choice(("arbre_importe", "manguier", "flamboyant") if arbre_reel
+                                   else ("manguier", "flamboyant", "fromager")),
+                "ENV_Rive_%03d" % k, (rg.uniform(X_VILLAS[0], X_VILLAS[1]), rg.uniform(34.0, Y_RIVE - 8.0), Z_JARDIN))
+
+
 def toit_4_pans(m, c0, c1, d0, d1, z, mat, pente=0.22):
     hz = min(c1 - c0, d1 - d0) * pente
     mx, my = (c0 + c1) / 2, (d0 + d1) / 2
@@ -1549,47 +1622,6 @@ def toit_4_pans(m, c0, c1, d0, d1, z, mat, pente=0.22):
     m.quad(C, D, a, b, mat, ((c1, 0), (c0, 0), (a.x, 3), (b.x, 3)))
     m.face([B, C, b], [(0, 0), (3, 0), (1.5, 3)], mat)
     m.face([D, A, a], [(0, 0), (3, 0), (1.5, 3)], mat)
-
-
-def arriere_plan(rg, mod):
-    """Quartier en arrière des villas de l'avenue : maisons simplifiées et
-    jardins arborés, pour la profondeur des vues (Cocody est très vert)."""
-    enduits = ["ENV_Enduit_Blanc", "ENV_Enduit_Blanc", "ENV_Enduit_Creme", "ENV_Enduit_Gris"]
-    n_arbres = 0
-    for cote, (ya, yb) in (("N", (Y_LIMITE_N + 40.0, 175.0)), ("S", (-175.0, Y_LIMITE_S - 40.0))):
-        m = Maille()
-        y = ya
-        while y < yb:
-            pas_y = rg.uniform(30.0, 38.0)
-            x = -470.0 + rg.uniform(0, 10)
-            while x < 470.0:
-                pas_x = rg.uniform(24.0, 34.0)
-                lx, ly = rg.uniform(10.0, 16.0), rg.uniform(9.0, 13.0)
-                cx, cy = x + pas_x / 2 + rg.uniform(-3, 3), y + pas_y / 2 + rg.uniform(-3, 3)
-                h = rg.choice((3.6, 7.0, 7.0, 7.4))
-                mat = rg.choice(enduits)
-                m.boite(cx - lx / 2, cx + lx / 2, cy - ly / 2, cy + ly / 2, Z_SOL, h, mat)
-                if rg.random() < 0.45:
-                    toit_4_pans(m, cx - lx / 2 - 0.7, cx + lx / 2 + 0.7, cy - ly / 2 - 0.7, cy + ly / 2 + 0.7,
-                                h, "ENV_Tuile")
-                else:
-                    d = rg.uniform(0.6, 1.1)
-                    m.boite(cx - lx / 2 - d, cx + lx / 2 + d, cy - ly / 2 - d, cy + ly / 2 + d, h, h + 0.3, mat)
-                # mur de clôture côté rue intérieure
-                m.boite(x, x + pas_x - 0.5, y, y + 0.2, Z_SOL, 2.5, "ENV_Enduit_Blanc", faces=("avant", "arriere", "haut"))
-                for _ in range(rg.randint(1, 3)):
-                    for essai in range(6):
-                        tx, ty = rg.uniform(x + 2, x + pas_x - 2), rg.uniform(y + 2, y + pas_y - 2)
-                        if abs(tx - cx) > lx / 2 + 2.5 or abs(ty - cy) > ly / 2 + 2.5:
-                            break
-                    esp = rg.choice(("manguier", "manguier", "flamboyant", "flamboyant_vert", "cocotier",
-                                     "palmier_royal", "cocotier", "fromager" if rg.random() < 0.15 else "manguier"))
-                    n_arbres += 1
-                    planter(mod, rg, esp, "ENV_Quartier_%s_%04d" % (cote, n_arbres), (tx, ty, Z_JARDIN))
-                x += pas_x
-            y += pas_y
-        objet("ENV_Quartier_" + cote, m, "ENV_Lointain")
-    log("%d arbres dans l'arrière-quartier" % n_arbres)
 
 
 def lointain(rg):
@@ -1607,30 +1639,27 @@ def lointain(rg):
         D = Vector((r1 * math.cos(a0), r1 * math.sin(a0), h0))
         m.quad(A, B, C, D, "ENV_Collines", ((a0 * 300, 0), (a1 * 300, 0), (a1 * 300, 600), (a0 * 300, 600)))
     objet("ENV_Collines", m, "ENV_Lointain", ombre=False)
-    # canopée et toits lointains, entre l'arrière-quartier et les collines
-    c, t = Maille(), Maille()
-    for k in range(5200):
+    # canopée lointaine (masse verte de Cocody), hors de la lagune
+    c = Maille()
+    for k in range(3200):
         a = rg.uniform(0, 2 * math.pi)
-        r = 180.0 + (1450.0 - 180.0) * rg.random() ** 0.8
+        r = 400.0 + (1450.0 - 400.0) * rg.random() ** 0.8
         x, y = r * math.cos(a), r * math.sin(a)
-        if abs(y) < 180.0 and abs(x) < 480.0:
+        if y > Y_RIVE - 10.0:
             continue
-        if rg.random() < 0.22:
-            w, d, h = rg.uniform(10, 16), rg.uniform(9, 13), rg.choice((3.6, 7.0))
-            t.boite(x - w / 2, x + w / 2, y - d / 2, y + d / 2, Z_SOL, h, rg.choice(("ENV_Enduit_Blanc", "ENV_Enduit_Creme")),
-                    faces=("haut", "avant", "arriere", "gauche", "droite"))
-        else:
-            rr = rg.uniform(4.0, 8.0)
-            c.sphere((x, y, rr * 0.8), rr, "ENV_Canopee_Lointaine", 7, 4, echelle=(1, 1, rg.uniform(0.7, 1.0)))
+        rr = rg.uniform(4.0, 8.0)
+        c.sphere((x, y, rr * 0.8), rr, "ENV_Canopee_Lointaine", 7, 4, echelle=(1, 1, rg.uniform(0.7, 1.0)))
     objet("ENV_Canopee_lointaine", c, "ENV_Lointain", ombre=False)
-    objet("ENV_Toits_lointains", t, "ENV_Lointain", ombre=False)
+    # le Plateau, sur la rive d'en face de la lagune : tours et immeubles dans la brume
     v = Maille()
-    for k in range(40):
-        a = math.radians(rg.uniform(160, 200))
-        r = rg.uniform(1100, 1500)
-        cx, cy = r * math.cos(a), r * math.sin(a)
-        w, d, h = rg.uniform(15, 35), rg.uniform(15, 35), rg.uniform(20, 95)
-        v.boite(cx - w / 2, cx + w / 2, cy - d / 2, cy + d / 2, Z_SOL, h, "ENV_Ville_Lointaine")
+    for k in range(70):
+        cx, cy = rg.gauss(-200.0, 450.0), rg.uniform(1900.0, 2400.0)
+        tour = rg.random() < 0.35
+        w, d = (rg.uniform(18, 30), rg.uniform(18, 30)) if tour else (rg.uniform(25, 60), rg.uniform(20, 40))
+        h = rg.uniform(70, 150) if tour else rg.uniform(12, 40)
+        v.boite(cx - w / 2, cx + w / 2, cy - d / 2, cy + d / 2, Z_LAGUNE - 1.0, h, "ENV_Ville_Lointaine")
+    # rive d'en face : bande de terre basse sous la ville
+    v.boite(-3000, 3000, 1850.0, 2600.0, Z_LAGUNE - 1.0, Z_LAGUNE + 1.5, "ENV_Collines", faces=("haut", "avant"))
     objet("ENV_Ville_lointaine", v, "ENV_Lointain", ombre=False)
 
 
@@ -1883,7 +1912,7 @@ def construire_cameras():
         # Trois-quarts, depuis la chaussée.
         "CAM_Trois_Quarts": ((-14.0, -17.5, 1.7), (14.0, -1.0, 2.6), 22.0, None, None),
         # Vue aérienne (drone).
-        "CAM_Drone": ((-34.0, -52.0, 26.0), (14.0, 4.0, 0.0), 26.0, None, None),
+        "CAM_Drone": ((-38.0, -72.0, 40.0), (14.0, 14.0, 0.0), 26.0, None, None),
         # Entrée : le parvis et l'intérieur éclairé à travers la porte vitrée.
         "CAM_Parvis_Entree": ((19.6, -6.4, 1.6), (11.5, 1.5, 1.7), 22.0, None, None),
     }
@@ -1962,14 +1991,187 @@ def construire_modeles():
     return mod
 
 
+# =============================================================================
+# MODÈLES 3D IMPORTÉS (arbre, pick-up, sportive) : posés tels quels, en instances
+# =============================================================================
+
+def boite_monde(objets):
+    dg = bpy.context.evaluated_depsgraph_get()
+    mn, mx = Vector((1e18,) * 3), Vector((-1e18,) * 3)
+    for o in objets:
+        if o.type != 'MESH':
+            continue
+        oe = o.evaluated_get(dg)
+        for c in oe.bound_box:
+            w = oe.matrix_world @ Vector(c)
+            mn = Vector(map(min, mn, w))
+            mx = Vector(map(max, mx, w))
+    return mn, mx
+
+
+def charger_modele(cle, chemin, longueur=None, echelle=1.0, avant="-Y"):
+    """Importe un FBX ou un GLB dans sa propre collection, sous une racine qui
+    le met à l'échelle, l'oriente (avant vers +X) et le pose au sol (z = 0),
+    centré en x et y. Renvoie la collection (source des instances) ou None."""
+    if not os.path.isfile(chemin):
+        avertir("modèle absent : %s (remplacé par celui du script)" % os.path.basename(chemin))
+        return None
+    blocs = (bpy.data.objects, bpy.data.meshes, bpy.data.materials, bpy.data.images, bpy.data.armatures,
+             bpy.data.actions, bpy.data.lights, bpy.data.cameras, bpy.data.node_groups, bpy.data.curves)
+    avant_import = [{d.as_pointer() for d in b} for b in blocs]
+    try:
+        if chemin.lower().endswith(".fbx"):
+            bpy.ops.import_scene.fbx(filepath=chemin)
+        else:
+            bpy.ops.import_scene.gltf(filepath=chemin)
+    except Exception:
+        erreur("import impossible de %s :\n%s" % (os.path.basename(chemin), traceback.format_exc()))
+        return None
+    for b, deja in zip(blocs, avant_import):
+        for d in b:
+            if d.as_pointer() not in deja:
+                marquer(d)
+    nouveaux = [o for o in bpy.data.objects if o.get(TAG_ENV) and not o.get("env_place")]
+    coll = marquer(bpy.data.collections.new("ENV_Modele_" + cle))
+    COLLS["ENV_Modeles_importes"].children.link(coll)
+    for o in nouveaux:
+        for c in list(o.users_collection):
+            c.objects.unlink(o)
+        coll.objects.link(o)
+        o["env_place"] = True
+    racine = marquer(bpy.data.objects.new("ENV_Racine_" + cle, None))
+    racine["env_place"] = True
+    coll.objects.link(racine)
+    for o in nouveaux:
+        if o.parent is None:
+            o.parent = racine
+    bpy.context.view_layer.update()
+    mn, mx = boite_monde(nouveaux)
+    if longueur:
+        echelle = longueur / max(mx.x - mn.x, mx.y - mn.y)
+    racine.scale = (echelle, echelle, echelle)
+    racine.rotation_euler.z = {"-Y": math.pi / 2, "+Y": -math.pi / 2, "+X": 0.0, "-X": math.pi}[avant]
+    bpy.context.view_layer.update()
+    mn, mx = boite_monde(nouveaux)
+    racine.location = (-(mn.x + mx.x) / 2, -(mn.y + mx.y) / 2, -mn.z)
+    bpy.context.view_layer.update()
+    mn, mx = boite_monde(nouveaux)
+    log("modèle %s : %d objets, %.2f x %.2f x %.2f m" % (cle, len(nouveaux), mx.x - mn.x, mx.y - mn.y, mx.z - mn.z))
+    return coll
+
+
+def preparer_arbre(coll, mat_feuilles):
+    """Arbre importé : ses textures ne sont pas fournies. Les cartes de feuilles
+    reçoivent un rameau du script (UV ramenés de 0 à 1 par carte) ; le tronc
+    garde sa texture si elle est trouvée, sinon reçoit l'écorce du script."""
+    for o in coll.objects:
+        if o.type != 'MESH':
+            continue
+        me = o.data
+        for i, m in enumerate(me.materials):
+            if m is None:
+                continue
+            if "leaves" in m.name.lower() or "leaf" in m.name.lower():
+                me.materials[i] = MATS[mat_feuilles]
+                uv = me.uv_layers.active.data if me.uv_layers.active else None
+                if uv is None:
+                    continue
+                for poly in me.polygons:
+                    if poly.material_index != i:
+                        continue
+                    us = [uv[k].uv.copy() for k in poly.loop_indices]
+                    u0, u1 = min(u.x for u in us), max(u.x for u in us)
+                    v0, v1 = min(u.y for u in us), max(u.y for u in us)
+                    for k, u in zip(poly.loop_indices, us):
+                        uv[k].uv = ((u.x - u0) / max(u1 - u0, 1e-6), (u.y - v0) / max(v1 - v0, 1e-6))
+            elif "trunk" in m.name.lower():
+                ok = False
+                if m.node_tree:
+                    for n in m.node_tree.nodes:
+                        if n.type == 'TEX_IMAGE' and n.image and (n.image.packed_file or
+                                                                  os.path.isfile(bpy.path.abspath(n.image.filepath))):
+                            ok = True
+                if not ok:
+                    me.materials[i] = MATS["ENV_Ecorce_Arbre_Importe"]
+
+
+def copier_collection(source, cle, mat_feuilles):
+    """Variante d'un modèle : mêmes maillages, sauf ceux des feuilles (copiés)."""
+    coll = marquer(bpy.data.collections.new("ENV_Modele_" + cle))
+    COLLS["ENV_Modeles_importes"].children.link(coll)
+    copies = {}
+    for o in source.objects:
+        c = marquer(o.copy())
+        c["env_place"] = True
+        if o.type == 'MESH' and any(m and m.name.startswith("ENV_Rameau") for m in o.data.materials):
+            c.data = marquer(o.data.copy())
+            for i, m in enumerate(c.data.materials):
+                if m and m.name.startswith("ENV_Rameau"):
+                    c.data.materials[i] = MATS[mat_feuilles]
+        coll.objects.link(c)
+        copies[o.name] = c
+    for o in source.objects:
+        if o.parent is not None and o.parent.name in copies:
+            copies[o.name].parent = copies[o.parent.name]
+    return coll
+
+
+def importer_modeles(dossier):
+    """Charge les modèles fournis. Renvoie {clé: collection}."""
+    d = os.path.join(dossier, DOSSIER_MODELES)
+    sortie = {}
+    glb = os.path.join(d, MODELE_PICKUP)
+    zp = os.path.join(d, MODELE_PICKUP_ZIP)
+    if not os.path.isfile(glb) and os.path.isfile(zp):
+        import zipfile
+        with zipfile.ZipFile(zp) as z:
+            for n in z.namelist():
+                if n.lower().endswith(".glb"):
+                    with z.open(n) as src, open(glb, "wb") as dst:
+                        dst.write(src.read())
+                    log("extrait : " + os.path.basename(n))
+    arbre = charger_modele("arbre", os.path.join(d, MODELE_ARBRE), echelle=1.0, avant="+X")
+    if arbre is not None:
+        preparer_arbre(arbre, "ENV_Rameau_Feuillu")
+        sortie["arbre_importe"] = arbre
+        sortie["arbre_importe_fleuri"] = copier_collection(arbre, "arbre_fleuri", "ENV_Rameau_Fleuri")
+    pickup = charger_modele("pickup", glb, longueur=5.89, avant="-Y")      # planche de bord vers -Y
+    if pickup is not None:
+        sortie["pickup"] = pickup
+    sport = charger_modele("sportive", os.path.join(d, MODELE_SPORTIVE), longueur=5.0, avant="-Y")
+    if sport is not None:
+        sortie["sportive"] = sport
+    # les sources des instances ne sont pas rendues elles-mêmes
+    lc = bpy.context.view_layer.layer_collection.children.get("ENV_Modeles_importes")
+    if lc is not None:
+        lc.exclude = True
+    return sortie
+
+
+def poser_modele(nom, coll_modele, coll_dest, loc, rot_z=0.0, echelle=1.0):
+    ob = marquer(bpy.data.objects.new(nom, None))
+    ob.instance_type = 'COLLECTION'
+    ob.instance_collection = coll_modele
+    COLLS[coll_dest].objects.link(ob)
+    ob.location = loc
+    ob.rotation_euler = (0.0, 0.0, rot_z)
+    ob.scale = (echelle, echelle, echelle)
+    ob.empty_display_size = 1.0
+    RAPPORT["objets"] += 1
+    RAPPORT["instances"] += 1
+    return ob
+
+
 def planter(mod, rg, espece, nom, loc, rot=None, echelle=None, coll="ENV_Vegetation"):
     variantes = mod.get(espece)
     if not variantes:
         avertir("espèce inconnue : " + espece)
         return None
-    me = rg.choice(variantes)
     rot = rg.uniform(0, 2 * math.pi) if rot is None else rot
     ech = rg.uniform(0.85, 1.15) if echelle is None else echelle
+    if isinstance(variantes, bpy.types.Collection):
+        return poser_modele(nom, variantes, coll, loc, rot, ech * rg.uniform(0.75, 1.0))
+    me = rg.choice(variantes)
     if espece == "bananier_bas":
         ech *= 0.7
     return instance(nom, me, coll, loc, rot, ech)
@@ -1985,24 +2187,33 @@ def construire_decor(dossier):
     log("textures du décor : " + dossier_tex)
     creer_materiaux(dossier_tex)
     mod = construire_modeles()
+    importes = importer_modeles(dossier)
+    mod.update(importes)
+    arbre_reel = "arbre_importe" in mod
 
-    # ---- parcelles des deux côtés de l'avenue
+    # ---- parcelles : le « carré » de villas autour du magasin
+    global X_AVENUE, X_VILLAS, X_ARBRES
     lots_n, lots_s = [], []
     x = PARCELLE_MAGASIN[0]
-    while x > X_VILLAS[0]:
-        L = rg.uniform(22.0, 32.0)
+    for _ in range(VILLAS_NORD_GAUCHE):
+        L = rg.uniform(24.0, 30.0)
         lots_n.append((x - L, L))
         x -= L
     x = PARCELLE_MAGASIN[1]
-    while x < X_VILLAS[1]:
-        L = rg.uniform(22.0, 32.0)
+    for _ in range(VILLAS_NORD_DROITE):
+        L = rg.uniform(24.0, 30.0)
         lots_n.append((x, L))
         x += L
-    x = X_VILLAS[0]
-    while x < X_VILLAS[1]:
-        L = rg.uniform(22.0, 32.0)
+    larg_s = [rg.uniform(27.0, 32.0) for _ in range(VILLAS_SUD)]
+    x = (PARCELLE_MAGASIN[0] + PARCELLE_MAGASIN[1]) / 2 - sum(larg_s) / 2
+    for L in larg_s:
         lots_s.append((x, L))
         x += L
+    bornes = [x0 for x0, _ in lots_n + lots_s] + [x0 + L for x0, L in lots_n + lots_s]
+    X_VILLAS = (min(bornes + [PARCELLE_MAGASIN[0]]), max(bornes + [PARCELLE_MAGASIN[1]]))
+    X_AVENUE = (X_VILLAS[0] - MARGE_AVENUE_M, X_VILLAS[1] + MARGE_AVENUE_M)
+    X_ARBRES = (X_AVENUE[0] + 4.0, X_AVENUE[1] - 4.0)
+    log("bloc x %.0f à %.0f, avenue x %.0f à %.0f" % (X_VILLAS + X_AVENUE))
 
     coupures_n = [(PARCELLE_MAGASIN[0], 24.0)]
     coupures_s = []
@@ -2016,7 +2227,8 @@ def construire_decor(dossier):
             n_villa += 1
             P = rg.uniform(30.0, 38.0)
             nom = "ENV_Villa_%s%02d" % (cote, n_villa)
-            mur, _, bati, g, pt, (gx, gl, px), plant, hm, piliers = villa(rg, nom, L, P)
+            bout_de_bloc = (cote == "N" and x0 + L >= X_VILLAS[1] - 0.01) or (cote == "S" and x0 <= min(a for a, _ in lots_s) + 0.01)
+            mur, _, bati, g, pt, (gx, gl, px), plant, hm, piliers = villa(rg, nom, L, P, droite_mur=bout_de_bloc)
             if cote == "N":
                 loc, rot = Vector((x0, Y_LIMITE_N, 0.0)), 0.0
                 def vers_monde(lx, ly, x0=x0):
@@ -2078,7 +2290,9 @@ def construire_decor(dossier):
             x = s0 + rg.uniform(1.0, 4.0)
             while x < s1:
                 r = rg.random()
-                if r < 0.5:
+                if arbre_reel and rg.random() < PART_ARBRES_IMPORTES:
+                    esp = "arbre_importe_fleuri" if rg.random() < 0.4 else "arbre_importe"
+                elif r < 0.5:
                     esp = "flamboyant" if rg.random() < 0.85 else "flamboyant_vert"
                 elif r < 0.78:
                     esp = "manguier"
@@ -2144,23 +2358,50 @@ def construire_decor(dossier):
             instance("ENV_Lampadaire_%03d" % k, lp, "ENV_Mobilier_urbain", (x, Y_ACCOTEMENT_N[1] - 0.3, Z_ACCOTEMENT), 0.0)
             x += 34.0
 
-    # ---- véhicules
-    suv_noir = voiture(11, "ENV_Peinture_Noire", True).vers_maillage("ENV_Modele_SUV_noir")
-    berline_bl = voiture(12, "ENV_Peinture_Blanche", False).vers_maillage("ENV_Modele_Berline_blanche")
-    berline_ar = voiture(13, "ENV_Peinture_Argent", False).vers_maillage("ENV_Modele_Berline_argent")
-    suv_bleu = voiture(14, "ENV_Peinture_Bleu_Nuit", True).vers_maillage("ENV_Modele_SUV_bleu")
-    for nom, me, x, y, rz in [
-            ("ENV_Voiture_parking_1", suv_noir, 0.75 + 2.5 * 2 + 1.25, -4.3, math.pi / 2),
-            ("ENV_Voiture_parking_2", berline_bl, 0.75 + 2.5 * 0 + 1.25, -4.2, math.pi / 2),
-            ("ENV_Voiture_rue_1", suv_bleu, -26.0, Y_ROUTE[1] - 1.25, math.pi),
-            ("ENV_Voiture_rue_2", berline_ar, 70.0, Y_ROUTE[0] + 1.25, 0.0),
-            ("ENV_Voiture_rue_3", berline_bl, -95.0, Y_ROUTE[0] + 3.0, 0.0),
-            ("ENV_Voiture_rue_4", suv_noir, -170.0, Y_ROUTE[1] - 2.9, math.pi)]:
-        z = z_parvis(y) if y > Y_LIMITE_N else Z_ROUTE
-        instance(nom, me, "ENV_Vehicules", (x, y, z), rz)
+    # ---- véhicules : modèles fournis (pick-up GMC Sierra, sportive), sinon ceux du script
+    places = [("ENV_Voiture_parking_1", "pickup", 0.75 + 2.5 * 2 + 1.25, -4.0, math.pi / 2),
+              ("ENV_Voiture_parking_2", "sportive", 0.75 + 2.5 * 0 + 1.25, -4.3, math.pi / 2),
+              ("ENV_Voiture_rue_1", "pickup", -30.0, Y_ROUTE[1] - 1.35, math.pi),
+              ("ENV_Voiture_rue_2", "sportive", 72.0, Y_ROUTE[0] + 1.3, 0.0)]
+    if all(m in mod for _, m, _, _, _ in places):
+        for nom, m, x, y, rz in places:
+            z = z_parvis(y) if y > Y_LIMITE_N else Z_ROUTE
+            poser_modele(nom, mod[m], "ENV_Vehicules", (x, y, z), rz)
+    else:
+        suv_noir = voiture(11, "ENV_Peinture_Noire", True).vers_maillage("ENV_Modele_SUV_noir")
+        berline_bl = voiture(12, "ENV_Peinture_Blanche", False).vers_maillage("ENV_Modele_Berline_blanche")
+        suv_bleu = voiture(14, "ENV_Peinture_Bleu_Nuit", True).vers_maillage("ENV_Modele_SUV_bleu")
+        for nom, me, x, y, rz in [
+                ("ENV_Voiture_parking_1", suv_noir, 0.75 + 2.5 * 2 + 1.25, -4.3, math.pi / 2),
+                ("ENV_Voiture_parking_2", berline_bl, 0.75 + 2.5 * 0 + 1.25, -4.2, math.pi / 2),
+                ("ENV_Voiture_rue_1", suv_bleu, -30.0, Y_ROUTE[1] - 1.25, math.pi),
+                ("ENV_Voiture_rue_2", berline_bl, 72.0, Y_ROUTE[0] + 1.25, 0.0)]:
+            z = z_parvis(y) if y > Y_LIMITE_N else Z_ROUTE
+            instance(nom, me, "ENV_Vehicules", (x, y, z), rz)
 
-    # ---- arrière-quartier (toits et jardins au-delà des villas de l'avenue), lointain
-    arriere_plan(rg, mod)
+    # ---- bouts de l'avenue : un rideau d'arbres ferme la perspective
+    n_bout = 0
+    for x_bout, sens in ((X_AVENUE[0], -1), (X_AVENUE[1], 1)):
+        for _ in range(26):
+            x = x_bout + sens * rg.uniform(-6.0, 22.0)
+            y = rg.uniform(Y_LIMITE_S - 25.0, Y_LIMITE_N + 30.0)
+            if Y_ROUTE[0] - 1 < y < Y_ROUTE[1] + 1 and sens * (x - x_bout) < 2:
+                continue
+            esp = rg.choice(("arbre_importe", "arbre_importe_fleuri", "manguier", "flamboyant", "fromager",
+                             "palmier_royal") if arbre_reel else ("manguier", "flamboyant", "fromager", "palmier_royal"))
+            n_bout += 1
+            planter(mod, rg, esp, "ENV_Rideau_%03d" % n_bout, (x, y, Z_JARDIN))
+    # ---- de part et d'autre du bloc : jardins arborés jusqu'au bout de l'avenue
+    for cote, (ya, yb) in (("N", (Y_LIMITE_N + 2.0, Y_RIVE - 6.0)), ("S", (Y_LIMITE_S - 45.0, Y_LIMITE_S - 2.0))):
+        for xa, xb in ((X_AVENUE[0], X_VILLAS[0] - 3.0), (X_VILLAS[1] + 3.0, X_AVENUE[1])):
+            for _ in range(int((xb - xa) * (yb - ya) / 260.0)):
+                esp = rg.choice(("arbre_importe", "manguier", "cocotier", "flamboyant", "bananier")
+                                if arbre_reel else ("manguier", "cocotier", "flamboyant", "bananier"))
+                n_bout += 1
+                planter(mod, rg, esp, "ENV_Jardin_%s_%03d" % (cote, n_bout),
+                        (rg.uniform(xa, xb), rg.uniform(ya, yb), Z_JARDIN))
+    # ---- lagune derrière le bloc, rive arborée
+    construire_lagune(rg, mod, arbre_reel)
     lointain(rg)
     # variantes de modèles restées sans instance
     for me in list(bpy.data.meshes):
