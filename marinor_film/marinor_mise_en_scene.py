@@ -40,7 +40,7 @@ from mathutils import Euler, Matrix, Quaternion, Vector
 # RÉGLAGES
 # =============================================================================
 
-VERSION = "3.1"
+VERSION = "3.2"
 TAG = "marinor_film"
 BLEND_SORTIE = "marinor_film.blend"
 DOSSIER_PRODUITS = "produits"
@@ -404,6 +404,9 @@ def importer_produit(dossier, p, coll):
     else:
         angle = math.radians(float(manuel))
         RAPPORT["orientations"].append("%s : %+.0f° (réglage du catalogue)" % (p["id"], float(manuel)))
+    if p.get("retourner"):                            # demi-tour demandé (étiquette vue de dos)
+        angle += math.pi
+        RAPPORT["orientations"][-1] += " + demi-tour (retourner)"
     me.transform(Matrix.Rotation(angle, 4, 'Z'))
     me.update()
     ob.name = me.name = "PROD_" + p["id"]

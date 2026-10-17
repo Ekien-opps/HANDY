@@ -34,8 +34,9 @@ Supprimer le dossier imbriqué `Dossier de travail\marinor_boutique\` s'il exist
 - Texte **`Rapport_Film`** (menu déroulant de l'éditeur de texte) : `Erreurs (0)`, `Personnages (4)`,
   `Produits manquants (0)`, pas de « texture absente ».
 - Image **`rendu\controle_etiquettes.png`** : les 15 produits vus depuis l'allée. Chaque étiquette doit
-  vous faire face. Sinon, dans `catalogue_produits.json` (Bloc-notes), remplacer `null` par `180`
-  (dos), `90` ou `-90` (profil) pour ce produit, puis recommencer l'étape 2 depuis `marinor_cocody.blend`.
+  vous faire face. Produit vu de dos : ajouter `"retourner": true` à sa ligne dans
+  `catalogue_produits.json` (Bloc-notes) ; vu de profil : remplacer `null` par `90` ou `-90` dans
+  `rot_z_deg`. Puis relancer le script (il peut être relancé dans `marinor_film.blend`).
 
 ## 3. Carte graphique (une seule fois)
 

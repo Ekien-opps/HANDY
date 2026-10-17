@@ -70,7 +70,8 @@ tourne vers l'allée la face la plus imprimée (logo, photo), face plane d'un do
 centre de l'étiquette d'une bouteille. L'angle retenu est écrit dans le rapport
 (« Orientation des étiquettes »). Le script rend aussi `rendu/controle_etiquettes.png` : les 15 produits vus
 depuis l'allée, pour tout vérifier d'un coup d'œil. Pour forcer un angle, remplacer `null` par 0, 90, 180 ou
--90 dans `rot_z_deg` du produit (`catalogue_produits.json`).
+-90 dans `rot_z_deg` du produit (`catalogue_produits.json`). Si un produit apparaît de dos sur la planche de contrôle, ajouter
+`"retourner": true` à sa ligne : il fait un demi-tour.
 
 ## Étape 2 — personnages Mixamo
 
