@@ -83,7 +83,10 @@ depuis l'allée, pour tout vérifier d'un coup d'œil. Pour forcer un angle, rem
 | Agent de sécurité | `Ch18…Idle Looking` | Dehors, à gauche des portes, sous l'auvent |
 
 La vitesse de marche est mesurée sur le pied d'appui de l'animation, pour que les pieds ne
-glissent pas. Les préfixes d'os Mixamo (`mixamorig4:`…) sont harmonisés automatiquement.
+glissent pas. Le script corrige aussi les FBX difficiles : animation de l'objet squelette retirée (elle
+écraserait taille et hauteur), personnage ramené à une taille humaine s'il est hors de 1,45-2,05 m,
+marche téléchargée sans « In Place » convertie sur place, et chaque personnage debout posé au sol
+d'après son point le plus bas sur l'animation. Le rapport indique chaque correction. Les préfixes d'os Mixamo (`mixamorig4:`…) sont harmonisés automatiquement.
 
 ## Étape 3 — caméra
 

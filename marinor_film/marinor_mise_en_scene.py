@@ -40,7 +40,7 @@ from mathutils import Euler, Matrix, Quaternion, Vector
 # RÉGLAGES
 # =============================================================================
 
-VERSION = "3.2"
+VERSION = "3.3"
 TAG = "marinor_film"
 BLEND_SORTIE = "marinor_film.blend"
 DOSSIER_PRODUITS = "produits"
@@ -1093,6 +1093,112 @@ def adapter_action(action, prefixe_cible):
             fc.data_path = dp.replace('"%s"' % nom, '"%s%s"' % (prefixe_cible, court))
 
 
+TAILLE_MIN, TAILLE_MAX = 1.45, 2.05          # hors de cet intervalle, le personnage est remis à l'échelle
+
+
+def taille_squelette(arm):
+    """Hauteur du squelette au repos (des pieds au sommet du crâne), en mètres."""
+    bpy.context.view_layer.update()
+    zs = []
+    for b in arm.data.bones:
+        zs += [(arm.matrix_world @ b.head_local).z, (arm.matrix_world @ b.tail_local).z]
+    return (max(zs) - min(zs)) if zs else 0.0
+
+
+def retirer_animation_objet(arm, action):
+    """Certains FBX animent aussi l'objet squelette (position, rotation, taille) : cette animation
+    écraserait l'échelle et la hauteur du personnage à chaque image. On fige la rotation et la taille
+    de la première image (conversion d'axes et d'unités du FBX) et on retire ces courbes."""
+    chemins = ("location", "rotation_euler", "rotation_quaternion", "scale", "delta_location",
+               "delta_scale", "delta_rotation_euler")
+    a_retirer = []
+    if hasattr(action, "layers"):
+        for layer in action.layers:
+            for strip in layer.strips:
+                for cb in strip.channelbags:
+                    a_retirer += [(cb, fc) for fc in cb.fcurves if fc.data_path in chemins]
+    if not a_retirer:
+        return False
+    ad = arm.animation_data_create()
+    ad.action = action
+    bpy.context.scene.frame_set(int(action.frame_range[0]))
+    rot_mode, rot, quat, ech = arm.rotation_mode, arm.rotation_euler.copy(), \
+        arm.rotation_quaternion.copy(), arm.scale.copy()
+    for cb, fc in a_retirer:
+        cb.fcurves.remove(fc)
+    ad.action = None
+    arm.rotation_mode = rot_mode
+    arm.rotation_euler, arm.rotation_quaternion, arm.scale = rot, quat, ech
+    arm.location = (0, 0, 0)
+    return True
+
+
+def poser_au_sol(arm, objs, sol_z, debut=1, fin=None, pas=3):
+    """Abaisse ou relève le personnage pour que son point le plus bas sur l'animation touche le sol."""
+    sc = bpy.context.scene
+    fin = fin or debut + 96
+    mini = None
+    for f in range(debut, fin + 1, pas):
+        sc.frame_set(f)
+        pts = points_corps(arm, objs)
+        if pts:
+            z = min(p.z for p in pts)
+            mini = z if mini is None else min(mini, z)
+    if mini is None:
+        return 0.0
+    dz = sol_z - mini
+    arm.location.z += dz / max(1e-6, (arm.parent.matrix_world.to_scale().z if arm.parent else 1.0))
+    sc.frame_set(1)
+    return dz
+
+
+def mettre_a_l_echelle(arm, cfg):
+    """Un FBX exporté avec d'autres unités donne un personnage minuscule ou géant :
+    on le ramène à une taille humaine (taille_m du personnage, 1,72 m par défaut)."""
+    h = taille_squelette(arm)
+    if h <= 0 or TAILLE_MIN <= h <= TAILLE_MAX:
+        return "taille %.2f m" % h
+    f = cfg.get("taille_m", 1.72) / h
+    arm.scale = tuple(v * f for v in arm.scale)
+    bpy.context.view_layer.update()
+    return "taille %.2f m remise à %.2f m (x%.2f)" % (h, taille_squelette(arm), f)
+
+
+def marche_sur_place(arm, action):
+    """Animation Mixamo téléchargée sans « In Place » : les hanches avancent d'elles-mêmes et le
+    personnage quitte son trajet. On retire cette avance (tendance linéaire des canaux de position
+    des hanches) et on renvoie la vitesse correspondante (m/image), ou None si déjà sur place."""
+    hanches = next((p for p in arm.pose.bones if p.name.endswith("Hips")), None)
+    if hanches is None:
+        return None
+    ad = arm.animation_data_create()
+    ad.action = action
+    sc = bpy.context.scene
+    f0, f1 = (int(round(v)) for v in action.frame_range)
+    sc.frame_set(f0)
+    a = arm.matrix_world @ hanches.head
+    sc.frame_set(f1)
+    b = arm.matrix_world @ hanches.head
+    dep = Vector((b.x - a.x, b.y - a.y))
+    if dep.length < 0.25:
+        ad.action = None
+        return None
+    for fc in courbes(action):
+        if '"%s"' % hanches.name in fc.data_path and fc.data_path.endswith("location") and len(fc.keyframe_points) > 1:
+            k0, k1 = fc.keyframe_points[0], fc.keyframe_points[-1]
+            t0, t1 = k0.co[0], k1.co[0]
+            pente = (k1.co[1] - k0.co[1]) / max(1e-6, t1 - t0)
+            if abs(k1.co[1] - k0.co[1]) < 1e-6:
+                continue
+            for k in fc.keyframe_points:
+                k.co[1] -= pente * (k.co[0] - t0)
+                k.handle_left[1] -= pente * (k.handle_left[0] - t0)
+                k.handle_right[1] -= pente * (k.handle_right[0] - t0)
+            fc.update()
+    ad.action = None
+    return dep.length / max(1, f1 - f0)
+
+
 def vitesse_marche(arm, action):
     """Vitesse (m/image) du pied d'appui, mesurée sur le cycle de marche en place."""
     ad = arm.animation_data_create()
@@ -1293,6 +1399,8 @@ def personnages(dossier):
             continue
         action.name = "ANIM_" + cfg["nom"]
         action.use_fake_user = True
+        for a in {action} | set(acts):
+            retirer_animation_objet(arm, a)
         # Contrôleur de trajectoire
         ctrl = objet("CTRL_" + cfg["nom"], None, coll)
         ctrl.empty_display_type = 'ARROWS'
@@ -1300,8 +1408,12 @@ def personnages(dossier):
         arm.parent = ctrl
         arm.matrix_parent_inverse = Matrix.Identity(4)
         arm.location = (0, 0, 0)
+        info_taille = mettre_a_l_echelle(arm, cfg)
         if cfg["mode"] == "marche":
-            v = vitesse_marche(arm, action)
+            v_racine = marche_sur_place(arm, action)
+            v = v_racine if v_racine else vitesse_marche(arm, action)
+            if v_racine:
+                info_taille += ", marche convertie « sur place »"
             poser_nla(arm, action, decalage=int(cfg.get("depart", 0) * 32))
             res, cumul = chemin_boucle(cfg["trajet"])
             s0 = cfg.get("depart", 0.0) * cumul[-1]
@@ -1321,7 +1433,11 @@ def personnages(dossier):
                 ctrl.rotation_euler = (0, 0, ang)
                 ctrl.keyframe_insert("location", frame=f)
                 ctrl.keyframe_insert("rotation_euler", frame=f)
-            RAPPORT["personnages"].append("%s : marche %.2f m/s sur %.1f m" % (cfg["nom"], v * FPS, cumul[-1]))
+            dz = poser_au_sol(arm, objs, 0.0)
+            if abs(dz) > 0.01:
+                info_taille += ", posé au sol (%+.2f m)" % dz
+            RAPPORT["personnages"].append("%s : marche %.2f m/s sur %.1f m, %s"
+                                          % (cfg["nom"], v * FPS, cumul[-1], info_taille))
         else:
             poser_nla(arm, action)
             x, y = cfg["pos"]
@@ -1331,9 +1447,13 @@ def personnages(dossier):
             if cfg["mode"] == "assis":
                 tabouret_caisse(cfg["pos"])
                 asseoir(ctrl, arm, objs, cfg)
-            RAPPORT["personnages"].append("%s : %s en (%.2f, %.2f, z %.2f)"
+            else:
+                dz = poser_au_sol(arm, objs, z)
+                if abs(dz) > 0.01:
+                    info_taille += ", posé au sol (%+.2f m)" % dz
+            RAPPORT["personnages"].append("%s : %s en (%.2f, %.2f, z %.2f), %s"
                                           % (cfg["nom"], cfg["mode"], ctrl.location.x, ctrl.location.y,
-                                             ctrl.location.z))
+                                             ctrl.location.z, info_taille))
         for o in objs:
             if o.type == 'MESH':
                 o.visible_shadow = True
