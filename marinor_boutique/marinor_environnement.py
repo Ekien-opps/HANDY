@@ -505,9 +505,13 @@ def mat_feuillage(nom, fichier, dossier_tex, translucidite=0.35, teinte_dos="#9f
     if img is not None:
         tex = nt.nodes.new("ShaderNodeTexImage")
         tex.image = img
-        tex.extension = 'CLIP'
         tex.interpolation = 'Linear'
-        nt.links.new(coord_uv(nt), tex.inputs["Vector"])
+        if cartes:
+            tex.extension = 'CLIP'                   # carte : UV de 0 à 1
+            nt.links.new(coord_uv(nt), tex.inputs["Vector"])
+        else:
+            tex.extension = 'REPEAT'                 # surface : UV en mètres, motif de 0,8 m
+            nt.links.new(coord_uv(nt, 1.0 / 0.8), tex.inputs["Vector"])
         nt.links.new(tex.outputs["Color"], p.inputs["Base Color"])
         # teinte de transparence : la couleur de la feuille, éclaircie
         dos = nt.nodes.new("ShaderNodeVectorMath"); dos.operation = 'MULTIPLY'
@@ -1083,16 +1087,16 @@ def cascade_bougainvillier(graine, longueur=3.0, hauteur_mur=2.6, chute=1.6):
     rg = random.Random(graine)
     m = Maille()
     pts = []
-    for _ in range(int(longueur * 55)):
+    for _ in range(int(longueur * 150)):
         x = rg.uniform(0, longueur)
-        t = rg.random() ** 1.5
+        t = rg.random() ** 1.3
         fin = 0.5 + 0.5 * math.sin(math.pi * x / longueur)
-        z = hauteur_mur + 0.5 - t * chute * fin * 1.3
-        y = -0.25 - rg.uniform(0, 0.35) * (1 - t * 0.5) if z < hauteur_mur else rg.uniform(-0.4, 1.0)
+        z = hauteur_mur + 0.55 - t * chute * fin * 1.3
+        y = -0.12 - rg.uniform(0, 0.28) * (1 - t * 0.6) if z < hauteur_mur + 0.05 else rg.uniform(-0.45, 0.9)
         pts.append(Vector((x, y, z)))
     for p in pts:
-        n = Vector((rg.gauss(0, 0.5), -1.0, rg.gauss(0, 0.5) + (0.8 if p.z > hauteur_mur else 0)))
-        m.carte(p, n, rg.uniform(0.55, 0.85), rg.uniform(0, 2 * math.pi), "ENV_Bougainvillier")
+        n = Vector((rg.gauss(0, 0.45), -1.0, rg.gauss(0, 0.45) + (0.9 if p.z > hauteur_mur else 0)))
+        m.carte(p, n, rg.uniform(0.45, 0.75), rg.uniform(0, 2 * math.pi), "ENV_Bougainvillier")
     return m
 
 
