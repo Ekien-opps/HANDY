@@ -128,6 +128,8 @@ PART_ARBRES_IMPORTES = 0.45         # part des arbres d'alignement remplacés pa
 # Les arbres à l'ouest (côté soleil) sont écartés pour que la façade reste au soleil.
 VUE_DEGAGEE_FACADE = (-30.0, 40.0)
 VUE_DEGAGEE_NORD = (-22.0, 39.0)
+# Pas de palmier juste devant CAM_Avenue_Cocody (x 40) et CAM_Trois_Quarts (x -14).
+PREMIERS_PLANS_DEGAGES = [(22.0, 46.0), (-24.0, -8.0)]
 X_PORTAIL_GARDIEN = 8.0             # l'agent de sécurité garde le portail le plus proche
 
 # Parcelle du magasin (24 x 16 m) : allée de service à gauche, cour à l'arrière,
@@ -2310,6 +2312,7 @@ def construire_decor(dossier):
     # Zones dégagées : palmiers royaux seulement (ombre fine, façade au soleil)
     for cote, (z0, z1), (ya, yb) in (("N", VUE_DEGAGEE_NORD, Y_ACCOTEMENT_N), ("S", VUE_DEGAGEE_FACADE, Y_ACCOTEMENT_S)):
         coup = coupures_n if cote == "N" else coupures_s + [(-2.0, 26.0)]   # axe de CAM_Facade_Boutique
+        coup = coup + PREMIERS_PLANS_DEGAGES     # pas de tronc juste devant les caméras de l'avenue
         for s0, s1 in segments_libres(z0, z1, coup, marge=1.5):
             x = s0 + 1.0
             while x < s1 - 0.5:
