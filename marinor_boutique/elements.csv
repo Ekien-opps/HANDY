@@ -1,129 +1,326 @@
 id,nom,type,collection,x,y,z,dim_x,dim_y,dim_z,rot_x_deg,rot_z_deg,materiau,notes
-001,Sol_Salle_A,box,Sol,4.20,2.00,-0.01,8.40,4.00,0.02,0,0,MAT_Sol_Terracotta,zone avant y 0 a 4
-002,Sol_Salle_B,box,Sol,4.90,5.60,-0.01,2.20,3.20,0.02,0,0,MAT_Sol_Terracotta,x 3.8 a 6.0 y 4 a 7.2
-003,Sol_Salle_C,box,Sol,7.20,4.55,-0.01,2.40,1.10,0.02,0,0,MAT_Sol_Terracotta,x 6 a 8.4 y 4 a 5.1
-004,Sol_Reserve,box,Sol,1.90,5.60,-0.01,3.80,3.20,0.02,0,0,MAT_Sol_BetonCire,reserve
-005,Sol_Vestiaire,box,Sol,6.60,6.15,-0.01,1.20,2.10,0.02,0,0,MAT_Sol_Carrelage_Blanc,vestiaire
-006,Sol_WC,box,Sol,7.80,6.15,-0.01,1.20,2.10,0.02,0,0,MAT_Sol_Carrelage_Blanc,toilettes staff
-007,Mur_facade_pilier_G,box,Murs_exterieurs,0.50,0.10,1.50,1.00,0.20,3.00,0,0,MAT_Mur_Bordeaux,pilier gauche facade
-008,Mur_facade_allege_G,box,Murs_exterieurs,2.20,0.10,0.20,2.40,0.20,0.40,0,0,MAT_Mur_Bordeaux,allege vitrine gauche
-009,Mur_facade_linteau_G,box,Murs_exterieurs,2.20,0.10,2.90,2.40,0.20,0.20,0,0,MAT_Mur_Bordeaux,linteau vitrine gauche
-010,Vitrine_G,glass,Ouvertures,2.20,0.10,1.60,2.40,0.04,2.40,0,0,MAT_Verre_Clair,vitrine gauche 2.40x2.40
-011,Mur_facade_linteau_porte,box,Murs_exterieurs,4.20,0.10,2.90,1.60,0.20,0.20,0,0,MAT_Mur_Bordeaux,linteau au-dessus imposte
-012,Imposte_vitree_porte,glass,Ouvertures,4.20,0.10,2.60,1.60,0.04,0.40,0,0,MAT_Verre_Clair,imposte z 2.40 a 2.80
-013,Mur_facade_pilier_D,box,Murs_exterieurs,7.90,0.10,1.50,1.00,0.20,3.00,0,0,MAT_Mur_Bordeaux,pilier droit facade
-014,Mur_facade_allege_D,box,Murs_exterieurs,6.20,0.10,0.20,2.40,0.20,0.40,0,0,MAT_Mur_Bordeaux,allege vitrine droite
-015,Mur_facade_linteau_D,box,Murs_exterieurs,6.20,0.10,2.90,2.40,0.20,0.20,0,0,MAT_Mur_Bordeaux,linteau vitrine droite
-016,Vitrine_D,glass,Ouvertures,6.20,0.10,1.60,2.40,0.04,2.40,0,0,MAT_Verre_Clair,vitrine droite 2.40x2.40
-017,Mur_arriere,box,Murs_exterieurs,4.20,7.10,1.50,8.40,0.20,3.00,0,0,MAT_Mur_Bordeaux,mur du fond
-018,Mur_gauche,box,Murs_exterieurs,0.10,3.60,1.50,0.20,6.80,3.00,0,0,MAT_Mur_Creme,mur lateral gauche
-019,Mur_droit,box,Murs_exterieurs,8.30,3.60,1.50,0.20,6.80,3.00,0,0,MAT_Mur_Creme,mur lateral droit
-020,Lambris_gauche,box,Murs_interieurs,0.21,3.60,0.60,0.02,6.80,1.20,0,0,MAT_Lambris_Bois,lambris bas mur gauche
-021,Lambris_droit,box,Murs_interieurs,8.19,3.60,0.60,0.02,6.80,1.20,0,0,MAT_Lambris_Bois,lambris bas mur droit
-022,Cloison_reserve_est,box,Cloisons,3.80,5.50,1.50,0.10,3.00,3.00,0,0,MAT_Mur_Creme,separation reserve
-023,Cloison_reserve_nord_A,box,Cloisons,0.50,4.00,1.50,0.60,0.10,3.00,0,0,MAT_Mur_Creme,reserve nord partie gauche
-024,Cloison_reserve_nord_B,box,Cloisons,2.75,4.00,1.50,2.10,0.10,3.00,0,0,MAT_Mur_Creme,reserve nord partie droite
-025,Cloison_WC_ouest,box,Cloisons,6.00,6.05,1.50,0.10,1.90,3.00,0,0,MAT_Mur_Creme,cote vestiaire
-026,Cloison_vestiaire_WC,box,Cloisons,7.20,6.05,1.50,0.10,1.90,3.00,0,0,MAT_Mur_Creme,separation vestiaire WC
-027,Cloison_WC_nord_A,box,Cloisons,6.075,5.10,1.50,0.15,0.10,3.00,0,0,MAT_Mur_Creme,mur sud partie 1
-028,Cloison_WC_nord_B,box,Cloisons,7.125,5.10,1.50,0.35,0.10,3.00,0,0,MAT_Mur_Creme,mur sud partie 2
-029,Cloison_WC_nord_C,box,Cloisons,8.15,5.10,1.50,0.10,0.10,3.00,0,0,MAT_Mur_Creme,mur sud partie 3
-030,Pivot_Porte_entree_G,empty,Ouvertures,3.40,0.10,0.00,0,0,0,0,0,,pivot vantail gauche porte double
-031,Porte_entree_G,glass,Ouvertures,3.80,0.10,1.20,0.80,0.04,2.40,0,0,MAT_Verre_Clair,enfant de 030 vantail 0.80
-032,Pivot_Porte_entree_D,empty,Ouvertures,5.00,0.10,0.00,0,0,0,0,0,,pivot vantail droit porte double
-033,Porte_entree_D,glass,Ouvertures,4.60,0.10,1.20,0.80,0.04,2.40,0,0,MAT_Verre_Clair,enfant de 032 vantail 0.80
-034,Pivot_Porte_staff,empty,Ouvertures,0.80,4.00,0.00,0,0,0,0,0,,pivot porte staff
-035,Porte_staff,door,Ouvertures,1.25,4.00,1.10,0.90,0.04,2.20,0,0,MAT_Bois_Clair,enfant de 034 porte 0.90
-036,Pivot_Porte_vestiaire,empty,Ouvertures,6.15,5.10,0.00,0,0,0,0,0,,pivot porte vestiaire
-037,Porte_vestiaire,door,Ouvertures,6.55,5.10,1.05,0.80,0.04,2.10,0,0,MAT_Bois_Clair,enfant de 036
-038,Pivot_Porte_WC,empty,Ouvertures,7.30,5.10,0.00,0,0,0,0,0,,pivot porte WC
-039,Porte_WC,door,Ouvertures,7.70,5.10,1.05,0.80,0.04,2.10,0,0,MAT_Bois_Clair,enfant de 038
-040,Plafond_interieur,box,Toit_plafond,4.20,3.60,2.985,8.00,6.80,0.03,0,0,MAT_Plafond_Blanc,supprimable avec le toit
-041,Toit_dalle,box,Toit,4.20,3.60,3.10,8.40,7.20,0.20,0,0,MAT_Toit_Etancheite,dalle de toit supprimable
-042,Acrotere_avant,box,Toit,4.20,0.10,3.40,8.40,0.20,0.40,0,0,MAT_Toit_Etancheite,muret facade
-043,Acrotere_arriere,box,Toit,4.20,7.10,3.40,8.40,0.20,0.40,0,0,MAT_Toit_Etancheite,muret fond
-044,Acrotere_gauche,box,Toit,0.10,3.60,3.40,0.20,6.80,0.40,0,0,MAT_Toit_Etancheite,muret gauche
-045,Acrotere_droit,box,Toit,8.30,3.60,3.40,0.20,6.80,0.40,0,0,MAT_Toit_Etancheite,muret droit
-046,Enseigne_caisson,box,Enseigne,4.20,-0.10,3.25,6.80,0.20,0.60,0,0,MAT_Laiton_Brosse,caisson exterieur en saillie
-047,Enseigne_logo,plane,Enseigne,4.20,-0.21,3.25,0.95,0.54,0,90,0,MAT_Logo,"plan du logo, hauteur 0,54 m, largeur proportionnelle (ratio 1,766)"
-048,Enseigne_lumiere,area_light,Enseigne,4.20,-0.60,3.25,6.00,0.40,0,0,0,,lumiere d'appoint face enseigne 2700K
-049,Tapis_entree,plane,Decor_sol,4.20,0.85,0.005,1.60,1.20,0,0,0,MAT_Tapis_Fibre,"tapis, texture gris rayee (teinte modifiable dans le materiau)"
-050,Comptoir_bar,box,Comptoir_caisse,5.20,4.55,0.50,2.60,0.70,1.00,0,0,MAT_Bois_Clair,barre du comptoir
-051,Comptoir_arm,box,Comptoir_caisse,6.15,3.85,0.50,0.70,0.70,1.00,0,0,MAT_Bois_Clair,retour du L
-052,Comptoir_plan_bar,box,Comptoir_caisse,5.20,4.55,1.02,2.64,0.74,0.04,0,0,MAT_Plan_Comptoir,plan de travail
-053,Comptoir_plan_arm,box,Comptoir_caisse,6.15,3.85,1.02,0.74,0.74,0.04,0,0,MAT_Plan_Comptoir,plan de travail retour
-054,Comptoir_lisere_laiton,box,Comptoir_caisse,5.20,4.19,1.00,2.64,0.02,0.02,0,0,MAT_Laiton_Brosse,lisere avant du comptoir
-055,Emplacement_caisse,empty,Comptoir_caisse,5.60,4.55,1.04,0,0,0,0,0,,emplacement caisse a placer soi-meme
-056,Spot_R1C1,spot,Eclairage,1.60,1.20,2.97,0.10,0.10,0.01,0,0,MAT_Lumiere_Emissive,spot 2700K vers le bas
-057,Spot_R1C2,spot,Eclairage,3.40,1.20,2.97,0.10,0.10,0.01,0,0,MAT_Lumiere_Emissive,spot 2700K vers le bas
-058,Spot_R1C3,spot,Eclairage,5.20,1.20,2.97,0.10,0.10,0.01,0,0,MAT_Lumiere_Emissive,spot 2700K vers le bas
-059,Spot_R1C4,spot,Eclairage,7.00,1.20,2.97,0.10,0.10,0.01,0,0,MAT_Lumiere_Emissive,spot 2700K vers le bas
-060,Spot_R2C1,spot,Eclairage,1.60,2.80,2.97,0.10,0.10,0.01,0,0,MAT_Lumiere_Emissive,spot 2700K vers le bas
-061,Spot_R2C2,spot,Eclairage,3.40,2.80,2.97,0.10,0.10,0.01,0,0,MAT_Lumiere_Emissive,spot 2700K vers le bas
-062,Spot_R2C3,spot,Eclairage,5.20,2.80,2.97,0.10,0.10,0.01,0,0,MAT_Lumiere_Emissive,spot 2700K vers le bas
-063,Spot_R2C4,spot,Eclairage,7.00,2.80,2.97,0.10,0.10,0.01,0,0,MAT_Lumiere_Emissive,spot 2700K vers le bas
-064,Spot_R3C1,spot,Eclairage,1.60,4.40,2.97,0.10,0.10,0.01,0,0,MAT_Lumiere_Emissive,spot 2700K vers le bas
-065,Spot_R3C2,spot,Eclairage,3.40,4.40,2.97,0.10,0.10,0.01,0,0,MAT_Lumiere_Emissive,spot 2700K vers le bas
-066,Spot_R3C3,spot,Eclairage,5.20,4.40,2.97,0.10,0.10,0.01,0,0,MAT_Lumiere_Emissive,spot 2700K vers le bas
-067,Spot_R3C4,spot,Eclairage,7.00,4.40,2.97,0.10,0.10,0.01,0,0,MAT_Lumiere_Emissive,spot 2700K vers le bas
-068,Suspension_01,suspension,Eclairage,2.60,2.40,2.20,0.36,0.36,0.20,0,0,MAT_Laiton_Brosse,abat-jour 2700K z 2.10 a 2.30
-069,Suspension_01_cable,cylinder,Eclairage,2.60,2.40,2.635,0.01,0.01,0.67,0,0,MAT_Alu_Cadre,cable jusqu au plafond
-070,Suspension_02,suspension,Eclairage,4.20,2.40,2.20,0.36,0.36,0.20,0,0,MAT_Laiton_Brosse,abat-jour 2700K z 2.10 a 2.30
-071,Suspension_02_cable,cylinder,Eclairage,4.20,2.40,2.635,0.01,0.01,0.67,0,0,MAT_Alu_Cadre,cable jusqu au plafond
-072,Zone_Accueil,empty,Zones,4.20,0.80,0.00,3.40,1.20,0,0,0,,marqueur zone accueil
-073,Zone_MurMarque,empty,Zones,0.30,2.00,0.00,0.20,3.20,0,0,0,,marqueur mur de marque 3.20 m
-074,Zone_Epices,empty,Zones,1.60,1.75,0.00,2.00,2.30,0,0,0,,marqueur zone epices
-075,Zone_Assise,empty,Zones,1.60,3.45,0.00,2.00,0.90,0,0,0,,marqueur assise 2 a 3 places
-076,Zone_Essentiels,empty,Zones,6.30,1.25,0.00,1.80,1.30,0,0,0,,marqueur essentiels
-077,Zone_Table,empty,Zones,6.50,2.85,0.00,1.80,0.90,0,0,0,,marqueur table de degustation
-078,Zone_Marinades,empty,Zones,7.70,2.10,0.00,0.60,3.40,0,0,0,,marqueur marinades 3.40 m
-079,Zone_Caisse,empty,Zones,5.20,4.20,0.00,2.60,1.40,0,0,0,,marqueur comptoir caisse
-080,Zone_Emballage,empty,Zones,4.90,5.95,0.00,2.20,2.10,0,0,0,,marqueur emballage cadeau
-081,Zone_Reserve,empty,Zones,1.90,5.60,0.00,3.80,3.20,0,0,0,,marqueur reserve
-082,Zone_Vestiaire,empty,Zones,6.60,6.15,0.00,1.20,2.10,0,0,0,,marqueur vestiaire
-083,Zone_WC,empty,Zones,7.80,6.15,0.00,1.20,2.10,0,0,0,,marqueur toilettes staff
-084,Auvent_dalle,box,Murs_exterieurs,4.2,-0.5,2.85,8.4,1.0,0.1,0,0,MAT_Alu_Cadre,auvent en porte-a-faux z 2.80 a 2.90
-085,Cadre_vitrine_G_gauche,box,Ouvertures,1.02,-0.01,1.6,0.04,0.02,2.4,0,0,MAT_Alu_Cadre,parclose vitrine
-086,Cadre_vitrine_G_droit,box,Ouvertures,3.38,-0.01,1.6,0.04,0.02,2.4,0,0,MAT_Alu_Cadre,parclose vitrine
-087,Cadre_vitrine_G_bas,box,Ouvertures,2.2,-0.01,0.42,2.4,0.02,0.04,0,0,MAT_Alu_Cadre,parclose vitrine
-088,Cadre_vitrine_G_haut,box,Ouvertures,2.2,-0.01,2.78,2.4,0.02,0.04,0,0,MAT_Alu_Cadre,parclose vitrine
-089,Cadre_vitrine_D_gauche,box,Ouvertures,5.02,-0.01,1.6,0.04,0.02,2.4,0,0,MAT_Alu_Cadre,parclose vitrine
-090,Cadre_vitrine_D_droit,box,Ouvertures,7.38,-0.01,1.6,0.04,0.02,2.4,0,0,MAT_Alu_Cadre,parclose vitrine
-091,Cadre_vitrine_D_bas,box,Ouvertures,6.2,-0.01,0.42,2.4,0.02,0.04,0,0,MAT_Alu_Cadre,parclose vitrine
-092,Cadre_vitrine_D_haut,box,Ouvertures,6.2,-0.01,2.78,2.4,0.02,0.04,0,0,MAT_Alu_Cadre,parclose vitrine
-093,Cadre_imposte_gauche,box,Ouvertures,3.42,-0.01,2.6,0.04,0.02,0.4,0,0,MAT_Alu_Cadre,parclose imposte
-094,Cadre_imposte_droit,box,Ouvertures,4.98,-0.01,2.6,0.04,0.02,0.4,0,0,MAT_Alu_Cadre,parclose imposte
-095,Cadre_imposte_bas,box,Ouvertures,4.2,-0.01,2.42,1.6,0.02,0.04,0,0,MAT_Alu_Cadre,parclose imposte
-096,Cadre_imposte_haut,box,Ouvertures,4.2,-0.01,2.78,1.6,0.02,0.04,0,0,MAT_Alu_Cadre,parclose imposte
-097,Cadre_vantail_G_montant_1,box,Ouvertures,3.425,0.1,1.2,0.05,0.06,2.4,0,0,MAT_Alu_Cadre,montant vantail
-098,Cadre_vantail_G_montant_2,box,Ouvertures,4.175,0.1,1.2,0.05,0.06,2.4,0,0,MAT_Alu_Cadre,montant vantail
-099,Cadre_vantail_G_traverse,box,Ouvertures,3.8,0.1,2.37,0.8,0.06,0.05,0,0,MAT_Alu_Cadre,traverse vantail
-100,Cadre_vantail_D_montant_1,box,Ouvertures,4.225,0.1,1.2,0.05,0.06,2.4,0,0,MAT_Alu_Cadre,montant vantail
-101,Cadre_vantail_D_montant_2,box,Ouvertures,4.975,0.1,1.2,0.05,0.06,2.4,0,0,MAT_Alu_Cadre,montant vantail
-102,Cadre_vantail_D_traverse,box,Ouvertures,4.6,0.1,2.37,0.8,0.06,0.05,0,0,MAT_Alu_Cadre,traverse vantail
-103,Chambranle_staff_gauche,box,Ouvertures,0.765,3.94,1.135,0.07,0.02,2.27,0,0,MAT_Bois_Clair,chambranle porte staff
-104,Chambranle_staff_droit,box,Ouvertures,1.735,3.94,1.135,0.07,0.02,2.27,0,0,MAT_Bois_Clair,chambranle porte staff
-105,Chambranle_staff_haut,box,Ouvertures,1.25,3.94,2.235,1.04,0.02,0.07,0,0,MAT_Bois_Clair,chambranle porte staff
-106,Chambranle_vestiaire_gauche,box,Ouvertures,6.115,5.04,1.085,0.07,0.02,2.17,0,0,MAT_Bois_Clair,chambranle porte vestiaire
-107,Chambranle_vestiaire_droit,box,Ouvertures,6.985,5.04,1.085,0.07,0.02,2.17,0,0,MAT_Bois_Clair,chambranle porte vestiaire
-108,Chambranle_vestiaire_haut,box,Ouvertures,6.55,5.04,2.135,0.94,0.02,0.07,0,0,MAT_Bois_Clair,chambranle porte vestiaire
-109,Chambranle_WC_gauche,box,Ouvertures,7.265,5.04,1.085,0.07,0.02,2.17,0,0,MAT_Bois_Clair,chambranle porte WC
-110,Chambranle_WC_droit,box,Ouvertures,8.135,5.04,1.085,0.07,0.02,2.17,0,0,MAT_Bois_Clair,chambranle porte WC
-111,Chambranle_WC_haut,box,Ouvertures,7.7,5.04,2.135,0.94,0.02,0.07,0,0,MAT_Bois_Clair,chambranle porte WC
-112,Plinthe_avant_gauche,box,Murs_interieurs,2.2,0.2075,0.04,2.4,0.015,0.08,0,0,MAT_Bois_Clair,plinthe
-113,Plinthe_avant_droite,box,Murs_interieurs,6.2,0.2075,0.04,2.4,0.015,0.08,0,0,MAT_Bois_Clair,plinthe
-114,Plinthe_fond_1,box,Murs_interieurs,3.075,6.9925,0.04,5.75,0.015,0.08,0,0,MAT_Bois_Clair,plinthe
-115,Plinthe_fond_2,box,Murs_interieurs,6.6,6.9925,0.04,1.1,0.015,0.08,0,0,MAT_Bois_Clair,plinthe
-116,Plinthe_fond_3,box,Murs_interieurs,7.725,6.9925,0.04,0.95,0.015,0.08,0,0,MAT_Bois_Clair,plinthe
-117,Seuil_entree,box,Ouvertures,4.2,0.1,0.01,1.6,0.2,0.02,0,0,MAT_Alu_Cadre,seuil porte d entree
-118,Seuil_porte_staff,box,Ouvertures,1.25,4.0,0.01,0.9,0.1,0.02,0,0,MAT_Alu_Cadre,seuil
-119,Seuil_vestiaire,box,Ouvertures,6.55,5.1,0.01,0.8,0.1,0.02,0,0,MAT_Alu_Cadre,seuil
-120,Seuil_WC,box,Ouvertures,7.7,5.1,0.01,0.8,0.1,0.02,0,0,MAT_Alu_Cadre,seuil
-121,WC_cuvette,box,Sanitaires,7.8,6.54,0.2,0.4,0.68,0.4,0,0,MAT_Sanitaire_Blanc,cuvette WC contre le fond
-122,WC_reservoir,box,Sanitaires,7.8,6.94,0.575,0.4,0.12,0.75,0,0,MAT_Sanitaire_Blanc,reservoir encastre
-123,Lavabo_vasque,box,Sanitaires,7.7,5.35,0.85,0.5,0.4,0.15,0,0,MAT_Sanitaire_Blanc,vasque lavabo
-124,Lavabo_pied,box,Sanitaires,7.7,5.35,0.3875,0.12,0.12,0.775,0,0,MAT_Sanitaire_Blanc,pied lavabo
-125,Lavabo_robinet,cylinder,Sanitaires,7.7,5.2,1.0,0.03,0.03,0.15,0,0,MAT_Laiton_Brosse,robinet
-126,Tableau_electrique,box,Local_technique,6.075,6.5,1.3,0.05,0.4,0.6,0,0,MAT_Plafond_Blanc,tableau electrique sur cloison vestiaire
-127,Grille_ventilation_WC,box,Local_technique,8.195,6.5,2.4,0.01,0.15,0.15,0,0,MAT_Alu_Cadre,grille de ventilation WC
-128,Tapis_logo,plane,Decor_sol,4.2,0.85,0.008,1.06,0.60,0,0,0,MAT_Logo,"logo au centre du tapis, ratio respecte"
+001,Sol_Vente,box,Sol,12,6.025,-0.01,24,12.05,0.02,0,0,MAT_Sol_Terracotta,salle de vente
+002,Sol_Reserve,box,Sol,4.525,14.025,-0.01,9.05,3.95,0.02,0,0,MAT_Sol_BetonCire,reserve
+003,Sol_Couloir,box,Sol,16.525,12.8,-0.01,14.95,1.5,0.02,0,0,MAT_Sol_BetonCire,couloir du personnel
+004,Sol_Bureau,box,Sol,11.05,14.775,-0.01,4,2.45,0.02,0,0,MAT_Bois_Clair,bureau
+005,Sol_WC,box,Sol,13.95,14.775,-0.01,1.8,2.45,0.02,0,0,MAT_Sol_Carrelage_Blanc,wc
+006,Sol_Vestiaire,box,Sol,16.45,14.775,-0.01,3.2,2.45,0.02,0,0,MAT_Sol_Carrelage_Blanc,vestiaire
+007,Sol_Pause,box,Sol,19.95,14.775,-0.01,3.8,2.45,0.02,0,0,MAT_Sol_Carrelage_Blanc,pause
+008,Sol_Local_technique,box,Sol,22.925,14.775,-0.01,2.15,2.45,0.02,0,0,MAT_Sol_BetonCire,local_technique
+009,Mur_facade_pilier_1,box,Murs_exterieurs,0.4,0.1,1.75,0.8,0.2,3.5,0,0,MAT_Mur_Bordeaux,pilier de facade
+010,Mur_facade_pilier_2,box,Murs_exterieurs,10.75,0.1,1.75,0.7,0.2,3.5,0,0,MAT_Mur_Bordeaux,pilier de facade
+011,Mur_facade_pilier_3,box,Murs_exterieurs,13.25,0.1,1.75,0.7,0.2,3.5,0,0,MAT_Mur_Bordeaux,pilier de facade
+012,Mur_facade_pilier_4,box,Murs_exterieurs,23.6,0.1,1.75,0.8,0.2,3.5,0,0,MAT_Mur_Bordeaux,pilier de facade
+013,Mur_facade_allege_1,box,Murs_exterieurs,2.4,0.1,0.2,3.2,0.2,0.4,0,0,MAT_Mur_Bordeaux,allege vitrine 1
+014,Mur_facade_linteau_1,box,Murs_exterieurs,2.4,0.1,3.25,3.2,0.2,0.5,0,0,MAT_Mur_Bordeaux,linteau vitrine 1
+015,Vitrine_1,glass,Ouvertures,2.4,0.1,1.7,3.2,0.04,2.6,0,0,MAT_Verre_Clair,vitrine 3.20 x 2.60
+016,Cadre_vitrine_1_gauche,box,Ouvertures,0.82,-0.01,1.7,0.04,0.02,2.6,0,0,MAT_Alu_Cadre,
+017,Cadre_vitrine_1_droit,box,Ouvertures,3.98,-0.01,1.7,0.04,0.02,2.6,0,0,MAT_Alu_Cadre,
+018,Cadre_vitrine_1_bas,box,Ouvertures,2.4,-0.01,0.42,3.2,0.02,0.04,0,0,MAT_Alu_Cadre,
+019,Cadre_vitrine_1_haut,box,Ouvertures,2.4,-0.01,2.98,3.2,0.02,0.04,0,0,MAT_Alu_Cadre,
+020,Mur_facade_allege_2,box,Murs_exterieurs,5.6,0.1,0.2,3.2,0.2,0.4,0,0,MAT_Mur_Bordeaux,allege vitrine 2
+021,Mur_facade_linteau_2,box,Murs_exterieurs,5.6,0.1,3.25,3.2,0.2,0.5,0,0,MAT_Mur_Bordeaux,linteau vitrine 2
+022,Vitrine_2,glass,Ouvertures,5.6,0.1,1.7,3.2,0.04,2.6,0,0,MAT_Verre_Clair,vitrine 3.20 x 2.60
+023,Cadre_vitrine_2_gauche,box,Ouvertures,4.02,-0.01,1.7,0.04,0.02,2.6,0,0,MAT_Alu_Cadre,
+024,Cadre_vitrine_2_droit,box,Ouvertures,7.18,-0.01,1.7,0.04,0.02,2.6,0,0,MAT_Alu_Cadre,
+025,Cadre_vitrine_2_bas,box,Ouvertures,5.6,-0.01,0.42,3.2,0.02,0.04,0,0,MAT_Alu_Cadre,
+026,Cadre_vitrine_2_haut,box,Ouvertures,5.6,-0.01,2.98,3.2,0.02,0.04,0,0,MAT_Alu_Cadre,
+027,Mur_facade_allege_3,box,Murs_exterieurs,8.8,0.1,0.2,3.2,0.2,0.4,0,0,MAT_Mur_Bordeaux,allege vitrine 3
+028,Mur_facade_linteau_3,box,Murs_exterieurs,8.8,0.1,3.25,3.2,0.2,0.5,0,0,MAT_Mur_Bordeaux,linteau vitrine 3
+029,Vitrine_3,glass,Ouvertures,8.8,0.1,1.7,3.2,0.04,2.6,0,0,MAT_Verre_Clair,vitrine 3.20 x 2.60
+030,Cadre_vitrine_3_gauche,box,Ouvertures,7.22,-0.01,1.7,0.04,0.02,2.6,0,0,MAT_Alu_Cadre,
+031,Cadre_vitrine_3_droit,box,Ouvertures,10.38,-0.01,1.7,0.04,0.02,2.6,0,0,MAT_Alu_Cadre,
+032,Cadre_vitrine_3_bas,box,Ouvertures,8.8,-0.01,0.42,3.2,0.02,0.04,0,0,MAT_Alu_Cadre,
+033,Cadre_vitrine_3_haut,box,Ouvertures,8.8,-0.01,2.98,3.2,0.02,0.04,0,0,MAT_Alu_Cadre,
+034,Mur_facade_allege_4,box,Murs_exterieurs,15.2,0.1,0.2,3.2,0.2,0.4,0,0,MAT_Mur_Bordeaux,allege vitrine 4
+035,Mur_facade_linteau_4,box,Murs_exterieurs,15.2,0.1,3.25,3.2,0.2,0.5,0,0,MAT_Mur_Bordeaux,linteau vitrine 4
+036,Vitrine_4,glass,Ouvertures,15.2,0.1,1.7,3.2,0.04,2.6,0,0,MAT_Verre_Clair,vitrine 3.20 x 2.60
+037,Cadre_vitrine_4_gauche,box,Ouvertures,13.62,-0.01,1.7,0.04,0.02,2.6,0,0,MAT_Alu_Cadre,
+038,Cadre_vitrine_4_droit,box,Ouvertures,16.78,-0.01,1.7,0.04,0.02,2.6,0,0,MAT_Alu_Cadre,
+039,Cadre_vitrine_4_bas,box,Ouvertures,15.2,-0.01,0.42,3.2,0.02,0.04,0,0,MAT_Alu_Cadre,
+040,Cadre_vitrine_4_haut,box,Ouvertures,15.2,-0.01,2.98,3.2,0.02,0.04,0,0,MAT_Alu_Cadre,
+041,Mur_facade_allege_5,box,Murs_exterieurs,18.4,0.1,0.2,3.2,0.2,0.4,0,0,MAT_Mur_Bordeaux,allege vitrine 5
+042,Mur_facade_linteau_5,box,Murs_exterieurs,18.4,0.1,3.25,3.2,0.2,0.5,0,0,MAT_Mur_Bordeaux,linteau vitrine 5
+043,Vitrine_5,glass,Ouvertures,18.4,0.1,1.7,3.2,0.04,2.6,0,0,MAT_Verre_Clair,vitrine 3.20 x 2.60
+044,Cadre_vitrine_5_gauche,box,Ouvertures,16.82,-0.01,1.7,0.04,0.02,2.6,0,0,MAT_Alu_Cadre,
+045,Cadre_vitrine_5_droit,box,Ouvertures,19.98,-0.01,1.7,0.04,0.02,2.6,0,0,MAT_Alu_Cadre,
+046,Cadre_vitrine_5_bas,box,Ouvertures,18.4,-0.01,0.42,3.2,0.02,0.04,0,0,MAT_Alu_Cadre,
+047,Cadre_vitrine_5_haut,box,Ouvertures,18.4,-0.01,2.98,3.2,0.02,0.04,0,0,MAT_Alu_Cadre,
+048,Mur_facade_allege_6,box,Murs_exterieurs,21.6,0.1,0.2,3.2,0.2,0.4,0,0,MAT_Mur_Bordeaux,allege vitrine 6
+049,Mur_facade_linteau_6,box,Murs_exterieurs,21.6,0.1,3.25,3.2,0.2,0.5,0,0,MAT_Mur_Bordeaux,linteau vitrine 6
+050,Vitrine_6,glass,Ouvertures,21.6,0.1,1.7,3.2,0.04,2.6,0,0,MAT_Verre_Clair,vitrine 3.20 x 2.60
+051,Cadre_vitrine_6_gauche,box,Ouvertures,20.02,-0.01,1.7,0.04,0.02,2.6,0,0,MAT_Alu_Cadre,
+052,Cadre_vitrine_6_droit,box,Ouvertures,23.18,-0.01,1.7,0.04,0.02,2.6,0,0,MAT_Alu_Cadre,
+053,Cadre_vitrine_6_bas,box,Ouvertures,21.6,-0.01,0.42,3.2,0.02,0.04,0,0,MAT_Alu_Cadre,
+054,Cadre_vitrine_6_haut,box,Ouvertures,21.6,-0.01,2.98,3.2,0.02,0.04,0,0,MAT_Alu_Cadre,
+055,Mur_facade_linteau_entree,box,Murs_exterieurs,12,0.1,3.25,1.8,0.2,0.5,0,0,MAT_Mur_Bordeaux,linteau entree
+056,Imposte_vitree_entree,glass,Ouvertures,12,0.1,2.7,1.8,0.04,0.6,0,0,MAT_Verre_Clair,imposte au-dessus de la porte
+057,Cadre_imposte_gauche,box,Ouvertures,11.12,-0.01,2.7,0.04,0.02,0.6,0,0,MAT_Alu_Cadre,
+058,Cadre_imposte_droit,box,Ouvertures,12.88,-0.01,2.7,0.04,0.02,0.6,0,0,MAT_Alu_Cadre,
+059,Cadre_imposte_bas,box,Ouvertures,12,-0.01,2.42,1.8,0.02,0.04,0,0,MAT_Alu_Cadre,
+060,Cadre_imposte_haut,box,Ouvertures,12,-0.01,2.98,1.8,0.02,0.04,0,0,MAT_Alu_Cadre,
+061,Pivot_Porte_entree_G,empty,Ouvertures,11.1,0.1,0,0,0,0,0,0,,pivot Porte_entree_G
+062,Porte_entree_G,glass,Ouvertures,11.55,0.1,1.2,0.9,0.04,2.4,0,0,MAT_Verre_Clair,enfant de 061
+063,Cadre_Porte_entree_G_montant_1,box,Ouvertures,11.125,0.1,1.2,0.05,0.06,2.4,0,0,MAT_Alu_Cadre,enfant de 061
+064,Cadre_Porte_entree_G_montant_2,box,Ouvertures,11.975,0.1,1.2,0.05,0.06,2.4,0,0,MAT_Alu_Cadre,enfant de 061
+065,Cadre_Porte_entree_G_traverse,box,Ouvertures,11.55,0.1,2.37,0.9,0.06,0.06,0,0,MAT_Alu_Cadre,enfant de 061
+066,Cadre_Porte_entree_G_soubassement,box,Ouvertures,11.55,0.1,0.06,0.9,0.06,0.12,0,0,MAT_Alu_Cadre,enfant de 061
+067,Pivot_Porte_entree_D,empty,Ouvertures,12.9,0.1,0,0,0,0,0,0,,pivot Porte_entree_D
+068,Porte_entree_D,glass,Ouvertures,12.45,0.1,1.2,0.9,0.04,2.4,0,0,MAT_Verre_Clair,enfant de 067
+069,Cadre_Porte_entree_D_montant_1,box,Ouvertures,12.025,0.1,1.2,0.05,0.06,2.4,0,0,MAT_Alu_Cadre,enfant de 067
+070,Cadre_Porte_entree_D_montant_2,box,Ouvertures,12.875,0.1,1.2,0.05,0.06,2.4,0,0,MAT_Alu_Cadre,enfant de 067
+071,Cadre_Porte_entree_D_traverse,box,Ouvertures,12.45,0.1,2.37,0.9,0.06,0.06,0,0,MAT_Alu_Cadre,enfant de 067
+072,Cadre_Porte_entree_D_soubassement,box,Ouvertures,12.45,0.1,0.06,0.9,0.06,0.12,0,0,MAT_Alu_Cadre,enfant de 067
+073,Seuil_Porte_entree,box,Ouvertures,12,0.1,0.01,1.8,0.2,0.02,0,0,MAT_Alu_Cadre,
+074,Auvent_dalle,box,Murs_exterieurs,12,-0.6,3.05,24,1.2,0.1,0,0,MAT_Alu_Cadre,auvent en porte-a-faux de 1.20 m
+075,Mur_gauche,box,Murs_exterieurs,0.1,8,1.75,0.2,15.6,3.5,0,0,MAT_Mur_Creme,mur lateral gauche
+076,Mur_droit,box,Murs_exterieurs,23.9,8,1.75,0.2,15.6,3.5,0,0,MAT_Mur_Creme,mur lateral droit
+077,Mur_arriere_1,box,Murs_exterieurs,1.5,15.9,1.75,3,0.2,3.5,0,0,MAT_Mur_Bordeaux,
+078,Mur_arriere_2,box,Murs_exterieurs,14.1,15.9,1.75,19.8,0.2,3.5,0,0,MAT_Mur_Bordeaux,
+079,Mur_arriere_linteau_livraison,box,Murs_exterieurs,3.6,15.9,2.85,1.2,0.2,1.3,0,0,MAT_Mur_Bordeaux,au-dessus de la porte livraison
+080,Pivot_Porte_livraison,empty,Ouvertures,3,15.9,0,0,0,0,0,0,,pivot Porte_livraison
+081,Porte_livraison,door,Ouvertures,3.6,15.9,1.1,1.2,0.04,2.2,0,0,MAT_Alu_Cadre,enfant de 080
+082,Seuil_Porte_livraison,box,Ouvertures,3.6,15.9,0.01,1.2,0.2,0.02,0,0,MAT_Alu_Cadre,
+083,Plafond_interieur,box,Toit_plafond,12,8,3.485,23.6,15.6,0.03,0,0,MAT_Plafond_Blanc,supprimable avec le toit
+084,Toit_dalle,box,Toit,12,8,3.6,24,16,0.2,0,0,MAT_Toit_Etancheite,dalle de toit supprimable
+085,Acrotere_avant,box,Toit,12,0.1,3.9,24,0.2,0.4,0,0,MAT_Toit_Etancheite,muret facade
+086,Acrotere_arriere,box,Toit,12,15.9,3.9,24,0.2,0.4,0,0,MAT_Toit_Etancheite,muret fond
+087,Acrotere_gauche,box,Toit,0.1,8,3.9,0.2,15.6,0.4,0,0,MAT_Toit_Etancheite,muret gauche
+088,Acrotere_droit,box,Toit,23.9,8,3.9,0.2,15.6,0.4,0,0,MAT_Toit_Etancheite,muret droit
+089,Enseigne_caisson,box,Enseigne,12,-0.1,3.6,10,0.2,0.8,0,0,MAT_Laiton_Brosse,"caisson exterieur en saillie, 10 m"
+090,Enseigne_logo,plane,Enseigne,12,-0.21,3.6,1.24,0.7,0,90,0,MAT_Logo,"logo, hauteur 0.70 m, largeur selon le ratio de l image"
+091,Enseigne_lumiere,area_light,Enseigne,12,-0.8,3.6,9,0.5,0,0,0,,lumiere d appoint tournee vers l enseigne 2700K
+092,Cloison_vente_1,box,Cloisons,3.6,12.05,1.75,6.8,0.1,3.5,0,0,MAT_Mur_Creme,separation vente / locaux du personnel
+093,Cloison_vente_2,box,Cloisons,15.45,12.05,1.75,13.7,0.1,3.5,0,0,MAT_Mur_Creme,separation vente / locaux du personnel
+094,Cloison_vente_3,box,Cloisons,23.5,12.05,1.75,0.6,0.1,3.5,0,0,MAT_Mur_Creme,separation vente / locaux du personnel
+095,Cloison_vente_linteau_reserve,box,Cloisons,7.8,12.05,2.85,1.6,0.1,1.3,0,0,MAT_Mur_Creme,au-dessus de la porte reserve
+096,Cloison_vente_linteau_staff,box,Cloisons,22.75,12.05,2.85,0.9,0.1,1.3,0,0,MAT_Mur_Creme,au-dessus de la porte staff
+097,Cloison_reserve_1,box,Cloisons,9.05,12.25,1.75,0.1,0.3,3.5,0,0,MAT_Mur_Creme,reserve / couloir et bureau
+098,Cloison_reserve_2,box,Cloisons,9.05,14.55,1.75,0.1,2.5,3.5,0,0,MAT_Mur_Creme,reserve / couloir et bureau
+099,Cloison_reserve_linteau_couloir,box,Cloisons,9.05,12.85,2.85,0.1,0.9,1.3,0,0,MAT_Mur_Creme,au-dessus de la porte couloir
+100,Cloison_couloir_1,box,Cloisons,9.3,13.55,1.75,0.4,0.1,3.5,0,0,MAT_Mur_Creme,couloir / pieces du personnel
+101,Cloison_couloir_2,box,Cloisons,11.85,13.55,1.75,2.9,0.1,3.5,0,0,MAT_Mur_Creme,couloir / pieces du personnel
+102,Cloison_couloir_3,box,Cloisons,14.65,13.55,1.75,1.1,0.1,3.5,0,0,MAT_Mur_Creme,couloir / pieces du personnel
+103,Cloison_couloir_4,box,Cloisons,17.2,13.55,1.75,2.4,0.1,3.5,0,0,MAT_Mur_Creme,couloir / pieces du personnel
+104,Cloison_couloir_5,box,Cloisons,20.65,13.55,1.75,2.7,0.1,3.5,0,0,MAT_Mur_Creme,couloir / pieces du personnel
+105,Cloison_couloir_6,box,Cloisons,23.3,13.55,1.75,1,0.1,3.5,0,0,MAT_Mur_Creme,couloir / pieces du personnel
+106,Cloison_couloir_linteau_bureau,box,Cloisons,9.95,13.55,2.85,0.9,0.1,1.3,0,0,MAT_Mur_Creme,au-dessus de la porte bureau
+107,Cloison_couloir_linteau_WC,box,Cloisons,13.7,13.55,2.85,0.8,0.1,1.3,0,0,MAT_Mur_Creme,au-dessus de la porte WC
+108,Cloison_couloir_linteau_vestiaire,box,Cloisons,15.6,13.55,2.85,0.8,0.1,1.3,0,0,MAT_Mur_Creme,au-dessus de la porte vestiaire
+109,Cloison_couloir_linteau_pause,box,Cloisons,18.85,13.55,2.85,0.9,0.1,1.3,0,0,MAT_Mur_Creme,au-dessus de la porte pause
+110,Cloison_couloir_linteau_local_technique,box,Cloisons,22.4,13.55,2.85,0.8,0.1,1.3,0,0,MAT_Mur_Creme,au-dessus de la porte local_technique
+111,Cloison_bureau_WC,box,Cloisons,13.05,14.7,1.75,0.1,2.2,3.5,0,0,MAT_Mur_Creme,
+112,Cloison_WC_vestiaire,box,Cloisons,14.85,14.7,1.75,0.1,2.2,3.5,0,0,MAT_Mur_Creme,
+113,Cloison_vestiaire_pause,box,Cloisons,18.05,14.7,1.75,0.1,2.2,3.5,0,0,MAT_Mur_Creme,
+114,Cloison_pause_local,box,Cloisons,21.85,14.7,1.75,0.1,2.2,3.5,0,0,MAT_Mur_Creme,
+115,Pivot_Porte_reserve_G,empty,Ouvertures,7,12.05,0,0,0,0,0,0,,pivot Porte_reserve_G
+116,Porte_reserve_G,door,Ouvertures,7.4,12.05,1.1,0.8,0.04,2.2,0,0,MAT_Bois_Clair,enfant de 115
+117,Pivot_Porte_reserve_D,empty,Ouvertures,8.6,12.05,0,0,0,0,0,0,,pivot Porte_reserve_D
+118,Porte_reserve_D,door,Ouvertures,8.2,12.05,1.1,0.8,0.04,2.2,0,0,MAT_Bois_Clair,enfant de 117
+119,Seuil_Porte_reserve,box,Ouvertures,7.8,12.05,0.01,1.6,0.1,0.02,0,0,MAT_Alu_Cadre,
+120,Chambranle_Porte_reserve_gauche,box,Ouvertures,6.965,11.99,1.135,0.07,0.02,2.27,0,0,MAT_Bois_Clair,
+121,Chambranle_Porte_reserve_droit,box,Ouvertures,8.635,11.99,1.135,0.07,0.02,2.27,0,0,MAT_Bois_Clair,
+122,Chambranle_Porte_reserve_haut,box,Ouvertures,7.8,11.99,2.235,1.74,0.02,0.07,0,0,MAT_Bois_Clair,
+123,Pivot_Porte_staff,empty,Ouvertures,22.3,12.05,0,0,0,0,0,0,,pivot Porte_staff
+124,Porte_staff,door,Ouvertures,22.75,12.05,1.1,0.9,0.04,2.2,0,0,MAT_Bois_Clair,enfant de 123
+125,Seuil_Porte_staff,box,Ouvertures,22.75,12.05,0.01,0.9,0.1,0.02,0,0,MAT_Alu_Cadre,
+126,Chambranle_Porte_staff_gauche,box,Ouvertures,22.265,11.99,1.135,0.07,0.02,2.27,0,0,MAT_Bois_Clair,
+127,Chambranle_Porte_staff_droit,box,Ouvertures,23.235,11.99,1.135,0.07,0.02,2.27,0,0,MAT_Bois_Clair,
+128,Chambranle_Porte_staff_haut,box,Ouvertures,22.75,11.99,2.235,1.04,0.02,0.07,0,0,MAT_Bois_Clair,
+129,Pivot_Porte_reserve_couloir,empty,Ouvertures,9.05,12.4,0,0,0,0,0,0,,pivot Porte_reserve_couloir
+130,Porte_reserve_couloir,door,Ouvertures,9.05,12.85,1.1,0.04,0.9,2.2,0,0,MAT_Bois_Clair,enfant de 129
+131,Seuil_Porte_reserve_couloir,box,Ouvertures,9.05,12.85,0.01,0.1,0.9,0.02,0,0,MAT_Alu_Cadre,
+132,Pivot_Porte_bureau,empty,Ouvertures,9.5,13.55,0,0,0,0,0,0,,pivot Porte_bureau
+133,Porte_bureau,door,Ouvertures,9.95,13.55,1.1,0.9,0.04,2.2,0,0,MAT_Bois_Clair,enfant de 132
+134,Seuil_Porte_bureau,box,Ouvertures,9.95,13.55,0.01,0.9,0.1,0.02,0,0,MAT_Alu_Cadre,
+135,Pivot_Porte_WC,empty,Ouvertures,13.3,13.55,0,0,0,0,0,0,,pivot Porte_WC
+136,Porte_WC,door,Ouvertures,13.7,13.55,1.1,0.8,0.04,2.2,0,0,MAT_Bois_Clair,enfant de 135
+137,Seuil_Porte_WC,box,Ouvertures,13.7,13.55,0.01,0.8,0.1,0.02,0,0,MAT_Alu_Cadre,
+138,Pivot_Porte_vestiaire,empty,Ouvertures,15.2,13.55,0,0,0,0,0,0,,pivot Porte_vestiaire
+139,Porte_vestiaire,door,Ouvertures,15.6,13.55,1.1,0.8,0.04,2.2,0,0,MAT_Bois_Clair,enfant de 138
+140,Seuil_Porte_vestiaire,box,Ouvertures,15.6,13.55,0.01,0.8,0.1,0.02,0,0,MAT_Alu_Cadre,
+141,Pivot_Porte_pause,empty,Ouvertures,18.4,13.55,0,0,0,0,0,0,,pivot Porte_pause
+142,Porte_pause,door,Ouvertures,18.85,13.55,1.1,0.9,0.04,2.2,0,0,MAT_Bois_Clair,enfant de 141
+143,Seuil_Porte_pause,box,Ouvertures,18.85,13.55,0.01,0.9,0.1,0.02,0,0,MAT_Alu_Cadre,
+144,Pivot_Porte_local_technique,empty,Ouvertures,22,13.55,0,0,0,0,0,0,,pivot Porte_local_technique
+145,Porte_local_technique,door,Ouvertures,22.4,13.55,1.1,0.8,0.04,2.2,0,0,MAT_Bois_Clair,enfant de 144
+146,Seuil_Porte_local_technique,box,Ouvertures,22.4,13.55,0.01,0.8,0.1,0.02,0,0,MAT_Alu_Cadre,
+147,Lambris_gauche,box,Murs_interieurs,0.21,6.1,0.6,0.02,11.8,1.2,0,0,MAT_Lambris_Bois,
+148,Lambris_droit,box,Murs_interieurs,23.79,6.1,0.6,0.02,11.8,1.2,0,0,MAT_Lambris_Bois,
+149,Plinthe_fond_1,box,Murs_interieurs,3.575,11.9925,0.04,6.71,0.015,0.08,0,0,MAT_Bois_Clair,
+150,Plinthe_fond_2,box,Murs_interieurs,15.45,11.9925,0.04,13.56,0.015,0.08,0,0,MAT_Bois_Clair,
+151,Plinthe_fond_3,box,Murs_interieurs,23.525,11.9925,0.04,0.51,0.015,0.08,0,0,MAT_Bois_Clair,
+152,Logo_mur_marque,plane,Murs_interieurs,0.205,2.6,2.3,1.59,0.9,0,90,90,MAT_Logo,"logo sur le mur de marque, face vers +X"
+153,Etagere_gauche_1,etagere_murale,Mobilier_vente,0.445,5.2,1.1,1.2,0.45,2.2,0,90,MAT_Bois_Clair,"etagere murale, face vers la salle"
+154,Etagere_gauche_2,etagere_murale,Mobilier_vente,0.445,6.4,1.1,1.2,0.45,2.2,0,90,MAT_Bois_Clair,"etagere murale, face vers la salle"
+155,Etagere_gauche_3,etagere_murale,Mobilier_vente,0.445,7.6,1.1,1.2,0.45,2.2,0,90,MAT_Bois_Clair,"etagere murale, face vers la salle"
+156,Etagere_gauche_4,etagere_murale,Mobilier_vente,0.445,8.8,1.1,1.2,0.45,2.2,0,90,MAT_Bois_Clair,"etagere murale, face vers la salle"
+157,Etagere_gauche_5,etagere_murale,Mobilier_vente,0.445,10,1.1,1.2,0.45,2.2,0,90,MAT_Bois_Clair,"etagere murale, face vers la salle"
+158,Etagere_gauche_6,etagere_murale,Mobilier_vente,0.445,11.2,1.1,1.2,0.45,2.2,0,90,MAT_Bois_Clair,"etagere murale, face vers la salle"
+159,Etagere_droite_1,etagere_murale,Mobilier_vente,23.555,5.8,1.1,1.2,0.45,2.2,0,-90,MAT_Bois_Clair,etagere murale marinades
+160,Etagere_droite_2,etagere_murale,Mobilier_vente,23.555,7,1.1,1.2,0.45,2.2,0,-90,MAT_Bois_Clair,etagere murale marinades
+161,Etagere_droite_3,etagere_murale,Mobilier_vente,23.555,8.2,1.1,1.2,0.45,2.2,0,-90,MAT_Bois_Clair,etagere murale marinades
+162,Etagere_droite_4,etagere_murale,Mobilier_vente,23.555,9.4,1.1,1.2,0.45,2.2,0,-90,MAT_Bois_Clair,etagere murale marinades
+163,Etagere_droite_5,etagere_murale,Mobilier_vente,23.555,10.6,1.1,1.2,0.45,2.2,0,-90,MAT_Bois_Clair,etagere murale marinades
+164,Etagere_fond_1,etagere_murale,Mobilier_vente,10.2,11.775,1.1,1.2,0.45,2.2,0,0,MAT_Bois_Clair,etagere murale du fond
+165,Etagere_fond_2,etagere_murale,Mobilier_vente,11.4,11.775,1.1,1.2,0.45,2.2,0,0,MAT_Bois_Clair,etagere murale du fond
+166,Etagere_fond_3,etagere_murale,Mobilier_vente,12.6,11.775,1.1,1.2,0.45,2.2,0,0,MAT_Bois_Clair,etagere murale du fond
+167,Etagere_fond_4,etagere_murale,Mobilier_vente,13.8,11.775,1.1,1.2,0.45,2.2,0,0,MAT_Bois_Clair,etagere murale du fond
+168,Etagere_fond_5,etagere_murale,Mobilier_vente,15,11.775,1.1,1.2,0.45,2.2,0,0,MAT_Bois_Clair,etagere murale du fond
+169,Etagere_fond_6,etagere_murale,Mobilier_vente,16.2,11.775,1.1,1.2,0.45,2.2,0,0,MAT_Bois_Clair,etagere murale du fond
+170,Etagere_fond_7,etagere_murale,Mobilier_vente,17.4,11.775,1.1,1.2,0.45,2.2,0,0,MAT_Bois_Clair,etagere murale du fond
+171,Etagere_fond_8,etagere_murale,Mobilier_vente,18.6,11.775,1.1,1.2,0.45,2.2,0,0,MAT_Bois_Clair,etagere murale du fond
+172,Etagere_fond_9,etagere_murale,Mobilier_vente,19.8,11.775,1.1,1.2,0.45,2.2,0,0,MAT_Bois_Clair,etagere murale du fond
+173,Etagere_fond_10,etagere_murale,Mobilier_vente,21,11.775,1.1,1.2,0.45,2.2,0,0,MAT_Bois_Clair,etagere murale du fond
+174,Frigo_1,frigo,Mobilier_vente,1.625,11.625,1.05,1.25,0.75,2.1,0,0,MAT_Laque_Blanche,vitrine refrigeree portes vitrees
+175,Frigo_2,frigo,Mobilier_vente,2.875,11.625,1.05,1.25,0.75,2.1,0,0,MAT_Laque_Blanche,vitrine refrigeree portes vitrees
+176,Frigo_3,frigo,Mobilier_vente,4.125,11.625,1.05,1.25,0.75,2.1,0,0,MAT_Laque_Blanche,vitrine refrigeree portes vitrees
+177,Frigo_4,frigo,Mobilier_vente,5.375,11.625,1.05,1.25,0.75,2.1,0,0,MAT_Laque_Blanche,vitrine refrigeree portes vitrees
+178,Gondole_G_1,gondole,Mobilier_vente,3.2,7.4,0.8,3.6,1,1.6,0,90,MAT_Bois_Clair,gondole double face 3.60 m
+179,Gondole_G_2,gondole,Mobilier_vente,6,7.4,0.8,3.6,1,1.6,0,90,MAT_Bois_Clair,gondole double face 3.60 m
+180,Gondole_G_3,gondole,Mobilier_vente,8.8,7.4,0.8,3.6,1,1.6,0,90,MAT_Bois_Clair,gondole double face 3.60 m
+181,Gondole_D_1,gondole,Mobilier_vente,15.2,7.4,0.8,3.6,1,1.6,0,90,MAT_Bois_Clair,gondole double face 3.60 m
+182,Gondole_D_2,gondole,Mobilier_vente,18,7.4,0.8,3.6,1,1.6,0,90,MAT_Bois_Clair,gondole double face 3.60 m
+183,Gondole_D_3,gondole,Mobilier_vente,20.8,7.4,0.8,3.6,1,1.6,0,90,MAT_Bois_Clair,gondole double face 3.60 m
+184,Presentoir_vrac_1,presentoir_vrac,Mobilier_vente,12,6.4,0.425,2,1.2,0.85,0,0,MAT_Bois_Clair,"presentoir a bacs, epices en vrac"
+185,Presentoir_vrac_2,presentoir_vrac,Mobilier_vente,12,8.8,0.425,2,1.2,0.85,0,0,MAT_Bois_Clair,"presentoir a bacs, epices en vrac"
+186,Table_degustation_1,table,Mobilier_degustation,3,2.8,0.525,1.8,0.7,1.05,0,0,MAT_Bois_Clair,table haute de degustation
+187,Tabouret_1_1,tabouret,Mobilier_degustation,2.5,2.2,0.375,0.38,0.38,0.75,0,0,MAT_Cuir_Bordeaux,
+188,Tabouret_1_2,tabouret,Mobilier_degustation,3.5,2.2,0.375,0.38,0.38,0.75,0,0,MAT_Cuir_Bordeaux,
+189,Tabouret_1_3,tabouret,Mobilier_degustation,2.5,3.4,0.375,0.38,0.38,0.75,0,0,MAT_Cuir_Bordeaux,
+190,Tabouret_1_4,tabouret,Mobilier_degustation,3.5,3.4,0.375,0.38,0.38,0.75,0,0,MAT_Cuir_Bordeaux,
+191,Suspension_degustation_1_1,suspension,Eclairage,2.55,2.8,2.325,0.36,0.36,0.25,0,0,MAT_Laiton_Brosse,abat-jour 2700K au-dessus de la table
+192,Suspension_degustation_1_1_cable,cylinder,Eclairage,2.55,2.8,2.96,0.01,0.01,1.02,0,0,MAT_Alu_Cadre,cable jusqu au plafond
+193,Suspension_degustation_1_2,suspension,Eclairage,3.45,2.8,2.325,0.36,0.36,0.25,0,0,MAT_Laiton_Brosse,abat-jour 2700K au-dessus de la table
+194,Suspension_degustation_1_2_cable,cylinder,Eclairage,3.45,2.8,2.96,0.01,0.01,1.02,0,0,MAT_Alu_Cadre,cable jusqu au plafond
+195,Table_degustation_2,table,Mobilier_degustation,6.8,2.8,0.525,1.8,0.7,1.05,0,0,MAT_Bois_Clair,table haute de degustation
+196,Tabouret_2_1,tabouret,Mobilier_degustation,6.3,2.2,0.375,0.38,0.38,0.75,0,0,MAT_Cuir_Bordeaux,
+197,Tabouret_2_2,tabouret,Mobilier_degustation,7.3,2.2,0.375,0.38,0.38,0.75,0,0,MAT_Cuir_Bordeaux,
+198,Tabouret_2_3,tabouret,Mobilier_degustation,6.3,3.4,0.375,0.38,0.38,0.75,0,0,MAT_Cuir_Bordeaux,
+199,Tabouret_2_4,tabouret,Mobilier_degustation,7.3,3.4,0.375,0.38,0.38,0.75,0,0,MAT_Cuir_Bordeaux,
+200,Suspension_degustation_2_1,suspension,Eclairage,6.35,2.8,2.325,0.36,0.36,0.25,0,0,MAT_Laiton_Brosse,abat-jour 2700K au-dessus de la table
+201,Suspension_degustation_2_1_cable,cylinder,Eclairage,6.35,2.8,2.96,0.01,0.01,1.02,0,0,MAT_Alu_Cadre,cable jusqu au plafond
+202,Suspension_degustation_2_2,suspension,Eclairage,7.25,2.8,2.325,0.36,0.36,0.25,0,0,MAT_Laiton_Brosse,abat-jour 2700K au-dessus de la table
+203,Suspension_degustation_2_2_cable,cylinder,Eclairage,7.25,2.8,2.96,0.01,0.01,1.02,0,0,MAT_Alu_Cadre,cable jusqu au plafond
+204,Banc_attente,table,Mobilier_degustation,9.2,0.75,0.225,1.6,0.45,0.45,0,0,MAT_Bois_Clair,banc d attente
+205,Plante_1,plante,Plantes,0.75,0.75,0.75,0.6,0.6,1.5,0,0,MAT_Pot,
+206,Plante_2,plante,Plantes,23.25,0.75,0.75,0.6,0.6,1.5,0,0,MAT_Pot,
+207,Plante_3,plante,Plantes,9.15,11.45,0.75,0.6,0.6,1.5,0,0,MAT_Pot,
+208,Plante_4,plante,Plantes,0.75,4.2,0.75,0.6,0.6,1.5,0,0,MAT_Pot,
+209,Tapis_entree,plane,Decor_sol,12,0.95,0.005,2,1.4,0,0,0,MAT_Tapis_Fibre,"tapis, texture gris raye (teinte modifiable dans le materiau)"
+210,Tapis_logo,plane,Decor_sol,12,0.95,0.008,1.24,0.7,0,0,0,MAT_Logo,"logo au centre du tapis, ratio respecte"
+211,Comptoir_bar_1,box,Comptoir_caisse,15.7,3.75,0.5,2.6,0.7,1,0,0,MAT_Bois_Clair,barre du comptoir
+212,Comptoir_retour_1,box,Comptoir_caisse,16.65,3.05,0.5,0.7,0.7,1,0,0,MAT_Bois_Clair,retour du L
+213,Comptoir_plan_bar_1,box,Comptoir_caisse,15.7,3.75,1.02,2.64,0.74,0.04,0,0,MAT_Plan_Comptoir,
+214,Comptoir_plan_retour_1,box,Comptoir_caisse,16.65,3.03,1.02,0.74,0.7,0.04,0,0,MAT_Plan_Comptoir,
+215,Comptoir_lisere_1,box,Comptoir_caisse,15.7,4.13,1.02,2.64,0.02,0.04,0,0,MAT_Laiton_Brosse,lisere laiton cote client
+216,Ecran_caisse_1,ecran,Equipement_caisse,15.3,3.65,1.24,0.45,0.18,0.4,0,0,MAT_Plastique_Noir,ecran caissier
+217,Ecran_client_1,ecran,Equipement_caisse,15.3,3.97,1.19,0.3,0.14,0.3,0,180,MAT_Plastique_Noir,afficheur client
+218,Clavier_1,box,Equipement_caisse,15.3,3.48,1.0525,0.44,0.14,0.025,0,0,MAT_Plastique_Noir,
+219,Scanner_1,scanner,Equipement_caisse,16,3.75,1.14,0.1,0.12,0.2,0,0,MAT_Plastique_Noir,scanner code-barres sur socle
+220,TPE_1,tpe,Equipement_caisse,16.45,3.92,1.075,0.09,0.18,0.07,0,180,MAT_Plastique_Noir,terminal de paiement tourne vers le client
+221,Imprimante_ticket_1,box,Equipement_caisse,14.7,3.6,1.11,0.15,0.2,0.14,0,0,MAT_Plastique_Noir,
+222,Caisse_enregistreuse_1,box,Equipement_caisse,16.65,3.03,1.095,0.41,0.42,0.11,0,0,MAT_Plastique_Noir,tiroir-caisse
+223,Unite_centrale_1,box,Equipement_caisse,14.8,3.15,0.2,0.2,0.4,0.4,0,0,MAT_Plastique_Noir,ordinateur de caisse sous le comptoir
+224,Suspension_caisse_1,suspension,Eclairage,15.7,3.75,2.425,0.36,0.36,0.25,0,0,MAT_Laiton_Brosse,abat-jour 2700K au-dessus de la caisse
+225,Suspension_caisse_1_cable,cylinder,Eclairage,15.7,3.75,3.01,0.01,0.01,0.92,0,0,MAT_Alu_Cadre,cable jusqu au plafond
+226,Comptoir_bar_2,box,Comptoir_caisse,19.9,3.75,0.5,2.6,0.7,1,0,0,MAT_Bois_Clair,barre du comptoir
+227,Comptoir_retour_2,box,Comptoir_caisse,20.85,3.05,0.5,0.7,0.7,1,0,0,MAT_Bois_Clair,retour du L
+228,Comptoir_plan_bar_2,box,Comptoir_caisse,19.9,3.75,1.02,2.64,0.74,0.04,0,0,MAT_Plan_Comptoir,
+229,Comptoir_plan_retour_2,box,Comptoir_caisse,20.85,3.03,1.02,0.74,0.7,0.04,0,0,MAT_Plan_Comptoir,
+230,Comptoir_lisere_2,box,Comptoir_caisse,19.9,4.13,1.02,2.64,0.02,0.04,0,0,MAT_Laiton_Brosse,lisere laiton cote client
+231,Ecran_caisse_2,ecran,Equipement_caisse,19.5,3.65,1.24,0.45,0.18,0.4,0,0,MAT_Plastique_Noir,ecran caissier
+232,Ecran_client_2,ecran,Equipement_caisse,19.5,3.97,1.19,0.3,0.14,0.3,0,180,MAT_Plastique_Noir,afficheur client
+233,Clavier_2,box,Equipement_caisse,19.5,3.48,1.0525,0.44,0.14,0.025,0,0,MAT_Plastique_Noir,
+234,Scanner_2,scanner,Equipement_caisse,20.2,3.75,1.14,0.1,0.12,0.2,0,0,MAT_Plastique_Noir,scanner code-barres sur socle
+235,TPE_2,tpe,Equipement_caisse,20.65,3.92,1.075,0.09,0.18,0.07,0,180,MAT_Plastique_Noir,terminal de paiement tourne vers le client
+236,Imprimante_ticket_2,box,Equipement_caisse,18.9,3.6,1.11,0.15,0.2,0.14,0,0,MAT_Plastique_Noir,
+237,Caisse_enregistreuse_2,box,Equipement_caisse,20.85,3.03,1.095,0.41,0.42,0.11,0,0,MAT_Plastique_Noir,tiroir-caisse
+238,Unite_centrale_2,box,Equipement_caisse,19,3.15,0.2,0.2,0.4,0.4,0,0,MAT_Plastique_Noir,ordinateur de caisse sous le comptoir
+239,Suspension_caisse_2,suspension,Eclairage,19.9,3.75,2.425,0.36,0.36,0.25,0,0,MAT_Laiton_Brosse,abat-jour 2700K au-dessus de la caisse
+240,Suspension_caisse_2_cable,cylinder,Eclairage,19.9,3.75,3.01,0.01,0.01,0.92,0,0,MAT_Alu_Cadre,cable jusqu au plafond
+241,Borne_libre_service_1,borne,Equipement_caisse,22.7,2.2,0.775,0.6,0.5,1.55,0,-90,MAT_Laque_Blanche,borne d encaissement libre-service
+242,Borne_libre_service_2,borne,Equipement_caisse,22.7,3.4,0.775,0.6,0.5,1.55,0,-90,MAT_Laque_Blanche,borne d encaissement libre-service
+243,Rayonnage_reserve_1,rayonnage,Mobilier_back_office,1.3,15.5,1.2,2,0.6,2.4,0,0,MAT_Metal_Galva,
+244,Rayonnage_reserve_2,rayonnage,Mobilier_back_office,5.65,15.5,1.2,2,0.6,2.4,0,0,MAT_Metal_Galva,
+245,Rayonnage_reserve_3,rayonnage,Mobilier_back_office,7.85,15.5,1.2,2,0.6,2.4,0,0,MAT_Metal_Galva,
+246,Rayonnage_reserve_4,rayonnage,Mobilier_back_office,0.5,13.4,1.2,2,0.6,2.4,0,90,MAT_Metal_Galva,
+247,Rayonnage_reserve_5,rayonnage,Mobilier_back_office,4.5,13.6,1.2,2.4,0.6,2.4,0,0,MAT_Metal_Galva,
+248,Table_reserve,table,Mobilier_back_office,7.6,14.2,0.45,1.6,0.8,0.9,0,0,MAT_Bois_Clair,table de preparation
+249,Bureau_table,table,Mobilier_back_office,11.4,15.4,0.375,1.4,0.7,0.75,0,0,MAT_Bois_Clair,
+250,Bureau_chaise,chaise,Mobilier_back_office,11.4,14.75,0.45,0.45,0.45,0.9,0,180,MAT_Plastique_Noir,
+251,Bureau_ecran,ecran,Mobilier_back_office,11.4,15.55,0.95,0.55,0.18,0.4,0,0,MAT_Plastique_Noir,
+252,Bureau_clavier,box,Mobilier_back_office,11.4,15.25,0.7625,0.44,0.14,0.025,0,0,MAT_Plastique_Noir,
+253,Bureau_unite_centrale,box,Mobilier_back_office,12.35,15.45,0.2,0.2,0.4,0.4,0,0,MAT_Plastique_Noir,
+254,Bureau_armoire,box,Mobilier_back_office,9.4,15.15,1,0.5,1.1,2,0,0,MAT_Laque_Blanche,
+255,Casiers_vestiaire,casiers,Mobilier_back_office,16.6,15.55,0.95,2.4,0.5,1.9,0,0,MAT_Mur_Bordeaux,6 colonnes de casiers
+256,Banc_vestiaire,table,Mobilier_back_office,16.9,14.6,0.225,1.4,0.4,0.45,0,0,MAT_Bois_Clair,
+257,Miroir_vestiaire,box,Mobilier_back_office,17.99,14.3,1.5,0.01,0.5,0.9,0,0,MAT_Miroir,
+258,Pause_plan_travail,box,Mobilier_back_office,20.8,15.5,0.45,2,0.6,0.9,0,0,MAT_Bois_Clair,kitchenette
+259,Pause_frigo,box,Mobilier_back_office,19.45,15.5,0.425,0.6,0.6,0.85,0,0,MAT_Laque_Blanche,
+260,Pause_table,table,Mobilier_back_office,20.3,14.4,0.375,1,0.7,0.75,0,0,MAT_Bois_Clair,
+261,Pause_chaise_1,chaise,Mobilier_back_office,19.55,14.4,0.45,0.45,0.45,0.9,0,90,MAT_Bois_Clair,
+262,Pause_chaise_2,chaise,Mobilier_back_office,21.05,14.4,0.45,0.45,0.45,0.9,0,-90,MAT_Bois_Clair,
+263,WC_cuvette,box,Sanitaires,14.35,15.34,0.2,0.4,0.68,0.4,0,0,MAT_Sanitaire_Blanc,cuvette contre le fond
+264,WC_reservoir,box,Sanitaires,14.35,15.74,0.575,0.4,0.12,0.75,0,0,MAT_Sanitaire_Blanc,reservoir
+265,Lavabo_vasque,box,Sanitaires,13.3,15,0.85,0.4,0.5,0.15,0,0,MAT_Sanitaire_Blanc,
+266,Lavabo_pied,box,Sanitaires,13.3,15,0.3875,0.12,0.12,0.775,0,0,MAT_Sanitaire_Blanc,
+267,Lavabo_robinet,cylinder,Sanitaires,13.15,15,1,0.03,0.03,0.15,0,0,MAT_Laiton_Brosse,
+268,Miroir_WC,box,Sanitaires,13.105,15,1.55,0.01,0.44,0.6,0,0,MAT_Miroir,
+269,Porte_papier_WC,cylinder,Sanitaires,14.74,15,0.7,0.11,0.11,0.1,90,0,MAT_Sanitaire_Blanc,rouleau horizontal
+270,Grille_ventilation_WC,box,Local_technique,13.95,15.795,2.8,0.15,0.01,0.15,0,0,MAT_Alu_Cadre,
+271,Tableau_electrique,box,Local_technique,23.775,14.6,1.4,0.05,0.6,0.8,0,0,MAT_Plafond_Blanc,
+272,Baie_informatique,box,Local_technique,22.3,15.45,0.8,0.6,0.6,1.6,0,0,MAT_Plastique_Noir,
+273,Spot_vente_R1C1,spot,Eclairage,2,1.6,3.47,0.1,0.1,0.01,0,0,MAT_Lumiere_Emissive,spot 2700K vers le bas
+274,Spot_vente_R1C2,spot,Eclairage,5.9,1.6,3.47,0.1,0.1,0.01,0,0,MAT_Lumiere_Emissive,spot 2700K vers le bas
+275,Spot_vente_R1C3,spot,Eclairage,9.8,1.6,3.47,0.1,0.1,0.01,0,0,MAT_Lumiere_Emissive,spot 2700K vers le bas
+276,Spot_vente_R1C4,spot,Eclairage,14.2,1.6,3.47,0.1,0.1,0.01,0,0,MAT_Lumiere_Emissive,spot 2700K vers le bas
+277,Spot_vente_R1C5,spot,Eclairage,18.1,1.6,3.47,0.1,0.1,0.01,0,0,MAT_Lumiere_Emissive,spot 2700K vers le bas
+278,Spot_vente_R1C6,spot,Eclairage,22,1.6,3.47,0.1,0.1,0.01,0,0,MAT_Lumiere_Emissive,spot 2700K vers le bas
+279,Spot_vente_R2C1,spot,Eclairage,2,4.4,3.47,0.1,0.1,0.01,0,0,MAT_Lumiere_Emissive,spot 2700K vers le bas
+280,Spot_vente_R2C2,spot,Eclairage,5.9,4.4,3.47,0.1,0.1,0.01,0,0,MAT_Lumiere_Emissive,spot 2700K vers le bas
+281,Spot_vente_R2C3,spot,Eclairage,9.8,4.4,3.47,0.1,0.1,0.01,0,0,MAT_Lumiere_Emissive,spot 2700K vers le bas
+282,Spot_vente_R2C4,spot,Eclairage,14.2,4.4,3.47,0.1,0.1,0.01,0,0,MAT_Lumiere_Emissive,spot 2700K vers le bas
+283,Spot_vente_R2C5,spot,Eclairage,18.1,4.4,3.47,0.1,0.1,0.01,0,0,MAT_Lumiere_Emissive,spot 2700K vers le bas
+284,Spot_vente_R2C6,spot,Eclairage,22,4.4,3.47,0.1,0.1,0.01,0,0,MAT_Lumiere_Emissive,spot 2700K vers le bas
+285,Spot_vente_R3C1,spot,Eclairage,2,7.4,3.47,0.1,0.1,0.01,0,0,MAT_Lumiere_Emissive,spot 2700K vers le bas
+286,Spot_vente_R3C2,spot,Eclairage,5.9,7.4,3.47,0.1,0.1,0.01,0,0,MAT_Lumiere_Emissive,spot 2700K vers le bas
+287,Spot_vente_R3C3,spot,Eclairage,9.8,7.4,3.47,0.1,0.1,0.01,0,0,MAT_Lumiere_Emissive,spot 2700K vers le bas
+288,Spot_vente_R3C4,spot,Eclairage,14.2,7.4,3.47,0.1,0.1,0.01,0,0,MAT_Lumiere_Emissive,spot 2700K vers le bas
+289,Spot_vente_R3C5,spot,Eclairage,18.1,7.4,3.47,0.1,0.1,0.01,0,0,MAT_Lumiere_Emissive,spot 2700K vers le bas
+290,Spot_vente_R3C6,spot,Eclairage,22,7.4,3.47,0.1,0.1,0.01,0,0,MAT_Lumiere_Emissive,spot 2700K vers le bas
+291,Spot_vente_R4C1,spot,Eclairage,2,10.4,3.47,0.1,0.1,0.01,0,0,MAT_Lumiere_Emissive,spot 2700K vers le bas
+292,Spot_vente_R4C2,spot,Eclairage,5.9,10.4,3.47,0.1,0.1,0.01,0,0,MAT_Lumiere_Emissive,spot 2700K vers le bas
+293,Spot_vente_R4C3,spot,Eclairage,9.8,10.4,3.47,0.1,0.1,0.01,0,0,MAT_Lumiere_Emissive,spot 2700K vers le bas
+294,Spot_vente_R4C4,spot,Eclairage,14.2,10.4,3.47,0.1,0.1,0.01,0,0,MAT_Lumiere_Emissive,spot 2700K vers le bas
+295,Spot_vente_R4C5,spot,Eclairage,18.1,10.4,3.47,0.1,0.1,0.01,0,0,MAT_Lumiere_Emissive,spot 2700K vers le bas
+296,Spot_vente_R4C6,spot,Eclairage,22,10.4,3.47,0.1,0.1,0.01,0,0,MAT_Lumiere_Emissive,spot 2700K vers le bas
+297,Spot_reserve_1,spot,Eclairage,2.3,13.3,3.47,0.1,0.1,0.01,0,0,MAT_Lumiere_Emissive,spot 2700K vers le bas
+298,Spot_reserve_2,spot,Eclairage,6.6,13.3,3.47,0.1,0.1,0.01,0,0,MAT_Lumiere_Emissive,spot 2700K vers le bas
+299,Spot_reserve_3,spot,Eclairage,2.3,14.9,3.47,0.1,0.1,0.01,0,0,MAT_Lumiere_Emissive,spot 2700K vers le bas
+300,Spot_reserve_4,spot,Eclairage,6.6,14.9,3.47,0.1,0.1,0.01,0,0,MAT_Lumiere_Emissive,spot 2700K vers le bas
+301,Spot_couloir_1,spot,Eclairage,11.5,12.8,3.47,0.1,0.1,0.01,0,0,MAT_Lumiere_Emissive,spot 2700K vers le bas
+302,Spot_couloir_2,spot,Eclairage,16.5,12.8,3.47,0.1,0.1,0.01,0,0,MAT_Lumiere_Emissive,spot 2700K vers le bas
+303,Spot_couloir_3,spot,Eclairage,21,12.8,3.47,0.1,0.1,0.01,0,0,MAT_Lumiere_Emissive,spot 2700K vers le bas
+304,Spot_bureau,spot,Eclairage,11.05,14.7,3.47,0.1,0.1,0.01,0,0,MAT_Lumiere_Emissive,spot 2700K vers le bas
+305,Spot_WC,spot,Eclairage,13.95,14.7,3.47,0.1,0.1,0.01,0,0,MAT_Lumiere_Emissive,spot 2700K vers le bas
+306,Spot_vestiaire,spot,Eclairage,16.45,14.7,3.47,0.1,0.1,0.01,0,0,MAT_Lumiere_Emissive,spot 2700K vers le bas
+307,Spot_pause,spot,Eclairage,19.95,14.7,3.47,0.1,0.1,0.01,0,0,MAT_Lumiere_Emissive,spot 2700K vers le bas
+308,Spot_local_technique,spot,Eclairage,22.825,14.7,3.47,0.1,0.1,0.01,0,0,MAT_Lumiere_Emissive,spot 2700K vers le bas
+309,Zone_Accueil,empty,Zones,12,1,0,2.4,1.6,0,0,0,,accueil et tapis
+310,Zone_Degustation,empty,Zones,4.9,2.8,0,6.6,2.4,0,0,0,,tables hautes de degustation
+311,Zone_Mur_marque,empty,Zones,0.3,2.6,0,0.2,1.6,0,0,0,,logo du mur de marque
+312,Zone_Caisses,empty,Zones,17.8,3.4,0,6.8,1.4,0,0,0,,deux comptoirs de caisse
+313,Zone_Bornes,empty,Zones,22.7,2.8,0,0.6,1.8,0,0,0,,bornes libre-service
+314,Zone_Epices,empty,Zones,4.75,8.2,0,9.1,7.2,0,0,0,,etageres gauche et gondoles G
+315,Zone_Vrac,empty,Zones,12,7.6,0,2,3.6,0,0,0,,presentoirs a bacs
+316,Zone_Essentiels,empty,Zones,18,7.4,0,6.6,3.6,0,0,0,,"gondoles D : pate d arachide, huile rouge"
+317,Zone_Marinades,empty,Zones,23.55,8.2,0,0.5,6,0,0,0,,etageres murales droite
+318,Zone_Produits_frais,empty,Zones,3.5,11.625,0,5,0.75,0,0,0,,vitrines refrigerees
+319,Zone_Mur_fond,empty,Zones,15.6,11.775,0,12,0.45,0,0,0,,etageres du fond
+320,Zone_Reserve,empty,Zones,4.6,13.95,0,8.8,3.7,0,0,0,,reserve
+321,Zone_Bureau,empty,Zones,11.05,14.7,0,3.9,2.2,0,0,0,,bureau
+322,Zone_WC,empty,Zones,13.95,14.7,0,1.7,2.2,0,0,0,,toilettes du personnel
+323,Zone_Vestiaire,empty,Zones,16.45,14.7,0,3.1,2.2,0,0,0,,vestiaire
+324,Zone_Pause,empty,Zones,19.95,14.7,0,3.7,2.2,0,0,0,,salle de pause
+325,Zone_Local_technique,empty,Zones,22.85,14.7,0,1.9,2.2,0,0,0,,local technique
