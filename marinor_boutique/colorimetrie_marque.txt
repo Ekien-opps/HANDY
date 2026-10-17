@@ -1,0 +1,13 @@
+II.7. Colorimétrie
+●	Noir Intense (#000000) : utilisé pour les textes et certains éléments graphiques. Il assure un fort contraste et une excellente lisibilité sur l’ensemble des supports.
+●	Blanc Pureté (#FFFFFF) : apporte clarté, équilibre et respiration visuelle. Il renforce la lisibilité et la modernité de l’identité.
+●	Vert Nature (#2a5519) : symbole de fraîcheur et de naturalité. Il évoque les produits locaux et l’authenticité des ingrédients.
+●	Vert Vif (#376f23) : déclinaison plus lumineuse du vert. Il renforce l’idée de vitalité et de produits issus de la nature.
+●	Bordeaux Profond (#7B1421) : couleur principale du logotype. Elle confère à la marque un caractère premium, chaleureux et gourmand.
+●	Rouge Passion (#A40C21) : évoque la force, la vitalité et l’intensité des saveurs. Il dynamise les supports et rappelle la tradition culinaire.
+●	Rose Poudre (#F6E8EA) : teinte douce utilisée en fond ou en accompagnement. Elle adoucit les compositions et crée une atmosphère élégante.
+●	Or Épicé (#F9A825) : couleur d’accent chaleureuse. Elle évoque la convivialité, l’énergie et le plaisir des épices.
+●	Jaune Soleil (#FBD021) : apporte luminosité et dynamisme. Il renforce le côté gourmand et appétissant de la marque.
+●	Crème Douce (#FFECD1) : teinte neutre et légère. Elle crée des zones de respiration et adoucit l’ensemble de l’identité visuelle.
+
+C'est juste comme guide et non, ce n'est pas rigide, juste une orientation.
