@@ -1,0 +1,8 @@
+{
+ "name": "MarinOr_Puree-d-Ail_100g",
+ "obj": "../build/ail/MarinOr_Puree-d-Ail_100g.obj",
+ "front": "../build/ail/ail_face-avant.png",
+ "back": "../build/ail/ail_face-arriere.png",
+ "edge": "#98432C",
+ "height": 20.512409927942354
+}

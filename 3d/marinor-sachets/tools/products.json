@@ -46,5 +46,17 @@
     "title": "Poudre de Djoumblé 100 g",
     "front": "src/djoumble/face-avant.webp",
     "back": "src/djoumble/face-arriere.webp"
+  },
+  "ail": {
+    "name": "MarinOr_Puree-d-Ail_100g",
+    "title": "Purée d'Ail 100 g",
+    "front": "src/ail/face-avant.webp",
+    "back": "src/ail/face-arriere.webp"
+  },
+  "epice-poisson": {
+    "name": "MarinOr_Epice-Speciale-Poisson_100g",
+    "title": "Épice Spéciale Poisson 100 g",
+    "front": "src/epice-poisson/face-avant.webp",
+    "back": "src/epice-poisson/face-arriere.webp"
   }
 }

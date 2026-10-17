@@ -1,0 +1,11 @@
+{
+ "product": "epice-poisson",
+ "vertices": 54850,
+ "triangles": 106960,
+ "size_cm": {
+  "width": 13.99,
+  "height": 20.51,
+  "depth": 6.02
+ },
+ "edge_colour": "#50211C"
+}

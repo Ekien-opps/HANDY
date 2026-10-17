@@ -1,0 +1,8 @@
+{
+ "name": "MarinOr_Epice-Speciale-Poisson_100g",
+ "obj": "../build/epice-poisson/MarinOr_Epice-Speciale-Poisson_100g.obj",
+ "front": "../build/epice-poisson/epice-poisson_face-avant.png",
+ "back": "../build/epice-poisson/epice-poisson_face-arriere.png",
+ "edge": "#50211C",
+ "height": 20.512409927942354
+}
