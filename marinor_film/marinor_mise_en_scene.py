@@ -40,6 +40,7 @@ from mathutils import Euler, Matrix, Quaternion, Vector
 # RÉGLAGES
 # =============================================================================
 
+VERSION = "3.1"
 TAG = "marinor_film"
 BLEND_SORTIE = "marinor_film.blend"
 DOSSIER_PRODUITS = "produits"
@@ -203,6 +204,9 @@ def objet(nom, data, coll, loc=(0, 0, 0), rot=(0, 0, 0)):
 
 
 def nettoyer():
+    # Image 1 d'abord : les objets existants animés par une version précédente du script
+    # (pivots des portes) retrouvent leur état de départ, portes fermées.
+    bpy.context.scene.frame_set(1)
     for ob in list(bpy.data.objects):
         if ob.get(TAG):
             bpy.data.objects.remove(ob, do_unlink=True)
@@ -218,6 +222,8 @@ def nettoyer():
         if ob.get(TAG + "_anime"):
             ob.animation_data_clear()
             del ob[TAG + "_anime"]
+        if TAG + "_rot0" in ob:                       # angle d'origine des portes, mémorisé
+            ob.rotation_euler.z = ob[TAG + "_rot0"]
     for ob in bpy.data.objects:                      # modificateurs posés sur des objets existants
         for m in list(ob.modifiers):
             if m.name.startswith("FILM_"):
@@ -1347,7 +1353,8 @@ def animer_portes():
             continue
         piv.animation_data_clear()
         piv[TAG + "_anime"] = True
-        base = piv.rotation_euler.z
+        base = piv.get(TAG + "_rot0", piv.rotation_euler.z)
+        piv[TAG + "_rot0"] = base
         cle_rot(piv, 1, base)
         for ouvre, ferme in cycles:
             cle_rot(piv, ouvre, base)
@@ -1499,7 +1506,7 @@ DOSSIER_SIGN = ""
 
 def rapport_texte(chemin):
     r = RAPPORT
-    lignes = ["=" * 64, "RAPPORT Film Marin'Or (mise en scène)", "=" * 64,
+    lignes = ["=" * 64, "RAPPORT Film Marin'Or (mise en scène) - script version " + VERSION, "=" * 64,
               "Produits importés (%d) :" % len(r["produits"])] + ["  - " + p for p in r["produits"]] + [
               "Produits en rayon : %d instances" % r["instances"],
               "Produits manquants (%d) : %s" % (len(r["manquants"]), ", ".join(r["manquants"]) or "aucun"),
@@ -1521,6 +1528,7 @@ def main():
     MATS.clear()
     MODELES.clear()
     POINTS.clear()
+    log("script de mise en scène version " + VERSION)
     dossier = dossier_projet()
     if dossier is None:
         erreur("%s introuvable : placez ce script dans le dossier marinor_boutique" % CATALOGUE)
