@@ -13,6 +13,10 @@ des locaux du personnel, sortie par les portes et plan large final sur la façad
 | `catalogue_produits.json` | Les 15 produits : nom, catégorie, archive OBJ, hauteur réelle, orientation, couleur. |
 | `generer_signaletique.py` | Python 3 + Pillow : refait les étiquettes, panneaux, cartons et plaques de porte. |
 | `textures/signaletique/` | Les 60 textures générées (déjà prêtes). |
+| `preparer_rendu.py` | Réglages du rendu final en un clic (carte graphique OptiX/CUDA, Cycles, sortie PNG). |
+| `images_controle.bat` | Windows, double-clic : rend les images de contrôle 450, 700 et 1050 dans `rendu\controle\`. |
+| `lancer_rendu.bat` | Windows, double-clic : rend tout le film dans `rendu\images\`, reprend après un arrêt. |
+| `diagnostic_personnages.py` | Diagnostic des personnages (lecture seule). |
 | `GUIDE_RENDU.md` | Guide pas à pas jusqu'au film MP4 final. |
 
 ## Installation dans le dossier `marinor_boutique/`
@@ -40,6 +44,7 @@ avertissements). En ligne de commande :
 
 ```
 blender marinor_cocody.blend --background --python marinor_mise_en_scene.py
+blender marinor_film.blend --background --python preparer_rendu.py
 blender marinor_film.blend --background --render-anim
 ```
 
@@ -93,7 +98,9 @@ La vitesse de marche est mesurée sur le pied d'appui de l'animation, pour que l
 glissent pas. Le script corrige aussi les FBX difficiles : animation de l'objet squelette retirée (elle
 écraserait taille et hauteur), personnage ramené à une taille humaine s'il est hors de 1,45-2,05 m,
 marche téléchargée sans « In Place » convertie sur place, et chaque personnage debout posé au sol
-d'après son point le plus bas sur l'animation. Le rapport indique chaque correction. Les préfixes d'os Mixamo (`mixamorig4:`…) sont harmonisés automatiquement.
+d'après son point le plus bas sur l'animation. Les matières Mixamo, que l'import FBX rend métalliques ou
+vernies (vêtements d'aspect vinyle), sont remises à des valeurs réalistes : tissus mats, peau satinée,
+yeux brillants. Le rapport indique chaque correction. Les préfixes d'os Mixamo (`mixamorig4:`…) sont harmonisés automatiquement.
 
 ## Étape 3 — caméra
 
@@ -103,7 +110,7 @@ d'après son point le plus bas sur l'animation. Le rapport indique chaque correc
 | 0:08–0:13 | Zoom progressif sur la façade, mise au point sur la boutique |
 | 0:12–0:16 | Ouverture des portes automatiques, entrée |
 | 0:16–0:21 | Passage au ras de la caisse et de la caissière |
-| 0:24–0:34 | Travelling latéral en gros plan le long des marinades |
+| 0:24–0:34 | Travelling latéral lent en gros plan le long des marinades (étiquettes lisibles) |
 | 0:35–0:45 | Élévation, plafond escamoté, vue de dessus de toute la boutique |
 | 0:47–1:11 | Porte staff, couloir, salle de pause, vestiaire, bureau, réserve (les toilettes restent fermées, règle d'intimité du brief) |
 | 1:11–1:25 | Retour en salle, sortie par les portes, plan large final sur la façade |
@@ -111,8 +118,19 @@ d'après son point le plus bas sur l'animation. Le rapport indique chaque correc
 Toutes les cotes de la caméra sont dans `CAMERA_CLES`, en tête du script, et les portes
 dans `PORTES`.
 
+**Vue de dessus** : plafond, toit, acrotères et luminaires encastrés deviennent invisibles pour la caméra
+mais restent présents pour la lumière. L'éclairage de la boutique ne change donc pas quand la caméra
+passe au-dessus : pas de soleil rasant qui entre d'un coup, ni de taches sombres au sol. Les arbres dont
+le feuillage cache la boutique vue d'en haut sont escamotés de la même façon. Le rapport l'indique à la
+ligne « Vue de dessus », avec ce que la caméra voit au sol devant les caisses et les éventuelles surfaces
+superposées (taches en « Z-fighting »).
+
+**Flou de mouvement** : obturation 0,5 (aspect cinéma), réduite à 0,25 pendant le travelling
+(`OBTURATION_TRAVELLING`) pour garder les étiquettes nettes.
+
 Réglages de rendu : Cycles, 1920 × 1080, 128 échantillons avec débruitage, flou de
-mouvement, sortie MP4 H.264 dans `rendu/`. La balance des blancs de la caméra
+mouvement, suite d'images PNG dans `rendu/images/` (reprise possible après un arrêt), montée
+ensuite en MP4 H.264. La balance des blancs de la caméra
 (`BALANCE_BLANCS_K = 4000`) atténue la dominante orange de l'éclairage 2700 K ; mettre
-6500 pour revenir au neutre. Pour le rendu final, activer la carte graphique (Préférences >
-Système > Cycles Render Devices).
+6500 pour revenir au neutre. Pour le rendu final : `preparer_rendu.py` (carte graphique et réglages),
+puis `lancer_rendu.bat` (voir `GUIDE_RENDU.md`).

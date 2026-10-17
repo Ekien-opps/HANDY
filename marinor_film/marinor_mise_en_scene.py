@@ -40,7 +40,7 @@ from mathutils import Euler, Matrix, Quaternion, Vector
 # RÉGLAGES
 # =============================================================================
 
-VERSION = "3.4"
+VERSION = "3.5"
 TAG = "marinor_film"
 BLEND_SORTIE = "marinor_film.blend"
 DOSSIER_PRODUITS = "produits"
@@ -54,7 +54,11 @@ FRAME_FIN = 2040                     # 85 s
 RESOLUTION = (1920, 1080)
 ECHANTILLONS = 128                   # Cycles, avec débruitage
 FLOU_CINETIQUE = True
-SORTIE_VIDEO = "//rendu/marinor_film_"
+OBTURATION = 0.5                     # flou de mouvement : durée d'obturation (fraction d'image)
+# Obturation réduite pendant le travelling au ras des étiquettes, pour qu'elles restent lisibles :
+# (début de la transition, plein effet, fin, retour à OBTURATION, valeur réduite)
+OBTURATION_TRAVELLING = (612, 640, 800, 828, 0.25)
+SORTIE_IMAGES = "//rendu/images/marinor_"     # suite PNG : reprise possible après un arrêt
 BALANCE_BLANCS_K = 4000.0           # balance des blancs de la caméra (étalonnage), 6500 = neutre
 
 # Mise en rayon
@@ -104,9 +108,9 @@ CAMERA_CLES = [
     (450,  (13.80, 3.05, 1.45),   (15.3, 3.15, 1.25), 26),    # au ras de la caisse
     (500,  (14.70, 4.60, 1.50),   (18.8, 4.2, 1.25), 26),
     (588,  (21.40, 4.60, 1.60),   (23.4, 7.4, 1.30), 30),
-    (636,  (22.72, 5.55, 1.35),   (23.6, 6.15, 1.15), 35),    # travelling latéral
-    (720,  (22.72, 8.05, 1.05),   (23.6, 8.65, 0.95), 35),
-    (804,  (22.72, 10.60, 1.40),  (23.6, 11.2, 1.35), 35),
+    (636,  (22.50, 5.90, 1.35),   (23.6, 6.45, 1.15), 35),    # travelling latéral, lent (2,4 m en 7 s)
+    (720,  (22.50, 7.10, 1.05),   (23.6, 7.65, 0.95), 35),
+    (804,  (22.50, 8.30, 1.40),   (23.6, 8.85, 1.35), 35),
     (852,  (21.30, 10.90, 2.20),  (16.0, 8.0, 1.20), 28),     # élévation
     (900,  (17.00, 9.00, 3.20),   (12.5, 6.5, 0.80), 26),
     (960,  (13.60, 7.10, 12.0),   (12.2, 6.1, 0.00), 28),
@@ -138,7 +142,7 @@ CAMERA_CLES = [
 # =============================================================================
 
 RAPPORT = {"produits": [], "instances": 0, "manquants": [], "avertissements": [], "erreurs": [],
-           "personnages": [], "objets": 0, "orientations": [], "repere": ""}
+           "personnages": [], "objets": 0, "orientations": [], "repere": "", "vue_dessus": []}
 COLLS = {}
 MATS = {}
 
@@ -284,6 +288,10 @@ def nettoyer():
         if ob.get(TAG + "_anime"):
             ob.animation_data_clear()
             del ob[TAG + "_anime"]
+        if ob.get(TAG + "_cache"):                    # escamotés pendant la vue de dessus
+            ob.visible_camera = True
+            ob.hide_viewport = False
+            del ob[TAG + "_cache"]
         if TAG + "_rot0" in ob:                       # angle d'origine des portes, mémorisé
             ob.rotation_euler.z = ob[TAG + "_rot0"]
     for ob in bpy.data.objects:                      # modificateurs posés sur des objets existants
@@ -1423,6 +1431,53 @@ def asseoir(ctrl, arm, objs, cfg):
     log("caissière : assise à %.3f m (correction %+.3f), recul %.3f m" % (cfg["z_assise"], dz, dy))
 
 
+# Matières des personnages Mixamo : l'import FBX traduit la brillance des matériaux Mixamo en surfaces
+# métalliques ou très lisses (vêtements d'aspect vinyle ou latex). On les remet à des valeurs réalistes.
+MATIERES_PERSO = [                   # (mots-clés du nom du matériau, rugosité, niveau de spéculaire)
+    (("hair", "lash", "brow", "cheveu"), 0.45, 0.5),
+    (("shoe", "boot", "sneaker", "chaussure"), 0.5, 0.4),
+    (("skin", "face", "head", "hand", "arm", "leg", "peau"), 0.5, 0.5),
+    (("pant", "jean", "hood", "shirt", "jacket", "coat", "top", "bottom", "cloth", "dress", "skirt",
+      "sweat", "vest", "uniform", "short", "sock", "glove", "hat", "cap"), 0.75, 0.35),
+]
+MATIERE_PERSO_DEFAUT = (0.6, 0.45)   # matériau unique (peau et vêtements sur la même texture)
+
+
+def matieres_personnages(objs):
+    """Vêtements et peau mats : métal 0, rugosité réaliste, sans vernis. Les yeux restent brillants."""
+    n = 0
+    vus = set()
+    for o in objs:
+        if o.type != 'MESH':
+            continue
+        for slot in o.material_slots:
+            m = slot.material
+            if m is None or m.name in vus or not m.node_tree:
+                continue
+            vus.add(m.name)
+            nom = m.name.lower()
+            if any(k in nom for k in ("eye", "cornea", "teeth", "tooth", "oeil", "yeux")):
+                continue
+            rugo, spec = MATIERE_PERSO_DEFAUT
+            for mots, r, sp in MATIERES_PERSO:
+                if any(k in nom for k in mots):
+                    rugo, spec = r, sp
+                    break
+            for b in m.node_tree.nodes:
+                if b.type != 'BSDF_PRINCIPLED':
+                    continue
+                for entree, val in (("Metallic", 0.0), ("Roughness", rugo), ("Specular IOR Level", spec),
+                                    ("Coat Weight", 0.0), ("Anisotropic", 0.0)):
+                    sock = b.inputs.get(entree)
+                    if sock is None:
+                        continue
+                    for l in list(sock.links):
+                        m.node_tree.links.remove(l)
+                    sock.default_value = val
+                n += 1
+    return n
+
+
 def personnages(dossier):
     coll = collection("FILM_Personnages", COLLS["FILM"])
     sc = bpy.context.scene
@@ -1474,6 +1529,9 @@ def personnages(dossier):
         arm.matrix_parent_inverse = Matrix.Identity(4)
         arm.location = (0, 0, 0)
         info_taille = mettre_a_l_echelle(arm, cfg)
+        n_mat = matieres_personnages(objs)
+        if n_mat:
+            info_taille += ", matières mates (%d matériau%s)" % (n_mat, "x" if n_mat > 1 else "")
         if cfg["mode"] == "marche":
             v_racine = marche_sur_place(arm, action)
             v = v_racine if v_racine else vitesse_marche(arm, action)
@@ -1635,23 +1693,147 @@ def camera():
 
 
 def escamoter_plafond(traj):
-    """Plafond, toit et luminaires encastrés masqués tant que la caméra est au-dessus (vue de dessus)."""
+    """Plafond, toit et luminaires encastrés invisibles pour la caméra tant qu'elle est au-dessus (vue de
+    dessus). Ils restent présents pour la lumière : leurs ombres sont gardées, l'éclairage de la boutique ne
+    change pas quand ils disparaissent (pas de soleil rasant ni de taches sombres sur le sol)."""
     haut = [i + 1 for i, p in enumerate(traj) if p.z > 3.30 and 8 < p.x < 24.5 and 0 < p.y < 16.5]
     if not haut:
         return
     debut, fin = min(haut), max(haut) + 1
+
+    def cacher(ob):
+        ob[TAG + "_anime"] = True
+        ob[TAG + "_cache"] = True
+        for f, cache in ((1, False), (debut, True), (fin, False)):
+            ob.visible_camera = not cache
+            ob.hide_viewport = cache
+            ob.keyframe_insert("visible_camera", frame=f)
+            ob.keyframe_insert("hide_viewport", frame=f)
+
     n = 0
     for ob in bpy.data.objects:
         if not ob.name.startswith(PREFIXES_PLAFOND) or ob.type not in ('MESH',):
             continue
-        ob[TAG + "_anime"] = True
-        for f, cache in ((1, False), (debut, True), (fin, False)):
-            ob.hide_render = cache
-            ob.hide_viewport = cache
-            ob.keyframe_insert("hide_render", frame=f)
-            ob.keyframe_insert("hide_viewport", frame=f)
+        cacher(ob)
         n += 1
     log("plafond escamoté (%d objets) des images %d à %d" % (n, debut, fin))
+    try:
+        RAPPORT["vue_dessus"] = controle_vue_dessus(debut, fin, cacher)
+    except Exception:
+        avertir("contrôle de la vue de dessus impossible :\n" + traceback.format_exc())
+
+
+# Contrôle de la vue de dessus : grille de points au sol de la boutique (cotes du brief)
+SOL_BOUTIQUE = (0.3, 23.7, 0.3, 15.7)
+ZONE_CAISSES = (7.0, 22.5, 0.3, 4.6)     # entre la façade et les caisses
+PAS_CONTROLE = 0.4
+
+
+def premier_impact(dg, origine, direction, distance=1.0e5):
+    """Premier objet rendu touché par un rayon (les objets masqués au rendu sont traversés)."""
+    sc = bpy.context.scene
+    eps = 0.002 * ECHELLE
+    o = origine.copy()
+    for _ in range(8):
+        ok, loc, nrm, _i, ob, _m = sc.ray_cast(dg, o, direction, distance=distance)
+        if not ok:
+            return None
+        ob = getattr(ob, "original", ob)
+        if ob is not None and not ob.hide_render:
+            return loc, nrm, ob
+        distance -= (loc - o).length + eps
+        o = loc + direction * eps
+        if distance <= 0:
+            return None
+    return None
+
+
+def controle_vue_dessus(debut, fin, cacher):
+    """1. Tout objet vu au-dessus du toit qui cache la boutique (houppier d'arbre...) est escamoté
+    comme le plafond. 2. Le rapport dit ce que la caméra voit au sol devant les caisses et les surfaces
+    superposées (taches noires ou triangles en « Z-fighting »)."""
+    sc = bpy.context.scene
+    cam = sc.camera
+    x0, x1, y0, y1 = SOL_BOUTIQUE
+    pts = [Vector((x0 + i * PAS_CONTROLE, y0 + j * PAS_CONTROLE, 0.02))
+           for i in range(int((x1 - x0) / PAS_CONTROLE) + 1) for j in range(int((y1 - y0) / PAS_CONTROLE) + 1)]
+    lignes = []
+    # 1. objets au-dessus du toit qui masquent la boutique
+    caches = {}
+    for f in (debut + (fin - debut) * k // 4 for k in (1, 2, 3)):
+        sc.frame_set(f)
+        dg = bpy.context.evaluated_depsgraph_get()
+        o = cam.matrix_world.translation.copy()
+        for p in pts:
+            d = (REPERE @ p) - o
+            res = premier_impact(dg, o, d.normalized(), d.length)
+            if res and vers_brief(res[0]).z > 3.6 and not res[2].get(TAG):
+                caches[res[2].name] = caches.get(res[2].name, 0) + 1
+    masques, ignores = [], []
+    for nom, nb in sorted(caches.items(), key=lambda kv: -kv[1]):
+        ob = bpy.data.objects[nom]
+        if nb < 3 or ob.name.startswith(PREFIXES_PLAFOND):
+            continue
+        if ob.animation_data and ob.animation_data.action and not ob.get(TAG + "_anime"):
+            ignores.append(nom)
+            continue
+        cacher(ob)
+        masques.append(nom)
+    lignes.append("escamotés avec le plafond (cachaient la boutique) : %s" % (", ".join(masques) or "aucun"))
+    if ignores:
+        avertir("vue de dessus : %s cache%s la boutique mais %s déjà animé%s, non masqué%s"
+                % (", ".join(ignores), "nt" if len(ignores) > 1 else "", "sont" if len(ignores) > 1 else "est",
+                   "s" if len(ignores) > 1 else "", "s" if len(ignores) > 1 else ""))
+    # 2. diagnostic du sol devant les caisses, au milieu de la vue de dessus
+    sc.frame_set((debut + fin) // 2)
+    dg = bpy.context.evaluated_depsgraph_get()
+    o = cam.matrix_world.translation.copy()
+    zx0, zx1, zy0, zy1 = ZONE_CAISSES
+    vus, doubles = {}, {}
+    n_zone = 0
+    eps = 0.004 * ECHELLE
+    for p in pts:
+        if not (zx0 <= p.x <= zx1 and zy0 <= p.y <= zy1):
+            continue
+        d = ((REPERE @ p) - o).normalized()
+        res = premier_impact(dg, o, d)
+        if not res:
+            continue
+        n_zone += 1
+        loc, nrm, ob = res
+        vus[ob.name] = vus.get(ob.name, 0) + 1
+        if vers_brief(loc).z > 0.3:
+            continue
+        ok, loc2, _n, _i, ob2, _m = sc.ray_cast(dg, loc + d * 0.0005 * ECHELLE, d, distance=eps)
+        ob2 = getattr(ob2, "original", ob2)
+        if ok and ob2 is not None and not ob2.hide_render:
+            cle = " + ".join(sorted({ob.name, ob2.name}))
+            doubles[cle] = doubles.get(cle, 0) + 1
+
+    def top(dico, n=6):
+        return ", ".join("%s %d %%" % (k, round(100.0 * v / max(1, n_zone)))
+                         for k, v in sorted(dico.items(), key=lambda kv: -kv[1])[:n]) or "aucun"
+    lignes.append("vu devant les caisses (image %d) : %s" % ((debut + fin) // 2, top(vus)))
+    lignes.append("surfaces superposées au sol (taches possibles) : %s" % top(doubles))
+    sc.frame_set(1)
+    return lignes
+
+
+def retirer_courbe(idb, chemin):
+    """Retire la courbe d'animation « chemin » d'un bloc de données (relance du script)."""
+    ad = idb.animation_data
+    if not ad or not ad.action:
+        return
+    act = ad.action
+    if hasattr(act, "layers") and len(act.layers):
+        for layer in act.layers:
+            for strip in layer.strips:
+                for cb in strip.channelbags:
+                    for fc in [fc for fc in cb.fcurves if fc.data_path == chemin]:
+                        cb.fcurves.remove(fc)
+    elif hasattr(act, "fcurves"):
+        for fc in [fc for fc in act.fcurves if fc.data_path == chemin]:
+            act.fcurves.remove(fc)
 
 
 def regler_rendu(dossier):
@@ -1664,25 +1846,32 @@ def regler_rendu(dossier):
     sc.render.resolution_x, sc.render.resolution_y = RESOLUTION
     sc.render.resolution_percentage = 100
     sc.render.use_motion_blur = FLOU_CINETIQUE
-    sc.render.motion_blur_shutter = 0.5
-    sc.render.filepath = SORTIE_VIDEO
+    # Flou de mouvement : OBTURATION partout, valeur réduite pendant le travelling sur les étiquettes
+    retirer_courbe(sc, "render.motion_blur_shutter")
+    a, b, c, d, v = OBTURATION_TRAVELLING
+    for f, val in ((1, OBTURATION), (a, OBTURATION), (b, v), (c, v), (d, OBTURATION)):
+        sc.render.motion_blur_shutter = val
+        sc.render.keyframe_insert("motion_blur_shutter", frame=f)
     try:
         sc.view_settings.use_white_balance = True
         sc.view_settings.white_balance_temperature = BALANCE_BLANCS_K
     except Exception:
         avertir("balance des blancs indisponible")
+    # Sortie en suite d'images PNG (une image par fichier) : un arrêt ne perd rien, le rendu reprend
+    # à la première image manquante. Le film MP4 est monté ensuite (GUIDE_RENDU.md).
+    sc.render.filepath = SORTIE_IMAGES
+    img = sc.render.image_settings
     try:
-        sc.render.image_settings.media_type = 'VIDEO'
+        img.media_type = 'IMAGE'
     except Exception:
         pass
-    try:
-        sc.render.image_settings.file_format = 'FFMPEG'
-        sc.render.ffmpeg.format = 'MPEG4'
-        sc.render.ffmpeg.codec = 'H264'
-        sc.render.ffmpeg.constant_rate_factor = 'HIGH'
-    except Exception:
-        avertir("sortie vidéo FFMPEG indisponible : images PNG")
-        sc.render.image_settings.file_format = 'PNG'
+    img.file_format = 'PNG'
+    img.color_mode = 'RGB'
+    img.color_depth = '8'
+    img.compression = 15
+    sc.render.use_file_extension = True
+    sc.render.use_overwrite = False
+    sc.render.use_placeholder = True
 
 
 # =============================================================================
@@ -1702,6 +1891,7 @@ def rapport_texte(chemin):
               "Produits manquants (%d) : %s" % (len(r["manquants"]), ", ".join(r["manquants"]) or "aucun"),
               "Orientation des étiquettes :"] + ["  - " + o for o in r["orientations"]] + [
               "Personnages (%d) :" % len(r["personnages"])] + ["  - " + p for p in r["personnages"]] + [
+              "Vue de dessus :"] + ["  - " + v for v in r["vue_dessus"]] + [
               "Objets créés : %d" % r["objets"],
               "Avertissements (%d)" % len(r["avertissements"])] + ["  - " + a for a in r["avertissements"]] + [
               "Erreurs (%d)" % len(r["erreurs"])] + ["  - " + e for e in r["erreurs"]] + [

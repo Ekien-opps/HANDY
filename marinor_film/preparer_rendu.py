@@ -10,7 +10,8 @@ Réglages appliqués :
   - carte graphique : OptiX (NVIDIA RTX), sinon CUDA, sinon processeur ;
   - Cycles, 128 échantillons max, seuil de bruit 0,01, débruitage OpenImageDenoise sur GPU ;
   - Persistent Data (la scène n'est pas rechargée à chaque image) ;
-  - flou de mouvement 0,5, AgX, balance des blancs 4000 K ;
+  - flou de mouvement 0,5 (0,25 pendant le travelling sur les étiquettes, réglé par le script de
+    mise en scène), AgX, balance des blancs 4000 K ;
   - 1920 x 1080, 24 i/s, images 1 à 2040, caméra CAM_Film_Marinor ;
   - sortie en suite d'images PNG dans rendu/images/ (reprise possible après un arrêt).
 """
@@ -74,8 +75,23 @@ essayer("débruitage OpenImageDenoise (albédo + normales, précis, GPU)",
                  setattr(sc.cycles, "denoising_prefilter", 'ACCURATE')))
 essayer("débruitage sur la carte graphique", lambda: setattr(sc.cycles, "denoising_use_gpu", True))
 essayer("Persistent Data", lambda: setattr(sc.render, "use_persistent_data", True))
-essayer("flou de mouvement 0,5", lambda: (setattr(sc.render, "use_motion_blur", True),
-                                          setattr(sc.render, "motion_blur_shutter", 0.5)))
+
+def flou_anime():
+    ad = sc.animation_data
+    act = ad.action if ad else None
+    if act is None:
+        return False
+    if hasattr(act, "layers") and len(act.layers):
+        return any(fc.data_path == "render.motion_blur_shutter" for layer in act.layers
+                   for strip in layer.strips for cb in strip.channelbags for fc in cb.fcurves)
+    return any(fc.data_path == "render.motion_blur_shutter" for fc in getattr(act, "fcurves", []))
+
+
+sc.render.use_motion_blur = True
+if flou_anime():
+    p("  ok  flou de mouvement 0,5 (0,25 pendant le travelling : réglage du script conservé)")
+else:
+    essayer("flou de mouvement 0,5", lambda: setattr(sc.render, "motion_blur_shutter", 0.5))
 essayer("AgX + balance des blancs 4000 K",
         lambda: (setattr(sc.view_settings, "view_transform", 'AgX'),
                  setattr(sc.view_settings, "use_white_balance", True),
@@ -107,8 +123,9 @@ sc.render.use_placeholder = True
 p("  ok  sortie PNG dans %s (Overwrite décoché, Placeholders coché)" % SORTIE)
 
 p("=" * 60)
-p("Prêt. Images de contrôle : F12 sur 450, 700, 1050.")
-p("Rendu complet : Render > Render Animation (Ctrl+F12).")
+p("Prêt. Images de contrôle : double-clic sur images_controle.bat (Blender fermé),")
+p("ou Render > Render Image sur les images 450, 700 et 1050.")
+p("Rendu complet : double-clic sur lancer_rendu.bat (Blender fermé).")
 p("=" * 60)
 t = bpy.data.texts.get("Reglages_Rendu") or bpy.data.texts.new("Reglages_Rendu")
 t.clear()
