@@ -489,26 +489,43 @@ def orientation_etiquette(me):
             faces.append((sat, t.area, Vector((nrm.x, nrm.y)).normalized()))
     if not faces:
         return 0.0, "pas de faces latérales imprimées, inchangé"
-    # Direction de l'impression : somme des normales pondérées par l'excès de couleur
-    # (face avant d'un doypack, centre de l'étiquette d'une bouteille).
+    co = [v.co for v in me.vertices]
+    dx = max(v.x for v in co) - min(v.x for v in co)
+    dy = max(v.y for v in co) - min(v.y for v in co)
     aire = sum(f[1] for f in faces)
     moy = sum(f[0] * f[1] for f in faces) / aire
+
+    def score(direction):
+        sel = [(sat, ai) for sat, ai, n in faces if n.dot(direction) > 0.7]
+        a = sum(ai for _, ai in sel)
+        return (sum(sat * ai for sat, ai in sel) / a, a) if a > 0.05 * aire else (None, 0.0)
+
+    if max(dx, dy) > 1.35 * min(dx, dy):
+        # Emballage plat (doypack, sachet, boîte) : l'étiquette est sur une grande face.
+        if dy <= dx:
+            cands = [(0.0, Vector((0, -1))), (math.pi, Vector((0, 1)))]
+        else:
+            cands = [(-math.pi / 2, Vector((1, 0))), (math.pi / 2, Vector((-1, 0)))]
+        (a_av, d_av), (a_ar, d_ar) = cands
+        s_av, s_ar = score(d_av)[0], score(d_ar)[0]
+        if s_av is None or s_ar is None or abs(s_av - s_ar) < 0.03:
+            return a_av, "recto et verso semblables : vérifier sur la planche de contrôle"
+        return (a_av, "face imprimée détectée") if s_av > s_ar else (a_ar, "face imprimée détectée")
+    # Bouteille, pot : direction du centre de l'étiquette (excès de couleur pondéré)
     res = Vector((0.0, 0.0))
     total = 0.0
     for sat, ai, n in faces:
         res += n * (sat - moy) * ai
         total += abs(sat - moy) * ai
-    if total < 1e-9 or res.length < 0.08 * total:
-        return 0.0, "faces uniformes, inchangé : régler rot_z_deg si besoin"
+    if total < 1e-9 or res.length < 0.3 * total:
+        return 0.0, "étiquette tout autour ou peu marquée : vérifier sur la planche de contrôle"
     theta = math.atan2(res.y, res.x)
     angle = -math.pi / 2 - theta
-    quart = round(angle / (math.pi / 2)) * (math.pi / 2)        # emballages à faces planes : angle droit
-    if abs(angle - quart) < math.radians(12):
+    quart = round(angle / (math.pi / 2)) * (math.pi / 2)
+    if abs(angle - quart) < math.radians(15):
         angle = quart
     angle = math.atan2(math.sin(angle), math.cos(angle))
-    confiance = res.length / total
-    motif = "face imprimée détectée" if confiance > 0.25 else "contraste faible, à vérifier"
-    return angle, motif
+    return angle, "étiquette détectée"
 
 
 def ajouter(pid, pos, rot_z):
@@ -669,6 +686,65 @@ def mise_en_rayon(produits, meubles):
             [(0.0, 0.5, "pate_arachide"), (0.5, 1.0, "huile_rouge")], [(0.0, 1.0, "puree_ail")])
     for i, blocs in enumerate(fond):
         bloc_etagere("Etagere_fond_%d" % (i + 1), blocs)
+
+
+def planche_controle(dossier, produits):
+    """Image des 15 produits vus de l'allée, avec leur nom : rendu/controle_etiquettes.png.
+    Une étiquette qui ne fait pas face se corrige par rot_z_deg dans le catalogue."""
+    if not MODELES:
+        return
+    sc0 = bpy.context.window.scene if bpy.context.window else bpy.context.scene
+    sc = bpy.data.scenes.new("FILM_Controle_etiquettes")
+    marquer(sc)
+    pas = 0.30
+    ids = [pid for pid in produits if pid in MODELES]
+    cols = 5
+    for k, pid in enumerate(ids):
+        x, z = (k % cols) * pas, -(k // cols) * 0.45
+        inst = bpy.data.objects.new("CTRL_" + pid, MODELES[pid].data)
+        sc.collection.objects.link(inst)
+        inst.location = (x, 0, z)
+        fc = bpy.data.curves.new("CTRL_TXT_" + pid, 'FONT')
+        fc.body = "%s\n%s" % (produits[pid]["nom"], pid)
+        fc.size = 0.022
+        fc.align_x = 'CENTER'
+        t = bpy.data.objects.new("CTRL_TXT_" + pid, fc)
+        t.location = (x, -0.10, z - 0.05)
+        t.rotation_euler = (math.radians(90), 0, 0)
+        sc.collection.objects.link(t)
+    cam = bpy.data.objects.new("CTRL_CAM", bpy.data.cameras.new("CTRL_CAM"))
+    cam.data.type = 'ORTHO'
+    cam.data.ortho_scale = cols * pas + 0.1
+    sc.collection.objects.link(cam)
+    lignes = (len(ids) + cols - 1) // cols
+    cam.location = ((cols - 1) * pas / 2, -3.0, 0.10 - (lignes - 1) * 0.45 / 2)
+    cam.rotation_euler = (math.radians(90), 0, 0)
+    sc.camera = cam
+    sc.render.engine = 'BLENDER_WORKBENCH'
+    sc.display.shading.light = 'STUDIO'
+    sc.display.shading.color_type = 'TEXTURE'
+    sc.render.resolution_x, sc.render.resolution_y = 1800, int(1800 * (lignes * 0.45 + 0.05) / (cols * pas + 0.1))
+    sc.render.image_settings.file_format = 'PNG'
+    sortie = os.path.join(dossier, "rendu", "controle_etiquettes.png")
+    os.makedirs(os.path.dirname(sortie), exist_ok=True)
+    sc.render.filepath = sortie
+    try:
+        if bpy.context.window:
+            bpy.context.window.scene = sc
+        bpy.ops.render.render(write_still=True, scene=sc.name)
+        log("planche de contrôle des étiquettes : " + sortie)
+        RAPPORT["orientations"].append("Planche de contrôle : rendu/controle_etiquettes.png")
+    except Exception:
+        avertir("planche de contrôle non rendue :\n" + traceback.format_exc())
+    finally:
+        if bpy.context.window:
+            bpy.context.window.scene = sc0
+        for o in list(sc.collection.objects):
+            data = o.data
+            bpy.data.objects.remove(o, do_unlink=True)
+            if isinstance(data, (bpy.types.Curve, bpy.types.Camera)):
+                (bpy.data.curves if isinstance(data, bpy.types.Curve) else bpy.data.cameras).remove(data)
+        bpy.data.scenes.remove(sc)
 
 
 def instancier_produits():
@@ -1090,7 +1166,7 @@ def points_corps(arm, objs):
         oe = o.evaluated_get(dg)
         me = oe.to_mesh()
         M = oe.matrix_world
-        pts += [M @ v.co for v in me.vertices[::3]]
+        pts += [M @ v.co for i, v in enumerate(me.vertices) if i % 3 == 0]
         oe.to_mesh_clear()
     if not pts:
         for pb in arm.pose.bones:
@@ -1474,6 +1550,7 @@ def main():
         animer_portes()
         escamoter_plafond(camera())
         regler_rendu(dossier)
+        planche_controle(dossier, produits)
     except Exception:
         erreur("construction interrompue :\n" + traceback.format_exc())
     texte = marquer(bpy.data.texts.new("Rapport_Film"))

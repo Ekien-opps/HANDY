@@ -13,6 +13,7 @@ des locaux du personnel, sortie par les portes et plan large final sur la façad
 | `catalogue_produits.json` | Les 15 produits : nom, catégorie, archive OBJ, hauteur réelle, orientation, couleur. |
 | `generer_signaletique.py` | Python 3 + Pillow : refait les étiquettes, panneaux, cartons et plaques de porte. |
 | `textures/signaletique/` | Les 60 textures générées (déjà prêtes). |
+| `GUIDE_RENDU.md` | Guide pas à pas jusqu'au film MP4 final. |
 
 ## Installation dans le dossier `marinor_boutique/`
 
@@ -67,7 +68,8 @@ dans `generer_signaletique.py` puis relancer ce script pour les ajouter.
 **Orientation automatique des étiquettes** : pour chaque produit, le script lit sa texture et
 tourne vers l'allée la face la plus imprimée (logo, photo), face plane d'un doypack comme
 centre de l'étiquette d'une bouteille. L'angle retenu est écrit dans le rapport
-(« Orientation des étiquettes »). Pour forcer un angle, remplacer `null` par 0, 90, 180 ou
+(« Orientation des étiquettes »). Le script rend aussi `rendu/controle_etiquettes.png` : les 15 produits vus
+depuis l'allée, pour tout vérifier d'un coup d'œil. Pour forcer un angle, remplacer `null` par 0, 90, 180 ou
 -90 dans `rot_z_deg` du produit (`catalogue_produits.json`).
 
 ## Étape 2 — personnages Mixamo
