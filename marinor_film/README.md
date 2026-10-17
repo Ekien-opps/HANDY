@@ -43,6 +43,13 @@ blender marinor_cocody.blend --background --python marinor_mise_en_scene.py
 blender marinor_film.blend --background --render-anim
 ```
 
+## Échelle de la boutique
+
+Le script mesure lui-même l'échelle et la position de la boutique dans le fichier ouvert, en comparant
+les meubles à leurs cotes dans `elements.csv` : une boutique agrandie dans Blender (par exemple x2,14)
+est reconnue, et produits, personnages, panneaux, tabouret et caméra sont posés à cette échelle
+(objet `FILM_Repere_scene`). Le rapport l'indique à la ligne « Repère de la scène ».
+
 ## Étape 1 — rangement des produits
 
 Chaque produit est importé une fois, mis à sa hauteur réelle (`hauteur_m`), puis répété par

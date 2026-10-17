@@ -40,7 +40,7 @@ from mathutils import Euler, Matrix, Quaternion, Vector
 # RÉGLAGES
 # =============================================================================
 
-VERSION = "3.3"
+VERSION = "3.4"
 TAG = "marinor_film"
 BLEND_SORTIE = "marinor_film.blend"
 DOSSIER_PRODUITS = "produits"
@@ -138,7 +138,7 @@ CAMERA_CLES = [
 # =============================================================================
 
 RAPPORT = {"produits": [], "instances": 0, "manquants": [], "avertissements": [], "erreurs": [],
-           "personnages": [], "objets": 0, "orientations": []}
+           "personnages": [], "objets": 0, "orientations": [], "repere": ""}
 COLLS = {}
 MATS = {}
 
@@ -194,13 +194,75 @@ def collection(nom, parent=None):
     return c
 
 
+# Repère du brief (elements.csv, en mètres) -> repère réel de la scène. Une boutique agrandie ou
+# déplacée dans Blender (ex. x2,14) est mesurée par detecter_repere() ; tout ce que le script crée
+# est rattaché à RACINE, qui porte cet agrandissement : les cotes du script restent celles du brief.
+REPERE = Matrix.Identity(4)
+REPERE_INV = Matrix.Identity(4)
+ECHELLE = 1.0
+RACINE = None
+
+
+def vers_brief(v):
+    """Point du monde (scène) -> coordonnées du brief."""
+    return REPERE_INV @ v
+
+
 def objet(nom, data, coll, loc=(0, 0, 0), rot=(0, 0, 0)):
     ob = marquer(bpy.data.objects.new(nom, data))
     ob.location = loc
     ob.rotation_euler = rot
     coll.objects.link(ob)
+    if RACINE is not None:
+        ob.parent = RACINE
     RAPPORT["objets"] += 1
     return ob
+
+
+def detecter_repere(meubles):
+    """Compare la position réelle des objets du magasin à leurs cotes dans elements.csv et en déduit
+    l'agrandissement (uniforme) et le décalage de la scène. Les objets déplacés à la main sont écartés."""
+    global REPERE, REPERE_INV, ECHELLE, RACINE
+    paires = []
+    for nom, l in meubles.items():
+        ob = bpy.data.objects.get(nom)
+        if ob is None or l["type"] in ("empty",):
+            continue
+        try:
+            b = Vector((float(l["x"]), float(l["y"]), float(l["z"])))
+        except ValueError:
+            continue
+        paires.append((b, ob.matrix_world.translation.copy()))
+    if len(paires) < 10:
+        avertir("repère de la scène non mesurable (%d objets) : cotes du brief utilisées" % len(paires))
+        return
+
+    def ajuster(pp):
+        bc = sum((b for b, _ in pp), Vector()) / len(pp)
+        wc = sum((w for _, w in pp), Vector()) / len(pp)
+        num = sum(((w - wc).dot(b - bc) for b, w in pp))
+        den = sum(((b - bc).length_squared for b, _ in pp)) or 1.0
+        e = num / den
+        return e, wc - e * bc
+
+    e, t = ajuster(paires)
+    ecarts = sorted(((w - (e * b + t)).length, i) for i, (b, w) in enumerate(paires))
+    seuil = max(0.05 * e, 3 * ecarts[len(ecarts) // 2][0])
+    gardes = [paires[i] for d, i in ecarts if d <= seuil]
+    e, t = ajuster(gardes)
+    residu = sum((w - (e * b + t)).length for b, w in gardes) / len(gardes)
+    ECHELLE = e
+    REPERE = Matrix.Translation(t) @ Matrix.Scale(e, 4)
+    REPERE_INV = REPERE.inverted()
+    RACINE = objet("FILM_Repere_scene", None, COLLS["FILM"])
+    RACINE.empty_display_type = 'PLAIN_AXES'
+    RACINE.location = t
+    RACINE.scale = (e, e, e)
+    RAPPORT["repere"] = ("échelle x%.3f, décalage (%.2f, %.2f, %.2f), écart moyen %.3f m sur %d objets (%d écartés)"
+                         % (e, t.x, t.y, t.z, residu, len(gardes), len(paires) - len(gardes)))
+    if residu > 0.05 * e:
+        avertir("la boutique ne correspond pas exactement au plan (écart moyen %.2f m) : vérifier le placement" % residu)
+    log("repère de la scène : " + RAPPORT["repere"])
 
 
 def nettoyer():
@@ -575,7 +637,7 @@ def matrice_meuble(nom, meubles):
     l = meubles[nom]
     dims = Vector((float(l["dim_x"]), float(l["dim_y"]), float(l["dim_z"])))
     # repère local : origine au sol, au centre du meuble
-    M = ob.matrix_world @ Matrix.Translation((0, 0, -dims.z / 2))
+    M = REPERE_INV @ ob.matrix_world @ Matrix.Translation((0, 0, -dims.z / 2))
     return M, dims
 
 
@@ -1001,8 +1063,11 @@ def signaletique():
         mat = mat_image("PLAQUE_" + nom, os.path.join(DOSSIER_SIGN, "PLAQUE_%s.png" % nom), 0.4)
         ob = plan("Plaque_" + nom, 0.30, 0.10, coll, (x, y, z), (math.radians(90), 0, rot_z), mat)
         if parent is not None:
+            bpy.context.view_layer.update()
+            mw = ob.matrix_world.copy()
             ob.parent = parent
-            ob.matrix_parent_inverse = parent.matrix_world.inverted()
+            ob.matrix_parent_inverse = Matrix.Identity(4)
+            ob.matrix_world = mw
         return ob
 
     vantail = bpy.data.objects.get("Porte_staff")
@@ -1101,7 +1166,7 @@ def taille_squelette(arm):
     bpy.context.view_layer.update()
     zs = []
     for b in arm.data.bones:
-        zs += [(arm.matrix_world @ b.head_local).z, (arm.matrix_world @ b.tail_local).z]
+        zs += [vers_brief(arm.matrix_world @ b.head_local).z, vers_brief(arm.matrix_world @ b.tail_local).z]
     return (max(zs) - min(zs)) if zs else 0.0
 
 
@@ -1147,7 +1212,7 @@ def poser_au_sol(arm, objs, sol_z, debut=1, fin=None, pas=3):
     if mini is None:
         return 0.0
     dz = sol_z - mini
-    arm.location.z += dz / max(1e-6, (arm.parent.matrix_world.to_scale().z if arm.parent else 1.0))
+    arm.location.z += dz                               # unités du brief (contrôleur non mis à l'échelle)
     sc.frame_set(1)
     return dz
 
@@ -1176,9 +1241,9 @@ def marche_sur_place(arm, action):
     sc = bpy.context.scene
     f0, f1 = (int(round(v)) for v in action.frame_range)
     sc.frame_set(f0)
-    a = arm.matrix_world @ hanches.head
+    a = vers_brief(arm.matrix_world @ hanches.head)
     sc.frame_set(f1)
-    b = arm.matrix_world @ hanches.head
+    b = vers_brief(arm.matrix_world @ hanches.head)
     dep = Vector((b.x - a.x, b.y - a.y))
     if dep.length < 0.25:
         ad.action = None
@@ -1212,7 +1277,7 @@ def vitesse_marche(arm, action):
     prec = None
     for f in range(f0, f1 + 1):
         sc.frame_set(f)
-        p = arm.matrix_world @ pied.head
+        p = vers_brief(arm.matrix_world @ pied.head)
         if prec is not None and p.z < 0.03 and prec.z < 0.03:
             mesures.append((p - prec).length)
         prec = p
@@ -1280,12 +1345,12 @@ def points_corps(arm, objs):
             continue
         oe = o.evaluated_get(dg)
         me = oe.to_mesh()
-        M = oe.matrix_world
+        M = REPERE_INV @ oe.matrix_world
         pts += [M @ v.co for i, v in enumerate(me.vertices) if i % 3 == 0]
         oe.to_mesh_clear()
     if not pts:
         for pb in arm.pose.bones:
-            pts += [arm.matrix_world @ pb.head, arm.matrix_world @ pb.tail]
+            pts += [vers_brief(arm.matrix_world @ pb.head), vers_brief(arm.matrix_world @ pb.tail)]
     return pts
 
 
@@ -1328,7 +1393,7 @@ def asseoir(ctrl, arm, objs, cfg):
     bas, devant = [], []
     for f in (1, 300, 700, 1100):                       # plusieurs instants de l'animation
         sc.frame_set(f)
-        h = arm.matrix_world @ hanches.head
+        h = vers_brief(arm.matrix_world @ hanches.head)
         pts = points_corps(arm, objs)
         bassin = [p for p in pts if (p.xy - h.xy).length < 0.16 and p.z < h.z]
         maillage = any(o.type == 'MESH' for o in objs)
@@ -1526,6 +1591,7 @@ def camera():
     cam_d.dof.use_dof = True
     cam_d.dof.aperture_fstop = 4.0
     cam = objet("CAM_Film_Marinor", cam_d, coll)
+    cam.parent = None                                  # clés écrites directement dans le repère de la scène
     cam.rotation_mode = 'QUATERNION'
     k_pos = [(c[0], c[1]) for c in CAMERA_CLES]
     k_cib = [(c[0], c[2]) for c in CAMERA_CLES]
@@ -1550,10 +1616,10 @@ def camera():
         if prec_q is not None and prec_q.dot(q) < 0:
             q.negate()
         prec_q = q
-        cam.location = p
+        cam.location = REPERE @ p
         cam.rotation_quaternion = q
         cam_d.lens = lens
-        cam_d.dof.focus_distance = max(0.3, d.length)
+        cam_d.dof.focus_distance = max(0.3, d.length) * ECHELLE
         cam.keyframe_insert("location", frame=f)
         cam.keyframe_insert("rotation_quaternion", frame=f)
         cam_d.keyframe_insert("lens", frame=f)
@@ -1630,6 +1696,7 @@ DOSSIER_SIGN = ""
 def rapport_texte(chemin):
     r = RAPPORT
     lignes = ["=" * 64, "RAPPORT Film Marin'Or (mise en scène) - script version " + VERSION, "=" * 64,
+              "Repère de la scène : %s" % (r["repere"] or "cotes du brief"),
               "Produits importés (%d) :" % len(r["produits"])] + ["  - " + p for p in r["produits"]] + [
               "Produits en rayon : %d instances" % r["instances"],
               "Produits manquants (%d) : %s" % (len(r["manquants"]), ", ".join(r["manquants"]) or "aucun"),
@@ -1645,8 +1712,10 @@ def rapport_texte(chemin):
 
 def main():
     global DOSSIER_ABS, DOSSIER_SIGN
+    global REPERE, REPERE_INV, ECHELLE, RACINE
+    REPERE, REPERE_INV, ECHELLE, RACINE = Matrix.Identity(4), Matrix.Identity(4), 1.0, None
     for k in RAPPORT:
-        RAPPORT[k] = 0 if isinstance(RAPPORT[k], int) else []
+        RAPPORT[k] = 0 if isinstance(RAPPORT[k], int) else ([] if isinstance(RAPPORT[k], list) else "")
     COLLS.clear()
     MATS.clear()
     MODELES.clear()
@@ -1666,6 +1735,7 @@ def main():
         with open(os.path.join(dossier, CATALOGUE), encoding="utf-8") as f:
             produits = {p["id"]: p for p in json.load(f)["produits"]}
         meubles = lire_csv(dossier)
+        detecter_repere(meubles)
         coll_m = collection("FILM_Modeles_produits", COLLS["FILM"])
         for p in produits.values():
             ob = importer_produit(dossier, p, coll_m)
