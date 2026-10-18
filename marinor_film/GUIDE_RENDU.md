@@ -9,7 +9,7 @@ Dans `Dossier de travail\`, après avoir copié le contenu du kit (remplacer les
 ```
 marinor_cocody.blend
 marinor_film.blend             (votre fichier : il est mis à jour, pas remplacé)
-marinor_mise_en_scene.py       (version 3.5 : ligne 43, VERSION = "3.5")
+marinor_mise_en_scene.py       (version 3.5.1 : ligne 43, VERSION = "3.5.1")
 preparer_rendu.py
 images_controle.bat
 lancer_rendu.bat
@@ -27,14 +27,14 @@ personnages\                   (tous les .fbx Mixamo)
 2. **Window > Toggle System Console** (fenêtre noire de suivi, la laisser ouverte).
 3. Onglet **Scripting**. Dans l'éditeur de texte : **Text > Open** et choisir `marinor_mise_en_scene.py`
    **sur le disque**. Si l'ancien script est déjà ouvert dans l'éditeur : **Text > Reload** (Alt+R).
-   Vérifier la ligne 43 : `VERSION = "3.5"`.
+   Vérifier la ligne 43 : `VERSION = "3.5.1"`.
 4. **Run Script** (Alt+P). Blender semble figé quelques minutes : c'est normal. Le script remplace ce
    qu'il avait créé (produits, personnages, caméra...) et ne touche pas au reste de la boutique.
 5. La barre de titre indique **`marinor_film.blend`** : le fichier est enregistré.
 
 **Contrôles** dans le texte **`Rapport_Film`** (menu déroulant de l'éditeur de texte) :
 
-- `script version 3.5`, `Erreurs (0)`, `Personnages (4)`, `Produits manquants (0)` ;
+- `script version 3.5.1`, `Erreurs (0)`, `Personnages (4)`, `Produits manquants (0)` ;
 - chaque personnage : « matières mates » ;
 - « Vue de dessus » : les objets escamotés avec le plafond (arbre au-dessus de la boutique) et ce que la
   caméra voit au sol devant les caisses.

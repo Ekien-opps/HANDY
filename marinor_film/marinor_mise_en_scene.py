@@ -40,7 +40,7 @@ from mathutils import Euler, Matrix, Quaternion, Vector
 # RÉGLAGES
 # =============================================================================
 
-VERSION = "3.5"
+VERSION = "3.5.1"
 TAG = "marinor_film"
 BLEND_SORTIE = "marinor_film.blend"
 DOSSIER_PRODUITS = "produits"
@@ -142,7 +142,7 @@ CAMERA_CLES = [
 # =============================================================================
 
 RAPPORT = {"produits": [], "instances": 0, "manquants": [], "avertissements": [], "erreurs": [],
-           "personnages": [], "objets": 0, "orientations": [], "repere": "", "vue_dessus": []}
+           "personnages": [], "objets": 0, "orientations": [], "repere": "", "vue_dessus": [], "sols": []}
 COLLS = {}
 MATS = {}
 
@@ -294,6 +294,11 @@ def nettoyer():
             del ob[TAG + "_cache"]
         if TAG + "_rot0" in ob:                       # angle d'origine des portes, mémorisé
             ob.rotation_euler.z = ob[TAG + "_rot0"]
+        if TAG + "_dz" in ob:                         # sol descendu par sols_superposes()
+            mw = ob.matrix_world.copy()
+            mw.translation.z += ob[TAG + "_dz"]
+            ob.matrix_world = mw
+            del ob[TAG + "_dz"]
     for ob in bpy.data.objects:                      # modificateurs posés sur des objets existants
         for m in list(ob.modifiers):
             if m.name.startswith("FILM_"):
@@ -1692,6 +1697,78 @@ def camera():
     return traj
 
 
+# Deux sols au même niveau (par exemple un plan « Sol » ajouté sur « Sol_Vente ») : Cycles montre
+# tantôt l'un, tantôt l'autre, triangle par triangle (« Z-fighting ») : triangles plus clairs ou plus
+# sombres au sol. Le sol le moins visible est descendu de quelques millimètres : l'autre l'emporte
+# partout, rien n'est supprimé, et la relance du script le remet à sa place d'origine.
+SOL_ECART = 0.003                    # m (cotes du brief) : descente du sol caché
+SOL_SURFACE_MIN = 4.0                # m², en dessous (tapis...) l'objet n'est pas traité comme un sol
+
+
+def sols_superposes():
+    sc = bpy.context.scene
+    bpy.context.view_layer.update()
+    dg = bpy.context.evaluated_depsgraph_get()
+    cand = []
+    for ob in sc.objects:
+        if ob.type != 'MESH' or ob.get(TAG) or ob.hide_render:
+            continue
+        pts = [vers_brief(ob.matrix_world @ Vector(c)) for c in ob.bound_box]
+        mn = [min(p[i] for p in pts) for i in range(3)]
+        mx = [max(p[i] for p in pts) for i in range(3)]
+        if mx[2] - mn[2] < 0.5 and abs(mx[2]) < 0.03 and (mx[0] - mn[0]) * (mx[1] - mn[1]) > SOL_SURFACE_MIN:
+            cand.append((ob, mn, mx))
+    bas = REPERE.to_3x3() @ Vector((0, 0, -1))
+    bas.normalize()
+
+    def dessus(ob, origine):
+        inv = ob.matrix_world.inverted()
+        d = (inv.to_3x3() @ bas).normalized()
+        ok, loc, _n, _i = ob.ray_cast(inv @ origine, d, depsgraph=dg)
+        return vers_brief(ob.matrix_world @ loc).z if ok else None
+
+    descendus = {}
+    for i in range(len(cand)):
+        for j in range(i + 1, len(cand)):
+            (a, amn, amx), (b, bmn, bmx) = cand[i], cand[j]
+            x0, x1 = max(amn[0], bmn[0]), min(amx[0], bmx[0])
+            y0, y1 = max(amn[1], bmn[1]), min(amx[1], bmx[1])
+            if x1 - x0 < 0.5 or y1 - y0 < 0.5:
+                continue
+            pas = max(0.5, (x1 - x0) / 25, (y1 - y0) / 25)
+            communs, gagne = 0, {a.name: 0, b.name: 0}
+            x = x0 + pas / 2
+            while x < x1:
+                y = y0 + pas / 2
+                while y < y1:
+                    o = REPERE @ Vector((x, y, 0.5))
+                    za, zb = dessus(a, o), dessus(b, o)
+                    if za is not None and zb is not None and abs(za - zb) < 0.0015:
+                        communs += 1
+                        ok, _l, _n, _i, ob, _m = sc.ray_cast(dg, o, bas)
+                        ob = getattr(ob, "original", ob)
+                        if ok and ob is not None and ob.name in gagne:
+                            gagne[ob.name] += 1
+                    y += pas
+                x += pas
+            if communs < 3:
+                continue
+            # le sol le plus souvent visible reste au-dessus ; à égalité, le plus grand
+            aire = {a.name: (amx[0] - amn[0]) * (amx[1] - amn[1]), b.name: (bmx[0] - bmn[0]) * (bmx[1] - bmn[1])}
+            haut, cache = sorted((a, b), key=lambda o: (gagne[o.name], aire[o.name]), reverse=True)
+            if cache.name in descendus or haut.name in descendus:
+                continue
+            dz = SOL_ECART * ECHELLE
+            mw = cache.matrix_world.copy()
+            mw.translation.z -= dz
+            cache.matrix_world = mw
+            cache[TAG + "_dz"] = dz
+            descendus[cache.name] = haut.name
+            RAPPORT["sols"].append("« %s » et « %s » au même niveau (%d points) : « %s » descendu de 3 mm, "
+                                   "« %s » visible partout" % (haut.name, cache.name, communs, cache.name, haut.name))
+    bpy.context.view_layer.update()
+
+
 def escamoter_plafond(traj):
     """Plafond, toit et luminaires encastrés invisibles pour la caméra tant qu'elle est au-dessus (vue de
     dessus). Ils restent présents pour la lumière : leurs ombres sont gardées, l'éclairage de la boutique ne
@@ -1891,6 +1968,7 @@ def rapport_texte(chemin):
               "Produits manquants (%d) : %s" % (len(r["manquants"]), ", ".join(r["manquants"]) or "aucun"),
               "Orientation des étiquettes :"] + ["  - " + o for o in r["orientations"]] + [
               "Personnages (%d) :" % len(r["personnages"])] + ["  - " + p for p in r["personnages"]] + [
+              "Sols superposés (%d) :" % len(r["sols"])] + ["  - " + v for v in r["sols"]] + [
               "Vue de dessus :"] + ["  - " + v for v in r["vue_dessus"]] + [
               "Objets créés : %d" % r["objets"],
               "Avertissements (%d)" % len(r["avertissements"])] + ["  - " + a for a in r["avertissements"]] + [
@@ -1926,6 +2004,7 @@ def main():
             produits = {p["id"]: p for p in json.load(f)["produits"]}
         meubles = lire_csv(dossier)
         detecter_repere(meubles)
+        sols_superposes()
         coll_m = collection("FILM_Modeles_produits", COLLS["FILM"])
         for p in produits.values():
             ob = importer_produit(dossier, p, coll_m)

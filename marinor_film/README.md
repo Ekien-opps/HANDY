@@ -125,6 +125,10 @@ le feuillage cache la boutique vue d'en haut sont escamotés de la même façon.
 ligne « Vue de dessus », avec ce que la caméra voit au sol devant les caisses et les éventuelles surfaces
 superposées (taches en « Z-fighting »).
 
+**Sols superposés** : deux sols au même niveau (un plan « Sol » ajouté sur « Sol_Vente », par exemple)
+font apparaître des triangles plus clairs ou plus sombres au rendu. Le script descend de 3 mm celui qui
+est le moins visible (ligne « Sols superposés » du rapport) ; une relance le remet à sa place.
+
 **Flou de mouvement** : obturation 0,5 (aspect cinéma), réduite à 0,25 pendant le travelling
 (`OBTURATION_TRAVELLING`) pour garder les étiquettes nettes.
 
