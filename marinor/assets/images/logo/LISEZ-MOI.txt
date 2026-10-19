@@ -1,0 +1,9 @@
+LOGO DE LA MARQUE
+=================
+
+  logo.png         -> logo principal (en-tête du site, fond blanc)
+  logo-clair.png   -> version claire ou blanche pour le pied de page bordeaux (facultatif)
+
+PNG à fond transparent, environ 400 pixels de large.
+Sans logo-clair.png, le logo principal s'affiche dans le pied de page sur une petite pastille blanche.
+Un logo envoyé depuis Administration > Paramètres est prioritaire sur logo.png.

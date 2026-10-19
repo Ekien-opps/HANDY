@@ -1,0 +1,31 @@
+PHOTOS DES PRODUITS
+===================
+
+Déposez ici une photo par produit, nommée EXACTEMENT comme ci-dessous,
+avec l'extension .png, .webp, .jpg ou .jpeg :
+
+  marinade-poulet                  -> Marinade Poulet
+  marinade-poisson                 -> Marinade Poisson
+  marinade-mixte                   -> Marinade Mixte
+  epice-speciale-poulet            -> Épice Spéciale Poulet
+  epice-speciale-poisson           -> Épice Spéciale Poisson
+  paprika                          -> Paprika
+  piment-en-poudre                 -> Piment en poudre
+  graines-d-akpi                   -> Graines d’akpi
+  poudre-de-djoumble               -> Poudre de djoumblé
+  poudre-de-crevettes-sechees      -> Poudre de crevettes séchées
+  poudre-de-poisson-sec            -> Poudre de poisson sec
+  puree-d-ail                      -> Purée d’ail
+  bouillon-bio-de-poulet           -> Bouillon bio de poulet
+  pate-d-arachide                  -> Pâte d’arachide
+  huile-rouge                      -> Huile rouge
+
+Exemple : marinade-poulet.png
+
+Conseils :
+- PNG détouré (fond transparent) : le produit s'affiche sur le fond coloré de la charte. C'est le rendu le plus élégant.
+- JPG : la photo remplit toute la vignette (cadrage carré conseillé).
+- Format carré, 1000 x 1000 pixels environ, moins de 500 Ko.
+- Attention : Windows masque parfois les extensions. Vérifiez que le fichier ne s'appelle pas marinade-poulet.png.png.
+- Une photo envoyée depuis Administration > Produits est prioritaire sur celle de ce dossier.
+- Si vous renommez un produit dans l'administration, son nom de fichier change aussi (minuscules, tirets, sans accents).

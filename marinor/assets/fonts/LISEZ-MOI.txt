@@ -1,0 +1,11 @@
+POLICE CREAM HEAVY (titres du site)
+===================================
+
+Déposez ici le fichier de la police, renommé EXACTEMENT en :
+
+  cream-heavy.otf   ou   cream-heavy.ttf   ou   cream-heavy.woff   ou   cream-heavy.woff2
+
+Un seul de ces fichiers suffit. Le site l'utilisera automatiquement pour tous les titres.
+Tant qu'il est absent, les titres s'affichent en Montserrat très gras.
+Vérifiez que votre licence de la police autorise son usage sur un site web.
+Après l'ajout, actualisez la page avec Ctrl + F5.

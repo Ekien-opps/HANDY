@@ -1,0 +1,20 @@
+IMAGES DE LA PAGE D'ACCUEIL
+===========================
+
+  hero-principale.jpg   -> grande arche à droite de « Le vrai goût de chez nous »
+                           Format portrait, environ 900 x 1100 pixels.
+                           Idéal : vos produits mis en scène ou un plat préparé.
+
+  hero-secondaire.jpg   -> petit médaillon rond en bas à gauche de l'arche
+                           Format carré, environ 500 x 500 pixels, sujet bien centré.
+
+  etapes.jpg            -> image à droite de « Marinez. Cuisez. Régalez-vous. »
+                           Format paysage 4:3, environ 1200 x 900 pixels.
+                           Idéal : une photo qui montre le pot, une viande badigeonnée et le plat servi.
+
+  apropos.jpg           -> image ronde de la page « À propos »
+                           Format carré, environ 700 x 700 pixels.
+
+Les extensions .png, .webp et .jpeg sont aussi acceptées.
+Tant qu'un fichier est absent, l'illustration d'origine reste affichée.
+Gardez chaque image sous 500 Ko pour un chargement rapide.

@@ -1,0 +1,80 @@
+erDiagram
+  ADMINISTRATEUR {
+    int id PK
+    string nom
+    string email
+    string mot_de_passe
+  }
+  CLIENT {
+    int id PK
+    string nom
+    string prenom
+    string email
+    string telephone
+    string mot_de_passe
+    string adresse
+    string commune
+  }
+  GAMME {
+    int id PK
+    string nom
+    string slug
+    string description
+    int ordre
+  }
+  PRODUIT {
+    int id PK
+    string nom
+    string description
+    string ingredients
+    string conseils
+    int prix
+    string conditionnement
+    int stock
+    bool actif
+  }
+  COMMANDE {
+    int id PK
+    string reference
+    string adresse_livraison
+    string commune
+    int sous_total
+    int frais_livraison
+    int total
+    string statut
+  }
+  LIGNE_COMMANDE {
+    int id PK
+    string nom_produit
+    int prix_unitaire
+    int quantite
+    int total_ligne
+  }
+  PAIEMENT {
+    int id PK
+    string methode
+    int montant
+    string reference_transaction
+    string statut
+  }
+  MESSAGE {
+    int id PK
+    string nom
+    string email
+    string sujet
+    string message
+    bool lu
+  }
+  ABONNE {
+    int id PK
+    string email
+  }
+  PARAMETRE {
+    string cle PK
+    string valeur
+  }
+  GAMME ||--o{ PRODUIT : "regroupe"
+  CLIENT |o--o{ COMMANDE : "passe"
+  COMMANDE ||--|{ LIGNE_COMMANDE : "contient"
+  PRODUIT |o--o{ LIGNE_COMMANDE : "figure dans"
+  COMMANDE ||--|| PAIEMENT : "est reglee par"

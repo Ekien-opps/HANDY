@@ -1,0 +1,9 @@
+IMAGES DES GAMMES (tuiles colorées de l'accueil)
+================================================
+
+  marinades.png     -> gamme Marinades
+  epices.png        -> gamme Épices
+  essentiels.png    -> gamme Essentiels
+
+PNG détouré conseillé (fond transparent), environ 600 x 600 pixels.
+Les extensions .webp, .jpg et .jpeg sont aussi acceptées.

@@ -1,0 +1,21 @@
+Options -Indexes
+ServerSignature Off
+AddDefaultCharset UTF-8
+
+# Redirection HTTPS (à décommenter en production)
+# RewriteEngine On
+# RewriteCond %{HTTPS} off
+# RewriteRule ^ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
+
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+    # Dossiers et fichiers sensibles
+    RewriteRule ^includes/ - [F,L]
+    RewriteRule ^docs/ - [F,L]
+    RewriteRule ^uploads/.*\.(php|phtml|phar)$ - [F,L]
+    RewriteRule ^(database\.sql|installed\.lock|README\.md)$ - [F,L]
+</IfModule>
+
+<FilesMatch "\.(sql|lock|md)$">
+    Require all denied
+</FilesMatch>

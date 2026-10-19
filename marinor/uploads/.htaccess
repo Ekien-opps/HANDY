@@ -1,0 +1,8 @@
+# Les fichiers envoyés ne doivent jamais être exécutés
+Options -Indexes
+<FilesMatch "\.(php|phtml|phar|pl|py|cgi|sh)$">
+    Require all denied
+</FilesMatch>
+<IfModule mod_php.c>
+    php_flag engine off
+</IfModule>
