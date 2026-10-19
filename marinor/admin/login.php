@@ -13,9 +13,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $erreur = 'Trop de tentatives. Réessayez dans 15 minutes.';
     } else {
         $stmt = getDB()->prepare('SELECT * FROM admins WHERE email = ?');
-        $stmt->execute([trim((string) ($_POST['email'] ?? ''))]);
+        $stmt->execute([trim(valeurTexte($_POST, 'email'))]);
         $admin = $stmt->fetch();
-        if ($admin && password_verify((string) ($_POST['mot_de_passe'] ?? ''), $admin['mot_de_passe'])) {
+        if ($admin && password_verify(valeurTexte($_POST, 'mot_de_passe'), $admin['mot_de_passe'])) {
             unset($_SESSION['rate']['connexion_admin']);
             connecterAdmin($admin);
             redirect(BASE_URL . 'admin/index.php');

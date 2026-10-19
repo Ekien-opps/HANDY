@@ -1,20 +1,18 @@
-IMAGES DE LA PAGE D'ACCUEIL
-===========================
+IMAGES DE LA PAGE D'ACCUEIL ET DE LA PAGE À PROPOS
+==================================================
 
-  hero-principale.jpg   -> grande arche à droite de « Le vrai goût de chez nous »
-                           Format portrait, environ 900 x 1100 pixels.
-                           Idéal : vos produits mis en scène ou un plat préparé.
+  etapes.jpg    -> image à droite de « Marinez. Cuisez. Régalez-vous. » (accueil)
+                   Fournie : Marinade Poulet, Épice Spéciale Poulet et Bouillon de poulet sur fond crème.
+                   Format paysage 4:3, environ 1200 x 900 pixels.
+                   Une photo d'un plat préparé avec la marinade fonctionnera aussi très bien.
 
-  hero-secondaire.jpg   -> petit médaillon rond en bas à gauche de l'arche
-                           Format carré, environ 500 x 500 pixels, sujet bien centré.
+  apropos.jpg   -> image ronde de la page « À propos »
+                   Fournie : façade de la boutique (rendu marinor_0252), recadrée en carré.
+                   Format carré, environ 800 x 800 pixels, sujet bien centré.
 
-  etapes.jpg            -> image à droite de « Marinez. Cuisez. Régalez-vous. »
-                           Format paysage 4:3, environ 1200 x 900 pixels.
-                           Idéal : une photo qui montre le pot, une viande badigeonnée et le plat servi.
+Les extensions .webp, .png et .jpeg sont aussi acceptées.
+Pour remplacer une image, supprimez l'ancienne puis déposez la nouvelle sous le même nom.
 
-  apropos.jpg           -> image ronde de la page « À propos »
-                           Format carré, environ 700 x 700 pixels.
-
-Les extensions .png, .webp et .jpeg sont aussi acceptées.
-Tant qu'un fichier est absent, l'illustration d'origine reste affichée.
-Gardez chaque image sous 500 Ko pour un chargement rapide.
+Le haut de l'accueil (« Le vrai goût de chez nous ») n'utilise plus de photo à déposer ici :
+il compose les photos des produits Épice Spéciale Poulet, Huile rouge et Marinade Mixte
+du dossier produits/. Pour changer ces produits, modifiez le tableau $heroProduits en haut d'index.php.

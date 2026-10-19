@@ -23,7 +23,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $maj = $pdo->prepare('INSERT INTO settings (cle, valeur) VALUES (?, ?) ON DUPLICATE KEY UPDATE valeur = VALUES(valeur)');
         foreach ($champs as $groupe) {
             foreach (array_keys($groupe) as $cle) {
-                $valeur = trim((string) ($_POST[$cle] ?? ''));
+                $valeur = trim(valeurTexte($_POST, $cle));
                 if (in_array($cle, ['frais_livraison', 'livraison_offerte_des'], true)) {
                     $valeur = (string) max(0, (int) $valeur);
                 }
@@ -44,8 +44,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $stmt = $pdo->prepare('SELECT mot_de_passe FROM admins WHERE id = ?');
         $stmt->execute([$_SESSION['admin_id']]);
         $hash = (string) $stmt->fetchColumn();
-        $nouveau = (string) ($_POST['nouveau'] ?? '');
-        if (!password_verify((string) ($_POST['actuel'] ?? ''), $hash)) {
+        $nouveau = valeurTexte($_POST, 'nouveau');
+        if (!password_verify(valeurTexte($_POST, 'actuel'), $hash)) {
             flash('erreur', 'Le mot de passe actuel est incorrect.');
         } elseif (!motDePasseValide($nouveau)) {
             flash('erreur', 'Le nouveau mot de passe doit contenir 8 caractères, une majuscule, une minuscule et un chiffre.');

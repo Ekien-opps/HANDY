@@ -3,7 +3,7 @@ require_once dirname(__DIR__) . '/includes/functions.php';
 exigerAdmin();
 
 $pdo = getDB();
-$reference = (string) ($_GET['ref'] ?? '');
+$reference = valeurTexte($_GET, 'ref');
 $stmt = $pdo->prepare(
     'SELECT o.*, pay.id AS paiement_id, pay.methode, pay.montant, pay.numero_payeur, pay.reference_transaction,
             pay.statut AS paiement_statut, pay.validated_at, u.email AS client_email

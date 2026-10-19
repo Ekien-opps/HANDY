@@ -8,8 +8,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     exigerCSRF();
     $action = $_POST['action'] ?? '';
     $id = (int) ($_POST['id'] ?? 0);
-    $nom = trim((string) ($_POST['nom'] ?? ''));
-    $description = trim((string) ($_POST['description'] ?? ''));
+    $nom = trim(valeurTexte($_POST, 'nom'));
+    $description = trim(valeurTexte($_POST, 'description'));
     $ordre = max(0, min(255, (int) ($_POST['ordre'] ?? 0)));
 
     if (in_array($action, ['ajouter', 'modifier'], true)) {

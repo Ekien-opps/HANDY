@@ -23,7 +23,7 @@ if (rateLimitDepasse('newsletter', 5, 3600)) {
 }
 rateLimitEnregistrer('newsletter');
 
-$email = trim((string) ($_POST['email'] ?? ''));
+$email = trim(valeurTexte($_POST, 'email'));
 if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
     reponse(false, 'Indiquez une adresse e-mail valide.', $ajax);
 }

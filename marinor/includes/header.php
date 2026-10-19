@@ -25,11 +25,15 @@ function lienActif(string $page, string $actif): string
 <meta property="og:title" content="<?= e($titreComplet) ?>">
 <meta property="og:description" content="<?= e($pageDescription) ?>">
 <meta property="og:type" content="website">
-<link rel="icon" href="<?= BASE_URL ?>assets/images/favicon.svg" type="image/svg+xml">
+<meta property="og:image" content="<?= e(BASE_URL) ?>assets/images/logo/logo.png">
+<meta name="theme-color" content="#7B1421">
+<link rel="icon" href="<?= BASE_URL ?>assets/images/favicon.png" type="image/png">
+<link rel="apple-touch-icon" href="<?= BASE_URL ?>assets/images/apple-touch-icon.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-<link href="<?= BASE_URL ?>assets/css/style.css" rel="stylesheet">
+<?= stylePoliceTitre() ?>
+<link href="<?= BASE_URL ?>assets/css/style.css?v=<?= filemtime(ROOT_PATH . 'assets/css/style.css') ?>" rel="stylesheet">
 </head>
 <body data-base-url="<?= e(BASE_URL) ?>" data-csrf="<?= e(genererTokenCSRF()) ?>">
 <a class="lien-evitement" href="#contenu">Aller au contenu</a>

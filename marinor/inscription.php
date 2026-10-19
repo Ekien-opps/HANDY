@@ -11,10 +11,10 @@ $erreurs = [];
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     exigerCSRF();
     foreach (array_keys($valeurs) as $champ) {
-        $valeurs[$champ] = trim((string) ($_POST[$champ] ?? ''));
+        $valeurs[$champ] = trim(valeurTexte($_POST, $champ));
     }
-    $mdp = (string) ($_POST['mot_de_passe'] ?? '');
-    $confirmation = (string) ($_POST['confirmation'] ?? '');
+    $mdp = valeurTexte($_POST, 'mot_de_passe');
+    $confirmation = valeurTexte($_POST, 'confirmation');
 
     if (mb_strlen($valeurs['prenom']) < 2) {
         $erreurs['prenom'] = 'Indiquez votre prénom.';

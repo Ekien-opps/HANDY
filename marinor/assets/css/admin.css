@@ -1,14 +1,5 @@
 /* Marin'Or Ivoire — administration */
-@font-face {
-  font-family: "Cream Heavy";
-  src: url("../fonts/cream-heavy.woff2") format("woff2"),
-       url("../fonts/cream-heavy.woff") format("woff"),
-       url("../fonts/cream-heavy.ttf") format("truetype"),
-       url("../fonts/cream-heavy.otf") format("opentype");
-  font-weight: 100 900;
-  font-style: normal;
-  font-display: swap;
-}
+/* Police Cream Heavy : déclarée par admin/_debut.php seulement si le fichier existe dans assets/fonts/ */
 :root {
   --bordeaux: #7B1421; --rouge: #A40C21; --or: #F9A825; --vert: #2a5519;
   --creme: #FFECD1; --rose: #F6E8EA; --fond: #faf6f1; --bordure: #e8d9c8; --texte: #2b2b2b; --doux: #6b625b;
@@ -57,7 +48,10 @@ a { color: var(--bordeaux); }
 .tableau td { padding: .75rem .6rem; border-bottom: 1px solid var(--bordure); vertical-align: middle; }
 .tableau tfoot td { border-bottom: 0; }
 .miniature { width: 48px; height: 48px; object-fit: contain; background: var(--rose); border-radius: 8px; }
-.actions { display: flex; gap: .8rem; align-items: center; }
+/* Pas de display: flex sur une cellule de tableau : elle sortirait de la ligne et décalerait les bordures */
+.actions { white-space: nowrap; }
+.actions > * { display: inline-block; vertical-align: middle; margin-right: .8rem; }
+.actions > :last-child { margin-right: 0; }
 .texte-alerte { color: var(--rouge); font-weight: 700; }
 .liste { list-style: none; margin: 0; padding: 0; display: grid; gap: .6rem; }
 .liste li { display: flex; justify-content: space-between; gap: 1rem; align-items: center; }

@@ -30,15 +30,17 @@ define('UPLOAD_MIME_AUTORISES', ['image/jpeg' => 'jpg', 'image/png' => 'png', 'i
 define('PRODUITS_PAR_PAGE', 12);
 define('QUANTITE_MAX_PAR_PRODUIT', 50);
 
-// Mode développement : afficher les erreurs en local uniquement
-define('MODE_DEV', true);
+// Mode développement : activé automatiquement en local (WampServer), désactivé sur le vrai domaine.
+// Les erreurs ne s'affichent ainsi jamais aux visiteurs, même si l'on oublie de changer ce réglage.
+define('MODE_DEV', in_array($_SERVER['SERVER_NAME'] ?? 'localhost', ['localhost', '127.0.0.1', '::1'], true));
 
+error_reporting(E_ALL);
 if (MODE_DEV) {
     ini_set('display_errors', '1');
-    error_reporting(E_ALL);
 } else {
+    // En production : erreurs masquées aux visiteurs mais enregistrées dans le journal du serveur
     ini_set('display_errors', '0');
-    error_reporting(0);
+    ini_set('log_errors', '1');
 }
 
 date_default_timezone_set('Africa/Abidjan');

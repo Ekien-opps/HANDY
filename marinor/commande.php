@@ -26,7 +26,7 @@ $erreurs = [];
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     exigerCSRF();
     foreach (array_keys($valeurs) as $champ) {
-        $valeurs[$champ] = trim((string) ($_POST[$champ] ?? ''));
+        $valeurs[$champ] = trim(valeurTexte($_POST, $champ));
     }
 
     if (mb_strlen($valeurs['nom']) < 3) {

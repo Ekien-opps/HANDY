@@ -4,7 +4,7 @@ require_once __DIR__ . '/includes/functions.php';
 $pdo = getDB();
 $categories = $pdo->query('SELECT * FROM categories ORDER BY ordre, nom')->fetchAll();
 
-$slug = (string) ($_GET['categorie'] ?? '');
+$slug = valeurTexte($_GET, 'categorie');
 $categorie = null;
 foreach ($categories as $c) {
     if ($c['slug'] === $slug) {
@@ -12,9 +12,10 @@ foreach ($categories as $c) {
     }
 }
 
-$q = trim((string) ($_GET['q'] ?? ''));
+$q = trim(valeurTexte($_GET, 'q'));
 $tris = ['pertinence' => 'p.en_vedette DESC, p.nom ASC', 'prix_asc' => 'p.prix ASC', 'prix_desc' => 'p.prix DESC', 'nom' => 'p.nom ASC'];
-$tri = array_key_exists($_GET['tri'] ?? '', $tris) ? $_GET['tri'] : 'pertinence';
+$tri = valeurTexte($_GET, 'tri');
+$tri = array_key_exists($tri, $tris) ? $tri : 'pertinence';
 $page = max(1, (int) ($_GET['page'] ?? 1));
 
 $where = ['p.actif = 1'];

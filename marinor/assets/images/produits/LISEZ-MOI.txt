@@ -1,0 +1,37 @@
+PHOTOS DES PRODUITS
+===================
+
+Ce dossier contient déjà les 15 photos détourées des produits, au format .webp
+(environ 70 Ko chacune, au lieu de 3 à 8 Mo pour les PNG d'origine).
+
+Pour remplacer une photo, déposez un fichier nommé EXACTEMENT comme ci-dessous,
+avec l'extension .webp, .png, .jpg ou .jpeg, et supprimez l'ancien :
+
+  marinade-poulet                  -> Marinade Poulet
+  marinade-poisson                 -> Marinade Poisson
+  marinade-mixte                   -> Marinade Mixte
+  epice-speciale-poulet            -> Épice Spéciale Poulet
+  epice-speciale-poisson           -> Épice Spéciale Poisson
+  paprika                          -> Paprika
+  piment-en-poudre                 -> Piment en poudre
+  graines-d-akpi                   -> Graines d’akpi
+  poudre-de-djoumble               -> Poudre de djoumblé
+  poudre-de-crevettes-sechees      -> Poudre de crevettes séchées
+  poudre-de-poisson-sec            -> Poudre de poisson sec
+  puree-d-ail                      -> Purée d’ail
+  bouillon-bio-de-poulet           -> Bouillon bio de poulet
+  pate-d-arachide                  -> Pâte d’arachide
+  huile-rouge                      -> Huile rouge
+
+Exemple : marinade-poulet.webp
+Si deux fichiers portent le même nom, l'ordre de priorité est : .webp, .png, .jpg, .jpeg.
+
+Conseils :
+- PNG détouré (fond transparent) : le produit s'affiche sur le fond coloré de la charte. C'est le rendu le plus élégant.
+- JPG : la photo remplit toute la vignette (cadrage carré conseillé).
+- 1000 pixels de haut environ, moins de 500 Ko. La vignette est carrée : un produit haut (bouteille, pot)
+  est simplement centré, sans être déformé.
+- Attention : Windows masque parfois les extensions. Vérifiez que le fichier ne s'appelle pas marinade-poulet.png.png.
+- Une photo envoyée depuis Administration > Produits est prioritaire sur celle de ce dossier.
+- Si vous renommez un produit dans l'administration, son nom de fichier change aussi (minuscules, tirets, sans accents).
+- Produit sans photo : le logo Marin'Or s'affiche à la place (assets/images/produit-defaut.webp).

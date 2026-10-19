@@ -1,0 +1,14 @@
+PHOTOS DE FOND DES BANDEAUX
+===========================
+
+Chaque photo est superposée à 30 % d'opacité sur la couleur unie du bandeau, qui reste visible dessous.
+
+  fond-marinades.jpg    -> bandeau bordeaux de la gamme Marinades   (boutique.php?categorie=marinades)
+  fond-epices.jpg       -> bandeau or de la gamme Épices            (boutique.php?categorie=epices)
+  fond-essentiels.jpg   -> bandeau vert de la gamme Essentiels      (boutique.php?categorie=essentiels)
+  fond-apropos.jpg      -> bandeau crème de la page À propos        (rendu marinor_0297)
+  fond-contact.jpg      -> bandeau crème de la page Contact         (rendu marinor_1676)
+
+Format paysage, 1600 x 900 pixels, JPEG d'environ 100 Ko.
+Pour changer une photo, remplacez le fichier en gardant exactement le même nom.
+L'opacité se règle dans assets/css/style.css (section « Bandeaux de page », valeur opacity: .3).

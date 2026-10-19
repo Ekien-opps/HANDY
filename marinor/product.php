@@ -2,7 +2,7 @@
 require_once __DIR__ . '/includes/functions.php';
 
 $pdo = getDB();
-$slug = (string) ($_GET['slug'] ?? '');
+$slug = valeurTexte($_GET, 'slug');
 
 $stmt = $pdo->prepare(
     'SELECT p.*, c.nom AS categorie_nom, c.slug AS categorie_slug

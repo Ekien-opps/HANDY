@@ -62,6 +62,17 @@ function truncate(string $texte, int $longueur = 120): string
     return mb_strlen($texte) > $longueur ? rtrim(mb_substr($texte, 0, $longueur)) . '…' : $texte;
 }
 
+/**
+ * Valeur texte d'un paramètre de requête ($_GET ou $_POST).
+ * Retourne '' si le paramètre est absent ou malformé (ex. boutique.php?tri[]=x),
+ * au lieu de provoquer une erreur PHP.
+ */
+function valeurTexte(array $source, string $cle): string
+{
+    $valeur = $source[$cle] ?? '';
+    return is_scalar($valeur) ? (string) $valeur : '';
+}
+
 function slugify(string $texte): string
 {
     $texte = mb_strtolower(trim($texte), 'UTF-8');
@@ -110,11 +121,17 @@ function imageLocale(string $chemin): ?string
     return null;
 }
 
+/** Image affichée quand un produit ou une gamme n'a pas encore de photo : le logo sur fond transparent. */
+function imageParDefaut(): string
+{
+    return imageLocale('produit-defaut') ?? BASE_URL . 'assets/images/logo/logo.png';
+}
+
 /**
  * Photo d'un produit, dans cet ordre de priorité :
  * 1. photo envoyée depuis l'administration ;
- * 2. photo déposée dans assets/images/produits/ sous le nom du produit (ex. marinade-poulet.png) ;
- * 3. illustration du conditionnement (pot, sachet ou bidon).
+ * 2. photo déposée dans assets/images/produits/ sous le nom du produit (ex. marinade-poulet.webp) ;
+ * 3. image par défaut (logo).
  */
 function imageProduit(array $produit): string
 {
@@ -124,7 +141,7 @@ function imageProduit(array $produit): string
     if (!empty($produit['slug']) && ($locale = imageLocale('produits/' . $produit['slug']))) {
         return $locale;
     }
-    return BASE_URL . 'assets/images/' . illustrationConditionnement($produit['conditionnement'] ?? 'pot') . '.svg';
+    return imageParDefaut();
 }
 
 /**
@@ -136,22 +153,31 @@ function produitAPhoto(array $produit): bool
     return (bool) preg_match('/\.(jpe?g)$/i', strtok(imageProduit($produit), '?'));
 }
 
-function illustrationConditionnement(string $conditionnement): string
-{
-    return in_array($conditionnement, ['pot', 'sachet', 'bidon'], true) ? $conditionnement : 'pot';
-}
-
-/** Image d'une gamme : envoi depuis l'administration, puis assets/images/gammes/<slug>, puis illustration. */
+/** Image d'une gamme : envoi depuis l'administration, puis assets/images/gammes/<slug>, puis image par défaut. */
 function imageCategorie(array $categorie): string
 {
     if (!empty($categorie['image']) && is_file(UPLOAD_PATH . 'categories/' . $categorie['image'])) {
         return UPLOAD_URL . 'categories/' . $categorie['image'];
     }
-    if ($locale = imageLocale('gammes/' . $categorie['slug'])) {
-        return $locale;
+    return imageLocale('gammes/' . $categorie['slug']) ?? imageParDefaut();
+}
+
+/**
+ * Déclaration de la police Cream Heavy, uniquement si son fichier est présent dans assets/fonts/.
+ * Sans fichier, rien n'est déclaré : le navigateur ne tente plus 4 téléchargements en erreur à chaque page.
+ */
+function stylePoliceTitre(): string
+{
+    $formats = ['woff2' => 'woff2', 'woff' => 'woff', 'ttf' => 'truetype', 'otf' => 'opentype'];
+    foreach ($formats as $extension => $format) {
+        $fichier = ROOT_PATH . 'assets/fonts/cream-heavy.' . $extension;
+        if (is_file($fichier)) {
+            $url = BASE_URL . 'assets/fonts/cream-heavy.' . $extension . '?v=' . filemtime($fichier);
+            return '<style>@font-face { font-family: "Cream Heavy"; src: url("' . e($url) . '") format("' . $format . '");'
+                . ' font-weight: 100 900; font-style: normal; font-display: swap; }</style>';
+        }
     }
-    $illustrations = ['marinades' => 'pot', 'epices' => 'sachet', 'essentiels' => 'bidon'];
-    return BASE_URL . 'assets/images/' . ($illustrations[$categorie['slug']] ?? 'pot') . '.svg';
+    return '';
 }
 
 /**

@@ -18,7 +18,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         redirect(BASE_URL . 'contact.php'); // champ piège rempli par un robot
     }
     foreach (array_keys($valeurs) as $champ) {
-        $valeurs[$champ] = trim((string) ($_POST[$champ] ?? ''));
+        $valeurs[$champ] = trim(valeurTexte($_POST, $champ));
     }
 
     if (rateLimitDepasse('contact', 3, 3600)) {
@@ -56,7 +56,7 @@ require_once __DIR__ . '/includes/header.php';
 $whatsapp = preg_replace('/\D/', '', getParam('whatsapp'));
 ?>
 
-<section class="bandeau-page bandeau-tous">
+<section class="bandeau-page bandeau-contact">
     <div class="conteneur">
         <nav class="fil-ariane" aria-label="Fil d’Ariane"><a href="<?= BASE_URL ?>">Accueil</a> / Contact</nav>
         <h1 class="titre-affiche">Écrivez-nous</h1>

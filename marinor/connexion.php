@@ -10,8 +10,8 @@ $erreur = '';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     exigerCSRF();
-    $email = trim((string) ($_POST['email'] ?? ''));
-    $mdp = (string) ($_POST['mot_de_passe'] ?? '');
+    $email = trim(valeurTexte($_POST, 'email'));
+    $mdp = valeurTexte($_POST, 'mot_de_passe');
 
     if (rateLimitDepasse('connexion_client', 5, 900)) {
         $erreur = 'Trop de tentatives. Réessayez dans 15 minutes.';

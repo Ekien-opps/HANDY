@@ -17,7 +17,9 @@
   }
 
   function envoyer(form) {
-    return fetch(form.action, {
+    // getAttribute et non form.action : le champ caché name="action" des formulaires du panier
+    // masque la propriété form.action, ce qui envoyait la requête vers une adresse invalide.
+    return fetch(form.getAttribute('action'), {
       method: 'POST',
       body: new FormData(form),
       headers: { 'X-Requested-With': 'fetch', 'Accept': 'application/json' },

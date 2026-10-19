@@ -15,10 +15,16 @@ $vedettes = $pdo->query(
 )->fetchAll();
 
 $nbProduits = (int) $pdo->query('SELECT COUNT(*) FROM products WHERE actif = 1')->fetchColumn();
+$gammesParSlug = array_column($gammes, null, 'slug');
 
-// Photos de l'accueil : déposez-les dans assets/images/accueil/ (voir le fichier LISEZ-MOI.txt du dossier)
-$photoPrincipale = imageLocale('accueil/hero-principale');
-$photoSecondaire = imageLocale('accueil/hero-secondaire');
+// Composition du hero : un produit par gamme, de gauche à droite (images dans assets/images/produits/)
+$heroProduits = [
+    'epices'     => ['image' => 'epice-speciale-poulet', 'nom' => 'Épice Spéciale Poulet', 'largeur' => 682, 'hauteur' => 1000],
+    'essentiels' => ['image' => 'huile-rouge', 'nom' => 'Huile rouge', 'largeur' => 354, 'hauteur' => 1000],
+    'marinades'  => ['image' => 'marinade-mixte', 'nom' => 'Marinade Mixte', 'largeur' => 546, 'hauteur' => 1000],
+];
+
+// Image de la section « Marinez. Cuisez. Régalez-vous. » : assets/images/accueil/etapes.jpg (voir LISEZ-MOI.txt)
 $imageEtapes = imageLocale('accueil/etapes');
 
 require_once __DIR__ . '/includes/header.php';
@@ -27,23 +33,40 @@ require_once __DIR__ . '/includes/header.php';
 <section class="accueil-hero">
     <div class="conteneur accueil-hero-grille">
         <div class="accueil-hero-texte">
+            <p class="surtitre">Marinades et épices de Côte d’Ivoire</p>
             <h1 class="titre-affiche">Le vrai goût de chez nous</h1>
             <p><?= e(getParam('description')) ?></p>
             <div class="groupe-boutons">
-                <a href="<?= BASE_URL ?>boutique.php" class="bouton bouton-or">Découvrir les produits</a>
-                <a href="<?= BASE_URL ?>about.php" class="bouton bouton-contour-clair">Notre histoire</a>
+                <a href="<?= BASE_URL ?>boutique.php" class="bouton bouton-bordeaux">Découvrir les produits</a>
+                <a href="<?= BASE_URL ?>about.php" class="bouton bouton-contour">Notre histoire</a>
             </div>
+            <ul class="hero-chiffres">
+                <li><strong><?= $nbProduits ?></strong> saveurs de chez nous</li>
+                <li><strong><?= count($gammes) ?></strong> gammes pour toute la cuisine</li>
+                <li><strong>Livraison</strong> à domicile à Abidjan</li>
+            </ul>
         </div>
-        <div class="vitrine">
-            <figure class="vitrine-arche<?= $photoPrincipale ? ' a-photo' : '' ?>">
-                <img src="<?= e($photoPrincipale ?: BASE_URL . 'assets/images/pot.svg') ?>"
-                     alt="<?= $photoPrincipale ? 'Produits Marin’Or Ivoire' : '' ?>" width="420" height="520" fetchpriority="high">
-            </figure>
-            <figure class="vitrine-medaillon<?= $photoSecondaire ? ' a-photo' : '' ?>">
-                <img src="<?= e($photoSecondaire ?: BASE_URL . 'assets/images/sachet.svg') ?>"
-                     alt="<?= $photoSecondaire ? 'Plat préparé avec Marin’Or Ivoire' : '' ?>" width="220" height="220">
-            </figure>
-            <p class="vitrine-etiquette"><strong><?= $nbProduits ?></strong> saveurs de chez nous</p>
+
+        <div class="hero-vitrine">
+            <div class="hero-scene">
+                <span class="hero-disque" aria-hidden="true"></span>
+                <span class="hero-socle" aria-hidden="true"></span>
+                <?php foreach ($heroProduits as $gamme => $produit): ?>
+                    <img class="hero-produit hero-produit-<?= e($gamme) ?>"
+                         src="<?= e(imageLocale('produits/' . $produit['image']) ?? imageParDefaut()) ?>"
+                         alt="<?= e($produit['nom']) ?> Marin’Or Ivoire"
+                         width="<?= $produit['largeur'] ?>" height="<?= $produit['hauteur'] ?>" fetchpriority="high">
+                <?php endforeach; ?>
+            </div>
+            <ul class="hero-gammes" aria-label="Nos gammes">
+                <?php foreach (array_keys($heroProduits) as $gamme): ?>
+                    <li>
+                        <?php if (isset($gammesParSlug[$gamme])): ?>
+                            <a href="<?= BASE_URL ?>boutique.php?categorie=<?= e($gamme) ?>" class="hero-gamme hero-gamme-<?= e($gamme) ?>"><?= e($gammesParSlug[$gamme]['nom']) ?></a>
+                        <?php endif; ?>
+                    </li>
+                <?php endforeach; ?>
+            </ul>
         </div>
     </div>
 </section>
@@ -54,7 +77,7 @@ require_once __DIR__ . '/includes/header.php';
         <div class="gammes">
             <?php foreach ($gammes as $g): ?>
             <a href="<?= BASE_URL ?>boutique.php?categorie=<?= e($g['slug']) ?>" class="gamme gamme-<?= e($g['slug']) ?>">
-                <img src="<?= e(imageCategorie($g)) ?>" alt="" loading="lazy">
+                <img src="<?= e(imageCategorie($g)) ?>" alt="" loading="lazy" width="560" height="400">
                 <span class="gamme-nom"><?= e($g['nom']) ?></span>
                 <span class="gamme-texte"><?= e($g['description']) ?></span>
                 <span class="gamme-compte"><?= (int) $g['nb_produits'] ?> produit<?= $g['nb_produits'] > 1 ? 's' : '' ?></span>
@@ -118,10 +141,12 @@ require_once __DIR__ . '/includes/header.php';
                 <li><strong>Cuisez</strong> : c’est prêt, il ne reste qu’à servir.</li>
             </ol>
         </div>
-        <figure class="etapes-visuel<?= $imageEtapes ? ' a-photo' : '' ?>">
-            <img src="<?= e($imageEtapes ?: BASE_URL . 'assets/images/etapes.svg') ?>"
-                 alt="Ouvrir le pot, badigeonner la viande, puis servir le plat" width="600" height="460" loading="lazy">
+        <?php if ($imageEtapes): ?>
+        <figure class="etapes-visuel">
+            <img src="<?= e($imageEtapes) ?>"
+                 alt="Les produits Marin’Or Ivoire, prêts à l’emploi" width="600" height="450" loading="lazy">
         </figure>
+        <?php endif; ?>
     </div>
 </section>
 

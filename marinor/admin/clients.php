@@ -3,7 +3,7 @@ require_once dirname(__DIR__) . '/includes/functions.php';
 exigerAdmin();
 
 $pdo = getDB();
-$q = trim((string) ($_GET['q'] ?? ''));
+$q = trim(valeurTexte($_GET, 'q'));
 $params = [];
 $where = '';
 if ($q !== '') {

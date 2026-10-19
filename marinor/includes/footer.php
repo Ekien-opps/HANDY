@@ -19,7 +19,7 @@ $reseaux = array_filter([
             <?= champCSRF() ?>
             <label for="email-newsletter" class="visuellement-cache">Votre adresse e-mail</label>
             <input type="email" id="email-newsletter" name="email" placeholder="Votre adresse e-mail" required>
-            <button type="submit" class="bouton bouton-or">Je m’abonne</button>
+            <button type="submit" class="bouton bouton-bordeaux">Je m’abonne</button>
             <p class="form-newsletter-retour" data-newsletter-retour aria-live="polite"></p>
         </form>
     </div>
@@ -78,6 +78,6 @@ $reseaux = array_filter([
 
 <div class="notification" data-notification role="status" aria-live="polite" hidden></div>
 
-<script src="<?= BASE_URL ?>assets/js/main.js" defer></script>
+<script src="<?= BASE_URL ?>assets/js/main.js?v=<?= filemtime(ROOT_PATH . 'assets/js/main.js') ?>" defer></script>
 </body>
 </html>

@@ -13,7 +13,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if ($action === 'profil') {
         $donnees = [];
         foreach (['prenom', 'nom', 'telephone', 'adresse', 'commune'] as $champ) {
-            $donnees[$champ] = trim((string) ($_POST[$champ] ?? ''));
+            $donnees[$champ] = trim(valeurTexte($_POST, $champ));
         }
         if (mb_strlen($donnees['prenom']) < 2 || mb_strlen($donnees['nom']) < 2) {
             $erreurs['profil'] = 'Le prénom et le nom doivent contenir au moins 2 caractères.';
@@ -30,8 +30,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 
     if ($action === 'mot_de_passe') {
-        $actuel = (string) ($_POST['actuel'] ?? '');
-        $nouveau = (string) ($_POST['nouveau'] ?? '');
+        $actuel = valeurTexte($_POST, 'actuel');
+        $nouveau = valeurTexte($_POST, 'nouveau');
         if (!password_verify($actuel, $client['mot_de_passe'])) {
             $erreurs['securite'] = 'Le mot de passe actuel est incorrect.';
         } elseif (!motDePasseValide($nouveau)) {
@@ -45,7 +45,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 
     if ($action === 'supprimer') {
-        if (!password_verify((string) ($_POST['confirmation_mdp'] ?? ''), $client['mot_de_passe'])) {
+        if (!password_verify(valeurTexte($_POST, 'confirmation_mdp'), $client['mot_de_passe'])) {
             $erreurs['suppression'] = 'Mot de passe incorrect : votre compte n’a pas été supprimé.';
             $section = 'securite';
         } else {

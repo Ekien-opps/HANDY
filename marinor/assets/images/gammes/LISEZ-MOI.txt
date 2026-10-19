@@ -1,9 +1,12 @@
 IMAGES DES GAMMES (tuiles colorées de l'accueil)
 ================================================
 
-  marinades.png     -> gamme Marinades
-  epices.png        -> gamme Épices
-  essentiels.png    -> gamme Essentiels
+  marinades.webp    -> gamme Marinades   (les trois pots de marinade)
+  epices.webp       -> gamme Épices      (Graines d'akpi, Épice Spéciale Poulet, Paprika)
+  essentiels.webp   -> gamme Essentiels  (Huile rouge et Pâte d'arachide)
 
-PNG détouré conseillé (fond transparent), environ 600 x 600 pixels.
-Les extensions .webp, .jpg et .jpeg sont aussi acceptées.
+Compositions détourées (fond transparent) réalisées à partir des photos des produits.
+Pour en changer, déposez un PNG ou WEBP détouré sous le même nom, environ 700 x 480 pixels.
+Les extensions .png, .jpg et .jpeg sont aussi acceptées.
+
+Les photos de fond des bandeaux de la boutique sont dans le dossier fonds/.

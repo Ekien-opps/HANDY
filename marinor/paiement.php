@@ -9,7 +9,7 @@ $stmt = $pdo->prepare(
      FROM orders o JOIN payments pay ON pay.order_id = o.id
      WHERE o.reference = ? AND o.user_id = ?'
 );
-$stmt->execute([(string) ($_GET['ref'] ?? ''), $client['id']]);
+$stmt->execute([valeurTexte($_GET, 'ref'), $client['id']]);
 $commande = $stmt->fetch();
 
 if (!$commande) {
@@ -23,8 +23,8 @@ $referenceTransaction = '';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && $commande['paiement_statut'] === 'en_attente') {
     exigerCSRF();
-    $numeroPayeur = trim((string) ($_POST['numero_payeur'] ?? ''));
-    $referenceTransaction = trim((string) ($_POST['reference_transaction'] ?? ''));
+    $numeroPayeur = trim(valeurTexte($_POST, 'numero_payeur'));
+    $referenceTransaction = trim(valeurTexte($_POST, 'reference_transaction'));
 
     if (!telephoneValide($numeroPayeur)) {
         $erreurs['numero_payeur'] = 'Indiquez le numéro qui a effectué le paiement (10 chiffres).';

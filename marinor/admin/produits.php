@@ -27,7 +27,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
 $categories = $pdo->query('SELECT id, nom FROM categories ORDER BY ordre, nom')->fetchAll();
 $filtreCategorie = (int) ($_GET['categorie'] ?? 0);
-$q = trim((string) ($_GET['q'] ?? ''));
+$q = trim(valeurTexte($_GET, 'q'));
 
 $where = ['1 = 1'];
 $params = [];

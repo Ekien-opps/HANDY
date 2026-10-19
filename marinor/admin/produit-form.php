@@ -25,7 +25,7 @@ $erreurs = [];
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     exigerCSRF();
     foreach (['nom', 'description_courte', 'description', 'ingredients', 'conseils', 'contenance'] as $champ) {
-        $produit[$champ] = trim((string) ($_POST[$champ] ?? ''));
+        $produit[$champ] = trim(valeurTexte($_POST, $champ));
     }
     $produit['category_id'] = (int) ($_POST['category_id'] ?? 0);
     $produit['prix'] = (int) ($_POST['prix'] ?? 0);

@@ -23,9 +23,10 @@ $liens = [
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="robots" content="noindex, nofollow">
 <title><?= e($adminTitre) ?> | Administration <?= e(SITE_NAME) ?></title>
-<link rel="icon" href="<?= BASE_URL ?>assets/images/favicon.svg" type="image/svg+xml">
+<link rel="icon" href="<?= BASE_URL ?>assets/images/favicon.png" type="image/png">
 <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-<link href="<?= BASE_URL ?>assets/css/admin.css" rel="stylesheet">
+<?= stylePoliceTitre() ?>
+<link href="<?= BASE_URL ?>assets/css/admin.css?v=<?= filemtime(ROOT_PATH . 'assets/css/admin.css') ?>" rel="stylesheet">
 </head>
 <body>
 <div class="admin">

@@ -7,7 +7,7 @@ $pageActive = 'about';
 require_once __DIR__ . '/includes/header.php';
 ?>
 
-<section class="bandeau-page bandeau-tous">
+<section class="bandeau-page bandeau-apropos">
     <div class="conteneur">
         <nav class="fil-ariane" aria-label="Fil d’Ariane"><a href="<?= BASE_URL ?>">Accueil</a> / À propos</nav>
         <h1 class="titre-affiche">Qui sommes-nous ?</h1>
@@ -23,7 +23,7 @@ require_once __DIR__ . '/includes/header.php';
             <p>De la marinade pour le poulet braisé à la poudre de djoumblé, chaque produit répond à un geste du quotidien des cuisines ivoiriennes, pour que chacun puisse retrouver le goût authentique des plats de famille, simplement.</p>
         </div>
         <?php $photoApropos = imageLocale('accueil/apropos'); ?>
-        <img src="<?= e($photoApropos ?: BASE_URL . 'assets/images/pot.svg') ?>" alt="<?= $photoApropos ? 'L’univers Marin’Or Ivoire' : '' ?>" class="apropos-visuel<?= $photoApropos ? ' a-photo' : '' ?>" width="360" height="360">
+        <img src="<?= e($photoApropos ?: imageParDefaut()) ?>" alt="<?= $photoApropos ? 'La boutique Marin’Or Ivoire' : '' ?>" class="apropos-visuel<?= $photoApropos ? ' a-photo' : '' ?>" width="360" height="360" loading="lazy">
     </div>
 </section>
 

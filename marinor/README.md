@@ -15,20 +15,25 @@ Site e-commerce de marinades et d’épices ivoiriennes, en PHP 8 natif, MySQL e
 4. Se connecter sur `http://localhost/marinor/admin/` avec `admin@marinor-ivoire.ci` / `MarinOr2026!`, puis changer le mot de passe dans **Paramètres**.
 5. Supprimer `install.php`.
 
+Les erreurs PHP ne s’affichent qu’en local (`localhost`) : sur le vrai domaine, `MODE_DEV` se désactive tout seul (voir `includes/config.php`).
+
 ## Données à remplacer avant la mise en ligne
 
 Les éléments suivants sont des **valeurs de démonstration** :
 
 - **Prix et stocks** des 15 produits (Administration > Produits)
 - **Ingrédients** : laissés vides, à compléter pour chaque produit
-- **Photos des produits** : déposez-les dans `assets/images/produits/`, nommées comme indiqué dans le fichier `LISEZ-MOI.txt` du dossier (ex. `marinade-poulet.png`), ou envoyez-les depuis Administration > Produits
-- **Images de l’accueil** (grande arche, médaillon, image des trois étapes) : `assets/images/accueil/`
-- **Images des gammes** : `assets/images/gammes/`
+- **Photos des produits** : les 15 photos détourées sont déjà dans `assets/images/produits/` (ex. `marinade-poulet.webp`). Pour en changer, suivez le `LISEZ-MOI.txt` du dossier, ou envoyez une photo depuis Administration > Produits
+- **Images de l’accueil et de la page À propos** (image des trois étapes, photo ronde) : `assets/images/accueil/`
+- **Images des gammes** (tuiles de l’accueil) : `assets/images/gammes/`
+- **Photos de fond des bandeaux** (Marinades, Épices, Essentiels, À propos, Contact, à 30 % d’opacité) : `assets/images/fonds/`
 - **Logo** : `assets/images/logo/logo.png` (et `logo-clair.png` pour le pied de page), ou Administration > Paramètres
 - **Police Cream Heavy** : déposez `cream-heavy.otf` (ou `.ttf`, `.woff`, `.woff2`) dans `assets/fonts/`
 - **Coordonnées, réseaux sociaux et numéros marchands** Wave, Orange Money, Moov Money et Djamo (Administration > Paramètres)
 
-Chaque dossier contient un fichier `LISEZ-MOI.txt` avec les noms de fichiers attendus. Tant qu’une image est absente, l’illustration d’origine reste affichée.
+Chaque dossier contient un fichier `LISEZ-MOI.txt` avec les noms de fichiers attendus. Tant qu’une photo de produit ou de gamme est absente, le logo s’affiche à la place.
+
+Les contenances des produits (100 g, 500 g, 1 kg) peuvent être alignées sur les emballages en exécutant `docs/mise-a-jour-contenances.sql` dans phpMyAdmin (facultatif, voir le fichier).
 
 ## Fonctionnement du paiement
 
