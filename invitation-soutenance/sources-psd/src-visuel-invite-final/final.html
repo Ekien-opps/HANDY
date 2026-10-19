@@ -1,0 +1,150 @@
+<!doctype html>
+<html lang="fr"><head><meta charset="utf-8">
+<title>VISUEL_INVITE – rendu final</title>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500;600;700;800&display=block" rel="stylesheet">
+<style>
+@font-face{font-family:"Cream Heavy";src:url(assets/Cream-Heavy.ttf) format("truetype");font-weight:900;font-display:block}
+*{margin:0;padding:0;box-sizing:border-box}
+body{width:1400px;height:758px;overflow:hidden;font-family:Montserrat,sans-serif;color:#fff;background:#7B1421}
+.page{position:relative;width:1400px;height:758px;overflow:hidden}
+.abs{position:absolute}
+.full{position:absolute;left:0;top:0;width:1400px;height:758px}
+.t{white-space:nowrap;line-height:1.219}
+.ib{display:inline-block;will-change:transform}
+.clip{overflow:hidden}
+svg{position:absolute;left:0;top:0}
+</style></head><body><div class="page">
+
+<!-- FIXES (extraits du PSD) -->
+<img class="full" src="assets/hd_fond.png">
+<img class="full" id="texture" src="assets/hd_texture.png">
+<img class="full" id="photo" src="assets/hd_photo_group.png" style="transform-origin:75% 50%">
+<img class="full" id="motif" src="assets/hd_motif.png" style="transform-origin:1275px 176px">
+
+<!-- BANDE CRÈME -->
+<div class="abs" id="band" style="left:-19px;top:632px;width:1508px;height:160px;background:#FFECD1"></div>
+
+<!-- LOGOS -->
+<div class="abs" id="logoWrap" style="left:60px;top:20px;width:259.2px;height:136px">
+  <img src="assets/logo_marinor.png" style="width:100%;height:100%;display:block">
+  <div id="logoGlint" class="abs" style="inset:0;background:linear-gradient(105deg,transparent 42%,rgba(255,255,255,.55) 50%,transparent 58%) no-repeat;background-size:300% 100%;-webkit-mask:url(assets/logo_marinor.png) center/100% 100% no-repeat"></div>
+</div>
+<div class="abs" id="pastille" style="left:1200px;top:18px;width:142px;height:112px;background:#fff;border-radius:15px"></div>
+<img class="abs" id="istc" src="assets/logo_istc.png" style="left:1217.1px;top:30px;width:105.75px;height:88px">
+
+<!-- ACCROCHE + TITRE -->
+<div class="abs t" id="accroche" style="left:61.6px;top:190.67px;font-weight:500;font-size:28px;letter-spacing:.28px"><span id="eph" style="font-family:'Cream Heavy';font-weight:900;color:#FBD021">Ephrem</span> <span id="vous">vous invite à sa</span></div>
+<div class="abs t" style="left:61.6px;top:236.29px;font-weight:700;font-size:58.24px;line-height:61.15px;letter-spacing:-1.12px">
+  <div class="clip"><div class="ib" id="ti1">Soutenance de</div></div>
+  <div class="clip"><div class="ib" id="ti2">Licence</div></div>
+  <div class="clip"><div class="ib" id="ti3">Professionnelle</div></div>
+</div>
+
+<!-- BANDEAU INFOS -->
+<div class="abs" id="cardFill" style="left:61.6px;top:449px;width:638.4px;height:128.8px;border-radius:20.2px;background:#fff;opacity:.14"></div>
+<div class="abs clip" style="left:61.6px;top:449px;width:638.4px;height:128.8px;border-radius:20.2px">
+  <div id="glass" class="abs" style="top:-60px;left:0;width:160px;height:260px;background:linear-gradient(90deg,transparent,rgba(255,255,255,.28) 50%,transparent);transform:skewX(-20deg)"></div>
+</div>
+<svg width="1400" height="758" viewBox="0 0 1400 758" fill="none">
+  <g stroke="#fff" stroke-opacity=".28" stroke-width="1.12">
+    <path id="cR" pathLength="1" d="M380.8 449.56H679.8A19.64 19.64 0 0 1 699.44 469.2V558.2A19.64 19.64 0 0 1 679.8 577.84H380.8"/>
+    <path id="cL" pathLength="1" d="M380.8 449.56H81.8A19.64 19.64 0 0 0 62.16 469.2V558.2A19.64 19.64 0 0 0 81.8 577.84H380.8"/>
+  </g>
+</svg>
+<div class="abs" id="sep" style="left:379.2px;top:471.6px;width:1.68px;height:84px;background:#fff;opacity:.55"></div>
+<div class="abs clip" style="left:0;width:350px;top:470px;height:60px;text-align:right"><div class="t ib" id="ven" style="margin-top:7.37px;font-weight:700;font-size:35.84px;color:#FBD021">Vendredi 23</div></div>
+<div class="abs t" style="left:0;width:350px;top:522.29px;text-align:right;font-weight:500;font-size:19.04px"><span class="ib" id="oct">Octobre · <span id="hour">11H30</span></span></div>
+<div class="abs clip" style="left:412.16px;width:300px;top:470px;height:60px"><div class="t ib" id="istcTxt" style="margin-top:7.37px;font-weight:700;font-size:35.84px">ISTC</div></div>
+<div class="abs t" style="left:412.16px;top:522.29px;font-weight:500;font-size:19.04px"><span class="ib" id="poly">Polytechnique · Abidjan</span></div>
+
+<!-- THÈME (bande crème) -->
+<div class="abs t" id="lblT" style="left:61.58px;top:652.55px;font-weight:800;font-size:18.36px;letter-spacing:3.53px;color:#F9A825">THÈME</div>
+<div class="abs t" id="theme" style="left:61.6px;top:679.74px;font-weight:600;font-size:19.04px;line-height:27.61px;color:#000">Conception et réalisation de supports de<br>communication pour la promotion de Marin'Or Ivoire</div>
+
+<!-- PIED DE PAGE -->
+<div class="abs" id="filet" style="left:720.6px;top:642.6px;width:3.6px;height:98.6px;background:#F9A825"></div>
+<div class="abs clip" style="left:724.2px;top:640px;width:500px;height:110px">
+  <div class="abs t" style="left:-105.5px;width:400px;top:24.67px;text-align:center"><span class="ib" id="lieu" style="font-weight:700;font-size:21.18px;letter-spacing:2.82px;color:#F9A825">LIEU</span></div>
+  <div class="abs t" style="left:10.47px;width:400px;top:57.72px;text-align:center"><span class="ib" id="salle" style="font-weight:700;font-size:31.36px;color:#000">Salle Victor Merry</span></div>
+</div>
+
+</div>
+<script>
+const FPS = 30, END = 300;
+function bez(x1, y1, x2, y2) {
+  const cx = 3 * x1, bx = 3 * (x2 - x1) - cx, ax = 1 - cx - bx, cy = 3 * y1, by = 3 * (y2 - y1) - cy, ay = 1 - cy - by;
+  const X = t => ((ax * t + bx) * t + cx) * t, Y = t => ((ay * t + by) * t + cy) * t, dX = t => (3 * ax * t + 2 * bx) * t + cx;
+  return x => { let t = x; for (let i = 0; i < 8; i++) { const d = dX(t); if (Math.abs(d) < 1e-6) break; t -= (X(t) - x) / d; } t = Math.min(1, Math.max(0, t)); return Y(t); };
+}
+const EXPO = bez(.16, 1, .3, 1), IO = bez(.65, 0, .35, 1), IN = bez(.55, 0, 1, .45), OUT = bez(.33, 1, .68, 1);
+const clamp = v => Math.min(1, Math.max(0, v));
+const p = (f, a, d, e = EXPO) => e(clamp((f - a) / d));
+const lerp = (a, b, t) => a + (b - a) * t;
+const spring = (f, a) => { const t = (f - a) / FPS; return t <= 0 ? 0 : 1 - Math.exp(-7 * t) * Math.cos(2 * Math.PI * 1.5 * t); };
+const $ = id => document.getElementById(id);
+
+const splitChars = el => { el.innerHTML = [...el.textContent].map(c => `<span class="ib" style="transform-origin:50% 85%">${c}</span>`).join(''); return [...el.children]; };
+const splitWords = el => { el.innerHTML = el.innerHTML.split('<br>').map(l => l.trim().split(/\s+/).map(w => `<span class="ib">${w}</span>`).join(' ')).join('<br>'); return [...el.querySelectorAll('.ib')]; };
+const ephChars = splitChars($('eph')), vousWords = splitWords($('vous')), themeWords = splitWords($('theme'));
+
+function trim(id, t) { $(id).style.strokeDasharray = '1 1'; $(id).style.strokeDashoffset = 1 - t; }
+function set(el, { x = 0, y = 0, s = 1, sx, sy, o, blur = 0, ls } = {}) {
+  el.style.transform = `translate(${x}px,${y}px) scale(${sx ?? s},${sy ?? s})`;
+  if (o !== undefined) el.style.opacity = o;
+  el.style.filter = blur > 0.05 ? `blur(${blur}px)` : 'none';
+  if (ls !== undefined) el.style.letterSpacing = ls + 'px';
+}
+
+function render(f, fc = f) {
+  const t = (window.FREEZE ? 0 : f) / FPS;
+  // Fixes : présence très discrète
+  $('photo').style.transform = `scale(${1 + 0.03 * t / 10})`;
+  $('texture').style.transform = `translate(${3 * Math.sin(t * .5)}px,${2 * Math.sin(t * .4)}px)`;
+  $('motif').style.transform = `rotate(${0.3 * t}deg)`;
+
+  // 1. Bande crème : monte depuis le bas
+  set($('band'), { y: lerp(140, 0, p(f, 6, 24)) });
+
+  // 2. Logos
+  const lm = p(f, 12, 30);
+  $('logoWrap').style.clipPath = `ellipse(${lerp(0, 75, lm)}% ${lerp(0, 75, lm)}% at 50% 50%)`;
+  set($('logoWrap'), { s: lerp(.94, 1, lm), o: p(f, 12, 9, OUT) });
+  const kp = p(f, 18, 21); set($('pastille'), { s: lerp(.9, 1, kp), o: kp });
+  const ki = p(f, 22, 18); set($('istc'), { s: lerp(.96, 1, ki), o: ki });
+
+  // 3. Accroche : « Ephrem » en ressort (signature), puis mots
+  ephChars.forEach((c, i) => { const s = spring(f, 30 + 2 * i); set(c, { s, o: p(f, 30 + 2 * i, 3, OUT) }); });
+  vousWords.forEach((w, i) => { const k = p(f, 40 + 2 * i, 15); set(w, { y: lerp(16, 0, k), o: k }); });
+  // Titre : lignes sous masque
+  ['ti1', 'ti2', 'ti3'].forEach((id, i) => set($(id), { y: lerp(72, 0, p(f, 42 + 4 * i, 24)) }));
+
+  // 4. Bandeau infos
+  trim('cR', p(f, 54, 30, IO)); trim('cL', p(f, 54, 30, IO));
+  const kf = p(f, 60, 20); set($('cardFill'), { s: lerp(.96, 1, kf), o: .14 * kf });
+  set($('sep'), { sy: p(f, 64, 18) });
+  set($('ven'), { y: lerp(60, 0, p(f, 66, 21)) });
+  const ko = p(f, 69, 18); set($('oct'), { y: lerp(14, 0, ko), o: ko });
+  const kh = p(fc, 69, 21);  // chiffres : pas de flou de bougé, comme le Décalage de caractères AE
+  $('hour').textContent = [...'11H30'].map((c, i) => /\d/.test(c) ? String((+c + Math.round((1 - kh) * (9 - i * 2))) % 10) : c).join('');
+  set($('istcTxt'), { y: lerp(60, 0, p(f, 70, 21)) });
+  const kq = p(f, 73, 18); set($('poly'), { y: lerp(14, 0, kq), o: kq });
+
+  // 5. Thème
+  const kt = p(f, 78, 18); set($('lblT'), { o: kt, ls: lerp(10, 3.53, kt) });
+  themeWords.forEach((w, i) => { const k = p(f, 84 + i, 18); set(w, { y: lerp(12, 0, k), o: k, blur: lerp(3, 0, k) }); });
+
+  // 6. Pied de page : filet → compression → les textes sortent du filet
+  const sq = f < 108 ? 1 : f < 111 ? lerp(1, .9, p(f, 108, 3, IN)) : lerp(.9, 1, p(f, 111, 6, OUT));
+  set($('filet'), { sy: p(f, 84, 24, IO) * sq });
+  const kl = p(f, 111, 18); set($('lieu'), { x: lerp(-60, 0, kl), o: kl });
+  const ks = p(f, 114, 21); set($('salle'), { x: lerp(-120, 0, ks), o: ks });
+
+  // 7. Lumière : reflet logo + reflet sur le verre du bandeau
+  $('logoGlint').style.backgroundPosition = `${lerp(110, -10, p(f, 140, 24, IO))}% 0`;
+  set($('glass'), { x: lerp(-260, 820, p(f, 150, 30, IO)) });
+  $('glass').style.transform += ' skewX(-20deg)';
+}
+render(0);
+window.render = render; window.END = END;
+</script>
+</body></html>
