@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="fr"><head><meta charset="utf-8">
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,500;0,600;0,700;0,800;1,500&display=block" rel="stylesheet">
+<style>
+:root{--bordeaux:#7B1421;--rouge:#A40C21;--or:#F9A825;--jaune:#FBD021;--creme:#FFECD1;--rose:#F6E8EA;--vert:#2a5519;}
+*{margin:0;padding:0;box-sizing:border-box}
+body{width:1080px;height:1350px;overflow:hidden;font-family:Montserrat,sans-serif;color:#fff;background:var(--bordeaux)}
+.page{position:relative;width:1080px;height:1350px;overflow:hidden;
+  background:linear-gradient(180deg,var(--rouge) 0%,var(--bordeaux) 52%,var(--bordeaux) 100%)}
+.motif{position:absolute;inset:-40px -40px auto -40px;height:700px;background:url(assets/motif.png) center/560px auto repeat;
+  filter:invert(1);opacity:.045;-webkit-mask-image:linear-gradient(180deg,#000 30%,transparent 100%)}
+.photo{position:absolute;left:0;right:0;bottom:0;height:640px;background:url(assets/istc_photo.jpg) 50% 40%/auto 100% no-repeat}
+.photo::before{content:"";position:absolute;inset:0;background:linear-gradient(180deg,var(--bordeaux) 0%,rgba(123,20,33,.6) 14%,rgba(123,20,33,0) 32%,rgba(0,0,0,0) 60%,rgba(0,0,0,.55) 85%,rgba(0,0,0,.85) 100%)}
+.top{position:absolute;top:48px;left:60px;right:60px;display:flex;justify-content:space-between;align-items:center}
+.top .mo{height:118px}
+.top .chip{background:#fff;border-radius:16px;padding:10px 16px;display:flex}
+.top .chip img{height:92px}
+.head{position:absolute;top:220px;left:0;right:0;text-align:center}
+.kicker{font-weight:500;font-size:34px;letter-spacing:.5px;opacity:.95}
+.kicker b{font-weight:700;color:var(--jaune)}
+h1{font-weight:700;font-size:66px;line-height:1.08;letter-spacing:-1px;margin-top:12px}
+.card{position:absolute;top:455px;left:90px;right:90px;height:170px;border-radius:26px;
+  background:rgba(255,255,255,.14);border:1.5px solid rgba(255,255,255,.28);backdrop-filter:blur(8px);
+  display:flex;align-items:center}
+.card .col{flex:1;padding:0 40px;white-space:nowrap}
+.card .col:first-child{text-align:right}
+.card .sep{width:2px;height:110px;background:rgba(255,255,255,.55)}
+.big{font-weight:700;font-size:50px;line-height:1.05}
+.big.or{color:var(--jaune)}
+.small{font-weight:500;font-size:28px;margin-top:6px;opacity:.95}
+.theme{position:absolute;top:660px;left:150px;right:150px;text-align:center;font-weight:500;font-size:25px;line-height:1.45;opacity:.95}
+.theme span{display:block;font-weight:700;font-size:20px;letter-spacing:4px;text-transform:uppercase;color:var(--or);margin-bottom:6px}
+.foot{position:absolute;bottom:56px;text-shadow:0 2px 12px rgba(0,0,0,.5);left:0;right:0;text-align:center;font-weight:700;font-size:40px}
+.foot small{display:block;font-weight:500;font-size:22px;letter-spacing:3px;text-transform:uppercase;color:var(--jaune);margin-bottom:6px}
+</style></head><body>
+<div class="page">
+  <div class="motif"></div>
+  <div class="photo"></div>
+  <div class="top">
+    <img class="mo" src="assets/logo_marinor.png" alt="Marin'Or Ivoire">
+    <div class="chip"><img src="assets/logo_istc.png" alt="ISTC Polytechnique"></div>
+  </div>
+  <div class="head">
+    <div class="kicker"><b>Ephrem</b> vous invite à sa</div>
+    <h1>Soutenance de<br>Licence Professionnelle</h1>
+  </div>
+  <div class="card">
+    <div class="col"><div class="big or">Vendredi 23</div><div class="small">Octobre · 11H30</div></div>
+    <div class="sep"></div>
+    <div class="col"><div class="big">ISTC</div><div class="small">Polytechnique · Abidjan</div></div>
+  </div>
+  <div class="theme"><span>Thème</span>Conception et réalisation de supports de communication pour la promotion de Marin'Or Ivoire</div>
+  <div class="foot"><small>Lieu</small>Salle Victor Merry</div>
+</div>
+</body></html>
