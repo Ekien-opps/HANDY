@@ -2,7 +2,7 @@
 const http = require('http'), fs = require('fs'), path = require('path');
 const { execFileSync } = require('child_process');
 const { chromium } = require('playwright');
-const [srcDir, page, out, scale = '0.5'] = process.argv.slice(2);
+const [srcDir, page, out, scale = '0.5', W = '2500', H = '1429'] = process.argv.slice(2);
 const root = path.resolve(srcDir), frames = path.join(path.dirname(out), 'frames');
 fs.rmSync(frames, { recursive: true, force: true }); fs.mkdirSync(frames, { recursive: true });
 const MIME = { '.html': 'text/html', '.png': 'image/png', '.jpg': 'image/jpeg' };
@@ -12,7 +12,7 @@ const srv = http.createServer((q, r) => {
   r.writeHead(200, { 'Content-Type': MIME[path.extname(f)] || 'application/octet-stream' }); fs.createReadStream(f).pipe(r);
 }).listen(0, '127.0.0.1', async () => {
   const b = await chromium.launch();
-  const pg = await b.newPage({ viewport: { width: 2500, height: 1429 }, deviceScaleFactor: +scale });
+  const pg = await b.newPage({ viewport: { width: +W, height: +H }, deviceScaleFactor: +scale });
   await pg.goto(`http://127.0.0.1:${srv.address().port}/${page}`, { waitUntil: 'networkidle' });
   await pg.evaluate(async () => { await document.fonts.ready; await Promise.all([...document.images].map(i => i.decode())); });
   const end = await pg.evaluate(() => window.END);
