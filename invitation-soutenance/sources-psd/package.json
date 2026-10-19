@@ -1,0 +1,13 @@
+{
+  "name": "invitation-soutenance-psd",
+  "private": true,
+  "description": "Génère les PSD multicalques des invitations à partir des pages HTML calquées",
+  "scripts": {
+    "build": "node build-psd.js src ../psd p1_portrait.html p2_portrait.html p1_paysage.html p2_paysage.html"
+  },
+  "dependencies": {
+    "ag-psd": "^31.0.3",
+    "playwright": "^1.56.0",
+    "pngjs": "^7.0.0"
+  }
+}
