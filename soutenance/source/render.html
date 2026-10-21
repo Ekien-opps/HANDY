@@ -1,0 +1,43 @@
+<!doctype html><html><body style="margin:0;background:transparent">
+<script type="importmap">{"imports":{"three":"./three/build/three.module.js","three/addons/":"./three/examples/jsm/"}}</script>
+<script type="module">
+import * as THREE from 'three';
+import {GLTFLoader} from 'three/addons/loaders/GLTFLoader.js';
+import {RoomEnvironment} from 'three/addons/environments/RoomEnvironment.js';
+const N=1400;
+const renderer=new THREE.WebGLRenderer({antialias:true,alpha:true,preserveDrawingBuffer:true});
+renderer.setSize(N,N); renderer.setPixelRatio(1); renderer.outputColorSpace=THREE.SRGBColorSpace;
+renderer.toneMapping=THREE.NoToneMapping;
+document.body.appendChild(renderer.domElement);
+const pmrem=new THREE.PMREMGenerator(renderer);
+const envTex=pmrem.fromScene(new RoomEnvironment(),0.04).texture; window.envI=0.55;
+const cache={};
+async function load(key){ if(!cache[key]) cache[key]=await new GLTFLoader().loadAsync(key+'.glb'); return cache[key]; }
+// PowerPoint-like scene: model normalised to 1 m max extent, centred, camera z=67740115 EMU, fov 45
+window.renderJob=async (job)=>{
+  const g=await load(job.key);
+  const scene=new THREE.Scene(); scene.environment=envTex; scene.environmentIntensity=window.envI;
+  const root=g.scene.clone(true);
+  const box=new THREE.Box3().setFromObject(root); const size=box.getSize(new THREE.Vector3()); const c=box.getCenter(new THREE.Vector3());
+  const L=Math.max(size.x,size.y,size.z), s=1/L;
+  const pivot=new THREE.Group(); root.position.set(-c.x,-c.y,-c.z); pivot.add(root);
+  const outer=new THREE.Group(); outer.add(pivot); outer.scale.setScalar(s);
+  const d2r=Math.PI/180; pivot.rotation.set(job.ax*d2r,job.ay*d2r,job.az*d2r,'XYZ');
+  scene.add(outer);
+  scene.add(new THREE.AmbientLight(0xfff4e6,0.25));
+  const key=new THREE.DirectionalLight(0xfff1dc,1.25); key.position.set(-1.2,1.6,2.2); scene.add(key);
+  const rim=new THREE.DirectionalLight(0xffc27a,2.2); rim.position.set(1.8,0.8,-1.6); scene.add(rim);
+  const rim2=new THREE.DirectionalLight(0xffe2b0,1.2); rim2.position.set(-1.8,0.5,-1.4); scene.add(rim2);
+  const cam=new THREE.PerspectiveCamera(45,1,0.01,100); cam.position.set(0,0,67740115/36e6); cam.lookAt(0,0,0);
+  renderer.setClearColor(0x000000,0); renderer.render(scene,cam);
+  // projected bounds (pixel scan of alpha) + base point
+  const gl=renderer.getContext(); const px=new Uint8Array(N*N*4); gl.readPixels(0,0,N,N,gl.RGBA,gl.UNSIGNED_BYTE,px);
+  let x0=N,x1=-1,y0=N,y1=-1;
+  for(let y=0;y<N;y++)for(let x=0;x<N;x++){ if(px[(y*N+x)*4+3]>8){ if(x<x0)x0=x; if(x>x1)x1=x; const yy=N-1-y; if(yy<y0)y0=yy; if(yy>y1)y1=yy; } }
+  outer.updateMatrixWorld(true);
+  const base=new THREE.Vector3(c.x,box.min.y,c.z); root.localToWorld(base.set(c.x,box.min.y,c.z)); base.project(cam);
+  return {bbox:[x0,y0,x1,y1], base:[(base.x+1)/2*N,(1-base.y)/2*N], L, center:[c.x,c.y,c.z], N,
+          png:renderer.domElement.toDataURL('image/png')};
+};
+window.ready=true;
+</script></body></html>
