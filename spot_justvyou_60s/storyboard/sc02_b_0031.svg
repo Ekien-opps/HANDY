@@ -1,0 +1,47 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1920 1080" width="960" height="540" font-family="Larsseit, Montserrat, 'Segoe UI', Arial, sans-serif">
+<title>SC02 — 00:31 — Vente, location, gestion (colonne active soulignée)</title>
+<defs>
+  <filter id="ombre" x="-20%" y="-20%" width="140%" height="160%"><feDropShadow dx="10" dy="10" stdDeviation="12" flood-color="#2F2370" flood-opacity="0.35"/></filter>
+  <radialGradient id="g1" cx="50%" cy="39%" r="75%"><stop offset="0" stop-color="#114491"/><stop offset="1" stop-color="#0B2C5E"/></radialGradient>
+  <radialGradient id="g2" cx="50%" cy="44%" r="80%"><stop offset="0" stop-color="#FFFFFF"/><stop offset="1" stop-color="#ECF0F6"/></radialGradient>
+  <linearGradient id="g3" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#FFFFFF"/><stop offset="1" stop-color="#FEF4DC"/></linearGradient>
+  <radialGradient id="g4" cx="50%" cy="37%" r="80%"><stop offset="0" stop-color="#FFFFFF"/><stop offset="1" stop-color="#FEF4DC"/></radialGradient>
+  <filter id="flou"><feGaussianBlur stdDeviation="60"/></filter>
+  
+</defs>
+<rect width="1920" height="1080" fill="url(#g2)"/><g transform="translate(480,430.0) scale(1.0)" opacity="0.6" filter="url(#ombre)">
+  <rect x="-110" y="-20" width="220" height="160" rx="10" fill="#114491"/>
+  <rect x="63" y="-120" width="34" height="70" fill="#114491"/>
+  <polygon points="-150,-10 0,-130 150,-10" fill="#F7B819"/>
+  <rect x="-27" y="50" width="54" height="90" rx="6" fill="#F7B819"/>
+  <rect x="-88" y="17" width="52" height="46" rx="4" fill="#FFFFFF"/><rect x="36" y="17" width="52" height="46" rx="4" fill="#FFFFFF"/>
+</g><g opacity="0.6"><g transform="translate(605,515) scale(0.8)" filter="url(#ombre)">
+  <rect x="-70" y="-90" width="140" height="180" rx="10" fill="#FFFFFF" stroke="#114491" stroke-width="6"/>
+  <rect x="-40" y="-49" width="80" height="8" rx="4" fill="#114491" opacity="0.45"/><rect x="-40" y="-26" width="80" height="8" rx="4" fill="#114491" opacity="0.45"/><rect x="-40" y="-3" width="56" height="8" rx="4" fill="#114491" opacity="0.45"/>
+  <polyline points="-28,40 -6,62 34,18" fill="none" stroke="#F7B819" stroke-width="14" stroke-linecap="round" stroke-linejoin="round"/>
+</g></g><text x="480" y="718" font-size="80" font-weight="800" fill="#114491" text-anchor="middle">VENTE</text><text x="480" y="802" font-size="46" font-weight="400" fill="#114491" text-anchor="middle">Biens vérifiés</text>
+<text x="480" y="860" font-size="46" font-weight="400" fill="#114491" text-anchor="middle">Documents contrôlés</text><g transform="translate(960,430.0) scale(1.0)" opacity="0.6" filter="url(#ombre)">
+  <rect x="-110" y="-20" width="220" height="160" rx="10" fill="#114491"/>
+  <rect x="63" y="-120" width="34" height="70" fill="#114491"/>
+  <polygon points="-150,-10 0,-130 150,-10" fill="#F7B819"/>
+  <rect x="-27" y="50" width="54" height="90" rx="6" fill="#F7B819"/>
+  <rect x="-88" y="17" width="52" height="46" rx="4" fill="#FFFFFF"/><rect x="36" y="17" width="52" height="46" rx="4" fill="#FFFFFF"/>
+</g><g opacity="0.6"><g transform="translate(1085,515) scale(0.8) rotate(55)" filter="url(#ombre)">
+  <circle cx="-45" cy="0" r="35" fill="none" stroke="#F7B819" stroke-width="18"/>
+  <rect x="-10" y="-9" width="110" height="18" fill="#F7B819"/><rect x="77" y="0" width="16" height="34" fill="#F7B819"/><rect x="52" y="0" width="16" height="26" fill="#F7B819"/>
+</g></g><text x="960" y="718" font-size="80" font-weight="800" fill="#114491" text-anchor="middle">LOCATION</text><text x="960" y="802" font-size="46" font-weight="400" fill="#114491" text-anchor="middle">Logements visités</text>
+<text x="960" y="860" font-size="46" font-weight="400" fill="#114491" text-anchor="middle">Contrats clairs</text><g transform="translate(1440,430.0) scale(1.0)" opacity="1.0" filter="url(#ombre)">
+  <rect x="-110" y="-20" width="220" height="160" rx="10" fill="#114491"/>
+  <rect x="63" y="-120" width="34" height="70" fill="#114491"/>
+  <polygon points="-150,-10 0,-130 150,-10" fill="#F7B819"/>
+  <rect x="-27" y="50" width="54" height="90" rx="6" fill="#F7B819"/>
+  <rect x="-88" y="17" width="52" height="46" rx="4" fill="#FFFFFF"/><rect x="36" y="17" width="52" height="46" rx="4" fill="#FFFFFF"/>
+</g><g opacity="1.0"><g transform="translate(1565,515) scale(0.8)" filter="url(#ombre)">
+  <rect x="-85" y="-85" width="170" height="170" rx="12" fill="#FFFFFF" stroke="#114491" stroke-width="6"/>
+  <rect x="-58" y="20" width="26" height="40" fill="#F7B819"/><rect x="-13" y="-10" width="26" height="70" fill="#F7B819"/><rect x="32" y="-40" width="26" height="100" fill="#F7B819"/>
+  <polyline points="-62,-5 -20,-35 12,-20 60,-62" fill="none" stroke="#114491" stroke-width="8" stroke-linecap="round" stroke-linejoin="round"/>
+  <polyline points="40,-66 64,-66 64,-42" fill="none" stroke="#114491" stroke-width="8" stroke-linecap="round" stroke-linejoin="round"/>
+</g></g><text x="1440" y="718" font-size="80" font-weight="800" fill="#114491" text-anchor="middle">GESTION</text><rect x="1370" y="741" width="140" height="8" rx="4" fill="#F7B819"/><text x="1440" y="802" font-size="46" font-weight="400" fill="#114491" text-anchor="middle">Loyers suivis</text>
+<text x="1440" y="860" font-size="46" font-weight="400" fill="#114491" text-anchor="middle">Bien entretenu</text>
+<rect x="192" y="108" width="1536" height="864" fill="none" stroke="#999" stroke-width="2" stroke-dasharray="12 10" opacity="0.35"/>
+</svg>
