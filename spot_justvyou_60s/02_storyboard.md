@@ -15,7 +15,7 @@
 
 Les timecodes sont continus : chaque scène commence exactement à l'image où la précédente s'arrête. Les transitions sont des calques posés **au-dessus** des scènes, dans la composition principale. Ils couvrent l'écran pendant la coupe franche, sans chevauchement de scènes.
 
-Les vignettes ci-dessous reprennent les positions exactes du script JSX. Le cadre pointillé gris figure la zone titre (10 %). Les silhouettes rouges en pointillés sont les repères des personnages à animer à la main ; ce sont des calques guides, non rendus.
+Les vignettes ci-dessous reprennent les positions exactes du script JSX. Le cadre pointillé gris figure la zone titre (10 %). Les personnages y sont dessinés avec le même rig que dans le script, dans leur pose à l'instant de la vignette.
 
 ---
 
@@ -30,7 +30,7 @@ Les vignettes ci-dessous reprennent les positions exactes du script JSX. Le cadr
 | 1C | 00:09,2 → 00:15 | ![SC01 00:13](storyboard/sc01_c_0013.svg) |
 
 **Description visuelle**
-- **1A (00:00 → 00:04).** Fond en dégradé radial bleu `#114491` → bleu nuit, dont le centre lumineux dérive lentement. Le client, un homme ou une femme de 30 à 40 ans en tenue de ville, entre en marchant, les yeux sur son téléphone. Le titre **« Trouver un logement à Abidjan ? »** monte depuis le bas en fondu.
+- **1A (00:00 → 00:04).** Fond en dégradé radial bleu `#114491` → bleu nuit, dont le centre lumineux dérive lentement. Le client (homme de 30 à 40 ans, chemise blanche, pantalon sable) entre en marchant depuis la gauche, les yeux sur son téléphone. Le titre **« Trouver un logement à Abidjan ? »** monte depuis le bas en fondu.
 - **1B (00:04 → 00:09,2).** Six cartes d'annonce blanches, chacune avec un liseré or, surgissent en pop-up avec stretch & squash, une toutes les 0,55 s : *Prix flous ?*, *Frais cachés ?*, *Visite annulée*, *Annonce expirée*, *Photos trompeuses*, *Propriétaire injoignable*. Elles flottent et oscillent de façon désordonnée autour du client, qui tourne la tête de l'une à l'autre, cligne des yeux et fronce les sourcils.
 - **1C (00:09,2 → 00:15).** Les cartes se rétractent. **« Trop d'offres. Trop de doutes. »** apparaît en blanc, en grand (pop-up). Le client se gratte la tête, les épaules s'affaissent (squash). À 12,3 s, il lève les yeux et la question **« Et si vous pouviez enfin faire confiance ? »** glisse en or.
 
@@ -83,13 +83,13 @@ Les vignettes ci-dessous reprennent les positions exactes du script JSX. Le cadr
 
 **Description visuelle**
 - **Décor.** Dégradé vertical blanc → or pâle, halo de soleil or flouté derrière un **immeuble moderne** : façade bleue, toiture or, 9 fenêtres éclairées en or, balcons blancs, entrée vitrée. L'immeuble monte depuis le bas en décélérant.
-- **35 → 40 s.** **« Chez vous, enfin. »** glisse à gauche. La famille (deux parents et un enfant) sourit et cligne des yeux devant l'entrée ; l'enfant court vers la porte.
-- **40 → 45 s.** Trois pastilles or avec coche bleue font un pop-up l'une après l'autre (0,5 s d'écart), suivies de **Clés en main**, **Dossier clair** et **Conseiller joignable** (slide depuis la gauche). Un parent reçoit les clés et serre la main du conseiller.
-- **45 → 50 s.** **« Acheter, louer ou investir : avancez l'esprit tranquille. »** La famille entre et la porte se referme doucement.
+- **35 → 40 s.** **« Chez vous, enfin. »** glisse à gauche. Maman et papa sourient devant l'entrée ; l'enfant arrive en courant depuis la gauche et se place entre eux.
+- **40 → 45 s.** Trois pastilles or avec coche bleue font un pop-up l'une après l'autre (0,5 s d'écart), suivies de **Clés en main**, **Dossier clair** et **Conseiller joignable** (slide depuis la gauche). Le conseiller (cravate or) arrive en marchant depuis la droite et tend les clés ; le papa les prend, et les clés passent d'une main à l'autre à 42,0 s.
+- **45 → 50 s.** **« Acheter, louer ou investir : avancez l'esprit tranquille. »** Toute la famille salue la caméra, le papa brandit les clés et l'enfant saute de joie.
 
 **Caméra et calques**
 - `CAM_SC03` : push-in de 100 à 105 % et travelling de −20 px à +20 px.
-- Ombre portée teintée et styles de calque sur l'immeuble. Rim lights blanches discrètes sur la peau des personnages, à faire à la main.
+- Ombre portée teintée et styles de calque sur l'immeuble. Lueur interne blanche (rim light) tentée sur les têtes des personnages, à doser.
 
 **Couleurs :** lumière chaude (blanc et or pâle), architecture bleue, accents or. Ambiance de fin d'après-midi à Abidjan.
 
@@ -147,7 +147,7 @@ Les solides de fond portent aussi un grain léger (2 à 4 %) animé par la même
 | Logo animé et reflet | ✅ | — |
 | Transitions (volets, iris) | ✅ | Sound design des swooshes |
 | Lueur, grain, aberration chromatique, étalonnage | ✅ (aberration seulement si le plug-in est présent) | Dosage final |
-| **Personnages** (client, famille, conseiller) | ❌ Repères guides seulement | Dessin, stretch & squash, clignements, paupières, sourires, mains, marche, tête |
+| **Personnages** (client, famille, conseiller) | ✅ Rigs articulés animés : marche, clignements, sourires, sourcils, tête, gestes, stretch & squash, avec clés sur curseurs | Retouches du jeu d'acteur et finitions d'illustration (facultatif) |
 | Masques adoucis, rim lights sur la peau | ❌ | ✅ |
 | Voix off, musique, mixage | ⚠️ Import automatique si les fichiers sont dans `assets/audio/` | Enregistrement, mixage |
 | Rendu final | ❌ | ✅ (H.264, 1080p, 30 i/s) |

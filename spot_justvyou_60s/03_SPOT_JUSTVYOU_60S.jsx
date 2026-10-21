@@ -22,6 +22,9 @@
  *   - Solides d'arrière-plan avec effet Dégradé et grain animé par expression.
  *   - Calques texte (Larsseit, ou Montserrat de repli) et animations d'entrée
  *     pop-up, fondu, slide et cascade, toutes pilotées par expressions.
+ *   - Personnages 2D articulés (client, parents, enfant, conseiller) : marche,
+ *     clignements, sourires, sourcils, tête, gestes (téléphone, grattage,
+ *     salut, remise des clés), stretch & squash — pilotés par curseurs.
  *   - Maisons, clé, contrat, graphique, immeuble et pictogrammes de contact
  *     en calques de forme, avec ombres portées teintées violet/bleu.
  *   - Logo animé (symbole qui tourne, logotype qui glisse, reflet lumineux).
@@ -34,9 +37,8 @@
  *     appliqués au mieux via les commandes de menu.
  *
  *  CE QUI RESTE À FAIRE À LA MAIN (voir README.md)
- *   - Personnages : les repères rouges « À ANIMER » sont des calques guides,
- *     non rendus. Dessin, stretch & squash, clignements, sourires, gestuelle,
- *     marche et mouvements de tête se font à la main à partir du storyboard.
+ *   - Personnages : finitions d'illustration (vêtements, détails du visage)
+ *     et réglage fin du jeu d'acteur via les clés des curseurs PERSO_*_CTRL.
  *   - Masques adoucis, rim lights sur la peau, couleurs des styles de calque
  *     (les couleurs d'un dégradé ne sont pas scriptables).
  *   - Enregistrement de la voix off, musique, mixage, rendu final.
@@ -116,8 +118,12 @@
     C.BLEU_PALE = melange(C.BLEU, C.BLANC, 0.92);    // bleu éclairci
     // Ombres portées teintées violet/bleu (demandées par le brief)
     C.OMBRE = hex("2F2370");
-    // Couleur des repères « À ANIMER » (calques guides, jamais rendus)
+    // Couleurs des guides (calques guides, jamais rendus)
     C.REPERE = [0.95, 0.2, 0.25];
+    // Personnages : peaux et cheveux naturels, tenues aux couleurs de la charte
+    C.CHEVEUX = hex("1E1414");
+    C.LEVRES = hex("3A1A10");
+    C.SABLE = hex("C9B79C");  // pantalon neutre du client (lisible sur le fond bleu)
 
     // -----------------------------------------------------------------
     // Découpage temporel : source unique de vérité (secondes)
@@ -794,30 +800,292 @@
         STATS.styles++;
     }
 
-    // Repère « À ANIMER » pour les personnages (calque guide, jamais rendu)
-    function repere(comp, nom, pos, echelle, consigne) {
-        var l = forme(comp, "À ANIMER — " + nom);
-        groupe(l, { nom: "Tête", formes: [{ type: "ellipse", taille: [110, 130], pos: [0, -300] }], fond: C.REPERE, opaciteFond: 15, contour: C.REPERE, epaisseur: 4 });
-        groupe(l, { nom: "Corps", formes: [{ type: "rect", taille: [200, 420], pos: [0, -20], arrondi: 60 }], fond: C.REPERE, opaciteFond: 15, contour: C.REPERE, epaisseur: 4 });
-        tr(l, "ADBE Scale").setValue([echelle * 100, echelle * 100]);
-        tr(l, "ADBE Position").setValue(pos);
-        l.guideLayer = true;
-        l.label = 1;
-        try {
-            l.comment = consigne.replace(/\r/g, " ");
-        } catch (e) {}
-        var t = texte(comp, {
-            nom: "NOTE — " + nom,
-            texte: "À ANIMER : " + nom + "\r" + consigne,
-            graisse: "r",
-            taille: 26,
-            couleur: C.REPERE,
-            pos: [pos[0], pos[1] + 260 * echelle],
-            guide: true
-        });
-        t.label = 1;
-        t.parent = l;
-        return l;
+    // =================================================================
+    // 4 bis. PERSONNAGES 2D ARTICULÉS (rig flat design)
+    // -----------------------------------------------------------------
+    //  Chaque personnage = un null « PERSO_<ID>_CTRL » portant des curseurs
+    //  (Paramètres glissière) + des calques de forme parentés en chaîne :
+    //    CTRL → Jambes, Torse → Bras → Avant-bras → Téléphone / Clés
+    //                    Torse → Tête → Yeux, Sourcils, Bouche
+    //  Les expressions des membres lisent les curseurs : animer un personnage
+    //  revient à poser des clés sur ses curseurs (le script en pose déjà).
+    //    Marche      0–1   cycle de marche (jambes, bras, rebond, squash)
+    //    Cadence     pas/s fréquence du cycle de marche
+    //    Tete        -1–1  tête tournée vers la gauche / la droite
+    //    Incline     degrés inclinaison de la tête
+    //    RegardY     -1–1  regard vers le haut / le bas
+    //    Sourire     -1–1  bouche triste → neutre → grand sourire
+    //    Sourcils    -1–1  froncés → neutres → levés
+    //    Affaisse    0–1   épaules affaissées (squash du torse)
+    //    Telephone   0–1   regarde son téléphone (bras droit)
+    //    GratteTete  0–1   se gratte la tête (bras droit)
+    //    Salut       0–1   salue de la main (bras droit)
+    //    TendMain    0–1   tend la main / donne les clés (bras droit)
+    //    TientCles   0–1   clés visibles dans la main droite
+    // =================================================================
+
+    var CURSEURS = [
+        ["Marche", 0], ["Cadence", 1.6], ["Tete", 0], ["Incline", 0], ["RegardY", 0],
+        ["Sourire", 0.3], ["Sourcils", 0], ["Affaisse", 0], ["Telephone", 0],
+        ["GratteTete", 0], ["Salut", 0], ["TendMain", 0], ["TientCles", 0]
+    ];
+
+    // Pose des clés lissées (ease in / ease out) sur une propriété
+    function clesFluides(p, liste) {
+        for (var i = 0; i < liste.length; i++) {
+            p.setValueAtTime(liste[i][0], liste[i][1]);
+        }
+        for (var k = 1; k <= p.numKeys; k++) {
+            try {
+                p.setInterpolationTypeAtKey(k, KeyframeInterpolationType.BEZIER, KeyframeInterpolationType.BEZIER);
+                p.setTemporalEaseAtKey(k, [new KeyframeEase(0, 70)], [new KeyframeEase(0, 70)]);
+            } catch (e) {}
+        }
+    }
+
+    // En-tête commun des expressions du rig
+    function exprRig(nomCtrl, lignes) {
+        return [
+            "// Rig personnage : piloté par les curseurs du calque " + nomCtrl,
+            "var C = thisComp.layer(\"" + nomCtrl + "\");",
+            "function k(n) { return C.effect(n)(1); }",
+            "function mix(a, b, w) { return a + (b - a) * w; }",
+            "var ph = time * k(\"Cadence\") * Math.PI * 2;"
+        ].concat(lignes).join("\n");
+    }
+
+    // Construit un personnage.
+    //  o : { pos: [x, ySol], echelle, miroir, tete (échelle de la tête, enfant),
+    //        peau, cheveux, coiffure ("court" | "chignon" | "enfant"),
+    //        haut, bas, cravate, defauts: { Curseur: valeur } }
+    function personnage(comp, cam, id, o) {
+        var nomCtrl = "PERSO_" + id + "_CTRL";
+        var P = o.pos;
+        var parties = [];
+
+        // --- Contrôleur -------------------------------------------------
+        var ctrl = comp.layers.addNull(comp.duration);
+        ctrl.name = nomCtrl;
+        ctrl.source.parentFolder = F.assets;
+        ctrl.label = 9;
+        tr(ctrl, "ADBE Position").setValue(P);
+        // Parentage à la caméra AVANT toute clé (caméra encore sans expression)
+        ctrl.parent = cam;
+        for (var i = 0; i < CURSEURS.length; i++) {
+            var nomC = CURSEURS[i][0];
+            var fx = ctrl.property("ADBE Effect Parade").addProperty("ADBE Slider Control");
+            fx.name = nomC;
+            var v = (o.defauts && o.defauts[nomC] !== undefined) ? o.defauts[nomC] : CURSEURS[i][1];
+            fx.property(1).setValue(v);
+        }
+
+        // Crée une partie du corps ; joint = articulation, relative aux pieds (échelle 100)
+        function partie(nom, joint, parent) {
+            var l = forme(comp, "PERSO_" + id + " — " + nom);
+            tr(l, "ADBE Position").setValue([P[0] + joint[0], P[1] + joint[1]]);
+            l.label = 4;
+            parties.push({ l: l, parent: parent });
+            return l;
+        }
+
+        // Bras en deux segments ; cote "G" (écran gauche) ou "D"
+        function bras(cote) {
+            var sg = (cote === "G") ? -1 : 1;
+            var haut = partie("Bras " + cote, [sg * 66, -360], torse);
+            groupe(haut, { nom: "Manche", formes: [{ type: "trace", pts: [[0, 0], [0, 85]], ferme: false }], contour: o.haut, epaisseur: 30 });
+            var avant = partie("Avant-bras " + cote, [sg * 66, -275], haut);
+            groupe(avant, { nom: "Main", formes: [{ type: "ellipse", taille: [30, 30], pos: [0, 80] }], fond: o.peau });
+            groupe(avant, { nom: "Avant-bras", formes: [{ type: "trace", pts: [[0, 0], [0, 70]], ferme: false }], contour: o.peau, epaisseur: 22 });
+            return { haut: haut, avant: avant };
+        }
+
+        // --- Corps (du plus profond au plus proche) ---------------------
+        var ombreSol = partie("Ombre au sol", [0, 0], ctrl);
+        groupe(ombreSol, { nom: "Ombre", formes: [{ type: "ellipse", taille: [190, 26] }], fond: C.OMBRE, opaciteFond: 30 });
+
+        var jambes = [];
+        for (var j = 0; j < 2; j++) {
+            var sj = (j === 0) ? -1 : 1;
+            var jb = partie("Jambe " + (j === 0 ? "G" : "D"), [sj * 30, -170], ctrl);
+            groupe(jb, { nom: "Chaussure", formes: [{ type: "ellipse", taille: [50, 24], pos: [sj * 8, 166] }], fond: C.CHEVEUX });
+            groupe(jb, { nom: "Jambe", formes: [{ type: "trace", pts: [[0, 0], [0, 155]], ferme: false }], contour: o.bas, epaisseur: 36 });
+            jambes.push(jb);
+        }
+
+        var torse = partie("Torse", [0, -170], ctrl);
+        if (o.cravate) {
+            groupe(torse, { nom: "Cravate", formes: [{ type: "trace", pts: [[-8, -205], [8, -205], [12, -130], [0, -112], [-12, -130]] }], fond: C.OR });
+        }
+        groupe(torse, { nom: "Haut", formes: [{ type: "rect", taille: [150, 235], pos: [0, -95], arrondi: 50 }], fond: o.haut });
+        groupe(torse, { nom: "Cou", formes: [{ type: "rect", taille: [34, 40], pos: [0, -214], arrondi: 8 }], fond: o.peau });
+        groupe(torse, { nom: "Bassin", formes: [{ type: "rect", taille: [140, 50], pos: [0, 15], arrondi: 14 }], fond: o.bas });
+
+        var bG = bras("G");
+
+        var tete = partie("Tete", [0, -382], torse);
+        groupe(tete, { nom: "Frange", formes: [{ type: "ellipse", taille: [108, 40], pos: [0, -118] }], fond: o.cheveux });
+        groupe(tete, { nom: "Visage", formes: [{ type: "ellipse", taille: [104, 118], pos: [0, -62] }], fond: o.peau });
+        groupe(tete, { nom: "Oreilles", formes: [
+            { type: "ellipse", taille: [18, 24], pos: [-52, -60] },
+            { type: "ellipse", taille: [18, 24], pos: [52, -60] }
+        ], fond: o.peau });
+        if (o.coiffure === "chignon") {
+            groupe(tete, { nom: "Chignon", formes: [
+                { type: "ellipse", taille: [58, 58], pos: [0, -140] },
+                { type: "ellipse", taille: [124, 114], pos: [0, -80] }
+            ], fond: o.cheveux });
+        } else if (o.coiffure === "enfant") {
+            groupe(tete, { nom: "Couettes", formes: [
+                { type: "ellipse", taille: [46, 46], pos: [-54, -108] },
+                { type: "ellipse", taille: [46, 46], pos: [54, -108] },
+                { type: "ellipse", taille: [114, 104], pos: [0, -84] }
+            ], fond: o.cheveux });
+        } else {
+            groupe(tete, { nom: "Cheveux", formes: [{ type: "ellipse", taille: [114, 104], pos: [0, -84] }], fond: o.cheveux });
+        }
+
+        var yeux = partie("Yeux", [0, -448], tete);
+        groupe(yeux, { nom: "Reflets", formes: [
+            { type: "ellipse", taille: [4, 4], pos: [-18, -3] },
+            { type: "ellipse", taille: [4, 4], pos: [22, -3] }
+        ], fond: C.BLANC });
+        groupe(yeux, { nom: "Yeux", formes: [
+            { type: "ellipse", taille: [12, 16], pos: [-20, 0] },
+            { type: "ellipse", taille: [12, 16], pos: [20, 0] }
+        ], fond: C.CHEVEUX });
+
+        var sourcils = partie("Sourcils", [0, -472], tete);
+        var iSG = groupe(sourcils, { nom: "Sourcil G", formes: [{ type: "trace", pts: [[-9, 0], [9, 0]], ferme: false }], contour: o.cheveux, epaisseur: 5, pos: [-21, 0] });
+        var iSD = groupe(sourcils, { nom: "Sourcil D", formes: [{ type: "trace", pts: [[-9, 0], [9, 0]], ferme: false }], contour: o.cheveux, epaisseur: 5, pos: [21, 0] });
+
+        var bouche = partie("Bouche", [0, -418], tete);
+        var iB = groupe(bouche, { nom: "Bouche", formes: [{ type: "trace", pts: [[-16, 0], [16, 0]], ferme: false }], contour: C.LEVRES, epaisseur: 5 });
+
+        var bD = bras("D");
+
+        var tel = partie("Téléphone", [66, -197], bD.avant);
+        groupe(tel, { nom: "Écran", formes: [{ type: "rect", taille: [16, 26], arrondi: 3 }], fond: C.BLEU_PALE });
+        groupe(tel, { nom: "Coque", formes: [{ type: "rect", taille: [24, 40], arrondi: 5 }], fond: C.CHEVEUX });
+
+        var cles = partie("Clés", [72, -190], bD.avant);
+        groupe(cles, { nom: "Clé", formes: [
+            { type: "rect", taille: [30, 6], pos: [20, 0] },
+            { type: "rect", taille: [6, 10], pos: [31, 5] }
+        ], fond: C.OR });
+        groupe(cles, { nom: "Anneau", formes: [{ type: "ellipse", taille: [18, 18] }], contour: C.OR, epaisseur: 5 });
+
+        // --- Parentage (toutes les parties sont encore immobiles) --------
+        for (var p = 0; p < parties.length; p++) {
+            parties[p].l.parent = parties[p].parent;
+        }
+        if (o.tete) {
+            tr(tete, "ADBE Scale").setValue([o.tete * 100, o.tete * 100]);
+        }
+        var e = o.echelle * 100;
+        tr(ctrl, "ADBE Scale").setValue([o.miroir ? -e : e, e]);
+
+        // --- Expressions -------------------------------------------------
+        for (j = 0; j < 2; j++) {
+            expression(tr(jambes[j], "ADBE Rotate Z"), exprRig(nomCtrl, [
+                "// Jambe : balancier de marche",
+                "value + Math.sin(ph) * 18 * k(\"Marche\") * " + (j === 0 ? 1 : -1) + ";"
+            ]), nomCtrl + " / jambe");
+        }
+        expression(tr(torse, "ADBE Position"), exprRig(nomCtrl, [
+            "// Torse : rebond à chaque pas",
+            "add(value, [0, -Math.abs(Math.sin(ph)) * 8 * k(\"Marche\")]);"
+        ]), nomCtrl + " / rebond");
+        expression(tr(torse, "ADBE Scale"), exprRig(nomCtrl, [
+            "// Torse : respiration + squash de pas + épaules affaissées",
+            "var b = Math.sin(time * 2.2) * 1.2;",
+            "var q = Math.cos(ph * 2) * 2.5 * k(\"Marche\");",
+            "var a = k(\"Affaisse\");",
+            "[value[0] * (100 + b * 0.3 + a * 4 + q) / 100, value[1] * (100 + b - a * 6 - q) / 100];"
+        ]), nomCtrl + " / squash");
+        expression(tr(bG.haut, "ADBE Rotate Z"), exprRig(nomCtrl, [
+            "// Bras gauche : repos + léger balancier de marche (vue de face, sans croisement)",
+            "value + 8 + Math.sin(ph) * 10 * k(\"Marche\") + Math.sin(time * 1.7) * 1.5;"
+        ]), nomCtrl + " / bras G");
+        expression(tr(bG.avant, "ADBE Rotate Z"), exprRig(nomCtrl, [
+            "// Avant-bras gauche : légère flexion vivante",
+            "value - 6 + Math.sin(time * 1.7 + 0.5) * 2;"
+        ]), nomCtrl + " / avant-bras G");
+        expression(tr(bD.haut, "ADBE Rotate Z"), exprRig(nomCtrl, [
+            "// Bras droit : repos / marche, puis mélange des gestes",
+            "var r = -8 + Math.sin(ph) * 10 * k(\"Marche\") + Math.sin(time * 1.6) * 1.5;",
+            "r = mix(r, -10, k(\"Telephone\"));",
+            "r = mix(r, -155, k(\"GratteTete\"));",
+            "r = mix(r, -140, k(\"Salut\"));",
+            "r = mix(r, -60, k(\"TendMain\"));",
+            "value + r;"
+        ]), nomCtrl + " / bras D");
+        expression(tr(bD.avant, "ADBE Rotate Z"), exprRig(nomCtrl, [
+            "// Avant-bras droit : gestes (téléphone, grattage, salut, main tendue)",
+            "var r = 6;",
+            "r = mix(r, 132, k(\"Telephone\"));",
+            "r = mix(r, -72 + Math.sin(time * 16) * 10, k(\"GratteTete\"));",
+            "r = mix(r, -40 + Math.sin(time * 9) * 22, k(\"Salut\"));",
+            "r = mix(r, -20, k(\"TendMain\"));",
+            "value + r;"
+        ]), nomCtrl + " / avant-bras D");
+        expression(tr(tel, "ADBE Opacity"), exprRig(nomCtrl, ["// Téléphone visible pendant le geste", "k(\"Telephone\") * 100;"]), nomCtrl + " / téléphone");
+        expression(tr(cles, "ADBE Opacity"), exprRig(nomCtrl, ["// Clés visibles dans la main", "k(\"TientCles\") * 100;"]), nomCtrl + " / clés");
+        expression(tr(tete, "ADBE Rotate Z"), exprRig(nomCtrl, [
+            "// Tête : rotation selon la direction du regard + balancement",
+            "value + k(\"Tete\") * 4 + k(\"Incline\") + Math.sin(time * 1.3) * 1.2;"
+        ]), nomCtrl + " / tête");
+        expression(tr(yeux, "ADBE Position"), exprRig(nomCtrl, [
+            "// Yeux : suivent la rotation de tête (fausse 3D) et le regard vertical",
+            "add(value, [k(\"Tete\") * 12, k(\"RegardY\") * 4]);"
+        ]), nomCtrl + " / regard");
+        expression(tr(yeux, "ADBE Scale"), [
+            "// Clignement des paupières : période aléatoire propre à chaque personnage",
+            "seedRandom(index, true);",
+            "var per = random(2.6, 3.8), off = random(0, per), d = 0.14;",
+            "var t = (time + off) % per;",
+            "var c = (t < d) ? Math.abs(Math.cos(t / d * Math.PI)) : 1;",
+            "[value[0], value[1] * Math.max(c, 0.08)];"
+        ].join("\n"), nomCtrl + " / clignement");
+        expression(tr(sourcils, "ADBE Position"), exprRig(nomCtrl, [
+            "// Sourcils : suivent la tête, montent quand ils sont levés",
+            "add(value, [k(\"Tete\") * 12, -Math.max(k(\"Sourcils\"), 0) * 7]);"
+        ]), nomCtrl + " / sourcils");
+        expression(sourcils.property("ADBE Root Vectors Group").property(iSG).property("ADBE Vector Transform Group").property("ADBE Vector Rotation"),
+            exprRig(nomCtrl, ["// Sourcil gauche : froncé (-1) ou levé (+1)", "-k(\"Sourcils\") * 14;"]), nomCtrl + " / sourcil G");
+        expression(sourcils.property("ADBE Root Vectors Group").property(iSD).property("ADBE Vector Transform Group").property("ADBE Vector Rotation"),
+            exprRig(nomCtrl, ["// Sourcil droit : froncé (-1) ou levé (+1)", "k(\"Sourcils\") * 14;"]), nomCtrl + " / sourcil D");
+        expression(tr(bouche, "ADBE Position"), exprRig(nomCtrl, [
+            "// Bouche : suit la rotation de tête",
+            "add(value, [k(\"Tete\") * 10, 0]);"
+        ]), nomCtrl + " / bouche");
+        expression(bouche.property("ADBE Root Vectors Group").property(iB).property("ADBE Vectors Group").property(1).property("ADBE Vector Shape"),
+            exprRig(nomCtrl, [
+                "// Bouche : courbe pilotée par Sourire (-1 triste, 0 neutre, 1 grand sourire)",
+                "var s = k(\"Sourire\");",
+                "createPath([[-16, -3 * s], [16, -3 * s]], [[0, 0], [-9, 15 * s]], [[9, 15 * s], [0, 0]], false);"
+            ]), nomCtrl + " / sourire");
+
+        styles(comp, tete);
+
+        // --- Interface renvoyée -----------------------------------------
+        return {
+            ctrl: ctrl,
+            // Pose des clés sur un curseur : liste [[t, valeur], ...]
+            cles: function (nom, liste) {
+                clesFluides(ctrl.property("ADBE Effect Parade").property(nom).property(1), liste);
+            },
+            // Déplacement : liste [[t, [x, y] en coordonnées de la composition], ...]
+            deplace: function (liste) {
+                var cp = tr(cam, "ADBE Position").value;
+                var ca = tr(cam, "ADBE Anchor Point").value;
+                var loc = [];
+                for (var m = 0; m < liste.length; m++) {
+                    var w = liste[m][1];
+                    loc.push([liste[m][0], [w[0] - cp[0] + ca[0], w[1] - cp[1] + ca[1]]]);
+                }
+                clesFluides(tr(ctrl, "ADBE Position"), loc);
+            }
+        };
     }
 
     // ---------------------------------------------------------------
@@ -1048,9 +1316,22 @@
         fond(c, "BG_SC01 — Dégradé radial bleu / bleu nuit", C.BLEU, C.BLEU_NUIT, [960, 420], [960, 1350], 2, true);
         var cam = camera(c, "CAM_SC01 — Caméra 2D (push-in + roulis inquiet)");
 
-        repere(c, "Client perdu", [960, 760], 1.0,
-            "Marche, regarde son téléphone (0–4 s), tourne la tête vers les cartes,\r" +
-            "fronce les sourcils, se gratte la tête (9 s), lève les yeux vers le haut (12,3 s).");
+        // Le client : entre en marchant les yeux sur son téléphone, regarde les
+        // annonces de gauche à droite, se gratte la tête, puis relève les yeux.
+        var client = personnage(c, cam, "CLIENT", {
+            pos: [960, 1040], echelle: 0.9, peau: hex("7B4A2D"), cheveux: C.CHEVEUX, coiffure: "court",
+            haut: C.BLANC, bas: C.SABLE, defauts: { Sourire: -0.2, RegardY: 1, Telephone: 1 }
+        });
+        client.deplace([[0, [520, 1040]], [3.6, [960, 1040]]]);
+        client.cles("Marche", [[0, 1], [3.2, 1], [3.8, 0]]);
+        client.cles("Telephone", [[4.0, 1], [4.6, 0]]);
+        client.cles("RegardY", [[4.1, 1], [4.6, 0], [12.2, 0], [12.7, -1]]);
+        client.cles("Tete", [[4.6, 0], [5.0, -1], [5.9, -1], [6.3, 1], [7.2, 1], [7.6, -0.6], [8.4, -0.6], [8.8, 0.8], [9.3, 0]]);
+        client.cles("Sourcils", [[4.5, 0], [5.0, -0.9], [12.0, -0.9], [12.6, 0.7]]);
+        client.cles("Sourire", [[4.5, -0.2], [5.2, -0.7], [12.2, -0.7], [12.8, 0.5], [13.6, 0.9]]);
+        client.cles("GratteTete", [[9.2, 0], [9.6, 1], [11.6, 1], [12.1, 0]]);
+        client.cles("Affaisse", [[9.0, 0], [9.5, 1], [12.0, 1], [12.5, 0]]);
+        client.cles("Incline", [[12.2, 0], [12.7, -5]]);
 
         // 00:00,5 → 00:04 : question d'ouverture
         var t1 = texte(c, { nom: "TXT_SC01_01 — Trouver un logement", texte: "Trouver un logement\rà Abidjan" + NBSP + "?", graisse: "xb", taille: 96, interligne: 110, couleur: C.BLANC, pos: [960, 250], entree: 0.5, sortie: 4.0 });
@@ -1070,7 +1351,7 @@
         }
 
         // 00:09,2 → 00:12,3 : le constat
-        var t2 = texte(c, { nom: "TXT_SC01_02 — Trop d'offres", texte: "Trop d’offres.\rTrop de doutes.", graisse: "xb", taille: 120, interligne: 136, couleur: C.BLANC, pos: [960, 470], entree: 9.2, sortie: 12.3 });
+        var t2 = texte(c, { nom: "TXT_SC01_02 — Trop d'offres", texte: "Trop d’offres.\rTrop de doutes.", graisse: "xb", taille: 120, interligne: 136, couleur: C.BLANC, pos: [960, 440], entree: 9.2, sortie: 12.3 });
         animer(t2, "pop");
 
         // 00:12,3 → 00:15 : la promesse (en or)
@@ -1211,9 +1492,41 @@
         styles(c, im);
         animer(im, "slide", { dy: 120, sortie: false });
 
-        repere(c, "Famille (2 parents + 1 enfant)", [1060, 780], 0.9,
-            "Sourires, clignements, l'enfant court vers la porte (35–40 s),\r" +
-            "un parent reçoit les clés et serre la main du conseiller (40–45 s).");
+        // La famille devant son nouveau logement, puis le conseiller qui remet les clés
+        var maman = personnage(c, cam, "MAMAN", {
+            pos: [1060, 975], echelle: 0.82, peau: hex("8D5524"), cheveux: C.CHEVEUX, coiffure: "chignon",
+            haut: C.OR, bas: C.BLEU_NUIT, defauts: { Sourire: 0.9, Tete: 0.5, Sourcils: 0.3 }
+        });
+        var papa = personnage(c, cam, "PAPA", {
+            pos: [1290, 975], echelle: 0.86, peau: hex("5C3A21"), cheveux: C.CHEVEUX, coiffure: "court",
+            haut: C.BLANC, bas: C.BLEU_NUIT, defauts: { Sourire: 0.8, Tete: 0.6 }
+        });
+        var enfant = personnage(c, cam, "ENFANT", {
+            pos: [960, 975], echelle: 0.58, tete: 1.25, peau: hex("7B4A2D"), cheveux: C.CHEVEUX, coiffure: "enfant",
+            haut: C.BLANC, bas: C.BLEU, defauts: { Sourire: 1, Cadence: 2.4, Sourcils: 0.4 }
+        });
+        var conseiller = personnage(c, cam, "CONSEILLER", {
+            pos: [2100, 975], echelle: 0.86, miroir: true, peau: hex("6B3E26"), cheveux: C.CHEVEUX, coiffure: "court",
+            haut: C.BLANC, bas: C.BLEU_NUIT, cravate: true, defauts: { Sourire: 0.8, Tete: 0.5, TientCles: 1 }
+        });
+
+        // 35,3 → 38 s : l'enfant court rejoindre ses parents
+        enfant.deplace([[0.3, [960, 975]], [2.8, [1175, 975]], [10.5, [1175, 975]], [10.75, [1175, 925]], [11.0, [1175, 975]], [11.25, [1175, 945]], [11.5, [1175, 975]]]);
+        enfant.cles("Marche", [[0.3, 1], [2.5, 1], [2.9, 0]]);
+        // 39,4 → 43 s : le conseiller arrive et remet les clés au père
+        conseiller.deplace([[4.4, [2100, 975]], [6.0, [1660, 975]]]);
+        conseiller.cles("Marche", [[4.4, 1], [5.6, 1], [6.1, 0]]);
+        conseiller.cles("TendMain", [[6.0, 0], [6.5, 1], [7.4, 1], [7.9, 0]]);
+        conseiller.cles("TientCles", [[7.0, 1], [7.1, 0]]);
+        papa.cles("Tete", [[5.6, 0.6], [6.0, 1], [8.2, 1], [8.6, 0]]);
+        papa.cles("TendMain", [[6.0, 0], [6.5, 1], [7.6, 1], [8.1, 0]]);
+        papa.cles("TientCles", [[7.0, 0], [7.1, 1]]);
+        papa.cles("Sourire", [[6.4, 0.8], [7.2, 1]]);
+        // 45,4 → 49,5 s : toute la famille salue, l'enfant saute de joie
+        papa.cles("Salut", [[10.4, 0], [10.9, 1], [14.0, 1], [14.5, 0]]);
+        maman.cles("Tete", [[10.2, 0.5], [10.6, 0]]);
+        maman.cles("Salut", [[10.6, 0], [11.0, 1], [13.8, 1], [14.3, 0]]);
+        enfant.cles("Salut", [[10.5, 0], [10.9, 1], [13.8, 1], [14.3, 0]]);
 
         // 00:35,4 → 00:40 : titre
         var t1 = texte(c, { nom: "TXT_SC03_01 — Chez vous, enfin", texte: "Chez vous, enfin.", graisse: "xb", taille: 110, couleur: C.BLEU, aligne: "gauche", pos: [192, 240], entree: 0.4, sortie: 5.0 });
@@ -1635,7 +1948,7 @@
     try {
         construire();
         RAPPORT.unshift("SPOT_JUSTVYOU_60S créé. Police : " + NOM_POLICE + ".", "");
-        RAPPORT.push("", "À faire à la main : personnages (repères rouges « À ANIMER »), masques adoucis, rim lights peau, voix off et musique, rendu.");
+        RAPPORT.push("", "Personnages : jeu d'acteur réglable via les curseurs des calques PERSO_*_CTRL.", "À faire à la main : finitions d'illustration, masques adoucis, voix off et musique, rendu.");
     } catch (err) {
         RAPPORT.unshift("ERREUR : " + err.toString() + (err.line ? " (ligne " + err.line + ")" : ""), "Le projet peut être partiellement construit : Édition > Annuler pour revenir en arrière.", "");
     } finally {
