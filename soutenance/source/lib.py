@@ -315,7 +315,20 @@ def count_lines(paras, width_emu):
 RISE = 20 / 720          # 20 px on a 1280 x 720 px slide, as a fraction of the slide height (ppt_y units)
 
 
-def _eff(ids, kind, spid, node, dur):
+def _drift(ids, spid, node, dur, path):
+    a, b = next(ids), next(ids)
+    dx, dy = path
+    return (f'<p:par><p:cTn id="{a}" presetID="0" presetClass="path" presetSubtype="0" repeatCount="indefinite" accel="50000" decel="50000" '
+            f'autoRev="1" fill="hold" grpId="0" nodeType="{node}"><p:stCondLst><p:cond delay="0"/></p:stCondLst><p:childTnLst>'
+            f'<p:animMotion origin="layout" path="M 0 0 L {dx:.4f} {dy:.4f} E" pathEditMode="relative" rAng="0" ptsTypes="AA">'
+            f'<p:cBhvr><p:cTn id="{b}" dur="{dur}" fill="hold"/><p:tgtEl><p:spTgt spid="{spid}"/></p:tgtEl>'
+            f'<p:attrNameLst><p:attrName>ppt_x</p:attrName><p:attrName>ppt_y</p:attrName></p:attrNameLst></p:cBhvr>'
+            f'<p:rCtr x="0" y="0"/></p:animMotion></p:childTnLst></p:cTn></p:par>')
+
+
+def _eff(ids, kind, spid, node, dur, path=None):
+    if kind == 'drift':
+        return _drift(ids, spid, node, dur, path)
     """One entrance effect. kind: float (fade + 20 px rise), wipe (from left), wheel, fade. Ease-out = decel 100 %."""
     a, b, c, d = next(ids), next(ids), next(ids), next(ids)
     tgt = f'<p:tgtEl><p:spTgt spid="{spid}"/></p:tgtEl>'
@@ -359,16 +372,16 @@ def build_timing(slide, auto_steps, click_groups, bld):
         for k, step in enumerate(steps):
             sid = next(ids)
             effs = ''
-            for j, (kind, spid, dur) in enumerate(step):
+            for j, (kind, spid, dur, *extra) in enumerate(step):
                 if k == 0 and j == 0:
                     node = 'afterEffect' if auto else 'clickEffect'
                 elif j == 0:
                     node = 'afterEffect'
                 else:
                     node = 'withEffect'
-                effs += _eff(ids, kind, spid, node, dur)
+                effs += _eff(ids, kind, spid, node, dur, extra[0] if extra else None)
             inner += f'<p:par><p:cTn id="{sid}" fill="hold"><p:stCondLst><p:cond delay="{t}"/></p:stCondLst><p:childTnLst>{effs}</p:childTnLst></p:cTn></p:par>'
-            t += max(d for (_, _, d) in step)
+            t += max([e[2] for e in step if e[0] != 'drift'] or [0])   # endless drifts do not delay what follows
         out += f'<p:par><p:cTn id="{gid}" fill="hold"><p:stCondLst>{cond}</p:stCondLst><p:childTnLst>{inner}</p:childTnLst></p:cTn></p:par>'
 
     if auto_steps:

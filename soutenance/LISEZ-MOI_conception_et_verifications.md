@@ -1,4 +1,4 @@
-# Soutenance Marin'Or Ivoire : notes de conception et vérifications (version 2)
+# Soutenance Marin'Or Ivoire : notes de conception et vérifications (version 3)
 
 Mémoire : *Conception et réalisation de supports de communication pour la promotion de Marin'Or Ivoire*, Ekien Kouadio Constant Ephrem, ISTC Polytechnique, 2025-2026.
 
@@ -25,6 +25,17 @@ Mémoire : *Conception et réalisation de supports de communication pour la prom
 | Règle d'apparition unique | Fondu + glissement de 20 px vers le haut, 0,5 s, ease-out. Titres automatiques, reste au clic (voir § 4). |
 | Graphiques 44 et 45 | Refaits d'après tes images (voir § 5). Ce sont maintenant les **diapositives 43 et 44**. |
 
+## 2 bis. Version 3 : corrections appliquées
+
+| Consigne | Application |
+|---|---|
+| **Morph conservé pour les visuels produits** (séquence 12 à 17, anciennes 13 à 18) | Inchangé : les 15 modèles 3D, leurs ombres, la table et les gradins gardent leurs noms `!!` et leur Morph (position, échelle, rotation). |
+| **Plus aucun Morph sur les textes** de cette séquence | Tous les textes de 12 à 17 ont des **noms uniques par diapositive** (`Titre13`, `Kicker14`…) : PowerPoint ne peut plus les apparier. Ils sont animés comme le reste du deck : fondu + 20 px, 0,5 s, ease-out. Titre, surtitre et numéro en automatique, corps de texte au clic. |
+| **Logo original partout**, y compris sur fond sombre | Seul le logo couleur est utilisé : en haut à droite, en grand sur la page de remerciements, et en spécimen de la typographie RadioTime Tooled. Les versions blanche et noire ne sont plus dans le fichier. La diapositive 21 montre encore la planche des déclinaisons : c'est un contenu du mémoire (p. 38), pas un usage du logo. |
+| **Filigrane éléphant sur tous les fonds sombres** | Icône **blanche** à 7 % d'opacité (retenue parmi tes trois versions : ton sur ton sur le bordeaux), avec un fondu progressif vers le bas à droite inspiré de ta version dégradée. Grande, coupée par le bord en bas à droite, elle ne passe sous aucun texte important. Présente sur 6, 7, 12, 17, 18, 27, 36 et 46. Sur la 17 (présentoir), le fond reste uni et le filigrane se trouve derrière les gradins. |
+| **Icônes** | Pictogrammes **Lucide** (licence libre ISC), trait fin, en blanc dans un rond bordeaux (ou en blanc dans les pilules sur fond sombre). 07 : Imprimé = imprimante, Audiovisuel = clap, Numérique = écran et mobile. 08 : livre ouvert, œil, bulles de dialogue. 09 : courbe en hausse, palette, calques, globe. 11 : feuille (authenticité), personnes (partage), marmite (simplicité) ; le numéro 01-03 est conservé en petit, en rose. |
+| **Éléments graphiques animés, sobres** | 3 éléments discrets, identiques sur tout le deck. (1) Un **trait doré** au-dessus du surtitre, qui se trace (balayage 0,4 s) juste après l'apparition du titre. (2) **Trois points** aux couleurs de la marque en bas à gauche, qui flottent de quelques pixels (2,6 à 3,7 s, aller-retour, jusqu'à la fin de la diapositive). (3) Sur fond sombre, le **filigrane** dérive très lentement (9 s, aller-retour). Aucun ne touche au texte. Le cercle doré supprimé en v2 n'est pas réintroduit. |
+
 ## 3. Couleurs : la logique Nour Studio appliquée à la charte Marin'Or
 
 Retenu de la présentation de référence : la gestion des couleurs seulement. Ni sa structure, ni la place de ses logos, de ses textes ou de ses visuels.
@@ -46,12 +57,12 @@ Retenu de la présentation de référence : la gestion des couleurs seulement. N
 
 ## 4. Animations et transitions
 
-- **Diapositives 12 à 17** (séquence produits) : transition Morph (1,6 à 2 s), objets 3D appariés par nom. Aucune animation d'apparition ajoutée, pour ne pas perturber le Morph.
+- **Diapositives 12 à 17** (séquence produits) : transition Morph (1,6 à 2 s) réservée aux visuels (produits 3D, ombres, table, gradins). Les textes ne participent plus au Morph : ils suivent la règle commune (voir § 2 bis).
 - **Toutes les autres diapositives** : aucune transition. Une seule règle d'apparition :
   - **Effet** : fondu + glissement de 20 px vers le haut (effet PowerPoint « Flottant entrant » réglé à 20 px, soit 2,78 % de la hauteur d'une diapositive de 720 px).
   - **Durée** : 0,5 s. **Courbe** : ease-out (décélération 100 %).
   - **Déclenchement** : le **titre** apparaît automatiquement à l'ouverture de la diapositive (il en va de même pour le numéro des intercalaires et le logo de la dernière diapositive). Le reste apparaît **au clic**, par blocs logiques : une carte, une image ou un groupe de puces par clic.
-  - **Total** : **73 clics** sur le deck. Le nombre par diapositive figure au § 7.
+  - **Total** : **76 clics** sur le deck (version 3 : +3 pour les textes des diapositives produits). Le nombre par diapositive figure au § 7.
 - **Graphiques** (seule exception, à ta demande) : un clic lance la construction, qui s'enchaîne ensuite toute seule (voir § 5).
 - **Vidéos** (diapositives 26, 34, 35) : elles apparaissent avec la règle ; **cliquer sur la vidéo** pour la lancer.
 
@@ -92,19 +103,19 @@ Total **14 min 19 s**. Les durées figurent aussi au début des notes de l'orate
 | 3 | Contexte | 1 clic(s) | 20 s | 1:00 |
 | 4 | Marin'Or Ivoire | 1 clic(s) | 20 s | 1:20 |
 | 5 | Constats de l'existant | 4 clic(s) | 25 s | 1:45 |
-| 6 | Comment concevoir et réaliser des supports de  | auto | 25 s | 2:10 |
+| 6 | Comment concevoir et réaliser des supports de  | titre auto, pas de clic | 25 s | 2:10 |
 | 7 | Hypothèse | 2 clic(s) | 20 s | 2:30 |
 | 8 | Méthodologie qualitative | 4 clic(s) | 25 s | 2:55 |
 | 9 | Objectifs | 2 clic(s) | 20 s | 3:15 |
 | 10 | Public cible | 2 clic(s) | 20 s | 3:35 |
 | 11 | Trois axes de communication | 3 clic(s) | 20 s | 3:55 |
-| 12 | Présentation des produits | Morph 3D | 10 s | 4:05 |
-| 13 | 15 produits, 3 familles | Morph 3D | 20 s | 4:25 |
-| 14 | Les Marinades | Morph 3D | 18 s | 4:43 |
-| 15 | Les Épices | Morph 3D | 18 s | 5:01 |
-| 16 | Les Essentiels | Morph 3D | 14 s | 5:15 |
-| 17 | Le vrai goût de chez nous | Morph 3D | 15 s | 5:30 |
-| 18 | Identité visuelle et charte graphique | auto | 8 s | 5:38 |
+| 12 | Présentation des produits | Morph 3D (produits) + titre auto, pas de clic | 10 s | 4:05 |
+| 13 | 15 produits, 3 familles | Morph 3D (produits) + titre auto, pas de clic | 20 s | 4:25 |
+| 14 | Les Marinades | Morph 3D (produits) + 1 clic(s) | 18 s | 4:43 |
+| 15 | Les Épices | Morph 3D (produits) + 1 clic(s) | 18 s | 5:01 |
+| 16 | Les Essentiels | Morph 3D (produits) + 1 clic(s) | 14 s | 5:15 |
+| 17 | Le vrai goût de chez nous | Morph 3D (produits) + titre auto, pas de clic | 15 s | 5:30 |
+| 18 | Identité visuelle et charte graphique | titre auto, pas de clic | 8 s | 5:38 |
 | 19 | Trois pistes explorées | 3 clic(s) | 22 s | 6:00 |
 | 20 | Le logo retenu | 2 clic(s) | 25 s | 6:25 |
 | 21 | Zone de protection et déclinaisons | 2 clic(s) | 15 s | 6:40 |
@@ -113,7 +124,7 @@ Total **14 min 19 s**. Les durées figurent aussi au début des notes de l'orate
 | 24 | Colorimétrie | 2 clic(s) | 18 s | 7:26 |
 | 25 | Mise en application | 2 clic(s) | 15 s | 7:41 |
 | 26 | Animation du logotype | 1 clic(s) | 12 s | 7:53 |
-| 27 | Supports print et audiovisuels | auto | 8 s | 8:01 |
+| 27 | Supports print et audiovisuels | titre auto, pas de clic | 8 s | 8:01 |
 | 28 | Le vrai goût de chez nous | 2 clic(s) | 18 s | 8:19 |
 | 29 | Le goût qui rassemble | 2 clic(s) | 15 s | 8:34 |
 | 30 | Marinez, Cuisez, Régalez-vous | 2 clic(s) | 15 s | 8:49 |
@@ -122,7 +133,7 @@ Total **14 min 19 s**. Les durées figurent aussi au début des notes de l'orate
 | 33 | Le goût qui rassemble ! | 2 clic(s) | 15 s | 9:39 |
 | 34 | Spot 2D | 1 clic(s) | 25 s | 10:04 |
 | 35 | Spot 3D | 1 clic(s) | 25 s | 10:29 |
-| 36 | Le site web : une boutique en ligne | auto | 8 s | 10:37 |
+| 36 | Le site web : une boutique en ligne | titre auto, pas de clic | 8 s | 10:37 |
 | 37 | Structure de navigation | 2 clic(s) | 20 s | 10:57 |
 | 38 | Accueil et gammes | 2 clic(s) | 20 s | 11:17 |
 | 39 | Commander et payer | 3 clic(s) | 25 s | 11:42 |
@@ -141,7 +152,7 @@ Total **14 min 19 s**. Les durées figurent aussi au début des notes de l'orate
    - Lance le diaporama depuis la diapositive 11 jusqu'à la 18 : Morph 3D fluide, produits à la bonne taille.
    - Si la taille d'un produit est fausse, utilise la version SECOURS.
 2. **Animations**
-   - Fais une répétition complète en comptant les clics (73).
+   - Fais une répétition complète en comptant les clics (76).
    - Sur les diapositives 43 et 44, un seul clic lance tout le graphique : attends la fin de la construction (environ 4 s) avant de cliquer à nouveau.
 3. **Vidéos** (26, 34, 35) : clic sur la vidéo ; vérifie le son.
 4. **Polices** : installe **Cream Heavy** et **Montserrat**, ou enregistre le fichier avec les polices incorporées (*Fichier › Options › Enregistrer*).
