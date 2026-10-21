@@ -309,3 +309,89 @@ def count_lines(paras, width_emu):
                 cur += ww
         total += lines if any(t.strip() for (t, *_) in plog) else 0
     return total
+
+
+# ---------- entrance animations (PowerPoint 2019+ timing XML, validated by the Open XML SDK)
+RISE = 20 / 720          # 20 px on a 1280 x 720 px slide, as a fraction of the slide height (ppt_y units)
+
+
+def _eff(ids, kind, spid, node, dur):
+    """One entrance effect. kind: float (fade + 20 px rise), wipe (from left), wheel, fade. Ease-out = decel 100 %."""
+    a, b, c, d = next(ids), next(ids), next(ids), next(ids)
+    tgt = f'<p:tgtEl><p:spTgt spid="{spid}"/></p:tgtEl>'
+    vis = (f'<p:set><p:cBhvr><p:cTn id="{b}" dur="1" fill="hold"><p:stCondLst><p:cond delay="0"/></p:stCondLst></p:cTn>{tgt}'
+           f'<p:attrNameLst><p:attrName>style.visibility</p:attrName></p:attrNameLst></p:cBhvr><p:to><p:strVal val="visible"/></p:to></p:set>')
+    preset = {'float': (42, 0), 'wipe': (22, 8), 'wheel': (21, 1), 'fade': (10, 0)}[kind]
+    filt = {'float': 'fade', 'wipe': 'wipe(left)', 'wheel': 'wheel(1)', 'fade': 'fade'}[kind]
+    body = vis + (f'<p:animEffect transition="in" filter="{filt}"><p:cBhvr><p:cTn id="{c}" dur="{dur}" decel="100000"/>{tgt}</p:cBhvr></p:animEffect>')
+    if kind == 'float':
+        e = next(ids)
+        body += (f'<p:anim calcmode="lin" valueType="num"><p:cBhvr><p:cTn id="{d}" dur="{dur}" decel="100000" fill="hold"/>{tgt}'
+                 f'<p:attrNameLst><p:attrName>ppt_x</p:attrName></p:attrNameLst></p:cBhvr><p:tavLst>'
+                 f'<p:tav tm="0"><p:val><p:strVal val="#ppt_x"/></p:val></p:tav><p:tav tm="100000"><p:val><p:strVal val="#ppt_x"/></p:val></p:tav></p:tavLst></p:anim>'
+                 f'<p:anim calcmode="lin" valueType="num"><p:cBhvr><p:cTn id="{e}" dur="{dur}" decel="100000" fill="hold"/>{tgt}'
+                 f'<p:attrNameLst><p:attrName>ppt_y</p:attrName></p:attrNameLst></p:cBhvr><p:tavLst>'
+                 f'<p:tav tm="0"><p:val><p:strVal val="#ppt_y+{RISE:.4f}"/></p:val></p:tav><p:tav tm="100000"><p:val><p:strVal val="#ppt_y"/></p:val></p:tav></p:tavLst></p:anim>')
+    return (f'<p:par><p:cTn id="{a}" presetID="{preset[0]}" presetClass="entr" presetSubtype="{preset[1]}" fill="hold" grpId="0" nodeType="{node}">'
+            f'<p:stCondLst><p:cond delay="0"/></p:stCondLst><p:childTnLst>{body}</p:childTnLst></p:cTn></p:par>')
+
+
+def build_timing(slide, auto_steps, click_groups, bld):
+    """auto_steps: steps run at slide start; click_groups: list of groups, each a list of steps.
+       step = list of (kind, spid, dur_ms). Steps of a group run one after the other ("après la précédente")."""
+    sld = slide._element
+    old = sld.find('p:timing', NS)
+    media = []
+    if old is not None:                      # keep python-pptx video media nodes
+        media = old.findall('.//p:video', NS) + old.findall('.//p:audio', NS)
+        sld.remove(old)
+    if not auto_steps and not click_groups and not media:
+        return
+    cnt = iter(range(3, 100000))
+    ids = cnt
+    out = ''
+
+    def group(steps, auto):
+        nonlocal out
+        gid = next(ids)
+        cond = ('<p:cond delay="indefinite"/><p:cond evt="onBegin" delay="0"><p:tn val="2"/></p:cond>' if auto else '<p:cond delay="indefinite"/>')
+        inner, t = '', 0
+        for k, step in enumerate(steps):
+            sid = next(ids)
+            effs = ''
+            for j, (kind, spid, dur) in enumerate(step):
+                if k == 0 and j == 0:
+                    node = 'afterEffect' if auto else 'clickEffect'
+                elif j == 0:
+                    node = 'afterEffect'
+                else:
+                    node = 'withEffect'
+                effs += _eff(ids, kind, spid, node, dur)
+            inner += f'<p:par><p:cTn id="{sid}" fill="hold"><p:stCondLst><p:cond delay="{t}"/></p:stCondLst><p:childTnLst>{effs}</p:childTnLst></p:cTn></p:par>'
+            t += max(d for (_, _, d) in step)
+        out += f'<p:par><p:cTn id="{gid}" fill="hold"><p:stCondLst>{cond}</p:stCondLst><p:childTnLst>{inner}</p:childTnLst></p:cTn></p:par>'
+
+    if auto_steps:
+        group(auto_steps, True)
+    for g in click_groups:
+        group(g, False)
+    seq = ''
+    if out:
+        seq = (f'<p:seq concurrent="1" nextAc="seek"><p:cTn id="2" dur="indefinite" nodeType="mainSeq"><p:childTnLst>{out}</p:childTnLst></p:cTn>'
+               '<p:prevCondLst><p:cond evt="onPrev" delay="0"><p:tgtEl><p:sldTgt/></p:tgtEl></p:cond></p:prevCondLst>'
+               '<p:nextCondLst><p:cond evt="onNext" delay="0"><p:tgtEl><p:sldTgt/></p:tgtEl></p:cond></p:nextCondLst></p:seq>')
+    bl = ''.join(f'<p:bldP spid="{spid}" grpId="0"{" animBg=\"1\"" if bg else ""}/>' for spid, bg in bld)
+    xml = (f'<p:timing><p:tnLst><p:par><p:cTn id="1" dur="indefinite" restart="never" nodeType="tmRoot"><p:childTnLst>{seq}</p:childTnLst></p:cTn></p:par></p:tnLst>'
+           + (f'<p:bldLst>{bl}</p:bldLst>' if bl else '') + '</p:timing>')
+    tm = X(xml)
+    root_list = tm.find('.//p:childTnLst', NS)
+    for mnode in media:                      # renumber media cTn ids after ours
+        for c in mnode.iter(f'{{{NS["p"]}}}cTn'):
+            c.set('id', str(next(ids)))
+        root_list.append(mnode)
+    # p:timing goes after the transition (or clrMapOvr) and before extLst
+    ext = sld.find('p:extLst', NS)
+    if ext is not None:
+        ext.addprevious(tm)
+    else:
+        sld.append(tm)
