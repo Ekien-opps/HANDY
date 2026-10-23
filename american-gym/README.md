@@ -28,3 +28,31 @@ pip install numpy pillow scipy opencv-python-headless psd-tools
 python3 retouche_gazon.py affiche_originale.webp .
 python3 build_psd.py affiche_originale.webp . american_gym_retouche.psd
 ```
+
+---
+
+# Affiche v2 — pictos descendus aux chevilles
+
+Les pictos Sport / Santé / Bien-être (textes et séparateurs rouges compris) sont
+descendus au niveau des chevilles de la sportive (centre des cercles à y = 530)
+et agrandis à 115 %. L'axe horizontal du bloc est conservé. Le fond qu'ils
+occupaient (zone sombre et gazon) est reconstitué. Aucun autre pixel n'est
+modifié : seule la zone x 50–398 / y 410–584 change.
+
+| Fichier | Contenu |
+|---|---|
+| `american_gym_v2_pictos_chevilles.png` / `.jpg` | Image finale |
+| `american_gym_v2_pictos_chevilles.psd` | PSD multi-calques |
+| `avant_apres_v2_pictos.png` | Comparaison avant / après |
+| `affiche_v2.webp` | Affiche source v2 |
+
+Calques du PSD (de haut en bas) : « Affiche finale aplatie » (masqué) ;
+**03 — Pictos** : 5 calques réellement détourés (Sport, Santé, Bien-être et
+2 séparateurs) qu'on peut déplacer, redimensionner ou styliser, le fond derrière
+étant propre ; **02 — Fond reconstitué** (avec masque de fusion) ;
+**01 — Affiche d'origine** (verrouillée).
+
+```bash
+python3 deplacer_pictos.py affiche_v2.webp .
+python3 build_psd_v2.py affiche_v2.webp . american_gym_v2_pictos_chevilles.psd
+```
