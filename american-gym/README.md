@@ -56,3 +56,32 @@ Calques du PSD (de haut en bas) : « Affiche finale aplatie » (masqué) ;
 python3 deplacer_pictos.py affiche_v2.webp .
 python3 build_psd_v2.py affiche_v2.webp . american_gym_v2_pictos_chevilles.psd
 ```
+
+---
+
+# Affiche v3 — athlète aux haltères, nouvelle accroche
+
+Même structure que la v2, mais avec une nouvelle photo et une nouvelle accroche :
+cartouche logo en haut à gauche, titre + accroche sur dégradé sombre, pictos,
+bandeau slogan et bandeau contacts.
+
+- **Accroche** : « Plus fort chaque jour, / **mieux dans votre peau !** » (prolonge
+  « Votre bien-être, notre priorité » : force + bien-être).
+- La photo (612 × 408) est agrandie à 160 % (Lanczos + accentuation légère).
+  Pour une impression, utiliser la version HD sous licence de la photo.
+- Textes en Montserrat ExtraBold (`fonts/`, licence SIL OFL), la police de l'affiche.
+
+| Fichier | Contenu |
+|---|---|
+| `american_gym_v3_athlete.png` / `.jpg` | Image finale |
+| `american_gym_v3_athlete.psd` | PSD : chaque élément sur son propre calque transparent |
+| `photo_athlete.jpg` | Photo source |
+
+Groupes du PSD : 01 Fond (fond sombre, photo, dégradé) · 02 Logo · 03 Titre et
+accroche (3 calques) · 04 Pictos (5 calques) · 05 Bandeaux (slogan, contacts).
+Tous les calques sont indépendants : on peut les déplacer, les masquer ou les
+styliser sans laisser de trace.
+
+```bash
+python3 affiche_v3.py affiche_v2.webp photo_athlete.jpg . .   # nécessite les calques _v2_* de deplacer_pictos.py
+```
