@@ -35,7 +35,8 @@ BAND_TOP, RED_BAND_TOP = 607, 664
 
 
 def font(weight, size):
-    return ImageFont.truetype(str(FONTS / f"Montserrat-{weight}.ttf"), size)
+    style = {600: "SemiBold", 700: "Bold", 800: "ExtraBold", 900: "Black"}[weight]
+    return ImageFont.truetype(str(FONTS / f"Montserrat-{style}.ttf"), size)
 
 
 def draw_text(text, fnt, color, x, y):
