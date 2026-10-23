@@ -114,19 +114,27 @@ def quilt(tex, known, source_ok, hole, rng):
             if not need.any():
                 continue
             m = filled[sl].astype(np.float32)
-            # bande de lignes source de même échelle de perspective
-            sy0 = max(y0 - ROW_TOLERANCE, 0)
-            sy1 = min(y0 + ROW_TOLERANCE + PATCH, h)
-            strip = tex32[sy0:sy1]
-            if m.sum() > 0:
-                ssd = cv2.matchTemplate(strip, canvas[sl].astype(np.float32),
-                                        cv2.TM_SQDIFF, mask=np.repeat(m[..., None], 3, 2))
-                ssd /= m.sum()
-            else:
-                ssd = np.zeros((strip.shape[0] - PATCH + 1, strip.shape[1] - PATCH + 1), np.float32)
-            valid = src_valid[sy0:sy0 + ssd.shape[0], :ssd.shape[1]]
-            ssd = np.where(valid & np.isfinite(ssd), ssd, np.inf)
-            best = ssd.min()
+            # bande de lignes source de même échelle de perspective ; élargie
+            # seulement si elle ne contient aucun patch source valide
+            tol = ROW_TOLERANCE
+            while True:
+                sy0 = max(y0 - tol, 0)
+                sy1 = min(y0 + tol + PATCH, h)
+                strip = tex32[sy0:sy1]
+                if m.sum() > 0:
+                    ssd = cv2.matchTemplate(strip, canvas[sl].astype(np.float32),
+                                            cv2.TM_SQDIFF, mask=np.repeat(m[..., None], 3, 2))
+                    ssd /= m.sum()
+                else:
+                    ssd = np.zeros((strip.shape[0] - PATCH + 1, strip.shape[1] - PATCH + 1), np.float32)
+                valid = src_valid[sy0:sy0 + ssd.shape[0], :ssd.shape[1]]
+                ssd = np.where(valid & np.isfinite(ssd), ssd, np.inf)
+                best = ssd.min()
+                if np.isfinite(best) or (sy0 == 0 and sy1 == h):
+                    break
+                tol *= 2
+            if not np.isfinite(best):
+                raise ValueError("aucune zone source valide pour la synthèse de texture")
             cand = np.argwhere(ssd <= best * 1.15 + 1e-6)
             cy, cx = cand[rng.integers(len(cand))]
             patch = tex[sy0 + cy:sy0 + cy + PATCH, cx:cx + PATCH]
