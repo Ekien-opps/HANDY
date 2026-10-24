@@ -1,6 +1,17 @@
 # Soutenance American's Gym : choix et vérifications
 
-Fichier : `Soutenance_American_Gym.pptx`. Format 16:9, 40 diapositives, environ 15 Mo avec les deux vidéos intégrées.
+Fichiers :
+- `Soutenance_American_Gym.pptx` : version principale, 16:9, 40 diapositives, 15 Mo avec les deux vidéos intégrées.
+- `Soutenance_American_Gym_sans_videos.pptx` : version de secours de 5,6 Mo. Les vidéos y sont remplacées par une image ; les fichiers vidéo sont dans le dossier `videos/`.
+
+### Correctif d'ouverture
+
+Certaines personnes n'arrivaient pas à ouvrir le fichier. Trois défauts de la première version, venant de l'outil de génération, ont été corrigés :
+- identifiants de formes en double sur les diapositives 15, 31 et 32 ;
+- 39 déclarations de parties inexistantes (`slideMaster2…40`) dans `[Content_Types].xml` ;
+- entrées de dossiers dans le zip et type d'image non standard (`image/jpg`).
+
+Le fichier est maintenant contrôlé par `outils/diag_pptx.py` (0 problème) et par le validateur de schéma. Si l'ouverture échoue encore sur un appareil précis (téléphone, Google Slides, PowerPoint 2007 ou plus ancien), utiliser la version sans vidéos.
 
 ## 1. Choix de conception
 

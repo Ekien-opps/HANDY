@@ -69,8 +69,23 @@ def group(ids, spids, first, auto=False, after=''):
     return xml + '</p:childTnLst></p:cTn></p:par>'
 
 
+def renumber(root):
+    """Identifiants de formes uniques (pptxgenjs peut en dupliquer, ex. le numéro de diapositive)."""
+    nxt = 2
+    for c in root.find('p:cSld/p:spTree', NS).iter('{%s}cNvPr' % NS['p']):
+        if c.getparent().getparent().tag == P + 'spTree':      # nvGrpSpPr de l'arbre lui-même
+            c.set('id', '1')
+            continue
+        c.set('id', str(nxt))
+        nxt += 1
+
+
 def process(xml, rels):
     root = etree.fromstring(xml)
+    old = root.find('p:timing', NS)
+    if old is not None:
+        root.remove(old)
+    renumber(root)
     tree = root.find('p:cSld/p:spTree', NS)
     auto, clicks, texty, videos = [], {}, set(), {}
     for el in tree:
@@ -98,7 +113,7 @@ def process(xml, rels):
             ms = next((v for k, v in VIDEO_MS.items() if k in target), None)
             videos[n] = (spid, ms or 30000)
     if not auto and not clicks:
-        return xml
+        return etree.tostring(root, xml_declaration=True, encoding='UTF-8', standalone=True)
     ids = Ids()
     ids(); ids()                       # 1 = tmRoot, 2 = mainSeq
     seq = ''
@@ -121,9 +136,6 @@ def process(xml, rels):
               f'<p:nextCondLst><p:cond evt="onNext" delay="0"><p:tgtEl><p:sldTgt/></p:tgtEl></p:cond></p:nextCondLst>'
               f'</p:seq>{media}</p:childTnLst></p:cTn></p:par></p:tnLst>'
               + (f'<p:bldLst>{bld}</p:bldLst>' if bld else '') + '</p:timing>')
-    old = root.find('p:timing', NS)
-    if old is not None:
-        root.remove(old)
     node = etree.fromstring(timing)
     anchor = root.find('p:transition', NS)
     if anchor is None:
@@ -132,17 +144,38 @@ def process(xml, rels):
     return etree.tostring(root, xml_declaration=True, encoding='UTF-8', standalone=True)
 
 
+def content_types(data, names):
+    """Retire les déclarations de parties absentes et normalise le type JPEG."""
+    root = etree.fromstring(data)
+    for e in list(root):
+        if e.tag.endswith('Override') and e.get('PartName')[1:] not in names:
+            root.remove(e)
+        elif e.tag.endswith('Default') and e.get('ContentType') == 'image/jpg':
+            e.set('ContentType', 'image/jpeg')
+    return etree.tostring(root, xml_declaration=True, encoding='UTF-8', standalone=True)
+
+
 zin = zipfile.ZipFile(SRC)
 zout = zipfile.ZipFile(OUT, 'w', zipfile.ZIP_DEFLATED)
+names = {n for n in zin.namelist() if not n.endswith('/')}
 stats = []
-for item in zin.infolist():
+order = ['[Content_Types].xml'] + [i.filename for i in zin.infolist() if i.filename != '[Content_Types].xml']
+infos = {i.filename: i for i in zin.infolist()}
+for fname in order:
+    item = infos[fname]
+    if item.filename.endswith('/'):
+        continue                                  # pas d'entrées de dossier dans le paquet
     data = zin.read(item.filename)
+    if item.filename == '[Content_Types].xml':
+        data = content_types(data, names)
     m = re.match(r'ppt/slides/slide(\d+)\.xml$', item.filename)
     if m:
         rels_xml = zin.read(f'ppt/slides/_rels/slide{m.group(1)}.xml.rels')
         rels = {r.get('Id'): r.get('Target') for r in etree.fromstring(rels_xml)}
         data = process(data, rels)
         stats.append((int(m.group(1)), data.count(b'clickEffect'), data.count(b'mediacall')))
-    zout.writestr(item, data, compress_type=zipfile.ZIP_STORED if item.filename.endswith('.mp4') else zipfile.ZIP_DEFLATED)
+    zi = zipfile.ZipInfo(item.filename, date_time=item.date_time)
+    zi.compress_type = zipfile.ZIP_STORED if item.filename.endswith('.mp4') else zipfile.ZIP_DEFLATED
+    zout.writestr(zi, data)
 zout.close()
 print('clics par diapositive :', ' '.join(f'{n}:{c}{"+lecture" if v else ""}' for n, c, v in sorted(stats)))

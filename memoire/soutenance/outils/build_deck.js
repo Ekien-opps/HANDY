@@ -456,7 +456,12 @@ function caption(s, t, x, y, w, name, align = "left") {
     const s = content("04 · Réalisations", eyebrow, title, notes);
     const vw = 7.6, vh = vw * 9 / 16;
     const cover = "image/jpeg;base64," + fs.readFileSync(A(poster)).toString("base64");
-    s.addMedia({ type: "video", path: A(file), cover, x: X, y: 2.1, w: vw, h: vh, objectName: "V2_video" });
+    if (process.env.NO_VIDEO) {
+      s.addImage({ path: A(poster), x: X, y: 2.1, w: vw, h: vh, objectName: "C2_poster", altText: "Image extraite de la vidéo", shadow: shadow() });
+      caption(s, "Vidéo fournie séparément : " + file.replace("_web", ""), X, 2.1 + vh + 0.12, vw, "C2_cap");
+    } else {
+      s.addMedia({ type: "video", path: A(file), cover, x: X, y: 2.1, w: vw, h: vh, objectName: "V2_video" });
+    }
     facts.forEach((f, i) => {
       const y = 2.2 + i * 1.08;
       text(s, f[0].toUpperCase(), { x: 9.0, y, w: 3.6, h: 0.32, fontSize: 11, bold: true, color: C.accent1, charSpacing: 2 }, "C1_l" + i);
