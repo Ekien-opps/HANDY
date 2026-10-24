@@ -11,7 +11,7 @@ Fichier assemblé : `Memoire_complet_CAMARA_American_Gym.pdf` (101 pages)
 | I | Couverture | PAGE DE GARDE Correcte | comptée, non numérotée |
 | II | Page de garde vierge | ajoutée | comptée, non numérotée |
 | III | Page de titre | PAGE 3 THEME | conforme |
-| IV | Dédicace | **page réservée, à rédiger** | facultative |
+| IV | Dédicace | rédigée (À Ma Mère ! Mes Enfants !) | PDF uniquement, le Word garde la page réservée |
 | V | Remerciements | REMERCIEMENTS | à corriger (voir §3) |
 | VI | Sommaire | SOMMAIRE | conforme |
 | VII | Liste des sigles et abréviations | **ajoutée** (relevée dans le texte) | suggérée |
@@ -46,7 +46,7 @@ Pages supprimées : la page vide de « LISTE DES ILLUSTRATIONS » et la page 85 
 **Remerciements**
 - Ils doivent commencer par le Directeur de mémoire. Aujourd'hui, ils commencent par l'époux.
 - Ils sont en Arial/Helvetica. La police imposée est Times New Roman.
-- Si l'époux est cité en dédicace, il ne doit plus apparaître dans les remerciements.
+- La dédicace cite la mère et les enfants : ils ne doivent plus apparaître dans les remerciements. Ce n'est pas le cas actuellement, donc rien à faire.
 
 **Avant-propos**
 - Selon la NB du cadrage, l'avant-propos ne consiste pas à présenter l'institut. Le premier paragraphe (historique de l'ISTC) est à supprimer ou à réécrire pour parler de la spécificité du travail.
@@ -86,7 +86,7 @@ Le cadrage exige 5 rubriques avec au moins **3 ouvrages chacune** :
 
 ## 5. Éléments facultatifs absents
 
-- Dédicace : la page IV est réservée. Si elle est supprimée, il faut décaler la numérotation romaine.
+- Dédicace : rédigée dans le PDF. Coquille dans la citation : « se fait former » devrait être « se faire former ».
 - Épigraphe.
 - Annexes et liste des annexes (suggérées) : par exemple guide d'entretien avec le PDG, devis, charte graphique complète. Attention au plafond de pages.
 

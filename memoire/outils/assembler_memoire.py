@@ -134,17 +134,15 @@ def blank_page():
     return overlay(lambda c: c.setFillColor(white))
 
 def dedicace(c):
-    c.setFillColor(GREY); c.setFont('TNR-I', 12)
-    y = H - 300
-    for ln in ['[ PAGE DE DÉDICACE — facultative, à rédiger ]', '',
-               'Le mot « Dédicace » ne doit pas figurer sur la page.',
-               'Dédier à une (01) personne ou à un groupe de personnes',
-               '(pas à Dieu ni aux divinités).',
-               'Les personnes citées ici ne doivent plus figurer',
-               'dans les remerciements.', '',
-               'Si vous n’en mettez pas, supprimez cette page',
-               'et décalez la numérotation romaine.']:
-        c.drawCentredString(W / 2 + 20, y, ln); y -= 20
+    c.setFillColor(black)
+    x, width = 250, R - 250
+    y = H - 470
+    c.setFont('TNR-BI', 16)
+    c.drawString(x, y, 'À Ma Mère !'); y -= 30
+    c.drawString(x, y, 'Mes Enfants !'); y -= 46
+    q = ('« Il n’y a pas d’âge pour se fait former à travers un métier qui nous passionne. '
+         'Ma détermination, mon courage c’est ça ma force ».')
+    justified(c, wrap(q, 'TNR-I', 13, width), x, y, width, 'TNR-I', 13, 21)
 
 SIGLES = [
     ('2D / 3D', 'Deux dimensions / Trois dimensions'),
