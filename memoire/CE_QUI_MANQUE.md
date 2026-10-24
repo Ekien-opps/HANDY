@@ -89,3 +89,10 @@ Le cadrage exige 5 rubriques avec au moins **3 ouvrages chacune** :
 - Dédicace : la page IV est réservée. Si elle est supprimée, il faut décaler la numérotation romaine.
 - Épigraphe.
 - Annexes et liste des annexes (suggérées) : par exemple guide d'entretien avec le PDG, devis, charte graphique complète. Attention au plafond de pages.
+
+## 6. Version Word (`Memoire_complet_CAMARA_American_Gym.docx`)
+
+- Elle a été convertie depuis le PDF assemblé et fait 101 pages, avec les mêmes numéros de page.
+- Le texte est modifiable sur toutes les pages, sauf quatre qui sont insérées en **image** pour garder leur mise en page : la couverture, la page de titre, la page 70 (captures After Effects) et la 4e de couverture. Pour les modifier, il faut repartir des fichiers Word d'origine ou les refaire.
+- Les pages 23 et 40 ont été réduites d'environ 5 % pour éviter que leur pied de page ne glisse sur la page suivante.
+- La table des matières est du texte simple, pas une table automatique Word. Ses numéros de page sont à vérifier après les corrections.
