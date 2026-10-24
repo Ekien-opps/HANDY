@@ -135,14 +135,9 @@ def blank_page():
 
 def dedicace(c):
     c.setFillColor(black)
-    x, width = 250, R - 250
-    y = H - 470
-    c.setFont('TNR-BI', 16)
-    c.drawString(x, y, 'À Ma Mère !'); y -= 30
-    c.drawString(x, y, 'Mes Enfants !'); y -= 46
-    q = ('« Il n’y a pas d’âge pour se fait former à travers un métier qui nous passionne. '
-         'Ma détermination, mon courage c’est ça ma force ».')
-    justified(c, wrap(q, 'TNR-I', 13, width), x, y, width, 'TNR-I', 13, 21)
+    c.setFont('TNR-BI', 18)
+    c.drawCentredString(W / 2, H / 2 + 8, 'À Ma Mère !')
+    c.drawCentredString(W / 2, H / 2 - 26, 'Mes Enfants !')
 
 SIGLES = [
     ('2D / 3D', 'Deux dimensions / Trois dimensions'),

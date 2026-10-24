@@ -11,7 +11,7 @@ Fichier assemblé : `Memoire_complet_CAMARA_American_Gym.pdf` (101 pages)
 | I | Couverture | PAGE DE GARDE Correcte | comptée, non numérotée |
 | II | Page de garde vierge | ajoutée | comptée, non numérotée |
 | III | Page de titre | PAGE 3 THEME | conforme |
-| IV | Dédicace | rédigée (À Ma Mère ! Mes Enfants !) | PDF uniquement, le Word garde la page réservée |
+| IV | Dédicace | « À Ma Mère ! Mes Enfants ! », centrée | PDF et Word |
 | V | Remerciements | REMERCIEMENTS | à corriger (voir §3) |
 | VI | Sommaire | SOMMAIRE | conforme |
 | VII | Liste des sigles et abréviations | **ajoutée** (relevée dans le texte) | suggérée |
@@ -86,7 +86,7 @@ Le cadrage exige 5 rubriques avec au moins **3 ouvrages chacune** :
 
 ## 5. Éléments facultatifs absents
 
-- Dédicace : rédigée dans le PDF. Coquille dans la citation : « se fait former » devrait être « se faire former ».
+- Épigraphe : absente. La citation « Il n'y a pas d'âge… » retirée de la dédicace pourrait servir d'épigraphe (corriger « se fait former » en « se faire former »).
 - Épigraphe.
 - Annexes et liste des annexes (suggérées) : par exemple guide d'entretien avec le PDG, devis, charte graphique complète. Attention au plafond de pages.
 
