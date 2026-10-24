@@ -87,7 +87,6 @@ Le cadrage exige 5 rubriques avec au moins **3 ouvrages chacune** :
 ## 5. Éléments facultatifs absents
 
 - Épigraphe : absente. La citation « Il n'y a pas d'âge… » retirée de la dédicace pourrait servir d'épigraphe (corriger « se fait former » en « se faire former »).
-- Épigraphe.
 - Annexes et liste des annexes (suggérées) : par exemple guide d'entretien avec le PDG, devis, charte graphique complète. Attention au plafond de pages.
 
 ## 6. Version Word (`Memoire_complet_CAMARA_American_Gym.docx`)
